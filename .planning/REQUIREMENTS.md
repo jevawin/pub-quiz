@@ -67,7 +67,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **COST-03**: Pipeline cost controls — rate limiting on agent runs, budget caps on Claude API usage, monitoring dashboard for pipeline spend
 - [ ] **COST-04**: Architecture designed to minimize Supabase Realtime usage in v1 (no realtime needed for solo play — REST/PostgREST only)
 
-## ⚠️ Cost Risk Register
+## Cost Risk Register
 
 | Risk | Worst Case | Mitigation |
 |------|-----------|------------|
@@ -140,48 +140,48 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DB-01 | TBD | Pending |
-| DB-02 | TBD | Pending |
-| DB-03 | TBD | Pending |
-| DB-04 | TBD | Pending |
-| PIPE-01 | TBD | Pending |
-| PIPE-02 | TBD | Pending |
-| PIPE-03 | TBD | Pending |
-| PIPE-04 | TBD | Pending |
-| PIPE-05 | TBD | Pending |
-| PIPE-06 | TBD | Pending |
-| PIPE-07 | TBD | Pending |
-| PIPE-08 | TBD | Pending |
-| PIPE-09 | TBD | Pending |
-| QUIZ-01 | TBD | Pending |
-| QUIZ-02 | TBD | Pending |
-| QUIZ-03 | TBD | Pending |
-| QUIZ-04 | TBD | Pending |
-| QUIZ-05 | TBD | Pending |
-| QUIZ-06 | TBD | Pending |
-| CAT-01 | TBD | Pending |
-| CAT-02 | TBD | Pending |
-| CAT-03 | TBD | Pending |
-| AUTH-01 | TBD | Pending |
-| AUTH-02 | TBD | Pending |
-| UX-01 | TBD | Pending |
-| UX-02 | TBD | Pending |
-| UX-03 | TBD | Pending |
-| UX-04 | TBD | Pending |
-| UX-05 | TBD | Pending |
-| UX-06 | TBD | Pending |
-| PLAT-01 | TBD | Pending |
-| PLAT-02 | TBD | Pending |
-| COST-01 | TBD | Pending |
-| COST-02 | TBD | Pending |
-| COST-03 | TBD | Pending |
-| COST-04 | TBD | Pending |
+| DB-01 | Phase 1 | Pending |
+| DB-02 | Phase 1 | Pending |
+| DB-03 | Phase 8 | Pending |
+| DB-04 | Phase 3 | Pending |
+| PIPE-01 | Phase 1 | Pending |
+| PIPE-02 | Phase 2 | Pending |
+| PIPE-03 | Phase 2 | Pending |
+| PIPE-04 | Phase 1 | Pending |
+| PIPE-05 | Phase 1 | Pending |
+| PIPE-06 | Phase 1 | Pending |
+| PIPE-07 | Phase 1 | Pending |
+| PIPE-08 | Phase 1 | Pending |
+| PIPE-09 | Phase 1 | Pending |
+| QUIZ-01 | Phase 7 | Pending |
+| QUIZ-02 | Phase 7 | Pending |
+| QUIZ-03 | Phase 7 | Pending |
+| QUIZ-04 | Phase 7 | Pending |
+| QUIZ-05 | Phase 7 | Pending |
+| QUIZ-06 | Phase 7 | Pending |
+| CAT-01 | Phase 6 | Pending |
+| CAT-02 | Phase 6 | Pending |
+| CAT-03 | Phase 6 | Pending |
+| AUTH-01 | Phase 3 | Pending |
+| AUTH-02 | Phase 3 | Pending |
+| UX-01 | Phase 4 | Pending |
+| UX-02 | Phase 5 | Pending |
+| UX-03 | Phase 4 | Pending |
+| UX-04 | Phase 4 | Pending |
+| UX-05 | Phase 4 | Pending |
+| UX-06 | Phase 4 | Pending |
+| PLAT-01 | Phase 5 | Pending |
+| PLAT-02 | Phase 5 | Pending |
+| COST-01 | Phase 8 | Pending |
+| COST-02 | Phase 8 | Pending |
+| COST-03 | Phase 1 | Pending |
+| COST-04 | Phase 3 | Pending |
 
 **Coverage:**
 - v1 requirements: 36 total
-- Mapped to phases: 0
-- Unmapped: 36 ⚠️
+- Mapped to phases: 36
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-04*
-*Last updated: 2026-04-04 after initial definition*
+*Last updated: 2026-04-04 after roadmap creation*
