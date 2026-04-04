@@ -169,3 +169,14 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 | 6. Category Browser | 0/2 | Not started | - |
 | 7. Quiz Engine & Play Modes | 0/3 | Not started | - |
 | 8. Question Cache & Cost Management | 0/2 | Not started | - |
+
+## Backlog
+
+### Phase 999.1: Admin Review Queue for Score 1-2 Questions (BACKLOG)
+
+**Goal:** Basic admin area in the app (or standalone tool) to review, approve/reject, and publish questions that scored below the auto-publish threshold (verification_score 1-2). Natural fit for Phase 2 when the app UI exists, or could be a simple standalone admin page.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
