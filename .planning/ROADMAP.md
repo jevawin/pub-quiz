@@ -33,14 +33,15 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Knowledge Agent can find and store reference material for a given category using Wikipedia
   4. Questions Agent can generate multiple-choice questions (1 correct + 3 plausible distractors) with explanations and difficulty ratings
   5. Fact-Check Agent can independently verify answers using RAG against external sources and assign verification strength scores (0-3)
-**Plans**: TBD
+**Plans**: 4 plans
 **Research note**: Pipeline execution environment must be stress-tested during plan-phase -- evaluate Claude Code Remote Triggers, GitHub Actions, Cloudflare Workers, Netlify/Vercel Functions, DigitalOcean, dedicated cron server. See PIPE-09.
 **Cost reference**: See Cost Risk Register in REQUIREMENTS.md for Claude API and pipeline cost risks. COST-03 (rate limiting, budget caps, monitoring) is delivered in this phase.
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
-- [ ] 01-03: TBD
+- [ ] 01-01-PLAN.md -- Supabase schema, RLS, seed data, pipeline project setup, shared libraries
+- [ ] 01-02-PLAN.md -- Category Agent and Knowledge Agent with Wikipedia integration
+- [ ] 01-03-PLAN.md -- Questions Agent and Fact-Check Agent
+- [ ] 01-04-PLAN.md -- Pipeline orchestrator and GitHub Actions workflow
 
 ### Phase 2: Question Pipeline -- Seed & Scheduling
 **Goal**: The pipeline has produced a seed question database and runs on a sustainable daily schedule
@@ -160,7 +161,7 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Question Pipeline: Agents & Schema | 0/3 | Not started | - |
+| 1. Question Pipeline: Agents & Schema | 0/4 | Planning complete | - |
 | 2. Question Pipeline: Seed & Scheduling | 0/2 | Not started | - |
 | 3. Auth & App Backend | 0/2 | Not started | - |
 | 4. Design System | 0/3 | Not started | - |
