@@ -25,11 +25,9 @@ Anti-gamification: no sparkles, no daily boosts, no gambling-inspired mechanics.
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] AI agent pipeline that continuously generates, verifies, and expands questions — *Validated in Phase 1: Question Pipeline -- Agents & Schema*
 
 ### Active
-
-- [ ] AI agent pipeline that continuously generates, verifies, and expands questions
 - [ ] Clean, minimal UI with one-tap quick play
 - [ ] Deep category tree (up to 4 levels, breadcrumb navigation)
 - [ ] Solo quiz play with category/difficulty selection
@@ -110,4 +108,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-04 after initialization*
+*Last updated: 2026-04-04 after Phase 1 completion*
