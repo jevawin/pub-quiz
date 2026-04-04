@@ -21,8 +21,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **PIPE-03**: Ongoing daily scheduled update that adds new questions from new knowledge or newly discovered backdated sources
 - [ ] **PIPE-04**: Category Agent — discovers and proposes categories/subcategories, seeded with ~12 core themes
 - [ ] **PIPE-05**: Knowledge Agent — finds quality reference material per category (Wikipedia as primary source, supplemented by educational sites)
-- [ ] **PIPE-06**: Questions Agent — generates multiple-choice questions with correct answer, 3 plausible wrong answers, explanation, and agent-estimated difficulty
-- [ ] **PIPE-07**: Fact-Check Agent — independently verifies answers using RAG against external sources (not LLM-on-LLM), builds verification strength (0-3)
+- [x] **PIPE-06**: Questions Agent — generates multiple-choice questions with correct answer, 3 plausible wrong answers, explanation, and agent-estimated difficulty
+- [x] **PIPE-07**: Fact-Check Agent — independently verifies answers using RAG against external sources (not LLM-on-LLM), builds verification strength (0-3)
 - [x] **PIPE-08**: Wikipedia integration strategy — research and implement optimal method for accessing Wikipedia data (API, dumps, or structured data feeds)
 - [ ] **PIPE-09**: Pipeline execution environment decided and implemented — devil's advocate all options: Claude Code Remote Triggers, GitHub Actions, Cloudflare Workers, Netlify/Vercel Functions, DigitalOcean, dedicated cron server. Must: run Claude-powered research on schedule with parameters, connect cleanly to Supabase and repo
 
@@ -149,8 +149,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PIPE-03 | Phase 2 | Pending |
 | PIPE-04 | Phase 1 | Pending |
 | PIPE-05 | Phase 1 | Pending |
-| PIPE-06 | Phase 1 | Pending |
-| PIPE-07 | Phase 1 | Pending |
+| PIPE-06 | Phase 1 | Complete |
+| PIPE-07 | Phase 1 | Complete |
 | PIPE-08 | Phase 1 | Complete |
 | PIPE-09 | Phase 1 | Pending |
 | QUIZ-01 | Phase 7 | Pending |
