@@ -68,6 +68,8 @@ created: 2026-04-04
 | Behavior | Requirement | Why Manual | Test Instructions |
 |----------|-------------|------------|-------------------|
 | Pipeline runs end-to-end in GitHub Actions | PIPE-09 | Requires GitHub environment and secrets | Trigger `gh workflow run question-pipeline.yml`, verify run completes successfully |
+| Supabase schema applied and accessible | DB-01 | Requires linked Supabase project | Run `supabase db push`, verify tables exist via Supabase dashboard |
+| Wikipedia integration smoke test | PIPE-08 | Hits real external API | Run `cd pipeline && npx vitest run tests/integration/` locally (skipped in CI) |
 
 ---
 
