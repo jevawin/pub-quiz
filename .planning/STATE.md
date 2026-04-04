@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-02-PLAN.md and 01-03-PLAN.md
-last_updated: "2026-04-04T19:11:28.107Z"
+stopped_at: Completed 01-04-PLAN.md
+last_updated: "2026-04-04T19:19:06.458Z"
 last_activity: 2026-04-04
 progress:
   total_phases: 9
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 2
+  completed_plans: 4
   percent: 0
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-04)
 ## Current Position
 
 Phase: 1 of 8 (Question Pipeline: Agents & Schema)
-Plan: 2 of 3 in current phase
+Plan: 3 of 3 in current phase
 Status: Ready to execute
 Last activity: 2026-04-04
 
@@ -55,6 +55,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P01 | 3min | 2 tasks | 19 files |
 | Phase 01 P02 | 6min | 2 tasks | 7 files |
 | Phase 01 P03 | 14min | 2 tasks | 4 files |
+| Phase 01 P04 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,8 @@ Recent decisions affecting current work:
 - [Phase 01]: database.types.ts requires Relationships arrays and PostgrestVersion for supabase-js v2 type resolution
 - [Phase 01]: Rejected questions count as failed in return value but don't trigger error throw -- only actual processing errors cause agent-level failure
 - [Phase 01]: Auto-publish threshold is score >= 3 only; score 1-2 gets verified but not published (safety measure)
+- [Phase 01]: Self-execution guard via process.argv check for testability in pipeline orchestrator
+- [Phase 01]: Concurrent run guard exits 0 (skip, not error) to avoid false CI alerts
 
 ### Pending Todos
 
@@ -85,6 +88,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-04T19:11:28.105Z
-Stopped at: Completed 01-02-PLAN.md and 01-03-PLAN.md
+Last session: 2026-04-04T19:19:06.455Z
+Stopped at: Completed 01-04-PLAN.md
 Resume file: None

@@ -41,7 +41,7 @@ Plans:
 - [x] 01-01-PLAN.md -- Supabase schema, RLS, seed data, pipeline project setup, shared libraries
 - [x] 01-02-PLAN.md -- Category Agent and Knowledge Agent with Wikipedia integration
 - [x] 01-03-PLAN.md -- Questions Agent and Fact-Check Agent
-- [ ] 01-04-PLAN.md -- Pipeline orchestrator and GitHub Actions workflow
+- [x] 01-04-PLAN.md -- Pipeline orchestrator and GitHub Actions workflow
 
 ### Phase 2: Question Pipeline -- Seed & Scheduling
 **Goal**: The pipeline has produced a seed question database and runs on a sustainable daily schedule
