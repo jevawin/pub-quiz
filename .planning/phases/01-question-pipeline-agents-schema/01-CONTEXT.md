@@ -26,7 +26,7 @@ Build the 4-agent Claude pipeline (Category, Knowledge, Questions, Fact-Check) a
 - **D-08:** Each agent is a **separate script file** (e.g., `pipeline/agents/category.ts`, `knowledge.ts`, `questions.ts`, `fact-check.ts`). Self-contained, independently testable, clear ownership.
 
 ### Wikipedia Integration
-- **D-09:** Knowledge Agent accesses Wikipedia via the **Wikimedia REST API** -- free, no auth, real-time data, ~200 req/s rate limit. Simple to implement for daily batched runs.
+- **D-09:** Knowledge Agent accesses Wikipedia via the **MediaWiki Action API** (`action=query&prop=extracts&explaintext=1`) -- free, no auth, returns full article text. Updated from original REST API choice after research confirmed RESTBase is being deprecated (sunset starting July 2026). Action API is the long-term stable choice.
 - **D-10:** Fetched Wikipedia content is **stored in a Supabase `sources` table** -- not just references. Creates an audit trail of what knowledge questions were based on. Both Questions Agent and Fact-Check Agent can read stored content.
 - **D-11:** **Wikipedia only for v1** -- no additional sources. Broad coverage across all 12 seed categories. Additional sources can be added in v2.
 
