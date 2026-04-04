@@ -5,6 +5,7 @@
 
 export interface Database {
   public: {
+    PostgrestVersion: '12';
     Tables: {
       categories: {
         Row: {
@@ -37,6 +38,15 @@ export interface Database {
           created_at?: string;
           created_by?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'categories_parent_id_fkey';
+            columns: ['parent_id'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       sources: {
         Row: {
@@ -66,6 +76,15 @@ export interface Database {
           content_hash?: string;
           fetched_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'sources_category_id_fkey';
+            columns: ['category_id'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       questions: {
         Row: {
@@ -110,6 +129,22 @@ export interface Database {
           created_at?: string;
           published_at?: string | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'questions_category_id_fkey';
+            columns: ['category_id'];
+            isOneToOne: false;
+            referencedRelation: 'categories';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'questions_source_id_fkey';
+            columns: ['source_id'];
+            isOneToOne: false;
+            referencedRelation: 'sources';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       pipeline_runs: {
         Row: {
@@ -169,6 +204,7 @@ export interface Database {
           estimated_cost_usd?: number;
           config?: Record<string, unknown> | null;
         };
+        Relationships: [];
       };
     };
     Views: Record<string, never>;
