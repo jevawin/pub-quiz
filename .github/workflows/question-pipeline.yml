@@ -1,0 +1,71 @@
+name: Question Pipeline
+
+on:
+  schedule:
+    - cron: '23 4 * * *'    # Daily at 04:23 UTC (odd time avoids GH Actions congestion)
+  workflow_dispatch:
+    inputs:
+      budget_usd:
+        description: 'Budget cap in USD for this run'
+        required: false
+        default: '1.00'
+      category_batch_size:
+        description: 'Number of new categories to propose'
+        required: false
+        default: '5'
+      knowledge_batch_size:
+        description: 'Number of categories to fetch Wikipedia sources for'
+        required: false
+        default: '10'
+      questions_batch_size:
+        description: 'Number of questions to generate'
+        required: false
+        default: '20'
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: pipeline/package-lock.json
+
+      - name: Install dependencies
+        working-directory: pipeline
+        run: npm ci
+
+      - name: Health check — verify Supabase is reachable
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            "$SUPABASE_URL/rest/v1/categories?limit=1")
+          if [ "$STATUS" = "200" ]; then
+            echo "Supabase reachable (HTTP $STATUS)"
+          else
+            echo "::error::Supabase unreachable (HTTP $STATUS). Project may be paused — check https://supabase.com/dashboard"
+            exit 1
+          fi
+
+      - name: Run pipeline
+        working-directory: pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          PIPELINE_BUDGET_USD: ${{ github.event.inputs.budget_usd || '1.00' }}
+          CATEGORY_BATCH_SIZE: ${{ github.event.inputs.category_batch_size || '5' }}
+          KNOWLEDGE_BATCH_SIZE: ${{ github.event.inputs.knowledge_batch_size || '10' }}
+          QUESTIONS_BATCH_SIZE: ${{ github.event.inputs.questions_batch_size || '20' }}
+        run: npx tsx src/run-pipeline.ts
