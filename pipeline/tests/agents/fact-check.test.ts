@@ -42,9 +42,12 @@ function makeTokenAccumulator(): TokenAccumulator {
 }
 
 // Pending questions that need fact-checking
+const Q1_ID = '11111111-1111-1111-1111-111111111111';
+const Q2_ID = '22222222-2222-2222-2222-222222222222';
+
 const pendingQuestions = [
   {
-    id: 'q-1',
+    id: Q1_ID,
     category_id: 'cat-1',
     source_id: 'src-1',
     question_text: 'What is the speed of light?',
@@ -56,7 +59,7 @@ const pendingQuestions = [
     status: 'pending',
   },
   {
-    id: 'q-2',
+    id: Q2_ID,
     category_id: 'cat-1',
     source_id: 'src-1',
     question_text: 'Who developed special relativity?',
@@ -167,8 +170,8 @@ describe('Fact-Check Agent', () => {
     mockClaude = {
       messages: {
         create: vi.fn().mockResolvedValue(createMockClaudeResponse([
-          { question_id: 'q-1', is_correct: true, verification_score: 3, reasoning: 'Explicitly stated in the text.' },
-          { question_id: 'q-2', is_correct: true, verification_score: 3, reasoning: 'Einstein is explicitly mentioned.' },
+          { question_id: Q1_ID, is_correct: true, verification_score: 3, reasoning: 'Explicitly stated in the text.' },
+          { question_id: Q2_ID, is_correct: true, verification_score: 3, reasoning: 'Einstein is explicitly mentioned.' },
         ])),
       },
     };
@@ -223,8 +226,8 @@ describe('Fact-Check Agent', () => {
   it('updates verified questions with score 1-2 to status=verified (NOT published)', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
     mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
-      { question_id: 'q-1', is_correct: true, verification_score: 2, reasoning: 'Clearly supported.' },
-      { question_id: 'q-2', is_correct: true, verification_score: 1, reasoning: 'Weakly supported.' },
+      { question_id: Q1_ID, is_correct: true, verification_score: 2, reasoning: 'Clearly supported.' },
+      { question_id: Q2_ID, is_correct: true, verification_score: 1, reasoning: 'Weakly supported.' },
     ]));
     await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
     // Both should be updated
@@ -251,8 +254,8 @@ describe('Fact-Check Agent', () => {
   it('rejects incorrect answers with status=rejected and score=0', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
     mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
-      { question_id: 'q-1', is_correct: false, verification_score: 0, reasoning: 'Answer contradicts the text.' },
-      { question_id: 'q-2', is_correct: false, verification_score: 0, reasoning: 'Not supported by text.' },
+      { question_id: Q1_ID, is_correct: false, verification_score: 0, reasoning: 'Answer contradicts the text.' },
+      { question_id: Q2_ID, is_correct: false, verification_score: 0, reasoning: 'Not supported by text.' },
     ]));
     await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
     expect(mockSupabase.updateCalls.length).toBe(2);
@@ -307,10 +310,10 @@ describe('Fact-Check Agent', () => {
   it('does NOT auto-publish score 2 (only score >= 3)', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
     mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
-      { question_id: 'q-1', is_correct: true, verification_score: 2, reasoning: 'Clearly supported.' },
+      { question_id: Q1_ID, is_correct: true, verification_score: 2, reasoning: 'Clearly supported.' },
     ]));
     await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
-    const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === 'q-1');
+    const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);
     expect(q1Update).toBeDefined();
     const data = q1Update!.data as any;
     expect(data.status).toBe('verified');

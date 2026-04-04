@@ -3,6 +3,11 @@ import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, SONNET_I
 import { createSupabaseClient } from '../lib/supabase.js';
 import { QuestionBatchSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
+import type { Database } from '../lib/database.types.js';
+
+type CategoryRow = Database['public']['Tables']['categories']['Row'];
+type SourceRow = Database['public']['Tables']['sources']['Row'];
+type QuestionRow = Database['public']['Tables']['questions']['Row'];
 
 export interface AgentResult {
   processed: number;
@@ -31,7 +36,7 @@ export async function runQuestionsAgent(
   // Step 1: Find categories with sources but needing questions (< 10 questions)
   const { data: categories, error: catError } = await supabase
     .from('categories')
-    .select('id, name, slug');
+    .select('*') as { data: CategoryRow[] | null; error: { message: string } | null };
 
   if (catError || !categories || categories.length === 0) {
     log('warn', 'No categories found or error fetching categories', { error: catError?.message });
@@ -45,21 +50,21 @@ export async function runQuestionsAgent(
     // Check for sources
     const { data: sources } = await supabase
       .from('sources')
-      .select('id')
+      .select('*')
       .eq('category_id', cat.id)
-      .limit(1);
+      .limit(1) as { data: SourceRow[] | null; error: unknown };
 
     if (!sources || sources.length === 0) continue;
 
     // Count existing questions
     const { data: existingQuestions } = await supabase
       .from('questions')
-      .select('id')
-      .eq('category_id', cat.id);
+      .select('*')
+      .eq('category_id', cat.id) as { data: QuestionRow[] | null; error: unknown };
 
     const questionCount = existingQuestions?.length ?? 0;
     if (questionCount < MIN_QUESTIONS_THRESHOLD) {
-      eligibleCategories.push(cat);
+      eligibleCategories.push({ id: cat.id, name: cat.name, slug: cat.slug });
     }
   }
 
@@ -82,9 +87,9 @@ export async function runQuestionsAgent(
       // Step 2: Fetch source content (up to MAX_SOURCES_PER_CATEGORY)
       const { data: sources, error: srcError } = await supabase
         .from('sources')
-        .select('id, title, content, url')
+        .select('*')
         .eq('category_id', category.id)
-        .limit(MAX_SOURCES_PER_CATEGORY);
+        .limit(MAX_SOURCES_PER_CATEGORY) as { data: SourceRow[] | null; error: { message: string } | null };
 
       if (srcError || !sources || sources.length === 0) {
         log('warn', `No sources found for category ${category.name}`, { error: srcError?.message });
@@ -94,10 +99,10 @@ export async function runQuestionsAgent(
       // Step 3: Fetch existing questions for dedup (capped at DEDUP_CAP)
       const { data: existingQuestions } = await supabase
         .from('questions')
-        .select('question_text')
+        .select('*')
         .eq('category_id', category.id)
         .order('created_at', { ascending: false })
-        .limit(DEDUP_CAP);
+        .limit(DEDUP_CAP) as { data: QuestionRow[] | null; error: unknown };
 
       const existingQuestionTexts = existingQuestions?.map((q) => q.question_text) ?? [];
 
@@ -115,8 +120,8 @@ export async function runQuestionsAgent(
       // Count total existing questions for the note
       const { data: allQuestions } = await supabase
         .from('questions')
-        .select('id')
-        .eq('category_id', category.id);
+        .select('*')
+        .eq('category_id', category.id) as { data: QuestionRow[] | null; error: unknown };
 
       const totalExisting = allQuestions?.length ?? 0;
       let dedupNote = '';
@@ -201,7 +206,7 @@ Generate ${questionsToGenerate} multiple-choice questions based ONLY on the refe
           }
 
           // Insert into questions table
-          const { error: insertError } = await supabase.from('questions').insert({
+          const insertData: Database['public']['Tables']['questions']['Insert'] = {
             category_id: category.id,
             source_id: primarySourceId,
             question_text: question.question_text,
@@ -210,8 +215,9 @@ Generate ${questionsToGenerate} multiple-choice questions based ONLY on the refe
             explanation: question.explanation,
             difficulty: question.difficulty,
             verification_score: 0,
-            status: 'pending' as const,
-          });
+            status: 'pending',
+          };
+          const { error: insertError } = await (supabase.from('questions').insert(insertData as never) as unknown as Promise<{ error: { message: string } | null }>);
 
           if (insertError) {
             log('error', 'Failed to insert question', {
