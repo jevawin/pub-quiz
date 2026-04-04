@@ -9,21 +9,21 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Database & Infrastructure
 
-- [ ] **DB-01**: Supabase PostgreSQL schema for questions, categories, wrong answers, explanations, sources, and difficulty ratings
-- [ ] **DB-02**: Row-level security enforced from first migration — public read for published questions, service-role write for pipeline
+- [x] **DB-01**: Supabase PostgreSQL schema for questions, categories, wrong answers, explanations, sources, and difficulty ratings
+- [x] **DB-02**: Row-level security enforced from first migration — public read for published questions, service-role write for pipeline
 - [ ] **DB-03**: Questions and answers cached locally on device — no per-question API calls (users can google answers anyway; cost minimization > answer hiding)
 - [ ] **DB-04**: Anonymous auth session created on first app launch (Supabase anon key)
 
 ### Question Pipeline (Independent Service)
 
-- [ ] **PIPE-01**: Pipeline runs as an independent cloud service, decoupled from the app — feeds Supabase, app reads from Supabase
+- [x] **PIPE-01**: Pipeline runs as an independent cloud service, decoupled from the app — feeds Supabase, app reads from Supabase
 - [ ] **PIPE-02**: Initial bulk seed run — high-frequency schedule (e.g. every 5m) for first 48h to build seed database, frequency depends on architecture and Claude plan costs
 - [ ] **PIPE-03**: Ongoing daily scheduled update that adds new questions from new knowledge or newly discovered backdated sources
 - [ ] **PIPE-04**: Category Agent — discovers and proposes categories/subcategories, seeded with ~12 core themes
 - [ ] **PIPE-05**: Knowledge Agent — finds quality reference material per category (Wikipedia as primary source, supplemented by educational sites)
 - [ ] **PIPE-06**: Questions Agent — generates multiple-choice questions with correct answer, 3 plausible wrong answers, explanation, and agent-estimated difficulty
 - [ ] **PIPE-07**: Fact-Check Agent — independently verifies answers using RAG against external sources (not LLM-on-LLM), builds verification strength (0-3)
-- [ ] **PIPE-08**: Wikipedia integration strategy — research and implement optimal method for accessing Wikipedia data (API, dumps, or structured data feeds)
+- [x] **PIPE-08**: Wikipedia integration strategy — research and implement optimal method for accessing Wikipedia data (API, dumps, or structured data feeds)
 - [ ] **PIPE-09**: Pipeline execution environment decided and implemented — devil's advocate all options: Claude Code Remote Triggers, GitHub Actions, Cloudflare Workers, Netlify/Vercel Functions, DigitalOcean, dedicated cron server. Must: run Claude-powered research on schedule with parameters, connect cleanly to Supabase and repo
 
 ### Quiz Core
@@ -64,7 +64,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **COST-01**: Local question cache on app install — bulk download published questions, only check daily for new/updated questions (not per-session API calls)
 - [ ] **COST-02**: Supabase usage monitoring — track API calls, database size, and connection counts with alerts before cost thresholds
-- [ ] **COST-03**: Pipeline cost controls — rate limiting on agent runs, budget caps on Claude API usage, monitoring dashboard for pipeline spend
+- [x] **COST-03**: Pipeline cost controls — rate limiting on agent runs, budget caps on Claude API usage, monitoring dashboard for pipeline spend
 - [ ] **COST-04**: Architecture designed to minimize Supabase Realtime usage in v1 (no realtime needed for solo play — REST/PostgREST only)
 
 ## Cost Risk Register
@@ -140,18 +140,18 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DB-01 | Phase 1 | Pending |
-| DB-02 | Phase 1 | Pending |
+| DB-01 | Phase 1 | Complete |
+| DB-02 | Phase 1 | Complete |
 | DB-03 | Phase 8 | Pending |
 | DB-04 | Phase 3 | Pending |
-| PIPE-01 | Phase 1 | Pending |
+| PIPE-01 | Phase 1 | Complete |
 | PIPE-02 | Phase 2 | Pending |
 | PIPE-03 | Phase 2 | Pending |
 | PIPE-04 | Phase 1 | Pending |
 | PIPE-05 | Phase 1 | Pending |
 | PIPE-06 | Phase 1 | Pending |
 | PIPE-07 | Phase 1 | Pending |
-| PIPE-08 | Phase 1 | Pending |
+| PIPE-08 | Phase 1 | Complete |
 | PIPE-09 | Phase 1 | Pending |
 | QUIZ-01 | Phase 7 | Pending |
 | QUIZ-02 | Phase 7 | Pending |
@@ -174,7 +174,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PLAT-02 | Phase 5 | Pending |
 | COST-01 | Phase 8 | Pending |
 | COST-02 | Phase 8 | Pending |
-| COST-03 | Phase 1 | Pending |
+| COST-03 | Phase 1 | Complete |
 | COST-04 | Phase 3 | Pending |
 
 **Coverage:**

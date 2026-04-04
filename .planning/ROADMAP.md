@@ -38,7 +38,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Cost reference**: See Cost Risk Register in REQUIREMENTS.md for Claude API and pipeline cost risks. COST-03 (rate limiting, budget caps, monitoring) is delivered in this phase.
 
 Plans:
-- [ ] 01-01-PLAN.md -- Supabase schema, RLS, seed data, pipeline project setup, shared libraries
+- [x] 01-01-PLAN.md -- Supabase schema, RLS, seed data, pipeline project setup, shared libraries
 - [ ] 01-02-PLAN.md -- Category Agent and Knowledge Agent with Wikipedia integration
 - [ ] 01-03-PLAN.md -- Questions Agent and Fact-Check Agent
 - [ ] 01-04-PLAN.md -- Pipeline orchestrator and GitHub Actions workflow
