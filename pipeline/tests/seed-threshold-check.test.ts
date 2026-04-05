@@ -1,4 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 
 vi.mock('../src/lib/logger.js', () => ({
   log: vi.fn(),
@@ -37,11 +40,16 @@ describe('Seed Threshold Check', () => {
             return { gte: vi.fn(() => ({ data: null, error: null, count: verifiedCount })) };
           }
           // Category ID query
-          const gteChain: any = {};
-          gteChain.data = categoryIds.map(id => ({ category_id: id }));
-          gteChain.error = error ? { message: 'DB error' } : null;
+          if (error) {
+            return {
+              gte: vi.fn(() => ({ data: null, error: { message: 'DB error' } })),
+            };
+          }
           return {
-            gte: vi.fn(() => gteChain),
+            gte: vi.fn(() => ({
+              data: categoryIds.map(id => ({ category_id: id })),
+              error: null,
+            })),
           };
         });
         return chain;
@@ -73,24 +81,30 @@ describe('Seed Threshold Check', () => {
   });
 
   it('writes seed_complete=true to GITHUB_OUTPUT file when threshold met', async () => {
-    const fs = await import('node:fs');
-    const appendSpy = vi.spyOn(fs, 'appendFileSync').mockImplementation(() => {});
-    const outputFile = '/tmp/test-github-output';
+    // Use a real temp file to avoid ESM spy limitations on node:fs
+    const outputFile = join(tmpdir(), `test-github-output-${Date.now()}`);
+    writeFileSync(outputFile, '');
     process.env.GITHUB_OUTPUT = outputFile;
 
     const { checkThreshold } = await import('../src/seed-threshold-check.js');
     const mockSupabase = createMockSupabase(1500, ['cat-1', 'cat-2', 'cat-3']);
 
+    // Suppress console.log for the notice output
+    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     await checkThreshold(mockSupabase as any);
+    consoleSpy.mockRestore();
 
-    expect(appendSpy).toHaveBeenCalledWith(outputFile, expect.stringContaining('seed_complete=true'));
-    appendSpy.mockRestore();
+    const contents = readFileSync(outputFile, 'utf-8');
+    expect(contents).toContain('seed_complete=true');
+    expect(contents).toContain('verified_count=1500');
+
+    // Clean up
+    unlinkSync(outputFile);
   });
 
   it('writes GitHub Actions notice annotation to stdout when threshold met', async () => {
-    const fs = await import('node:fs');
-    vi.spyOn(fs, 'appendFileSync').mockImplementation(() => {});
-    process.env.GITHUB_OUTPUT = '/tmp/test-output';
+    // No GITHUB_OUTPUT set -- the function should still log the notice
+    delete process.env.GITHUB_OUTPUT;
 
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     const { checkThreshold } = await import('../src/seed-threshold-check.js');
