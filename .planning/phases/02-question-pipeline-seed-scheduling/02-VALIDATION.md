@@ -2,8 +2,8 @@
 phase: 2
 slug: question-pipeline-seed-scheduling
 status: draft
-nyquist_compliant: false
-wave_0_complete: false
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-04-05
 ---
 
@@ -38,11 +38,9 @@ created: 2026-04-05
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 02-01-01 | 01 | 1 | PIPE-02 | unit | `cd pipeline && npx vitest run tests/seed-threshold-check.test.ts -x` | ❌ W0 | ⬜ pending |
-| 02-01-02 | 01 | 1 | PIPE-02 | unit | `cd pipeline && npx vitest run tests/seed-threshold-check.test.ts -x` | ❌ W0 | ⬜ pending |
-| 02-01-03 | 01 | 1 | PIPE-02 | smoke | Manual review of YAML syntax | N/A | ⬜ pending |
-| 02-02-01 | 02 | 1 | PIPE-03 | unit | `cd pipeline && npx vitest run tests/lib/category-selection.test.ts -x` | ❌ W0 | ⬜ pending |
-| 02-02-02 | 02 | 1 | PIPE-03 | smoke | `diff .github/workflows/question-pipeline.yml` against Phase 1 version | N/A | ⬜ pending |
+| 02-01-01 | 01 | 1 | PIPE-02 | unit | `cd pipeline && npx vitest run tests/seed-threshold-check.test.ts -x` | ✅ TDD | ⬜ pending |
+| 02-01-02 | 01 | 1 | PIPE-02 | unit | `cd pipeline && npx vitest run tests/agents/questions.test.ts -x` | ✅ exists | ⬜ pending |
+| 02-02-01 | 02 | 2 | PIPE-02, PIPE-03 | smoke | `git diff --exit-code .github/workflows/question-pipeline.yml && grep -c seed-threshold-check .github/workflows/seed-pipeline.yml` | N/A | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -50,8 +48,12 @@ created: 2026-04-05
 
 ## Wave 0 Requirements
 
-- [ ] `pipeline/tests/seed-threshold-check.test.ts` — stubs for PIPE-02 (threshold check, auto-disable, annotations)
-- [ ] `pipeline/tests/lib/category-selection.test.ts` — stubs for PIPE-03 (least-covered-first category selection)
+Wave 0 is satisfied by the TDD approach in Task 02-01-01. That task is marked `tdd="true"` and its `<behavior>` block defines test expectations for both:
+
+- `pipeline/tests/seed-threshold-check.test.ts` — created as part of TDD RED phase in Task 02-01-01
+- `pipeline/tests/lib/category-selection.test.ts` — created as part of TDD RED phase in Task 02-01-01
+
+No separate Wave 0 pre-execution step is needed.
 
 *Existing vitest infrastructure from Phase 1 covers framework setup.*
 
@@ -62,17 +64,17 @@ created: 2026-04-05
 | Behavior | Requirement | Why Manual | Test Instructions |
 |----------|-------------|------------|-------------------|
 | Seed workflow YAML is valid | PIPE-02 | YAML syntax validation requires `actionlint` or CI run | Review YAML structure, verify cron schedule, env vars |
-| Daily workflow unchanged | PIPE-03 | Regression check against git history | `git diff HEAD~1 .github/workflows/question-pipeline.yml` should show no changes |
+| Daily workflow unchanged | PIPE-03 | Regression check against git history | `git diff --exit-code .github/workflows/question-pipeline.yml` should show no changes |
 
 ---
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 15s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references (satisfied by TDD task structure)
+- [x] No watch-mode flags
+- [x] Feedback latency < 15s
+- [x] `nyquist_compliant: true` set in frontmatter
 
 **Approval:** pending
