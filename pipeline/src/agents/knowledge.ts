@@ -1,6 +1,8 @@
 import { createHash } from 'node:crypto';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { searchArticles, getArticleText } from '../lib/wikipedia.js';
+import { createClaudeClient, trackUsage, checkBudget, extractJson, HAIKU_INPUT, HAIKU_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import type { TokenAccumulator } from '../lib/claude.js';
 import type { PipelineConfig } from '../lib/config.js';
 import type { Database } from '../lib/database.types.js';
 import { log } from '../lib/logger.js';
@@ -18,8 +20,9 @@ interface CategoryRow {
   slug: string;
 }
 
-export async function runKnowledgeAgent(config: PipelineConfig): Promise<AgentResult> {
+export async function runKnowledgeAgent(config: PipelineConfig, tokenAccumulator: TokenAccumulator): Promise<AgentResult> {
   const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
+  const claude = createClaudeClient(config.anthropicApiKey);
 
   // 1. Fetch all categories
   log('info', 'Fetching categories for knowledge sourcing');
@@ -65,9 +68,60 @@ export async function runKnowledgeAgent(config: PipelineConfig): Promise<AgentRe
 
   for (const category of categoriesNeedingSources) {
     try {
+      // Build richer search query from category hierarchy (D-07)
+      let searchTerms = category.name;
+      let parentName: string | null = null;
+
+      // Fetch category with parent_id
+      const { data: categoryWithParent } = await supabase
+        .from('categories')
+        .select('id, name, slug, parent_id')
+        .eq('id', category.id)
+        .single();
+
+      if (categoryWithParent?.parent_id) {
+        const { data: parent } = await supabase
+          .from('categories')
+          .select('name')
+          .eq('id', categoryWithParent.parent_id)
+          .single();
+        if (parent) {
+          parentName = parent.name;
+          searchTerms = `${category.name} ${parent.name}`;
+        }
+      } else {
+        // Top-level: fetch children for context
+        const { data: children } = await supabase
+          .from('categories')
+          .select('name')
+          .eq('parent_id', category.id)
+          .limit(3);
+        if (children && children.length > 0) {
+          searchTerms += ' ' + children.map((c: { name: string }) => c.name).join(' ');
+        }
+      }
+
       // Search Wikipedia for relevant articles
-      const titles = await searchArticles(category.name, config.wikipediaUserAgent, 5);
+      let titles = await searchArticles(searchTerms, config.wikipediaUserAgent, 5);
       log('info', 'Wikipedia search results', { category: category.name, count: titles.length });
+
+      // Fallback search when initial results sparse (D-08)
+      if (titles.length < 2) {
+        const fallbackTerms = parentName
+          ? parentName
+          : category.name.split(' ')[0];
+        log('info', 'Retrying Wikipedia search with fallback terms', {
+          category: category.name,
+          fallbackTerms,
+          originalResults: titles.length,
+        });
+        const fallbackTitles = await searchArticles(fallbackTerms, config.wikipediaUserAgent, 5);
+        // Merge, dedup by title
+        const existingSet = new Set(titles);
+        for (const t of fallbackTitles) {
+          if (!existingSet.has(t)) titles.push(t);
+        }
+      }
 
       for (const title of titles) {
         try {
@@ -76,6 +130,46 @@ export async function runKnowledgeAgent(config: PipelineConfig): Promise<AgentRe
 
           if (content === null) {
             log('debug', 'Skipping missing Wikipedia page', { title });
+            continue;
+          }
+
+          // Haiku relevance filtering (D-06)
+          const relevancePrompt = `You are evaluating whether a Wikipedia article is relevant to a specific quiz category.
+
+Category: ${category.name}
+Article title: ${title}
+Article excerpt: ${content.slice(0, 500)}
+
+Rate the relevance of this article to the category on a scale of 0.0 to 1.0.
+- 1.0 = directly about this category topic
+- 0.5 = somewhat related
+- 0.0 = completely unrelated
+
+Return JSON: {"relevance": <number>, "reasoning": "<brief explanation>"}`;
+
+          const relevanceResponse = await claude.messages.create({
+            model: config.claudeModelVerification,
+            max_tokens: 256,
+            messages: [{ role: 'user', content: relevancePrompt }],
+          });
+
+          trackUsage(relevanceResponse, tokenAccumulator, HAIKU_INPUT, HAIKU_OUTPUT);
+          checkBudget(tokenAccumulator, config.budgetCapUsd);
+
+          const relevanceText = relevanceResponse.content.find((c: { type: string }) => c.type === 'text');
+          let relevanceScore = 0;
+          if (relevanceText && relevanceText.type === 'text') {
+            try {
+              const relevanceJson = JSON.parse(extractJson((relevanceText as { type: 'text'; text: string }).text));
+              relevanceScore = typeof relevanceJson.relevance === 'number' ? relevanceJson.relevance : 0;
+            } catch {
+              log('warn', 'Failed to parse relevance score, skipping article', { title });
+              continue;
+            }
+          }
+
+          if (relevanceScore < config.relevanceThreshold) {
+            log('info', 'Skipping low-relevance article', { title, relevanceScore, threshold: config.relevanceThreshold });
             continue;
           }
 
@@ -119,12 +213,14 @@ export async function runKnowledgeAgent(config: PipelineConfig): Promise<AgentRe
           log('info', 'Inserted source', { title, category: category.name });
           processed++;
         } catch (err) {
+          if (err instanceof BudgetExceededError) throw err;
           const errorMessage = err instanceof Error ? err.message : String(err);
           log('error', 'Failed to process article', { title, category: category.name, error: errorMessage });
           failed++;
         }
       }
     } catch (err) {
+      if (err instanceof BudgetExceededError) throw err;
       const errorMessage = err instanceof Error ? err.message : String(err);
       log('error', 'Failed to process category', { category: category.name, error: errorMessage });
       failed++;
