@@ -231,6 +231,15 @@ Plans:
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
 
+### Phase 999.7: SMS Daily Question Premium Feature (BACKLOG)
+
+**Goal:** Premium feature that sends one pub quiz question per day via SMS. Player receives the question, replies with their answer (A/B/C/D), gets the result + fun fact back. Relies on the Enrichment Agent's `fun_fact` field — each message is a standalone question + answer + fun fact that works without app context. Potential monetisation as a paid subscription (e.g. £1/mo). Needs: SMS provider integration (Twilio/similar), subscriber management, question selection logic (avoid repeats, vary categories), opt-in/opt-out, billing. Related to 999.2 (user feedback) — SMS reply data is a feedback signal for question quality.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
+
 ### Phase 999.5: OpenTDB Seed Data Import and Prompt Examples (BACKLOG)
 
 **Goal:** Use Open Trivia Database (opentdb.com, CC BY-SA 4.0, ~4000 questions with categories and difficulty levels) as either seed data for the question database or as few-shot examples in the Questions Agent prompt to teach pub quiz tone. Two possible approaches: (1) bulk import OpenTDB questions as a baseline, mapping their 24 categories to ours; (2) cherry-pick ~10 high-quality examples per difficulty level and embed them in the Questions Agent system prompt as style references. Option 2 is lower effort and avoids mixing licensed content into our original pool. Must include CC BY-SA 4.0 attribution if any content is used.
