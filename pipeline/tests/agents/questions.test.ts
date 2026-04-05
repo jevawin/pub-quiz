@@ -293,7 +293,7 @@ describe('Questions Agent', () => {
     // We verify via the chain mock that order and limit were called
   });
 
-  it('system prompt instructs Claude to generate only from provided text', async () => {
+  it('system prompt requires answers verifiable from reference material', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
     await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
     expect(mockClaude.messages.create).toHaveBeenCalled();
@@ -303,7 +303,7 @@ describe('Questions Agent', () => {
       : Array.isArray(callArgs.system)
         ? callArgs.system.map((s: any) => s.text).join(' ')
         : '';
-    expect(systemContent).toContain('ONLY from facts that appear in the provided text');
+    expect(systemContent).toContain('MUST be verifiable from the provided reference material');
   });
 
   it('per-item insert failure does not crash the agent', async () => {

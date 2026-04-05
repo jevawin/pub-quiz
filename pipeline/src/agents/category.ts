@@ -103,8 +103,12 @@ export async function runCategoryAgent(
   // 3. Call Claude for new subcategory proposals
   const systemPrompt =
     'You are a pub quiz category expert. Your job is to propose new subcategories for a quiz app. ' +
-    'Categories should be specific enough to generate interesting questions but broad enough to have 20+ potential questions. ' +
-    'Avoid overly niche topics.';
+    'Every category must pass the pub test: imagine a quizmaster reading the category name out loud to a room — ' +
+    'would people nod and feel they have a shot, or would they groan and reach for their phones? ' +
+    'Good categories: Classic Rock, World Capitals, Olympic Sports, James Bond Films. ' +
+    'Bad categories: Human Anatomy, Social Media Platforms, Cocktail Mixology, Renaissance Art Techniques. ' +
+    'Categories should be specific enough to generate interesting questions but broad enough to have 20+ potential questions that ordinary people might actually know the answers to. ' +
+    'Avoid academic, technical, or overly niche topics. Favour fun, sociable knowledge over specialist expertise.';
 
   const userPrompt =
     `${categoryContext}\n\n` +
