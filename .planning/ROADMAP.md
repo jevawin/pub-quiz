@@ -55,7 +55,7 @@ Plans:
 
 Plans:
 - [x] 02-01-PLAN.md -- Seed threshold check script, least-covered-first category selection, Questions Agent integration
-- [ ] 02-02-PLAN.md -- Seed pipeline GitHub Actions workflow with 30-min cron and threshold gate
+- [x] 02-02-PLAN.md -- Seed pipeline GitHub Actions workflow with 30-min cron and threshold gate
 
 ### Phase 3: Auth & App Backend
 **Goal**: Users can launch the app and immediately have an anonymous session with a working Supabase connection -- no signup wall, no friction
