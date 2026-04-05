@@ -54,7 +54,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md -- Seed threshold check script, least-covered-first category selection, Questions Agent integration
+- [x] 02-01-PLAN.md -- Seed threshold check script, least-covered-first category selection, Questions Agent integration
 - [ ] 02-02-PLAN.md -- Seed pipeline GitHub Actions workflow with 30-min cron and threshold gate
 
 ### Phase 3: Auth & App Backend

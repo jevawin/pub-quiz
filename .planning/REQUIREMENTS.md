@@ -17,8 +17,8 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Question Pipeline (Independent Service)
 
 - [x] **PIPE-01**: Pipeline runs as an independent cloud service, decoupled from the app — feeds Supabase, app reads from Supabase
-- [ ] **PIPE-02**: Initial bulk seed run — high-frequency schedule (e.g. every 5m) for first 48h to build seed database, frequency depends on architecture and Claude plan costs
-- [ ] **PIPE-03**: Ongoing daily scheduled update that adds new questions from new knowledge or newly discovered backdated sources
+- [x] **PIPE-02**: Initial bulk seed run — high-frequency schedule (e.g. every 5m) for first 48h to build seed database, frequency depends on architecture and Claude plan costs
+- [x] **PIPE-03**: Ongoing daily scheduled update that adds new questions from new knowledge or newly discovered backdated sources
 - [x] **PIPE-04**: Category Agent — discovers and proposes categories/subcategories, seeded with ~12 core themes
 - [x] **PIPE-05**: Knowledge Agent — finds quality reference material per category (Wikipedia as primary source, supplemented by educational sites)
 - [x] **PIPE-06**: Questions Agent — generates multiple-choice questions with correct answer, 3 plausible wrong answers, explanation, and agent-estimated difficulty
@@ -145,8 +145,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DB-03 | Phase 8 | Pending |
 | DB-04 | Phase 3 | Pending |
 | PIPE-01 | Phase 1 | Complete |
-| PIPE-02 | Phase 2 | Pending |
-| PIPE-03 | Phase 2 | Pending |
+| PIPE-02 | Phase 2 | Complete |
+| PIPE-03 | Phase 2 | Complete |
 | PIPE-04 | Phase 1 | Complete |
 | PIPE-05 | Phase 1 | Complete |
 | PIPE-06 | Phase 1 | Complete |
