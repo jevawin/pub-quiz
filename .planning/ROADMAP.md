@@ -63,12 +63,12 @@ Plans:
 **Goal:** Add a QA Agent (5th pipeline step) that reviews questions for natural language, category fit, difficulty calibration, distractor quality, and readability -- rewriting where fixable, rejecting when broken. Also improve Knowledge Agent with better Wikipedia search queries, Haiku-powered source relevance filtering, and fallback search terms. Move auto-publish from Fact-Check to QA Agent
 **Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10
 **Depends on:** Phase 2
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 02.1-01-PLAN.md -- Database migration, QA schemas, config, remove auto-publish from Fact-Check
 - [x] 02.1-02-PLAN.md -- Knowledge Agent enhancements (hierarchy queries, Haiku relevance filtering, fallback search)
-- [ ] 02.1-03-PLAN.md -- QA Agent implementation and pipeline orchestrator wiring
+- [x] 02.1-03-PLAN.md -- QA Agent implementation and pipeline orchestrator wiring
 
 ### Phase 3: Auth & App Backend
 **Goal**: Users can launch the app and immediately have an anonymous session with a working Supabase connection -- no signup wall, no friction
