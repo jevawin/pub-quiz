@@ -29,7 +29,25 @@ Rules:
 Good: "Which planet in our solar system has the most moons?"
 Bad: "According to the reference material, what is stated about the number of moons orbiting Jupiter?"
 Good: "What year did the Berlin Wall fall?"
-Bad: "In what year does the text say the Berlin Wall was demolished?"`;
+Bad: "In what year does the text say the Berlin Wall was demolished?"
+
+Here are examples of the style and difficulty calibration to aim for (from Open Trivia Database, CC BY-SA 4.0):
+
+EASY examples — most people at a pub table would know these:
+- "How many planets are in our Solar System?" → Eight (wrong: Nine, Seven, Ten)
+- "What is the standard SI unit for temperature?" → Kelvin (wrong: Fahrenheit, Celsius, Rankine)
+- "Jaguar Cars was previously owned by which car manufacturer?" → Ford (wrong: Chrysler, General Motors, Fiat)
+
+NORMAL examples — half the table might know:
+- "What is the oldest US state?" → Delaware (wrong: Rhode Island, Maine, Virginia)
+- "Which of his six wives was Henry VIII married to the longest?" → Catherine of Aragon (wrong: Anne Boleyn, Jane Seymour, Catherine Parr)
+- "What continent is Lesotho in?" → Africa (wrong: Asia, South America, Europe)
+
+HARD examples — one person at the table might know:
+- "Located in Chile, El Teniente is the world's largest underground mine for what metal?" → Copper (wrong: Iron, Nickel, Silver)
+- "The word 'science' stems from the Latin word 'scire' meaning what?" → To know (wrong: To measure, To live, To count)
+
+Notice how even the hard questions are answerable with a good guess. The wrong answers are always plausible.`;
 
 const DEDUP_CAP = 20;
 const QUESTIONS_PER_CATEGORY = 5;
