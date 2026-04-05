@@ -3,9 +3,9 @@ import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, SONNET_I
 import { createSupabaseClient } from '../lib/supabase.js';
 import { QuestionBatchSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
+import { getEligibleCategoriesOrdered } from '../lib/category-selection.js';
 import type { Database } from '../lib/database.types.js';
 
-type CategoryRow = Database['public']['Tables']['categories']['Row'];
 type SourceRow = Database['public']['Tables']['sources']['Row'];
 type QuestionRow = Database['public']['Tables']['questions']['Row'];
 
@@ -33,40 +33,12 @@ export async function runQuestionsAgent(
 
   log('info', 'Questions Agent starting');
 
-  // Step 1: Find categories with sources but needing questions (< 10 questions)
-  const { data: categories, error: catError } = await supabase
-    .from('categories')
-    .select('*') as { data: CategoryRow[] | null; error: { message: string } | null };
-
-  if (catError || !categories || categories.length === 0) {
-    log('warn', 'No categories found or error fetching categories', { error: catError?.message });
-    return { processed: 0, failed: 0 };
-  }
-
-  // For each category, check if it has sources and fewer than MIN_QUESTIONS_THRESHOLD questions
-  const eligibleCategories: Array<{ id: string; name: string; slug: string }> = [];
-
-  for (const cat of categories) {
-    // Check for sources
-    const { data: sources } = await supabase
-      .from('sources')
-      .select('*')
-      .eq('category_id', cat.id)
-      .limit(1) as { data: SourceRow[] | null; error: unknown };
-
-    if (!sources || sources.length === 0) continue;
-
-    // Count existing questions
-    const { data: existingQuestions } = await supabase
-      .from('questions')
-      .select('*')
-      .eq('category_id', cat.id) as { data: QuestionRow[] | null; error: unknown };
-
-    const questionCount = existingQuestions?.length ?? 0;
-    if (questionCount < MIN_QUESTIONS_THRESHOLD) {
-      eligibleCategories.push({ id: cat.id, name: cat.name, slug: cat.slug });
-    }
-  }
+  // Step 1: Find categories with sources but needing questions, ordered by least-covered first
+  const eligibleCategories = await getEligibleCategoriesOrdered(
+    supabase,
+    config.questionsBatchSize,
+    MIN_QUESTIONS_THRESHOLD,
+  );
 
   if (eligibleCategories.length === 0) {
     log('info', 'No eligible categories found (all have sufficient questions or no sources)');

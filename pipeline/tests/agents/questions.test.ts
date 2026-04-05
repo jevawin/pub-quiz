@@ -21,6 +21,10 @@ vi.mock('../../src/lib/logger.js', () => ({
   log: vi.fn(),
 }));
 
+vi.mock('../../src/lib/category-selection.js', () => ({
+  getEligibleCategoriesOrdered: vi.fn(),
+}));
+
 function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
   return {
     anthropicApiKey: 'test-key',
@@ -174,8 +178,13 @@ describe('Questions Agent', () => {
 
     const { createSupabaseClient } = await import('../../src/lib/supabase.js');
     const { createClaudeClient } = await import('../../src/lib/claude.js');
+    const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
     vi.mocked(createSupabaseClient).mockReturnValue(mockSupabase as any);
     vi.mocked(createClaudeClient).mockReturnValue(mockClaude as any);
+    // Default: return one eligible category (matching previous inline logic behavior)
+    vi.mocked(getEligibleCategoriesOrdered).mockResolvedValue([
+      { id: 'cat-1', name: 'Science', slug: 'science', questionCount: 1 },
+    ]);
   });
 
   it('returns AgentResult with processed and failed counts', async () => {
@@ -187,11 +196,15 @@ describe('Questions Agent', () => {
     expect(result.processed).toBe(2); // 2 valid questions
   });
 
-  it('selects categories that have sources but few questions', async () => {
+  it('selects categories using getEligibleCategoriesOrdered', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
+    const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
     await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
-    expect(mockSupabase.from).toHaveBeenCalledWith('categories');
-    expect(mockSupabase.from).toHaveBeenCalledWith('sources');
+    expect(getEligibleCategoriesOrdered).toHaveBeenCalledWith(
+      expect.anything(),
+      20, // questionsBatchSize from makeConfig
+      10, // MIN_QUESTIONS_THRESHOLD
+    );
   });
 
   it('fetches source content for the selected category', async () => {
@@ -306,5 +319,30 @@ describe('Questions Agent', () => {
     const { log } = await import('../../src/lib/logger.js');
     await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
     expect(log).toHaveBeenCalled();
+  });
+
+  it('uses least-covered-first ordering from category-selection module', async () => {
+    const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
+    // Return categories in specific least-covered-first order
+    vi.mocked(getEligibleCategoriesOrdered).mockResolvedValue([
+      { id: 'cat-music', name: 'Music', slug: 'music', questionCount: 0 },
+      { id: 'cat-science', name: 'Science', slug: 'science', questionCount: 3 },
+    ]);
+
+    const { runQuestionsAgent } = await import('../../src/agents/questions.js');
+    await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
+
+    // Both categories should be processed (Claude called twice)
+    expect(mockClaude.messages.create).toHaveBeenCalledTimes(2);
+
+    // First call should be for Music (least covered)
+    const firstCall = mockClaude.messages.create.mock.calls[0][0];
+    const firstUserMsg = firstCall.messages.find((m: any) => m.role === 'user');
+    expect(firstUserMsg.content).toContain('Music');
+
+    // Second call should be for Science
+    const secondCall = mockClaude.messages.create.mock.calls[1][0];
+    const secondUserMsg = secondCall.messages.find((m: any) => m.role === 'user');
+    expect(secondUserMsg.content).toContain('Science');
   });
 });
