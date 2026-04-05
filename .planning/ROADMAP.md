@@ -222,6 +222,15 @@ Plans:
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
 
+### Phase 999.6: Style Guide Update Agent with Approval Gate (BACKLOG)
+
+**Goal:** Repeatable agent that analyses batches of ~500 new questions and proposes updates to the question writing style guide. Triggered automatically when 500 new questions accumulate. Reads the existing style guide first, then looks for new patterns, category-specific insights, or calibration shifts in the latest batch. Produces a PROPOSED-UPDATE.md diff — never overwrites the original gold standard directly. Updates require human approval before merging into the canonical style guide. Related to 999.2 (user feedback refinement) — as user feedback data becomes available, the style guide agent should incorporate correctness rates and user sentiment alongside question analysis.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
+
 ### Phase 999.5: OpenTDB Seed Data Import and Prompt Examples (BACKLOG)
 
 **Goal:** Use Open Trivia Database (opentdb.com, CC BY-SA 4.0, ~4000 questions with categories and difficulty levels) as either seed data for the question database or as few-shot examples in the Questions Agent prompt to teach pub quiz tone. Two possible approaches: (1) bulk import OpenTDB questions as a baseline, mapping their 24 categories to ours; (2) cherry-pick ~10 high-quality examples per difficulty level and embed them in the Questions Agent system prompt as style references. Option 2 is lower effort and avoids mixing licensed content into our original pool. Must include CC BY-SA 4.0 attribution if any content is used.
