@@ -101,6 +101,7 @@ export interface Database {
           created_at: string;
           published_at: string | null;
           qa_rewritten: boolean;
+          fun_fact: string | null;
         };
         Insert: {
           id?: string;
@@ -116,6 +117,7 @@ export interface Database {
           created_at?: string;
           published_at?: string | null;
           qa_rewritten?: boolean;
+          fun_fact?: string | null;
         };
         Update: {
           id?: string;
@@ -131,6 +133,7 @@ export interface Database {
           created_at?: string;
           published_at?: string | null;
           qa_rewritten?: boolean;
+          fun_fact?: string | null;
         };
         Relationships: [
           {
@@ -167,6 +170,7 @@ export interface Database {
           questions_qa_passed: number;
           questions_qa_rewritten: number;
           questions_qa_rejected: number;
+          questions_enriched: number;
           total_input_tokens: number;
           total_output_tokens: number;
           estimated_cost_usd: number;
@@ -189,6 +193,7 @@ export interface Database {
           questions_qa_passed?: number;
           questions_qa_rewritten?: number;
           questions_qa_rejected?: number;
+          questions_enriched?: number;
           total_input_tokens?: number;
           total_output_tokens?: number;
           estimated_cost_usd?: number;
@@ -211,6 +216,7 @@ export interface Database {
           questions_qa_passed?: number;
           questions_qa_rewritten?: number;
           questions_qa_rejected?: number;
+          questions_enriched?: number;
           total_input_tokens?: number;
           total_output_tokens?: number;
           estimated_cost_usd?: number;

@@ -57,6 +57,10 @@ vi.mock('../src/agents/qa.js', () => ({
   runQaAgent: vi.fn(),
 }));
 
+vi.mock('../src/agents/enrichment.js', () => ({
+  runEnrichmentAgent: vi.fn(),
+}));
+
 import { log } from '../src/lib/logger.js';
 import { loadConfig } from '../src/lib/config.js';
 import { createTokenAccumulator, BudgetExceededError } from '../src/lib/claude.js';
@@ -65,6 +69,7 @@ import { runKnowledgeAgent } from '../src/agents/knowledge.js';
 import { runQuestionsAgent } from '../src/agents/questions.js';
 import { runFactCheckAgent } from '../src/agents/fact-check.js';
 import { runQaAgent } from '../src/agents/qa.js';
+import { runEnrichmentAgent } from '../src/agents/enrichment.js';
 
 import type { PipelineConfig } from '../src/lib/config.js';
 
@@ -138,6 +143,7 @@ describe('runPipeline', () => {
     (runQuestionsAgent as Mock).mockResolvedValue({ processed: 20, failed: 0 });
     (runFactCheckAgent as Mock).mockResolvedValue({ processed: 15, failed: 2 });
     (runQaAgent as Mock).mockResolvedValue({ processed: 12, failed: 1, rewritten: 3 });
+    (runEnrichmentAgent as Mock).mockResolvedValue({ enriched: 10, skipped: 1, failed: 1 });
   });
 
   it('Test 1: calls agents in order: category -> knowledge -> questions -> fact-check', async () => {
@@ -164,11 +170,15 @@ describe('runPipeline', () => {
       callOrder.push('qa');
       return { processed: 12, failed: 1, rewritten: 3 };
     });
+    (runEnrichmentAgent as Mock).mockImplementation(async () => {
+      callOrder.push('enrichment');
+      return { enriched: 10, skipped: 1, failed: 1 };
+    });
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    expect(callOrder).toEqual(['category', 'knowledge', 'questions', 'fact-check', 'qa']);
+    expect(callOrder).toEqual(['category', 'knowledge', 'questions', 'fact-check', 'qa', 'enrichment']);
   });
 
   it('Test 2: creates a pipeline_runs record with status=running at start', async () => {
@@ -250,6 +260,7 @@ describe('runPipeline', () => {
         questions_qa_passed: 12,
         questions_qa_rewritten: 3,
         questions_qa_rejected: 1,
+        questions_enriched: 10,
       }),
     );
   });

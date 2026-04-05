@@ -8,6 +8,7 @@ import { runKnowledgeAgent } from './agents/knowledge.js';
 import { runQuestionsAgent } from './agents/questions.js';
 import { runFactCheckAgent } from './agents/fact-check.js';
 import { runQaAgent } from './agents/qa.js';
+import { runEnrichmentAgent } from './agents/enrichment.js';
 
 export async function runPipeline(): Promise<void> {
   // 1. Load config
@@ -101,6 +102,14 @@ export async function runPipeline(): Promise<void> {
       rewritten: qaResult.rewritten,
     });
 
+    log('info', 'Starting Enrichment Agent');
+    const enrichmentResult = await runEnrichmentAgent(config, tokenAccumulator);
+    log('info', 'Enrichment Agent complete', {
+      enriched: enrichmentResult.enriched,
+      skipped: enrichmentResult.skipped,
+      failed: enrichmentResult.failed,
+    });
+
     // Mark success
     await supabase
       .from('pipeline_runs')
@@ -118,6 +127,7 @@ export async function runPipeline(): Promise<void> {
         questions_qa_passed: qaResult.processed,
         questions_qa_rewritten: qaResult.rewritten,
         questions_qa_rejected: qaResult.failed,
+        questions_enriched: enrichmentResult.enriched,
         total_input_tokens: tokenAccumulator.input_tokens,
         total_output_tokens: tokenAccumulator.output_tokens,
         estimated_cost_usd: tokenAccumulator.estimated_cost_usd,
