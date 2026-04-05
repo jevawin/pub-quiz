@@ -51,11 +51,11 @@ Plans:
   1. Initial seed run has populated 1000+ verified questions across the 12 core categories (high-frequency schedule for first 48 hours)
   2. Daily scheduled pipeline runs add new questions without manual intervention
   3. Pipeline cost per run is tracked and within budget caps established in Phase 1
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md -- Seed threshold check script, least-covered-first category selection, Questions Agent integration
+- [ ] 02-02-PLAN.md -- Seed pipeline GitHub Actions workflow with 30-min cron and threshold gate
 
 ### Phase 3: Auth & App Backend
 **Goal**: Users can launch the app and immediately have an anonymous session with a working Supabase connection -- no signup wall, no friction
@@ -162,7 +162,7 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Question Pipeline: Agents & Schema | 0/4 | Planning complete | - |
-| 2. Question Pipeline: Seed & Scheduling | 0/2 | Not started | - |
+| 2. Question Pipeline: Seed & Scheduling | 0/2 | Planning complete | - |
 | 3. Auth & App Backend | 0/2 | Not started | - |
 | 4. Design System | 0/3 | Not started | - |
 | 5. App Shell & Platform | 0/2 | Not started | - |
