@@ -58,6 +58,9 @@ Add an interesting detail that gives players something to work with:
 - Textbook/exam phrasing — write like you're talking to a friend
 - Niche specialist questions — would 3+ people at a random table have a chance?
 - Questions over 100 characters
+- Questions about events from the current or previous year — they date fast and won't age well. Stick to established facts, not recent news.
+- Corporate/business questions (company rebrandings, product launch dates, internal org names) — nobody at a pub cares when Microsoft renamed Xbox Video. Ask about the films, music, and culture, not the platforms and companies behind them.
+- Questions where the answer doesn't match the question type. If you ask "what era?" the answer must be an era. If you ask "who?" the answer must be a person. If you ask "how many?" the answer must be a number. Double-check this before including a question.
 
 (Style reference: Open Trivia Database, CC BY-SA 4.0. Full guide: pipeline/STYLE-GUIDE.md)`;
 
