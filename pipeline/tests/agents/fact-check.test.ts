@@ -240,14 +240,13 @@ describe('Fact-Check Agent', () => {
     }
   });
 
-  it('auto-publishes questions with score >= 3 (sets published_at)', async () => {
+  it('verifies questions with score >= 3 (no auto-publish per D-03)', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
     await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
     expect(mockSupabase.updateCalls.length).toBe(2);
     for (const call of mockSupabase.updateCalls) {
       const data = call.data as any;
-      expect(data.status).toBe('published');
-      expect(data.published_at).toBeDefined();
+      expect(data.status).toBe('verified');
       expect(data.verification_score).toBe(3);
     }
   });
@@ -308,7 +307,7 @@ describe('Fact-Check Agent', () => {
     expect(log).toHaveBeenCalled();
   });
 
-  it('does NOT auto-publish score 2 (only score >= 3)', async () => {
+  it('score 2 questions get status=verified (same as all verified)', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
     mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
       { question_id: Q1_ID, is_correct: true, verification_score: 2, reasoning: 'Clearly supported.' },

@@ -130,57 +130,29 @@ ${questionsSection}`;
       for (const result of parsedBatch.results) {
         try {
           if (result.is_correct) {
-            // Determine status based on verification score
-            if (result.verification_score >= 3) {
-              // Auto-publish: high confidence only
-              const updateResult = await (supabase
-                .from('questions')
-                .update({
-                  verification_score: result.verification_score,
-                  status: 'published' as const,
-                  published_at: new Date().toISOString(),
-                } as never)
-                .eq('id', result.question_id) as unknown as Promise<{ error: { message: string } | null }>);
+            // Set verified status -- publishing is handled by QA Agent (D-03)
+            const updateResult = await (supabase
+              .from('questions')
+              .update({
+                verification_score: result.verification_score,
+                status: 'verified' as const,
+              } as never)
+              .eq('id', result.question_id) as unknown as Promise<{ error: { message: string } | null }>);
 
-              if (updateResult?.error) {
-                log('error', 'Failed to update question as published', {
-                  questionId: result.question_id,
-                  error: updateResult.error.message,
-                });
-                failed++;
-                errors++;
-                continue;
-              }
-
-              log('info', 'Question auto-published', {
+            if (updateResult?.error) {
+              log('error', 'Failed to update question as verified', {
                 questionId: result.question_id,
-                score: result.verification_score,
+                error: updateResult.error.message,
               });
-            } else {
-              // Verified but not auto-published (score 1-2)
-              const updateResult = await (supabase
-                .from('questions')
-                .update({
-                  verification_score: result.verification_score,
-                  status: 'verified' as const,
-                } as never)
-                .eq('id', result.question_id) as unknown as Promise<{ error: { message: string } | null }>);
-
-              if (updateResult?.error) {
-                log('error', 'Failed to update question as verified', {
-                  questionId: result.question_id,
-                  error: updateResult.error.message,
-                });
-                failed++;
-                errors++;
-                continue;
-              }
-
-              log('info', 'Question verified (not auto-published)', {
-                questionId: result.question_id,
-                score: result.verification_score,
-              });
+              failed++;
+              errors++;
+              continue;
             }
+
+            log('info', 'Question verified', {
+              questionId: result.question_id,
+              score: result.verification_score,
+            });
             processed++;
           } else {
             // Rejected
