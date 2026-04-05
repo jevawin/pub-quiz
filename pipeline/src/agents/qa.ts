@@ -35,6 +35,7 @@ RULES:
 - Questions that are "you know it or you don't" with no room for reasoning or debate should be rewritten to add context or a hint (the "double up" technique).
 - Questions over 100 characters should be shortened.
 - Niche specialist questions that fewer than 3 out of 6 random adults would recognise should be rejected.
+- If the correct answer does not logically answer the question (e.g. question asks "what era?" but the answer is a place, or question asks "who?" but the answer is a date), REJECT it. Do not try to rewrite around a question/answer type mismatch — the answer cannot be changed, so the question is fundamentally broken.
 
 (Standards from: pipeline/STYLE-GUIDE.md)`;
 
