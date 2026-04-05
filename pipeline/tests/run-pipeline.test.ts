@@ -146,17 +146,13 @@ describe('runPipeline', () => {
     (runEnrichmentAgent as Mock).mockResolvedValue({ enriched: 10, skipped: 1, failed: 1 });
   });
 
-  it('Test 1: calls agents in order: category -> knowledge -> questions -> fact-check', async () => {
+  it('Test 1: calls agents in order: category -> questions -> fact-check -> qa -> enrichment', async () => {
     setupSupabaseMock({});
     const callOrder: string[] = [];
 
     (runCategoryAgent as Mock).mockImplementation(async () => {
       callOrder.push('category');
       return { processed: 5, failed: 0 };
-    });
-    (runKnowledgeAgent as Mock).mockImplementation(async () => {
-      callOrder.push('knowledge');
-      return { processed: 10, failed: 0 };
     });
     (runQuestionsAgent as Mock).mockImplementation(async () => {
       callOrder.push('questions');
@@ -178,7 +174,7 @@ describe('runPipeline', () => {
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    expect(callOrder).toEqual(['category', 'knowledge', 'questions', 'fact-check', 'qa', 'enrichment']);
+    expect(callOrder).toEqual(['category', 'questions', 'fact-check', 'qa', 'enrichment']);
   });
 
   it('Test 2: creates a pipeline_runs record with status=running at start', async () => {
@@ -251,7 +247,7 @@ describe('runPipeline', () => {
         status: 'success',
         categories_processed: 5,
         categories_failed: 0,
-        sources_fetched: 10,
+        sources_fetched: 0,
         sources_failed: 0,
         questions_generated: 20,
         questions_failed: 0,
@@ -266,7 +262,7 @@ describe('runPipeline', () => {
   });
 
   it('Test 4: on agent failure, pipeline stops and updates with status=failed and error_message', async () => {
-    (runKnowledgeAgent as Mock).mockRejectedValue(new Error('Wikipedia API is down'));
+    (runQuestionsAgent as Mock).mockRejectedValue(new Error('Questions generation failed'));
 
     const mockUpdate = vi.fn().mockReturnValue({
       eq: vi.fn().mockResolvedValue({ data: null, error: null }),
@@ -297,7 +293,7 @@ describe('runPipeline', () => {
     expect(mockUpdate).toHaveBeenCalledWith(
       expect.objectContaining({
         status: 'failed',
-        error_message: 'Wikipedia API is down',
+        error_message: 'Questions generation failed',
       }),
     );
     expect(mockExit).toHaveBeenCalledWith(1);
@@ -344,19 +340,19 @@ describe('runPipeline', () => {
   });
 
   it('Test 6: partial work from earlier agents is preserved (later agents not called on failure)', async () => {
-    (runKnowledgeAgent as Mock).mockRejectedValue(new Error('Knowledge failed'));
+    (runQuestionsAgent as Mock).mockRejectedValue(new Error('Questions failed'));
 
     setupSupabaseMock({});
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    // Category ran, knowledge threw, questions, fact-check, and QA should NOT be called
+    // Category ran, questions threw, fact-check, QA, and enrichment should NOT be called
     expect(runCategoryAgent).toHaveBeenCalled();
-    expect(runKnowledgeAgent).toHaveBeenCalled();
-    expect(runQuestionsAgent).not.toHaveBeenCalled();
+    expect(runQuestionsAgent).toHaveBeenCalled();
     expect(runFactCheckAgent).not.toHaveBeenCalled();
     expect(runQaAgent).not.toHaveBeenCalled();
+    expect(runEnrichmentAgent).not.toHaveBeenCalled();
   });
 
   it('Test 7: config snapshot is saved in pipeline_runs.config', async () => {
@@ -437,7 +433,7 @@ describe('runPipeline', () => {
 
     // Verify log was called for each agent start/complete
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Category Agent'), expect.anything());
-    expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Knowledge Agent'), expect.anything());
+    expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Questions Agent'), expect.anything());
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Questions Agent'), expect.anything());
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Fact-Check Agent'), expect.anything());
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('QA Agent'), expect.anything());

@@ -208,20 +208,22 @@ describe('Questions Agent', () => {
     );
   });
 
-  it('fetches source content for the selected category', async () => {
+  it('generates questions from Claude knowledge (no source fetch)', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
     await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
-    expect(mockSupabase.from).toHaveBeenCalledWith('sources');
+    // Should NOT fetch sources — questions come from Claude's knowledge
+    const sourcesCalls = mockSupabase.from.mock.calls.filter((c: any[]) => c[0] === 'sources');
+    expect(sourcesCalls.length).toBe(0);
   });
 
-  it('calls Claude with source text and existing questions for dedup', async () => {
+  it('calls Claude with category name and dedup context', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
     await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
     expect(mockClaude.messages.create).toHaveBeenCalled();
     const callArgs = mockClaude.messages.create.mock.calls[0][0];
     const userMsg = callArgs.messages.find((m: any) => m.role === 'user');
-    // Source text should be in the prompt
-    expect(userMsg.content).toContain('speed of light');
+    // Category name should be in the prompt
+    expect(userMsg.content).toContain('Science');
     // Dedup context should be included
     expect(userMsg.content).toContain('What is the speed of light?');
   });
@@ -263,13 +265,13 @@ describe('Questions Agent', () => {
     }
   });
 
-  it('links each question to its source_id', async () => {
+  it('inserts questions with source_id null (generated from knowledge)', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
     await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
     expect(mockSupabase.insertCalls.length).toBeGreaterThan(0);
     for (const call of mockSupabase.insertCalls) {
       const data = call.data as any;
-      expect(data.source_id).toBe('src-1');
+      expect(data.source_id).toBeNull();
     }
   });
 
@@ -303,7 +305,7 @@ describe('Questions Agent', () => {
       : Array.isArray(callArgs.system)
         ? callArgs.system.map((s: any) => s.text).join(' ')
         : '';
-    expect(systemContent).toContain('MUST be verifiable from the provided reference material');
+    expect(systemContent).toContain('must be factually correct');
   });
 
   it('per-item insert failure does not crash the agent', async () => {

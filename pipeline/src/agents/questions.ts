@@ -6,7 +6,6 @@ import { log } from '../lib/logger.js';
 import { getEligibleCategoriesOrdered } from '../lib/category-selection.js';
 import type { Database } from '../lib/database.types.js';
 
-type SourceRow = Database['public']['Tables']['sources']['Row'];
 type QuestionRow = Database['public']['Tables']['questions']['Row'];
 
 export interface AgentResult {
@@ -18,8 +17,8 @@ const SYSTEM_PROMPT = `You are an expert pub quiz question writer. Write questio
 
 ## Rules
 
-1. Every answer MUST be verifiable from the provided reference material. The reference is your fact-check, not your audience.
-2. NEVER write "according to the text/reference material" — questions must read as standalone pub quiz questions.
+1. Use your own knowledge to write questions. Every answer must be factually correct — you will be fact-checked.
+2. NEVER reference source material, textbooks, or articles. These are standalone pub quiz questions.
 3. Each question: 1 correct answer + 3 plausible distractors from the same domain (all countries, all years, all people, etc.).
 4. Write a 2-3 sentence explanation for why the correct answer is right.
 5. Keep questions to 40-80 characters. One breath to read aloud.
@@ -58,15 +57,14 @@ Add an interesting detail that gives players something to work with:
 - Textbook/exam phrasing — write like you're talking to a friend
 - Niche specialist questions — would 3+ people at a random table have a chance?
 - Questions over 100 characters
-- Questions about events from the current or previous year — they date fast and won't age well. Stick to established facts, not recent news.
-- Corporate/business questions (company rebrandings, product launch dates, internal org names) — nobody at a pub cares when Microsoft renamed Xbox Video. Ask about the films, music, and culture, not the platforms and companies behind them.
-- Questions where the answer doesn't match the question type. If you ask "what era?" the answer must be an era. If you ask "who?" the answer must be a person. If you ask "how many?" the answer must be a number. Double-check this before including a question.
+- Questions about events from the current or previous year — they date fast and won't age well
+- Corporate/business questions (company rebrandings, product launch dates, internal org names)
+- Questions where the answer doesn't match the question type. If you ask "what era?" the answer must be an era. Double-check this.
 
 (Style reference: Open Trivia Database, CC BY-SA 4.0. Full guide: pipeline/STYLE-GUIDE.md)`;
 
 const DEDUP_CAP = 20;
 const QUESTIONS_PER_CATEGORY = 5;
-const MAX_SOURCES_PER_CATEGORY = 3;
 const MIN_QUESTIONS_THRESHOLD = 10;
 
 export async function runQuestionsAgent(
@@ -81,7 +79,7 @@ export async function runQuestionsAgent(
 
   log('info', 'Questions Agent starting');
 
-  // Step 1: Find categories with sources but needing questions, ordered by least-covered first
+  // Step 1: Find categories needing questions, ordered by least-covered first
   const eligibleCategories = await getEligibleCategoriesOrdered(
     supabase,
     config.questionsBatchSize,
@@ -89,7 +87,7 @@ export async function runQuestionsAgent(
   );
 
   if (eligibleCategories.length === 0) {
-    log('info', 'No eligible categories found (all have sufficient questions or no sources)');
+    log('info', 'No eligible categories found (all have sufficient questions)');
     return { processed: 0, failed: 0 };
   }
 
@@ -104,19 +102,7 @@ export async function runQuestionsAgent(
     }
 
     try {
-      // Step 2: Fetch source content (up to MAX_SOURCES_PER_CATEGORY)
-      const { data: sources, error: srcError } = await supabase
-        .from('sources')
-        .select('*')
-        .eq('category_id', category.id)
-        .limit(MAX_SOURCES_PER_CATEGORY) as { data: SourceRow[] | null; error: { message: string } | null };
-
-      if (srcError || !sources || sources.length === 0) {
-        log('warn', `No sources found for category ${category.name}`, { error: srcError?.message });
-        continue;
-      }
-
-      // Step 3: Fetch existing questions for dedup (capped at DEDUP_CAP)
+      // Step 2: Fetch existing questions for dedup (capped at DEDUP_CAP)
       const { data: existingQuestions } = await supabase
         .from('questions')
         .select('*')
@@ -126,18 +112,12 @@ export async function runQuestionsAgent(
 
       const existingQuestionTexts = existingQuestions?.map((q) => q.question_text) ?? [];
 
-      // Build source text for prompt
-      const sourceText = sources
-        .map((s) => `### ${s.title}\n${s.content}`)
-        .join('\n\n');
-
       // Build dedup context
       let dedupSection = '';
       if (existingQuestionTexts.length > 0) {
         dedupSection = `\n\nExisting questions to avoid (do NOT create similar questions):\n${existingQuestionTexts.map((q, i) => `${i + 1}. ${q}`).join('\n')}`;
       }
 
-      // Count total existing questions for the note
       const { data: allQuestions } = await supabase
         .from('questions')
         .select('*')
@@ -156,18 +136,17 @@ export async function runQuestionsAgent(
 
       const userPrompt = `Category: ${category.name}
 
-Reference material:
-${sourceText}
+Generate ${questionsToGenerate} pub quiz questions about ${category.name}. Use your own knowledge — write questions that are factually correct and would work in a real pub quiz.
 ${dedupSection}${dedupNote}
 
-Generate ${questionsToGenerate} multiple-choice questions based ONLY on the reference material above. Return as JSON with a "questions" array where each object has exactly these fields:
+Return as JSON with a "questions" array where each object has exactly these fields:
 - "question_text": string (the question)
 - "correct_answer": string
 - "distractors": array of exactly 3 strings (wrong answers)
 - "explanation": string (2-3 sentences)
 - "difficulty": "easy" | "normal" | "hard"`;
 
-      // Step 4: Call Claude
+      // Step 3: Call Claude
       log('info', `Calling Claude for category: ${category.name}`, { questionsToGenerate });
 
       const response = await claude.messages.create({
@@ -177,11 +156,10 @@ Generate ${questionsToGenerate} multiple-choice questions based ONLY on the refe
         messages: [{ role: 'user', content: userPrompt }],
       });
 
-      // Track tokens
       trackUsage(response, tokenAccumulator, SONNET_INPUT, SONNET_OUTPUT);
       checkBudget(tokenAccumulator, config.budgetCapUsd);
 
-      // Step 5: Parse response
+      // Step 4: Parse response
       const textContent = response.content.find((c) => c.type === 'text');
       if (!textContent || textContent.type !== 'text') {
         log('warn', 'No text content in Claude response', { category: category.name });
@@ -202,12 +180,9 @@ Generate ${questionsToGenerate} multiple-choice questions based ONLY on the refe
         continue;
       }
 
-      // Step 6: Validate and insert each question
-      const primarySourceId = sources[0].id;
-
+      // Step 5: Validate and insert each question (no source_id — generated from knowledge)
       for (const question of parsedBatch.questions) {
         try {
-          // Validate distractors length
           if (question.distractors.length !== 3) {
             log('warn', 'Question has wrong number of distractors', {
               questionText: question.question_text,
@@ -217,7 +192,6 @@ Generate ${questionsToGenerate} multiple-choice questions based ONLY on the refe
             continue;
           }
 
-          // Validate no distractor matches correct answer (case-insensitive)
           const hasCollision = question.distractors.some(
             (d) => d.toLowerCase().trim() === question.correct_answer.toLowerCase().trim(),
           );
@@ -230,10 +204,9 @@ Generate ${questionsToGenerate} multiple-choice questions based ONLY on the refe
             continue;
           }
 
-          // Insert into questions table
           const insertData: Database['public']['Tables']['questions']['Insert'] = {
             category_id: category.id,
-            source_id: primarySourceId,
+            source_id: null,
             question_text: question.question_text,
             correct_answer: question.correct_answer,
             distractors: question.distractors,
@@ -277,7 +250,6 @@ Generate ${questionsToGenerate} multiple-choice questions based ONLY on the refe
 
   log('info', 'Questions Agent completed', { processed, failed });
 
-  // If ALL items failed and we attempted to process some, throw
   if (processed === 0 && failed > 0) {
     throw new Error(`All ${failed} questions failed to process`);
   }

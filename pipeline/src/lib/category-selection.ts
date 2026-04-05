@@ -28,11 +28,10 @@ export async function getEligibleCategoriesOrdered(
     return [];
   }
 
-  // For each category, count questions and check sources
+  // For each category, count questions — no source requirement (questions generated from Claude's knowledge)
   const eligible: OrderedCategory[] = [];
 
   for (const cat of categories) {
-    // Count questions
     const { count: questionCount, error: qErr } = await supabase
       .from('questions')
       .select('*', { count: 'exact', head: true })
@@ -44,17 +43,6 @@ export async function getEligibleCategoriesOrdered(
 
     // Skip categories at or above threshold
     if (qCount >= threshold) continue;
-
-    // Check sources exist
-    const { count: sourceCount, error: sErr } = await supabase
-      .from('sources')
-      .select('id', { count: 'exact', head: true })
-      .eq('category_id', cat.id);
-
-    if (sErr) continue;
-
-    // Skip categories with no sources
-    if ((sourceCount ?? 0) === 0) continue;
 
     eligible.push({
       id: cat.id,

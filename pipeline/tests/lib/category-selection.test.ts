@@ -88,7 +88,7 @@ describe('Category Selection', () => {
     expect(result[2].name).toBe('Music');      // 8 questions
   });
 
-  it('excludes categories with no sources', async () => {
+  it('includes categories regardless of source count (questions generated from Claude knowledge)', async () => {
     const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
     const mockSupabase = createMockSupabase({
       categories: [
@@ -101,8 +101,9 @@ describe('Category Selection', () => {
 
     const result = await getEligibleCategoriesOrdered(mockSupabase as any, 10);
 
-    expect(result.length).toBe(1);
-    expect(result[0].name).toBe('Science');
+    expect(result.length).toBe(2);
+    expect(result[0].name).toBe('Science');  // fewer questions
+    expect(result[1].name).toBe('History');
   });
 
   it('excludes categories with >= MIN_QUESTIONS_THRESHOLD questions', async () => {

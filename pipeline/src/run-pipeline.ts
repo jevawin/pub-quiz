@@ -73,12 +73,8 @@ export async function runPipeline(): Promise<void> {
       failed: categoryResult.failed,
     });
 
-    log('info', 'Starting Knowledge Agent');
-    const knowledgeResult = await runKnowledgeAgent(config, tokenAccumulator);
-    log('info', 'Knowledge Agent complete', {
-      processed: knowledgeResult.processed,
-      failed: knowledgeResult.failed,
-    });
+    // Knowledge Agent skipped — questions now generated from Claude's knowledge, not Wikipedia sources.
+    // Wikipedia is used for fact-checking and enrichment only.
 
     log('info', 'Starting Questions Agent');
     const questionsResult = await runQuestionsAgent(config, tokenAccumulator);
@@ -118,8 +114,8 @@ export async function runPipeline(): Promise<void> {
         completed_at: new Date().toISOString(),
         categories_processed: categoryResult.processed,
         categories_failed: categoryResult.failed,
-        sources_fetched: knowledgeResult.processed,
-        sources_failed: knowledgeResult.failed,
+        sources_fetched: 0,
+        sources_failed: 0,
         questions_generated: questionsResult.processed,
         questions_failed: questionsResult.failed,
         questions_verified: factCheckResult.processed,
