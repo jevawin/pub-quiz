@@ -221,3 +221,12 @@ Plans:
 
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.5: OpenTDB Seed Data Import and Prompt Examples (BACKLOG)
+
+**Goal:** Use Open Trivia Database (opentdb.com, CC BY-SA 4.0, ~4000 questions with categories and difficulty levels) as either seed data for the question database or as few-shot examples in the Questions Agent prompt to teach pub quiz tone. Two possible approaches: (1) bulk import OpenTDB questions as a baseline, mapping their 24 categories to ours; (2) cherry-pick ~10 high-quality examples per difficulty level and embed them in the Questions Agent system prompt as style references. Option 2 is lower effort and avoids mixing licensed content into our original pool. Must include CC BY-SA 4.0 attribution if any content is used.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
