@@ -60,13 +60,15 @@ Plans:
 
 ### Phase 02.1: Question Pipeline -- QA Agent & Source Relevance (INSERTED)
 
-**Goal:** Add a QA Agent (5th pipeline step) that reviews questions for natural language, category fit, difficulty calibration, distractor quality, and readability — rewriting where fixable, rejecting when broken. Also improve Knowledge Agent with better Wikipedia search queries, Haiku-powered source relevance filtering, and fallback search terms. Move auto-publish from Fact-Check to QA Agent
-**Requirements**: TBD
+**Goal:** Add a QA Agent (5th pipeline step) that reviews questions for natural language, category fit, difficulty calibration, distractor quality, and readability -- rewriting where fixable, rejecting when broken. Also improve Knowledge Agent with better Wikipedia search queries, Haiku-powered source relevance filtering, and fallback search terms. Move auto-publish from Fact-Check to QA Agent
+**Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10
 **Depends on:** Phase 2
-**Plans:** 0 plans
+**Plans:** 3 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 02.1 to break down)
+- [ ] 02.1-01-PLAN.md -- Database migration, QA schemas, config, remove auto-publish from Fact-Check
+- [ ] 02.1-02-PLAN.md -- Knowledge Agent enhancements (hierarchy queries, Haiku relevance filtering, fallback search)
+- [ ] 02.1-03-PLAN.md -- QA Agent implementation and pipeline orchestrator wiring
 
 ### Phase 3: Auth & App Backend
 **Goal**: Users can launch the app and immediately have an anonymous session with a working Supabase connection -- no signup wall, no friction
@@ -167,13 +169,14 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
+Phases execute in numeric order: 1 → 2 → 2.1 → 3 → 4 → 5 → 6 → 7 → 8
 Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since the pipeline is an independent service.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Question Pipeline: Agents & Schema | 0/4 | Planning complete | - |
 | 2. Question Pipeline: Seed & Scheduling | 0/2 | Planning complete | - |
+| 2.1 Question Pipeline: QA Agent & Source Relevance | 0/3 | Planning complete | - |
 | 3. Auth & App Backend | 0/2 | Not started | - |
 | 4. Design System | 0/3 | Not started | - |
 | 5. App Shell & Platform | 0/2 | Not started | - |
@@ -194,7 +197,7 @@ Plans:
 
 ### Phase 999.2: Question Refinement from User Feedback (BACKLOG)
 
-**Goal:** Automated pipeline that continuously reviews user feedback (correct answer rates, sentiment scores, written feedback) and refines questions — adjusting difficulty labels, rewriting confusing questions, re-categorising, and retiring poor performers. Target: easy mode converges to ~80% correct rate, categories feel right, questions feel polished.
+**Goal:** Automated pipeline that continuously reviews user feedback (correct answer rates, sentiment scores, written feedback) and refines questions -- adjusting difficulty labels, rewriting confusing questions, re-categorising, and retiring poor performers. Target: easy mode converges to ~80% correct rate, categories feel right, questions feel polished.
 **Requirements:** TBD
 **Plans:** 0 plans
 
