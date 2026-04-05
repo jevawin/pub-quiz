@@ -203,3 +203,12 @@ Plans:
 
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.3: Improve Category Agent Prompt for Pub Quiz Suitability (BACKLOG)
+
+**Goal:** Tighten the Category Agent system prompt to favour categories that work in a real pub quiz. Add criteria: would a quizmaster say this out loud, would 3+ people at a table have a chance, avoid academic/technical categories. Current prompt is too vague ("avoid overly niche topics").
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
