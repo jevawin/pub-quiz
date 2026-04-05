@@ -108,4 +108,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-05 after Phase 2 completion — Seed pipeline infrastructure complete (threshold check, category selection, GitHub Actions workflow). Human verification pending for live database seed count.*
+*Last updated: 2026-04-05 after Phase 02.1 completion — QA Agent added as 5th pipeline step (quality checks, rewrite, auto-publish). Knowledge Agent enhanced with hierarchy search, Haiku relevance filtering, fallback queries. Auto-publish moved from Fact-Check to QA Agent. 93 tests passing.*
