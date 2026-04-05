@@ -7,6 +7,7 @@ import { runCategoryAgent } from './agents/category.js';
 import { runKnowledgeAgent } from './agents/knowledge.js';
 import { runQuestionsAgent } from './agents/questions.js';
 import { runFactCheckAgent } from './agents/fact-check.js';
+import { runQaAgent } from './agents/qa.js';
 
 export async function runPipeline(): Promise<void> {
   // 1. Load config
@@ -72,7 +73,7 @@ export async function runPipeline(): Promise<void> {
     });
 
     log('info', 'Starting Knowledge Agent');
-    const knowledgeResult = await runKnowledgeAgent(config);
+    const knowledgeResult = await runKnowledgeAgent(config, tokenAccumulator);
     log('info', 'Knowledge Agent complete', {
       processed: knowledgeResult.processed,
       failed: knowledgeResult.failed,
@@ -92,6 +93,14 @@ export async function runPipeline(): Promise<void> {
       failed: factCheckResult.failed,
     });
 
+    log('info', 'Starting QA Agent');
+    const qaResult = await runQaAgent(config, tokenAccumulator);
+    log('info', 'QA Agent complete', {
+      processed: qaResult.processed,
+      failed: qaResult.failed,
+      rewritten: qaResult.rewritten,
+    });
+
     // Mark success
     await supabase
       .from('pipeline_runs')
@@ -106,6 +115,9 @@ export async function runPipeline(): Promise<void> {
         questions_failed: questionsResult.failed,
         questions_verified: factCheckResult.processed,
         questions_rejected: factCheckResult.failed,
+        questions_qa_passed: qaResult.processed,
+        questions_qa_rewritten: qaResult.rewritten,
+        questions_qa_rejected: qaResult.failed,
         total_input_tokens: tokenAccumulator.input_tokens,
         total_output_tokens: tokenAccumulator.output_tokens,
         estimated_cost_usd: tokenAccumulator.estimated_cost_usd,

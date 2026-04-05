@@ -53,6 +53,10 @@ vi.mock('../src/agents/fact-check.js', () => ({
   runFactCheckAgent: vi.fn(),
 }));
 
+vi.mock('../src/agents/qa.js', () => ({
+  runQaAgent: vi.fn(),
+}));
+
 import { log } from '../src/lib/logger.js';
 import { loadConfig } from '../src/lib/config.js';
 import { createTokenAccumulator, BudgetExceededError } from '../src/lib/claude.js';
@@ -60,6 +64,7 @@ import { runCategoryAgent } from '../src/agents/category.js';
 import { runKnowledgeAgent } from '../src/agents/knowledge.js';
 import { runQuestionsAgent } from '../src/agents/questions.js';
 import { runFactCheckAgent } from '../src/agents/fact-check.js';
+import { runQaAgent } from '../src/agents/qa.js';
 
 import type { PipelineConfig } from '../src/lib/config.js';
 
@@ -132,6 +137,7 @@ describe('runPipeline', () => {
     (runKnowledgeAgent as Mock).mockResolvedValue({ processed: 10, failed: 0 });
     (runQuestionsAgent as Mock).mockResolvedValue({ processed: 20, failed: 0 });
     (runFactCheckAgent as Mock).mockResolvedValue({ processed: 15, failed: 2 });
+    (runQaAgent as Mock).mockResolvedValue({ processed: 12, failed: 1, rewritten: 3 });
   });
 
   it('Test 1: calls agents in order: category -> knowledge -> questions -> fact-check', async () => {
@@ -154,11 +160,15 @@ describe('runPipeline', () => {
       callOrder.push('fact-check');
       return { processed: 15, failed: 2 };
     });
+    (runQaAgent as Mock).mockImplementation(async () => {
+      callOrder.push('qa');
+      return { processed: 12, failed: 1, rewritten: 3 };
+    });
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    expect(callOrder).toEqual(['category', 'knowledge', 'questions', 'fact-check']);
+    expect(callOrder).toEqual(['category', 'knowledge', 'questions', 'fact-check', 'qa']);
   });
 
   it('Test 2: creates a pipeline_runs record with status=running at start', async () => {
@@ -237,6 +247,9 @@ describe('runPipeline', () => {
         questions_failed: 0,
         questions_verified: 15,
         questions_rejected: 2,
+        questions_qa_passed: 12,
+        questions_qa_rewritten: 3,
+        questions_qa_rejected: 1,
       }),
     );
   });
@@ -327,11 +340,12 @@ describe('runPipeline', () => {
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    // Category ran, knowledge threw, questions and fact-check should NOT be called
+    // Category ran, knowledge threw, questions, fact-check, and QA should NOT be called
     expect(runCategoryAgent).toHaveBeenCalled();
     expect(runKnowledgeAgent).toHaveBeenCalled();
     expect(runQuestionsAgent).not.toHaveBeenCalled();
     expect(runFactCheckAgent).not.toHaveBeenCalled();
+    expect(runQaAgent).not.toHaveBeenCalled();
   });
 
   it('Test 7: config snapshot is saved in pipeline_runs.config', async () => {
@@ -396,6 +410,7 @@ describe('runPipeline', () => {
     expect(runKnowledgeAgent).not.toHaveBeenCalled();
     expect(runQuestionsAgent).not.toHaveBeenCalled();
     expect(runFactCheckAgent).not.toHaveBeenCalled();
+    expect(runQaAgent).not.toHaveBeenCalled();
     expect(log).toHaveBeenCalledWith(
       'warn',
       expect.stringContaining('already in progress'),
@@ -414,6 +429,45 @@ describe('runPipeline', () => {
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Knowledge Agent'), expect.anything());
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Questions Agent'), expect.anything());
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Fact-Check Agent'), expect.anything());
+    expect(log).toHaveBeenCalledWith('info', expect.stringContaining('QA Agent'), expect.anything());
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Pipeline complete'), expect.anything());
+  });
+
+  it('Test 11: QA Agent failure is handled like other agent failures', async () => {
+    (runQaAgent as Mock).mockRejectedValue(new Error('QA processing failed'));
+
+    const mockUpdate = vi.fn().mockReturnValue({
+      eq: vi.fn().mockResolvedValue({ data: null, error: null }),
+    });
+
+    mockSupabaseFrom.mockImplementation((table: string) => {
+      if (table === 'pipeline_runs') {
+        return {
+          select: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              limit: vi.fn().mockResolvedValue({ data: [], error: null }),
+            }),
+          }),
+          insert: vi.fn().mockReturnValue({
+            select: vi.fn().mockReturnValue({
+              single: vi.fn().mockResolvedValue({ data: { id: 'run-123' }, error: null }),
+            }),
+          }),
+          update: mockUpdate,
+        };
+      }
+      return {};
+    });
+
+    const { runPipeline } = await import('../src/run-pipeline.js');
+    await runPipeline();
+
+    expect(mockUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: 'failed',
+        error_message: 'QA processing failed',
+      }),
+    );
+    expect(mockExit).toHaveBeenCalledWith(1);
   });
 });
