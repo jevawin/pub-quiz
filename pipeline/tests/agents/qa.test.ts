@@ -411,11 +411,10 @@ describe('QA Agent', () => {
     ]));
 
     // The QaBatchSchema enforces length(3) on rewritten_distractors,
-    // so parsing will fail entirely. The agent should handle this gracefully.
+    // so parsing will fail entirely for this batch. All questions in the batch
+    // count as failed. Since processed=0 and errors>0, the agent throws.
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    const result = await runQaAgent(makeConfig(), makeTokenAccumulator());
-    // All 3 questions should count as failed since batch parse fails
-    expect(result).toBeDefined();
+    await expect(runQaAgent(makeConfig(), makeTokenAccumulator())).rejects.toThrow('QA checks failed');
   });
 
   it('returns QaAgentResult with processed, failed, and rewritten counts', async () => {
