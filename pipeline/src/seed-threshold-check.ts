@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { appendFileSync } from 'node:fs';
 import type { TypedSupabaseClient } from './lib/supabase.js';
 import { loadConfig } from './lib/config.js';

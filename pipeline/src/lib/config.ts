@@ -39,8 +39,8 @@ export function loadConfig(): PipelineConfig {
     categoryBatchSize: envNumber('CATEGORY_BATCH_SIZE', 5),
     knowledgeBatchSize: envNumber('KNOWLEDGE_BATCH_SIZE', 10),
     questionsBatchSize: envNumber('QUESTIONS_BATCH_SIZE', 20),
-    claudeModelGeneration: 'claude-sonnet-4-5-20250514',
-    claudeModelVerification: 'claude-haiku-4-5-20250514',
+    claudeModelGeneration: 'claude-sonnet-4-5-20250929',
+    claudeModelVerification: 'claude-haiku-4-5-20251001',
     wikipediaUserAgent: 'PubQuizPipeline/1.0 (https://github.com/pub-quiz)',
     wikipediaMaxContentLength: 3000,
   };

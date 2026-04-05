@@ -1,5 +1,5 @@
 import { PipelineConfig } from '../lib/config.js';
-import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, HAIKU_INPUT, HAIKU_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, HAIKU_INPUT, HAIKU_OUTPUT, BudgetExceededError } from '../lib/claude.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { FactCheckBatchSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
@@ -80,7 +80,11 @@ Distractors: ${(q.distractors as string[]).join(', ')}`;
       const userPrompt = `Reference text:
 ${source.content}
 
-Please fact-check the following questions against the reference text above. Return JSON with a "results" array.
+Please fact-check the following questions against the reference text above. Return JSON with a "results" array where each object has exactly these fields:
+- "question_id": string (the UUID from above)
+- "is_correct": boolean
+- "verification_score": number (0-3)
+- "reasoning": string (brief explanation)
 
 ${questionsSection}`;
 
@@ -109,7 +113,7 @@ ${questionsSection}`;
 
       let parsedBatch;
       try {
-        const jsonStr = textContent.text;
+        const jsonStr = extractJson(textContent.text);
         const parsed = JSON.parse(jsonStr);
         parsedBatch = FactCheckBatchSchema.parse(parsed);
       } catch (parseError) {

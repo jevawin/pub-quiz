@@ -1,5 +1,5 @@
 import { PipelineConfig } from '../lib/config.js';
-import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, SONNET_INPUT, SONNET_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, SONNET_INPUT, SONNET_OUTPUT, BudgetExceededError } from '../lib/claude.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { QuestionBatchSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
@@ -112,7 +112,12 @@ Reference material:
 ${sourceText}
 ${dedupSection}${dedupNote}
 
-Generate ${questionsToGenerate} multiple-choice questions based ONLY on the reference material above. Return as JSON with a "questions" array.`;
+Generate ${questionsToGenerate} multiple-choice questions based ONLY on the reference material above. Return as JSON with a "questions" array where each object has exactly these fields:
+- "question_text": string (the question)
+- "correct_answer": string
+- "distractors": array of exactly 3 strings (wrong answers)
+- "explanation": string (2-3 sentences)
+- "difficulty": "easy" | "normal" | "hard"`;
 
       // Step 4: Call Claude
       log('info', `Calling Claude for category: ${category.name}`, { questionsToGenerate });
@@ -137,7 +142,7 @@ Generate ${questionsToGenerate} multiple-choice questions based ONLY on the refe
 
       let parsedBatch;
       try {
-        const jsonStr = textContent.text;
+        const jsonStr = extractJson(textContent.text);
         const parsed = JSON.parse(jsonStr);
         parsedBatch = QuestionBatchSchema.parse(parsed);
       } catch (parseError) {

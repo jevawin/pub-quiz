@@ -50,6 +50,11 @@ export function trackUsage(
     (output_tokens / 1_000_000) * outputCostPerMTok;
 }
 
+export function extractJson(text: string): string {
+  const fenced = text.match(/```(?:json)?\s*\n?([\s\S]*?)```/);
+  return fenced ? fenced[1].trim() : text.trim();
+}
+
 export function checkBudget(
   accumulator: TokenAccumulator,
   budgetCapUsd: number,

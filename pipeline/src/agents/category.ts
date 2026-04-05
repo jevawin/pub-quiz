@@ -1,4 +1,4 @@
-import { createClaudeClient, trackUsage, checkBudget, SONNET_INPUT, SONNET_OUTPUT } from '../lib/claude.js';
+import { createClaudeClient, trackUsage, checkBudget, extractJson, SONNET_INPUT, SONNET_OUTPUT } from '../lib/claude.js';
 import type { TokenAccumulator } from '../lib/claude.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { CategoryBatchSchema } from '../lib/schemas.js';
@@ -144,7 +144,7 @@ export async function runCategoryAgent(
     throw new Error('Claude response did not contain text content');
   }
 
-  const parsed = JSON.parse(textContent.text);
+  const parsed = JSON.parse(extractJson(textContent.text));
   const batch = CategoryBatchSchema.parse(parsed);
 
   log('info', 'Parsed category proposals', { count: batch.categories.length });

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { loadConfig } from './lib/config.js';
 import { createSupabaseClient } from './lib/supabase.js';
 import { createTokenAccumulator } from './lib/claude.js';
