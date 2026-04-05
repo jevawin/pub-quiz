@@ -28,7 +28,9 @@ For each question, decide an action:
 - "rewrite": Question has fixable issues. Provide rewritten text. Only rewrite phrasing/distractors/explanation -- do NOT change the factual content or correct answer.
 - "reject": Question is fundamentally broken (wrong category, nonsensical, unanswerable). Cannot be fixed by rewriting.
 
-IMPORTANT: When rewriting distractors, you MUST provide exactly 3 distractors.`;
+IMPORTANT RULES:
+- When rewriting distractors, you MUST provide exactly 3 distractors.
+- Any question containing phrases like "according to the reference material", "according to the text", "based on the reference", "the reference states", or similar source-citing language MUST be rewritten to remove those phrases. These are pub quiz questions — they should read as standalone questions, never referencing a source document. This is an automatic rewrite, not a judgement call.`;
 
 export async function runQaAgent(
   config: PipelineConfig,
