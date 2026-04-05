@@ -48,3 +48,26 @@ export const FactCheckBatchSchema = z.object({
 });
 
 export type FactCheckBatch = z.infer<typeof FactCheckBatchSchema>;
+
+// QA Agent output schemas
+export const QaResultSchema = z.object({
+  question_id: z.string().uuid(),
+  passed: z.boolean(),
+  action: z.enum(['pass', 'rewrite', 'reject']),
+  natural_language_score: z.number().min(0).max(10),
+  category_fit_score: z.number().min(0).max(10),
+  difficulty_calibration_score: z.number().min(0).max(10),
+  distractor_quality_score: z.number().min(0).max(10),
+  rewritten_question_text: z.string().optional(),
+  rewritten_distractors: z.array(z.string()).length(3).optional(),
+  rewritten_explanation: z.string().optional(),
+  reasoning: z.string(),
+});
+
+export type QaResult = z.infer<typeof QaResultSchema>;
+
+export const QaBatchSchema = z.object({
+  results: z.array(QaResultSchema),
+});
+
+export type QaBatch = z.infer<typeof QaBatchSchema>;

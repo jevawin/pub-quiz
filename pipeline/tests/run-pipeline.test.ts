@@ -76,6 +76,7 @@ function makeConfig(): PipelineConfig {
     claudeModelVerification: 'claude-haiku-4-5-20250514',
     wikipediaUserAgent: 'TestAgent/1.0',
     wikipediaMaxContentLength: 3000,
+    relevanceThreshold: 0.6,
   };
 }
 

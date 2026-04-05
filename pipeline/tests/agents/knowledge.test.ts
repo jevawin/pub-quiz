@@ -38,6 +38,7 @@ function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
     claudeModelVerification: 'claude-haiku-4-5-20250514',
     wikipediaUserAgent: 'TestAgent/1.0',
     wikipediaMaxContentLength: 500,
+    relevanceThreshold: 0.6,
     ...overrides,
   };
 }

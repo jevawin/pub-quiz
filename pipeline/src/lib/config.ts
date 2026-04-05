@@ -10,6 +10,7 @@ export interface PipelineConfig {
   claudeModelVerification: string;
   wikipediaUserAgent: string;
   wikipediaMaxContentLength: number;
+  relevanceThreshold: number;
 }
 
 function requireEnv(name: string): string {
@@ -43,5 +44,6 @@ export function loadConfig(): PipelineConfig {
     claudeModelVerification: 'claude-haiku-4-5-20251001',
     wikipediaUserAgent: 'PubQuizPipeline/1.0 (https://github.com/pub-quiz)',
     wikipediaMaxContentLength: 3000,
+    relevanceThreshold: envNumber('RELEVANCE_THRESHOLD', 0.6),
   };
 }

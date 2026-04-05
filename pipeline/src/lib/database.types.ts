@@ -100,6 +100,7 @@ export interface Database {
           status: 'pending' | 'verified' | 'rejected' | 'published';
           created_at: string;
           published_at: string | null;
+          qa_rewritten: boolean;
         };
         Insert: {
           id?: string;
@@ -114,6 +115,7 @@ export interface Database {
           status?: 'pending' | 'verified' | 'rejected' | 'published';
           created_at?: string;
           published_at?: string | null;
+          qa_rewritten?: boolean;
         };
         Update: {
           id?: string;
@@ -128,6 +130,7 @@ export interface Database {
           status?: 'pending' | 'verified' | 'rejected' | 'published';
           created_at?: string;
           published_at?: string | null;
+          qa_rewritten?: boolean;
         };
         Relationships: [
           {
@@ -161,6 +164,9 @@ export interface Database {
           questions_failed: number;
           questions_verified: number;
           questions_rejected: number;
+          questions_qa_passed: number;
+          questions_qa_rewritten: number;
+          questions_qa_rejected: number;
           total_input_tokens: number;
           total_output_tokens: number;
           estimated_cost_usd: number;
@@ -180,6 +186,9 @@ export interface Database {
           questions_failed?: number;
           questions_verified?: number;
           questions_rejected?: number;
+          questions_qa_passed?: number;
+          questions_qa_rewritten?: number;
+          questions_qa_rejected?: number;
           total_input_tokens?: number;
           total_output_tokens?: number;
           estimated_cost_usd?: number;
@@ -199,6 +208,9 @@ export interface Database {
           questions_failed?: number;
           questions_verified?: number;
           questions_rejected?: number;
+          questions_qa_passed?: number;
+          questions_qa_rewritten?: number;
+          questions_qa_rejected?: number;
           total_input_tokens?: number;
           total_output_tokens?: number;
           estimated_cost_usd?: number;
