@@ -61,6 +61,7 @@ export const QaResultSchema = z.object({
   rewritten_question_text: z.string().optional(),
   rewritten_distractors: z.array(z.string()).length(3).optional(),
   rewritten_explanation: z.string().optional(),
+  recalibrated_difficulty: z.enum(['easy', 'normal', 'hard']).optional(),
   reasoning: z.string(),
 });
 

@@ -22,6 +22,7 @@ Rules:
 - Each question must have exactly 1 correct answer and 3 plausible but clearly wrong distractors. Distractors should be things someone might reasonably guess, not obviously absurd.
 - Write a 2-3 sentence explanation for why the correct answer is right.
 - Assign difficulty: 'easy' (most people at a pub table would know), 'normal' (half the table might know), 'hard' (one person at the table might know).
+- Target difficulty mix: at least 2 easy, 2 normal, and at most 1 hard per batch of 5. Pub quizzes should be fun for everyone — if the whole table is stumped on every question, something has gone wrong. Easy questions should be genuinely easy: "What colour is a London bus?" not "What year was the first London bus route established?"
 - Do NOT generate questions similar to the ones already listed.
 - Keep questions concise. If you cannot read it aloud in one breath, it is too long.
 

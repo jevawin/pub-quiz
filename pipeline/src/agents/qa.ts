@@ -20,7 +20,7 @@ export interface QaAgentResult extends AgentResult {
 const SYSTEM_PROMPT = `You are a quality assurance reviewer for a pub quiz app. For each question, score these 4 dimensions (0-10):
 1. Natural Language Quality: Is the question clearly written? Good grammar? Appropriate length (not too short, not too long)? No awkward phrasing?
 2. Category Fit: Does this question belong in the stated category? Is it relevant?
-3. Difficulty Calibration: Does the marked difficulty (easy/normal/hard) match how hard this question actually is?
+3. Difficulty Calibration: Does the marked difficulty (easy/normal/hard) match how hard this question actually is? Think about it from a pub table perspective — easy means most people would know, normal means half might know, hard means maybe one person knows. If the difficulty label is wrong, you should recalibrate it in your response.
 4. Distractor Quality: Are the 3 wrong answers plausible but clearly wrong? No trick answers? No obviously absurd options?
 
 For each question, decide an action:
@@ -112,6 +112,7 @@ Please quality-check the following questions. Return JSON with a "results" array
 - "rewritten_question_text": string (optional, only if action is "rewrite")
 - "rewritten_distractors": string[] (optional, exactly 3 items, only if action is "rewrite")
 - "rewritten_explanation": string (optional, only if action is "rewrite")
+- "recalibrated_difficulty": "easy" | "normal" | "hard" (optional, only if the current difficulty label is wrong)
 - "reasoning": string
 
 ${questionsSection}`;
@@ -208,6 +209,9 @@ ${questionsSection}`;
             if (result.rewritten_explanation) {
               updateData.explanation = result.rewritten_explanation;
             }
+            if (result.recalibrated_difficulty) {
+              updateData.difficulty = result.recalibrated_difficulty;
+            }
 
             // Apply publish logic: score >= 3 => publish
             if (originalQuestion.verification_score >= 3) {
@@ -237,18 +241,26 @@ ${questionsSection}`;
             processed++;
             rewritten++;
           } else {
-            // Pass: publish if score >= 3, otherwise leave as verified (no update)
+            // Pass: publish if score >= 3, otherwise leave as verified
+            const passUpdateData: Record<string, unknown> = {};
+
+            if (result.recalibrated_difficulty) {
+              passUpdateData.difficulty = result.recalibrated_difficulty;
+            }
+
             if (originalQuestion.verification_score >= 3) {
+              passUpdateData.status = 'published';
+              passUpdateData.published_at = new Date().toISOString();
+            }
+
+            if (Object.keys(passUpdateData).length > 0) {
               const updateResult = await (supabase
                 .from('questions')
-                .update({
-                  status: 'published' as const,
-                  published_at: new Date().toISOString(),
-                } as never)
+                .update(passUpdateData as never)
                 .eq('id', result.question_id) as unknown as Promise<{ error: { message: string } | null }>);
 
               if (updateResult?.error) {
-                log('error', 'Failed to publish question', {
+                log('error', 'Failed to update question', {
                   questionId: result.question_id,
                   error: updateResult.error.message,
                 });
@@ -257,12 +269,13 @@ ${questionsSection}`;
                 continue;
               }
 
-              log('info', 'Question published', {
+              log('info', originalQuestion.verification_score >= 3 ? 'Question published' : 'Question difficulty recalibrated', {
                 questionId: result.question_id,
                 score: originalQuestion.verification_score,
+                ...(result.recalibrated_difficulty ? { recalibrated: result.recalibrated_difficulty } : {}),
               });
             } else {
-              log('info', 'Question passes QA but stays verified (score < 3)', {
+              log('info', 'Question passes QA, no changes needed (score < 3)', {
                 questionId: result.question_id,
                 score: originalQuestion.verification_score,
               });
