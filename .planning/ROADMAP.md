@@ -14,6 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Question Pipeline -- Agents & Schema** - Build the 4-agent Claude pipeline and the Supabase schema it writes to
 - [ ] **Phase 2: Question Pipeline -- Seed & Scheduling** - Run the initial high-frequency seed and establish ongoing daily schedule
+- [ ] **Phase 2.1: Question Pipeline -- QA Agent & Source Relevance** - QA Agent for question quality, Knowledge Agent source filtering (INSERTED)
 - [ ] **Phase 3: Auth & App Backend** - Anonymous-first auth, app-side Supabase client, REST-only architecture
 - [ ] **Phase 4: Design System** - Editorial design tokens, typography, primitives, light/dark mode
 - [ ] **Phase 5: App Shell & Platform** - Expo Router navigation, cross-platform scaffold, home screen
@@ -56,6 +57,16 @@ Plans:
 Plans:
 - [x] 02-01-PLAN.md -- Seed threshold check script, least-covered-first category selection, Questions Agent integration
 - [x] 02-02-PLAN.md -- Seed pipeline GitHub Actions workflow with 30-min cron and threshold gate
+
+### Phase 02.1: Question Pipeline -- QA Agent & Source Relevance (INSERTED)
+
+**Goal:** Add a QA Agent (5th pipeline step) that reviews questions for natural language, category fit, difficulty calibration, distractor quality, and readability — rewriting where fixable, rejecting when broken. Also improve Knowledge Agent with better Wikipedia search queries, Haiku-powered source relevance filtering, and fallback search terms. Move auto-publish from Fact-Check to QA Agent
+**Requirements**: TBD
+**Depends on:** Phase 2
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 02.1 to break down)
 
 ### Phase 3: Auth & App Backend
 **Goal**: Users can launch the app and immediately have an anonymous session with a working Supabase connection -- no signup wall, no friction
@@ -175,6 +186,15 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 ### Phase 999.1: Admin Review Queue for Score 1-2 Questions (BACKLOG)
 
 **Goal:** Basic admin area in the app (or standalone tool) to review, approve/reject, and publish questions that scored below the auto-publish threshold (verification_score 1-2). Natural fit for Phase 2 when the app UI exists, or could be a simple standalone admin page.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.2: Question Refinement from User Feedback (BACKLOG)
+
+**Goal:** Automated pipeline that continuously reviews user feedback (correct answer rates, sentiment scores, written feedback) and refines questions — adjusting difficulty labels, rewriting confusing questions, re-categorising, and retiring poor performers. Target: easy mode converges to ~80% correct rate, categories feel right, questions feel polished.
 **Requirements:** TBD
 **Plans:** 0 plans
 

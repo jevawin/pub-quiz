@@ -84,6 +84,10 @@ Recent decisions affecting current work:
 - [Phase 02]: MIN_QUESTIONS_THRESHOLD kept as local constant, passed as param to shared module
 - [Phase 02]: Used inputs.* syntax for workflow_dispatch defaults in seed-pipeline.yml
 
+### Roadmap Evolution
+
+- Phase 2.1 inserted after Phase 2: Question Pipeline -- QA Agent & Source Relevance (URGENT)
+
 ### Pending Todos
 
 None yet.
