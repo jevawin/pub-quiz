@@ -8,6 +8,7 @@ interface MockCategory {
   id: string;
   name: string;
   slug: string;
+  depth: number;
 }
 
 interface MockCategoryData {
@@ -21,6 +22,14 @@ function createMockSupabase(data: MockCategoryData) {
     if (table === 'categories') {
       const chain: any = {
         select: vi.fn(() => chain),
+        gte: vi.fn((_col: string, minDepth: number) => {
+          const filtered = data.categories.filter(c => c.depth >= minDepth);
+          const filteredChain: any = {};
+          filteredChain.then = (resolve: (val: unknown) => void) => {
+            return Promise.resolve({ data: filtered, error: null }).then(resolve);
+          };
+          return filteredChain;
+        }),
       };
       chain.then = (resolve: (val: unknown) => void) => {
         return Promise.resolve({ data: data.categories, error: null }).then(resolve);
@@ -63,9 +72,9 @@ describe('Category Selection', () => {
     const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
     const mockSupabase = createMockSupabase({
       categories: [
-        { id: 'cat-a', name: 'History', slug: 'history' },
-        { id: 'cat-b', name: 'Science', slug: 'science' },
-        { id: 'cat-c', name: 'Music', slug: 'music' },
+        { id: 'cat-a', name: 'History', slug: 'history', depth: 1 },
+        { id: 'cat-b', name: 'Science', slug: 'science', depth: 1 },
+        { id: 'cat-c', name: 'Music', slug: 'music', depth: 1 },
       ],
       questionCounts: { 'cat-a': 5, 'cat-b': 2, 'cat-c': 8 },
       sourceCounts: { 'cat-a': 3, 'cat-b': 2, 'cat-c': 1 },
@@ -83,8 +92,8 @@ describe('Category Selection', () => {
     const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
     const mockSupabase = createMockSupabase({
       categories: [
-        { id: 'cat-a', name: 'History', slug: 'history' },
-        { id: 'cat-b', name: 'Science', slug: 'science' },
+        { id: 'cat-a', name: 'History', slug: 'history', depth: 1 },
+        { id: 'cat-b', name: 'Science', slug: 'science', depth: 1 },
       ],
       questionCounts: { 'cat-a': 3, 'cat-b': 2 },
       sourceCounts: { 'cat-a': 0, 'cat-b': 5 },
@@ -100,8 +109,8 @@ describe('Category Selection', () => {
     const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
     const mockSupabase = createMockSupabase({
       categories: [
-        { id: 'cat-a', name: 'History', slug: 'history' },
-        { id: 'cat-b', name: 'Science', slug: 'science' },
+        { id: 'cat-a', name: 'History', slug: 'history', depth: 1 },
+        { id: 'cat-b', name: 'Science', slug: 'science', depth: 1 },
       ],
       questionCounts: { 'cat-a': 15, 'cat-b': 3 },
       sourceCounts: { 'cat-a': 2, 'cat-b': 2 },
@@ -117,7 +126,7 @@ describe('Category Selection', () => {
     const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
     const mockSupabase = createMockSupabase({
       categories: [
-        { id: 'cat-a', name: 'History', slug: 'history' },
+        { id: 'cat-a', name: 'History', slug: 'history', depth: 1 },
       ],
       questionCounts: { 'cat-a': 20 },
       sourceCounts: { 'cat-a': 5 },
@@ -132,10 +141,10 @@ describe('Category Selection', () => {
     const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
     const mockSupabase = createMockSupabase({
       categories: [
-        { id: 'cat-a', name: 'History', slug: 'history' },
-        { id: 'cat-b', name: 'Science', slug: 'science' },
-        { id: 'cat-c', name: 'Music', slug: 'music' },
-        { id: 'cat-d', name: 'Sports', slug: 'sports' },
+        { id: 'cat-a', name: 'History', slug: 'history', depth: 1 },
+        { id: 'cat-b', name: 'Science', slug: 'science', depth: 1 },
+        { id: 'cat-c', name: 'Music', slug: 'music', depth: 1 },
+        { id: 'cat-d', name: 'Sports', slug: 'sports', depth: 1 },
       ],
       questionCounts: { 'cat-a': 1, 'cat-b': 2, 'cat-c': 3, 'cat-d': 4 },
       sourceCounts: { 'cat-a': 1, 'cat-b': 1, 'cat-c': 1, 'cat-d': 1 },

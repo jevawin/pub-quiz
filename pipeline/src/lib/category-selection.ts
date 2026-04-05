@@ -17,10 +17,11 @@ export async function getEligibleCategoriesOrdered(
 ): Promise<OrderedCategory[]> {
   const threshold = minQuestionsThreshold ?? DEFAULT_MIN_QUESTIONS_THRESHOLD;
 
-  // Fetch all categories
+  // Fetch subcategories only (depth >= 1) — root categories are browse containers, not question generators
   const { data: categories, error: catError } = await supabase
     .from('categories')
-    .select('id, name, slug');
+    .select('id, name, slug, depth')
+    .gte('depth', 1);
 
   if (catError || !categories || categories.length === 0) {
     log('warn', 'No categories found or error fetching categories', { error: catError?.message });
