@@ -20,6 +20,11 @@ vi.mock('../../src/lib/logger.js', () => ({
   log: vi.fn(),
 }));
 
+vi.mock('../../src/lib/wikipedia.js', () => ({
+  searchArticles: vi.fn().mockResolvedValue([]),
+  getArticleText: vi.fn().mockResolvedValue(null),
+}));
+
 function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
   return {
     anthropicApiKey: 'test-key',
@@ -165,6 +170,12 @@ describe('Fact-Check Agent', () => {
   beforeEach(async () => {
     vi.resetAllMocks();
     vi.resetModules();
+
+    // Re-set wikipedia mocks after resetAllMocks clears them
+    const wikipedia = await import('../../src/lib/wikipedia.js');
+    vi.mocked(wikipedia.searchArticles).mockResolvedValue([]);
+    vi.mocked(wikipedia.getArticleText).mockResolvedValue(null);
+
     mockSupabase = createMockSupabase();
 
     // Default: both questions verified correctly with score 3

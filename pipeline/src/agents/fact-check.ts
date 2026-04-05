@@ -2,6 +2,7 @@ import { PipelineConfig } from '../lib/config.js';
 import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, HAIKU_INPUT, HAIKU_OUTPUT, BudgetExceededError } from '../lib/claude.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { FactCheckBatchSchema } from '../lib/schemas.js';
+import { searchArticles, getArticleText } from '../lib/wikipedia.js';
 import { log } from '../lib/logger.js';
 import type { Database } from '../lib/database.types.js';
 
@@ -25,6 +26,7 @@ export async function runFactCheckAgent(
   let processed = 0;
   let failed = 0;
   let errors = 0;
+  const rejectedQuestions: QuestionRow[] = [];
 
   log('info', 'Fact-Check Agent starting');
 
@@ -155,30 +157,17 @@ ${questionsSection}`;
             });
             processed++;
           } else {
-            // Rejected
-            const updateResult = await (supabase
-              .from('questions')
-              .update({
-                verification_score: 0,
-                status: 'rejected' as const,
-              } as never)
-              .eq('id', result.question_id) as unknown as Promise<{ error: { message: string } | null }>);
-
-            if (updateResult?.error) {
-              log('error', 'Failed to update question as rejected', {
+            // Collect for second-chance Wikipedia verification
+            const originalQuestion = questions.find(q => q.id === result.question_id);
+            if (originalQuestion) {
+              rejectedQuestions.push(originalQuestion);
+              log('info', 'Question failed initial check, queued for second-chance', {
                 questionId: result.question_id,
-                error: updateResult.error.message,
+                reasoning: result.reasoning,
               });
+            } else {
               failed++;
-              errors++;
-              continue;
             }
-
-            log('info', 'Question rejected', {
-              questionId: result.question_id,
-              reasoning: result.reasoning,
-            });
-            failed++;
           }
         } catch (itemError) {
           log('error', 'Per-item error processing fact-check result', {
@@ -199,6 +188,111 @@ ${questionsSection}`;
       });
       failed += questions.length;
       errors += questions.length;
+    }
+  }
+
+  // Second-chance: verify rejected questions against Wikipedia
+  if (rejectedQuestions.length > 0) {
+    log('info', 'Starting second-chance Wikipedia verification', { count: rejectedQuestions.length });
+
+    for (const question of rejectedQuestions) {
+      try {
+        // Search Wikipedia for the question topic
+        const searchQuery = `${question.question_text} ${question.correct_answer}`;
+        const titles = await searchArticles(searchQuery, config.wikipediaUserAgent, 1);
+
+        if (titles.length === 0) {
+          log('info', 'No Wikipedia results for second-chance', { questionId: question.id });
+          // Mark as rejected
+          await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
+            .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
+          failed++;
+          continue;
+        }
+
+        const articleText = await getArticleText(titles[0], config.wikipediaUserAgent, config.wikipediaMaxContentLength);
+        if (!articleText) {
+          await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
+            .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
+          failed++;
+          continue;
+        }
+
+        // Re-verify against the new source
+        const userPrompt = `Reference text:
+${articleText}
+
+Please fact-check the following question against the reference text above. Return JSON with a "results" array where each object has exactly these fields:
+- "question_id": string (the UUID from above)
+- "is_correct": boolean
+- "verification_score": number (0-3)
+- "reasoning": string (brief explanation)
+
+Question 1 (ID: ${question.id}):
+Question: ${question.question_text}
+Correct Answer: ${question.correct_answer}
+Distractors: ${(question.distractors as string[]).join(', ')}`;
+
+        const response = await claude.messages.create({
+          model: config.claudeModelVerification,
+          max_tokens: 1024,
+          system: SYSTEM_PROMPT,
+          messages: [{ role: 'user', content: userPrompt }],
+        });
+
+        trackUsage(response, tokenAccumulator, HAIKU_INPUT, HAIKU_OUTPUT);
+        checkBudget(tokenAccumulator, config.budgetCapUsd);
+
+        const textContent = response.content.find(c => c.type === 'text');
+        if (!textContent || textContent.type !== 'text') {
+          await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
+            .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
+          failed++;
+          continue;
+        }
+
+        let parsedBatch;
+        try {
+          parsedBatch = FactCheckBatchSchema.parse(JSON.parse(extractJson(textContent.text)));
+        } catch {
+          await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
+            .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
+          failed++;
+          continue;
+        }
+
+        const result = parsedBatch.results[0];
+        if (result?.is_correct) {
+          await (supabase.from('questions').update({
+            verification_score: result.verification_score,
+            status: 'verified' as const,
+          } as never).eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
+          log('info', 'Question verified on second-chance', {
+            questionId: question.id,
+            score: result.verification_score,
+            source: titles[0],
+          });
+          processed++;
+        } else {
+          await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
+            .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
+          log('info', 'Question rejected after second-chance', {
+            questionId: question.id,
+            reasoning: result?.reasoning,
+          });
+          failed++;
+        }
+      } catch (err) {
+        if (err instanceof BudgetExceededError) throw err;
+        log('error', 'Second-chance verification error', {
+          questionId: question.id,
+          error: err instanceof Error ? err.message : String(err),
+        });
+        await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
+          .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
+        failed++;
+        errors++;
+      }
     }
   }
 
