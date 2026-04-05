@@ -192,33 +192,29 @@ ${questionsSection}`;
   }
 
   // Second-chance: verify rejected questions against Wikipedia
+  // Source 2: Second-chance Wikipedia verification
+  const stillRejected: QuestionRow[] = [];
+
   if (rejectedQuestions.length > 0) {
     log('info', 'Starting second-chance Wikipedia verification', { count: rejectedQuestions.length });
 
     for (const question of rejectedQuestions) {
       try {
-        // Search Wikipedia for the question topic
         const searchQuery = `${question.question_text} ${question.correct_answer}`;
         const titles = await searchArticles(searchQuery, config.wikipediaUserAgent, 1);
 
         if (titles.length === 0) {
           log('info', 'No Wikipedia results for second-chance', { questionId: question.id });
-          // Mark as rejected
-          await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
-            .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
-          failed++;
+          stillRejected.push(question);
           continue;
         }
 
         const articleText = await getArticleText(titles[0], config.wikipediaUserAgent, config.wikipediaMaxContentLength);
         if (!articleText) {
-          await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
-            .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
-          failed++;
+          stillRejected.push(question);
           continue;
         }
 
-        // Re-verify against the new source
         const userPrompt = `Reference text:
 ${articleText}
 
@@ -245,6 +241,82 @@ Distractors: ${(question.distractors as string[]).join(', ')}`;
 
         const textContent = response.content.find(c => c.type === 'text');
         if (!textContent || textContent.type !== 'text') {
+          stillRejected.push(question);
+          continue;
+        }
+
+        let parsedBatch;
+        try {
+          parsedBatch = FactCheckBatchSchema.parse(JSON.parse(extractJson(textContent.text)));
+        } catch {
+          stillRejected.push(question);
+          continue;
+        }
+
+        const result = parsedBatch.results[0];
+        if (result?.is_correct) {
+          await (supabase.from('questions').update({
+            verification_score: result.verification_score,
+            status: 'verified' as const,
+          } as never).eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
+          log('info', 'Question verified on second-chance', {
+            questionId: question.id,
+            score: result.verification_score,
+            source: titles[0],
+          });
+          processed++;
+        } else {
+          stillRejected.push(question);
+          log('info', 'Question failed second-chance', {
+            questionId: question.id,
+            reasoning: result?.reasoning,
+          });
+        }
+      } catch (err) {
+        if (err instanceof BudgetExceededError) throw err;
+        log('error', 'Second-chance verification error', {
+          questionId: question.id,
+          error: err instanceof Error ? err.message : String(err),
+        });
+        stillRejected.push(question);
+        errors++;
+      }
+    }
+  }
+
+  // Source 3: Claude's own knowledge — final safety net
+  if (stillRejected.length > 0) {
+    log('info', 'Starting own-knowledge verification', { count: stillRejected.length });
+
+    const ownKnowledgePrompt = 'You are a fact-checker for a pub quiz app. Using your own knowledge (NOT a reference text), verify whether the stated correct answer is factually correct. Be strict — only mark is_correct as true if you are highly confident the answer is correct. Score: 0 = uncertain/likely wrong, 1 = probably correct but not sure, 2 = confident it is correct, 3 = certain. If in any doubt, mark is_correct as false.';
+
+    for (const question of stillRejected) {
+      try {
+        const userPrompt = `Verify this pub quiz question using your own knowledge. No reference text is provided — rely on what you know.
+
+Return JSON with a "results" array with one object:
+- "question_id": string
+- "is_correct": boolean
+- "verification_score": number (0-3)
+- "reasoning": string
+
+Question (ID: ${question.id}):
+Question: ${question.question_text}
+Correct Answer: ${question.correct_answer}
+Distractors: ${(question.distractors as string[]).join(', ')}`;
+
+        const response = await claude.messages.create({
+          model: config.claudeModelVerification,
+          max_tokens: 512,
+          system: ownKnowledgePrompt,
+          messages: [{ role: 'user', content: userPrompt }],
+        });
+
+        trackUsage(response, tokenAccumulator, HAIKU_INPUT, HAIKU_OUTPUT);
+        checkBudget(tokenAccumulator, config.budgetCapUsd);
+
+        const textContent = response.content.find(c => c.type === 'text');
+        if (!textContent || textContent.type !== 'text') {
           await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
             .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
           failed++;
@@ -262,21 +334,20 @@ Distractors: ${(question.distractors as string[]).join(', ')}`;
         }
 
         const result = parsedBatch.results[0];
-        if (result?.is_correct) {
+        if (result?.is_correct && result.verification_score >= 2) {
           await (supabase.from('questions').update({
             verification_score: result.verification_score,
             status: 'verified' as const,
           } as never).eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
-          log('info', 'Question verified on second-chance', {
+          log('info', 'Question verified by own knowledge', {
             questionId: question.id,
             score: result.verification_score,
-            source: titles[0],
           });
           processed++;
         } else {
           await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
             .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
-          log('info', 'Question rejected after second-chance', {
+          log('info', 'Question rejected after all verification', {
             questionId: question.id,
             reasoning: result?.reasoning,
           });
@@ -284,7 +355,7 @@ Distractors: ${(question.distractors as string[]).join(', ')}`;
         }
       } catch (err) {
         if (err instanceof BudgetExceededError) throw err;
-        log('error', 'Second-chance verification error', {
+        log('error', 'Own-knowledge verification error', {
           questionId: question.id,
           error: err instanceof Error ? err.message : String(err),
         });

@@ -264,9 +264,18 @@ describe('Fact-Check Agent', () => {
 
   it('rejects incorrect answers with status=rejected and score=0', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
+    // Source 1: initial check rejects both
     mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
       { question_id: Q1_ID, is_correct: false, verification_score: 0, reasoning: 'Answer contradicts the text.' },
       { question_id: Q2_ID, is_correct: false, verification_score: 0, reasoning: 'Not supported by text.' },
+    ]));
+    // Source 2: Wikipedia returns [] (mocked), so no Claude call
+    // Source 3: own-knowledge also rejects both (one call per question)
+    mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
+      { question_id: Q1_ID, is_correct: false, verification_score: 0, reasoning: 'Cannot confirm.' },
+    ]));
+    mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
+      { question_id: Q2_ID, is_correct: false, verification_score: 0, reasoning: 'Cannot confirm.' },
     ]));
     await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
     expect(mockSupabase.updateCalls.length).toBe(2);
