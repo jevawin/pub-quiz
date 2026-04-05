@@ -212,3 +212,12 @@ Plans:
 
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.4: Improve Questions Agent Prompt for Pub Quiz Tone (BACKLOG)
+
+**Goal:** Rewrite the Questions Agent system prompt so generated questions feel like real pub quiz questions, not Wikipedia comprehension tests. Questions should test general knowledge people might actually know, not "according to the reference material, what does paragraph 3 say". Favour "would you hear this in a pub" over "what does the source text say".
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
