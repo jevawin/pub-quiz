@@ -37,24 +37,28 @@ When in doubt, lean British or global rather than American.
 
 ## Difficulty (target per batch of 5: 2 easy, 2 normal, 1 hard)
 
-EASY (35-40%) — most of the table knows:
-- "What is the largest planet in the Solar System?" → Jupiter
-- "Who painted The Creation of Adam?" → Michelangelo
-- "What is the capital of Jamaica?" → Kingston
-- "The RMS Titanic was sailing to which American city?" → New York City
+**Be strict about this.** Most questions end up harder than writers think. When in doubt, rate it harder.
 
-NORMAL (40-45%) — half the table might know:
-- "Which of his six wives was Henry VIII married to the longest?" → Catherine of Aragon
-- "What's the first National Park in the United States?" → Yellowstone
-- "What is the best-selling album of all time?" → Thriller
+EASY (35-40%) — almost EVERYONE at a pub table would get this. Primary-school level, universal knowledge, no trap between close alternatives:
+- "What is the capital of France?" → Paris
+- "How many sides does a hexagon have?" → Six
+- "What colour do you get when you mix red and yellow?" → Orange
+- "In which country would you find the Eiffel Tower?" → France
+- "Who wrote Romeo and Juliet?" → Shakespeare
+
+NORMAL (40-45%) — most adults have heard of this but might hesitate between close alternatives:
+- "Who wrote the dystopian novel Brave New World?" → Aldous Huxley
+- "What is the largest moon in the Solar System?" → Ganymede
+- "What is the largest species of shark?" → Whale shark
+- "Which of Henry VIII's six wives was he married to the longest?" → Catherine of Aragon
 - "On a standard Monopoly board, which square is opposite Go?" → Free Parking
 
-HARD (15-20%) — one person might know, but the answer is interesting:
+HARD (15-20%) — one enthusiast at the table might know, but the answer is interesting:
 - "What did Alfred Hitchcock use as blood in Psycho?" → Chocolate syrup
-- "Located in Chile, El Teniente is the world's largest underground mine for what metal?" → Copper
-- "Which US President served the shortest term in office?" → William Henry Harrison
+- "Which Disney princess has the least screen time in her own film?" → Aurora
+- "Who holds the record for most goals across all FIFA World Cups?" → Miroslav Klose
 
-Easy means GENUINELY easy. "What is the capital of France?" not "In what year was Paris founded?"
+**Key test for EASY:** Could a 10-year-old have a reasonable shot? If not, it's at least NORMAL. "Ganymede vs Titan" is NOT easy even though the solar system is a common topic. "Whale shark vs great white" is NOT easy because people assume great whites are biggest. The distractors matter — if they're plausible traps, bump the difficulty.
 
 ## The Double-Up Technique
 Add an interesting detail that gives players something to work with:
@@ -216,14 +220,35 @@ Return as JSON with a "questions" array where each object has exactly these fiel
             continue;
           }
 
-          // Check if answer appears in question text
-          const answerInQuestion = question.question_text.toLowerCase().includes(
-            question.correct_answer.toLowerCase().trim(),
-          );
-          if (answerInQuestion && question.correct_answer.trim().length > 2) {
+          // Check if answer (full or distinctive word) appears in question text
+          const qLowerText = question.question_text.toLowerCase();
+          const answerFull = question.correct_answer.toLowerCase().trim();
+
+          // Full answer match
+          const fullMatch = qLowerText.includes(answerFull) && answerFull.length > 2;
+
+          // Distinctive-word match: any ≥5-char word from the answer appearing in the question.
+          // Skips common connective words to avoid false positives.
+          const stopwords = new Set([
+            'the', 'and', 'of', 'in', 'on', 'at', 'to', 'for', 'with', 'by',
+            'from', 'is', 'was', 'are', 'were', 'been', 'being', 'have', 'has',
+            'had', 'does', 'did', 'a', 'an', 'or', 'but', 'not', 'new', 'old',
+            'great', 'little', 'big', 'small', 'first', 'last', 'second',
+          ]);
+          const answerWords = answerFull
+            .replace(/[^\w\s]/g, ' ')
+            .split(/\s+/)
+            .filter(w => w.length >= 5 && !stopwords.has(w));
+          const distinctiveMatch = answerWords.some(w => {
+            const re = new RegExp(`\\b${w}\\b`, 'i');
+            return re.test(question.question_text);
+          });
+
+          if (fullMatch || distinctiveMatch) {
             log('warn', 'Answer appears in question text, skipping question', {
               questionText: question.question_text,
               correctAnswer: question.correct_answer,
+              matchType: fullMatch ? 'full' : 'distinctive-word',
             });
             failed++;
             continue;
