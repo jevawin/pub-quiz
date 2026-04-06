@@ -6,7 +6,6 @@ import { log } from '../lib/logger.js';
 import type { Database } from '../lib/database.types.js';
 
 type QuestionRow = Database['public']['Tables']['questions']['Row'];
-type SourceRow = Database['public']['Tables']['sources']['Row'];
 
 export interface AgentResult {
   processed: number;
@@ -67,34 +66,16 @@ export async function runQaAgent(
 
   log('info', `Found ${verifiedQuestions.length} verified questions to QA`);
 
-  // Step 2: Group questions by source_id
-  const questionsBySource = new Map<string, QuestionRow[]>();
-  for (const q of verifiedQuestions) {
-    const sourceId = q.source_id ?? 'no-source';
-    if (!questionsBySource.has(sourceId)) {
-      questionsBySource.set(sourceId, []);
-    }
-    questionsBySource.get(sourceId)!.push(q);
+  // Step 2: Group questions into batches of ~10 for efficient QA calls
+  const BATCH_SIZE = 10;
+  const batches: QuestionRow[][] = [];
+  for (let i = 0; i < verifiedQuestions.length; i += BATCH_SIZE) {
+    batches.push(verifiedQuestions.slice(i, i + BATCH_SIZE));
   }
 
-  // Step 3: Process each source group
-  for (const [sourceId, questions] of questionsBySource) {
+  // Step 3: Process each batch
+  for (const questions of batches) {
     try {
-      // Fetch source content
-      const { data: source, error: srcError } = await supabase
-        .from('sources')
-        .select('*')
-        .eq('id', sourceId)
-        .single() as { data: SourceRow | null; error: { message: string } | null };
-
-      if (srcError || !source) {
-        log('warn', `Could not fetch source ${sourceId}`, { error: srcError?.message });
-        failed += questions.length;
-        errors += questions.length;
-        continue;
-      }
-
-      // Build the user prompt with all questions for this source
       const questionsSection = questions.map((q, i) => {
         return `Question ${i + 1} (ID: ${q.id}):
 Question: ${q.question_text}
@@ -105,10 +86,9 @@ Difficulty: ${q.difficulty}
 Category: ${q.category_id}`;
       }).join('\n\n');
 
-      const userPrompt = `Reference text:
-${source.content}
+      const userPrompt = `Please quality-check the following pub quiz questions. No reference text is needed — judge them on clarity, difficulty calibration, distractor quality, and pub quiz suitability.
 
-Please quality-check the following questions. Return JSON with a "results" array where each object has these fields:
+Return JSON with a "results" array where each object has these fields:
 - "question_id": string (the UUID)
 - "passed": boolean
 - "action": "pass" | "rewrite" | "reject"
@@ -125,7 +105,7 @@ Please quality-check the following questions. Return JSON with a "results" array
 ${questionsSection}`;
 
       // Step 4: Call Claude Haiku
-      log('info', `Calling Claude Haiku for QA on source: ${source.title}`, { questionCount: questions.length });
+      log('info', 'Calling Claude Haiku for QA batch', { questionCount: questions.length });
 
       const response = await claude.messages.create({
         model: config.claudeModelVerification,
@@ -141,7 +121,7 @@ ${questionsSection}`;
       // Step 5: Parse response
       const textContent = response.content.find((c) => c.type === 'text');
       if (!textContent || textContent.type !== 'text') {
-        log('warn', 'No text content in Claude response', { sourceId });
+        log('warn', 'No text content in Claude response', { batchSize: questions.length });
         failed += questions.length;
         errors += questions.length;
         continue;
@@ -154,7 +134,7 @@ ${questionsSection}`;
         parsedBatch = QaBatchSchema.parse(parsed);
       } catch (parseError) {
         log('warn', 'Failed to parse Claude response as QaBatch', {
-          sourceId,
+          batchSize: questions.length,
           error: parseError instanceof Error ? parseError.message : String(parseError),
         });
         failed += questions.length;
@@ -302,8 +282,8 @@ ${questionsSection}`;
       if (groupError instanceof BudgetExceededError) {
         throw groupError;
       }
-      log('error', 'Error processing source group for QA', {
-        sourceId,
+      log('error', 'Error processing QA batch', {
+        batchSize: questions.length,
         error: groupError instanceof Error ? groupError.message : String(groupError),
       });
       failed += questions.length;

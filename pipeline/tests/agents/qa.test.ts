@@ -428,10 +428,12 @@ describe('QA Agent', () => {
     expect(typeof result.rewritten).toBe('number');
   });
 
-  it('groups questions by source_id and fetches source content', async () => {
+  it('processes questions in batches without requiring source content', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
     await runQaAgent(makeConfig(), makeTokenAccumulator());
-    expect(mockSupabase.from).toHaveBeenCalledWith('sources');
+    // Should NOT fetch sources — QA checks quality, not factual accuracy
+    const sourcesCalls = mockSupabase.from.mock.calls.filter((c: any[]) => c[0] === 'sources');
+    expect(sourcesCalls.length).toBe(0);
   });
 
   it('tracks tokens with Haiku cost rates', async () => {
