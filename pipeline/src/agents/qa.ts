@@ -6,6 +6,7 @@ import { log } from '../lib/logger.js';
 import type { Database } from '../lib/database.types.js';
 
 type QuestionRow = Database['public']['Tables']['questions']['Row'];
+type QuestionWithCategory = QuestionRow & { categories: { name: string } | null };
 
 export interface AgentResult {
   processed: number;
@@ -52,12 +53,12 @@ export async function runQaAgent(
 
   log('info', 'QA Agent starting');
 
-  // Step 1: Fetch all verified questions with score >= 1
+  // Step 1: Fetch all verified questions with score >= 1, including category name
   const { data: verifiedQuestions, error: fetchError } = await supabase
     .from('questions')
-    .select('*')
+    .select('*, categories(name)')
     .eq('status', 'verified')
-    .gte('verification_score', 1) as { data: QuestionRow[] | null; error: { message: string } | null };
+    .gte('verification_score', 1) as { data: (QuestionRow & { categories: { name: string } | null })[] | null; error: { message: string } | null };
 
   if (fetchError || !verifiedQuestions || verifiedQuestions.length === 0) {
     log('info', 'No verified questions to QA', { error: fetchError?.message });
@@ -68,7 +69,7 @@ export async function runQaAgent(
 
   // Step 2: Group questions into batches of ~10 for efficient QA calls
   const BATCH_SIZE = 10;
-  const batches: QuestionRow[][] = [];
+  const batches: QuestionWithCategory[][] = [];
   for (let i = 0; i < verifiedQuestions.length; i += BATCH_SIZE) {
     batches.push(verifiedQuestions.slice(i, i + BATCH_SIZE));
   }
@@ -83,7 +84,7 @@ Correct Answer: ${q.correct_answer}
 Distractors: ${(q.distractors as string[]).join(', ')}
 Explanation: ${q.explanation ?? 'None'}
 Difficulty: ${q.difficulty}
-Category: ${q.category_id}`;
+Category: ${q.categories?.name ?? 'Unknown'}`;
       }).join('\n\n');
 
       const userPrompt = `Please quality-check the following pub quiz questions. No reference text is needed — judge them on clarity, difficulty calibration, distractor quality, and pub quiz suitability.

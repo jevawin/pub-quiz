@@ -13,9 +13,13 @@ export interface AgentResult {
   failed: number;
 }
 
-const WIKIPEDIA_PROMPT = `You are a fact-checker for a pub quiz app. For each question, verify whether the stated correct answer is actually correct based ONLY on the provided reference text. Do NOT use your own knowledge -- only what the reference text states. Score verification strength: 0 = cannot verify from text, 1 = weakly supported, 2 = clearly supported, 3 = explicitly stated in text. If the answer contradicts the reference text, mark is_correct as false.`;
+const WIKIPEDIA_PROMPT = `You are a fact-checker for a pub quiz app. For each question, verify whether the stated correct answer is actually correct based ONLY on the provided reference text. Do NOT use your own knowledge -- only what the reference text states. Score verification strength: 0 = cannot verify from text, 1 = weakly supported, 2 = clearly supported, 3 = explicitly stated in text. If the answer contradicts the reference text, mark is_correct as false.
 
-const OWN_KNOWLEDGE_PROMPT = `You are a fact-checker for a pub quiz app. Using your own knowledge (NOT a reference text), verify whether the stated correct answer is factually correct. Be strict — only mark is_correct as true if you are highly confident the answer is correct. Score: 0 = uncertain/likely wrong, 1 = probably correct but not sure, 2 = confident it is correct, 3 = certain. If in any doubt, mark is_correct as false.`;
+IMPORTANT: Also check that the answer logically responds to the question. If the question asks "how many?" the answer must be a number. If it asks "who?" the answer must be a person. If it asks "what year?" the answer must be a year. If there is any type mismatch between question and answer, mark is_correct as false regardless of factual accuracy.`;
+
+const OWN_KNOWLEDGE_PROMPT = `You are a fact-checker for a pub quiz app. Using your own knowledge (NOT a reference text), verify whether the stated correct answer is factually correct. Be strict — only mark is_correct as true if you are highly confident the answer is correct. Score: 0 = uncertain/likely wrong, 1 = probably correct but not sure, 2 = confident it is correct, 3 = certain. If in any doubt, mark is_correct as false.
+
+IMPORTANT: Also check that the answer logically responds to the question. If the question asks "how many?" the answer must be a number. If it asks "who?" the answer must be a person. If it asks "what year?" the answer must be a year. If there is any type mismatch between question and answer, mark is_correct as false regardless of factual accuracy.`;
 
 export async function runFactCheckAgent(
   config: PipelineConfig,

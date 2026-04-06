@@ -204,6 +204,22 @@ Return as JSON with a "questions" array where each object has exactly these fiel
             continue;
           }
 
+          // Check for answer-type mismatches (e.g. "how many?" expects a number)
+          const qLower = question.question_text.toLowerCase();
+          const hasTypeMismatch =
+            (/\bhow many\b/.test(qLower) && !/\d/.test(question.correct_answer)) ||
+            (/\bhow much\b/.test(qLower) && !/\d/.test(question.correct_answer)) ||
+            (/\bwhat year\b|\bin what year\b|\bwhich year\b/.test(qLower) && !/\d{3,4}/.test(question.correct_answer));
+
+          if (hasTypeMismatch) {
+            log('warn', 'Answer-type mismatch detected, skipping question', {
+              questionText: question.question_text,
+              correctAnswer: question.correct_answer,
+            });
+            failed++;
+            continue;
+          }
+
           const insertData: Database['public']['Tables']['questions']['Insert'] = {
             category_id: category.id,
             source_id: null,
