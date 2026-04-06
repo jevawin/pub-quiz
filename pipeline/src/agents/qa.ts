@@ -1,7 +1,7 @@
 import { PipelineConfig } from '../lib/config.js';
-import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, HAIKU_INPUT, HAIKU_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, HAIKU_INPUT, HAIKU_OUTPUT, SONNET_INPUT, SONNET_OUTPUT, BudgetExceededError } from '../lib/claude.js';
 import { createSupabaseClient } from '../lib/supabase.js';
-import { QaBatchSchema } from '../lib/schemas.js';
+import { QaBatchSchema, SonnetRewriteSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
 import type { Database } from '../lib/database.types.js';
 
@@ -26,18 +26,43 @@ const SYSTEM_PROMPT = `You are a quality assurance reviewer for a pub quiz app. 
 
 Actions:
 - "pass": Good as-is (all scores >= 5)
-- "rewrite": Fixable issues. Rewrite phrasing/distractors/explanation only — do NOT change factual content or correct answer.
-- "reject": Fundamentally broken (wrong category, nonsensical, unanswerable, niche specialist knowledge).
+- "rewrite": Any fixable issue — phrasing, wrong answer, bad distractors, answer/question mismatch, anything salvageable. Describe what's wrong in your reasoning. You do NOT need to provide the fix — a separate agent will handle the rewrite.
+- "reject": Fundamentally broken beyond repair (wrong category, nonsensical, unanswerable, niche specialist knowledge with no interesting angle).
 
 RULES:
-- When rewriting distractors, you MUST provide exactly 3.
-- Questions containing "according to the reference material", "according to the text", "based on the reference", or similar source-citing language MUST be rewritten to remove those phrases. Pub quiz questions never reference a source document.
-- Questions that are "you know it or you don't" with no room for reasoning or debate should be rewritten to add context or a hint (the "double up" technique).
-- Questions over 100 characters should be shortened.
+- Questions containing "according to the reference material", "according to the text", "based on the reference", or similar source-citing language MUST be flagged for rewrite.
+- Questions that are "you know it or you don't" with no room for reasoning or debate should be flagged for rewrite.
+- Questions over 100 characters should be flagged for rewrite.
 - Niche specialist questions that fewer than 3 out of 6 random adults would recognise should be rejected.
-- If the correct answer does not logically answer the question (e.g. question asks "what era?" but the answer is a place, or question asks "who?" but the answer is a date), REJECT it. Do not try to rewrite around a question/answer type mismatch — the answer cannot be changed, so the question is fundamentally broken.
+- If the correct answer does not logically answer the question (e.g. question asks "how many?" but the answer is a name, or the answer is in the question text), flag it for rewrite — the rewrite agent can fix the answer.
+- If the answer given to the question is literally in the question text (i.e. it's a free answer), flag it for rewrite.
 
 (Standards from: pipeline/STYLE-GUIDE.md)`;
+
+const SONNET_REWRITE_PROMPT = `You are a pub quiz editor fixing questions flagged by a QA reviewer. You can change ANY field — question text, correct answer, distractors, explanation, difficulty, fun fact — to produce a high-quality pub quiz question.
+
+RULES:
+1. Fix the specific issue identified in the QA reasoning.
+2. After fixing, validate that ALL fields are consistent:
+   - The correct answer must logically answer the question.
+   - All 3 distractors must be plausible, from the same domain as the correct answer, and wrong.
+   - The explanation must match the (possibly new) correct answer.
+   - The fun fact (if present) must still relate to the correct answer. If it doesn't, write a new one (1-2 sentences, surprising, concrete, conversational). Set fun_fact to null if you can't think of a good one.
+   - The difficulty label must be accurate.
+   - The answer must NOT appear in the question text.
+3. Keep questions to 40-80 characters. One breath to read aloud.
+4. Write like a quizmaster talking to friends, not a textbook.
+5. Every answer you provide must be factually correct. Do not guess.
+6. Distractors: exactly 3, all plausible, same domain as correct answer.
+
+Return JSON with these fields:
+- "question_text": string (the fixed question)
+- "correct_answer": string (correct answer — may be unchanged or fixed)
+- "distractors": string[] (exactly 3 wrong answers)
+- "explanation": string (2-3 sentences explaining why the answer is correct)
+- "difficulty": "easy" | "normal" | "hard"
+- "fun_fact": string | null (keep existing if still valid, rewrite if not, null if none)
+- "changes_made": string (brief summary of what you changed and why)`;
 
 export async function runQaAgent(
   config: PipelineConfig,
@@ -97,11 +122,10 @@ Return JSON with a "results" array where each object has these fields:
 - "category_fit_score": number (0-10)
 - "difficulty_calibration_score": number (0-10)
 - "distractor_quality_score": number (0-10)
-- "rewritten_question_text": string (optional, only if action is "rewrite")
-- "rewritten_distractors": string[] (optional, exactly 3 items, only if action is "rewrite")
-- "rewritten_explanation": string (optional, only if action is "rewrite")
 - "recalibrated_difficulty": "easy" | "normal" | "hard" (optional, only if the current difficulty label is wrong)
-- "reasoning": string
+- "reasoning": string (for rewrites: describe what's wrong so the rewrite agent can fix it)
+
+Do NOT provide rewritten text — just identify the issues. A separate agent handles rewrites.
 
 ${questionsSection}`;
 
@@ -182,52 +206,71 @@ ${questionsSection}`;
             });
             failed++;
           } else if (result.action === 'rewrite') {
-            // Rewrite: update text, distractors, explanation, set qa_rewritten=true
-            // Keep existing verification_score (D-05)
-            const updateData: Record<string, unknown> = {
-              qa_rewritten: true,
-            };
+            // Haiku flagged this for rewrite — send to Sonnet for the fix
+            try {
+              const rewriteResult = await rewriteWithSonnet(
+                claude, config, tokenAccumulator, originalQuestion, result.reasoning,
+              );
 
-            if (result.rewritten_question_text) {
-              updateData.question_text = result.rewritten_question_text;
-            }
-            if (result.rewritten_distractors) {
-              updateData.distractors = result.rewritten_distractors;
-            }
-            if (result.rewritten_explanation) {
-              updateData.explanation = result.rewritten_explanation;
-            }
-            if (result.recalibrated_difficulty) {
-              updateData.difficulty = result.recalibrated_difficulty;
-            }
+              if (!rewriteResult) {
+                log('warn', 'Sonnet rewrite failed, rejecting question', {
+                  questionId: result.question_id,
+                });
+                await (supabase.from('questions').update({ status: 'rejected' as const } as never)
+                  .eq('id', result.question_id) as unknown as Promise<{ error: { message: string } | null }>);
+                failed++;
+                continue;
+              }
 
-            // Apply publish logic: score >= 3 => publish
-            if (originalQuestion.verification_score >= 3) {
-              updateData.status = 'published';
-              updateData.published_at = new Date().toISOString();
-            }
+              const updateData: Record<string, unknown> = {
+                qa_rewritten: true,
+                question_text: rewriteResult.question_text,
+                correct_answer: rewriteResult.correct_answer,
+                distractors: rewriteResult.distractors,
+                explanation: rewriteResult.explanation,
+                difficulty: rewriteResult.difficulty,
+              };
 
-            const updateResult = await (supabase
-              .from('questions')
-              .update(updateData as never)
-              .eq('id', result.question_id) as unknown as Promise<{ error: { message: string } | null }>);
+              // Update fun_fact: set to new value or null (clear stale ones)
+              updateData.fun_fact = rewriteResult.fun_fact ?? null;
 
-            if (updateResult?.error) {
-              log('error', 'Failed to update rewritten question', {
+              // Apply publish logic: score >= 3 => publish
+              if (originalQuestion.verification_score >= 3) {
+                updateData.status = 'published';
+                updateData.published_at = new Date().toISOString();
+              }
+
+              const updateResult = await (supabase
+                .from('questions')
+                .update(updateData as never)
+                .eq('id', result.question_id) as unknown as Promise<{ error: { message: string } | null }>);
+
+              if (updateResult?.error) {
+                log('error', 'Failed to update rewritten question', {
+                  questionId: result.question_id,
+                  error: updateResult.error.message,
+                });
+                failed++;
+                errors++;
+                continue;
+              }
+
+              log('info', 'Question rewritten by Sonnet', {
                 questionId: result.question_id,
-                error: updateResult.error.message,
+                changes: rewriteResult.changes_made,
+                published: originalQuestion.verification_score >= 3,
+              });
+              processed++;
+              rewritten++;
+            } catch (rewriteError) {
+              if (rewriteError instanceof BudgetExceededError) throw rewriteError;
+              log('error', 'Sonnet rewrite error', {
+                questionId: result.question_id,
+                error: rewriteError instanceof Error ? rewriteError.message : String(rewriteError),
               });
               failed++;
               errors++;
-              continue;
             }
-
-            log('info', 'Question rewritten by QA', {
-              questionId: result.question_id,
-              published: originalQuestion.verification_score >= 3,
-            });
-            processed++;
-            rewritten++;
           } else {
             // Pass: publish if score >= 3, otherwise leave as verified
             const passUpdateData: Record<string, unknown> = {};
@@ -300,4 +343,74 @@ ${questionsSection}`;
   }
 
   return { processed, failed, rewritten };
+}
+
+interface SonnetRewriteResult {
+  question_text: string;
+  correct_answer: string;
+  distractors: string[];
+  explanation: string;
+  difficulty: 'easy' | 'normal' | 'hard';
+  fun_fact: string | null;
+  changes_made: string;
+}
+
+async function rewriteWithSonnet(
+  claude: ReturnType<typeof createClaudeClient>,
+  config: PipelineConfig,
+  tokenAccumulator: TokenAccumulator,
+  question: QuestionWithCategory,
+  qaReasoning: string,
+): Promise<SonnetRewriteResult | null> {
+  const userPrompt = `Fix this pub quiz question. The QA reviewer identified the following issue:
+
+**QA Issue:** ${qaReasoning}
+
+**Current question:**
+- Question: ${question.question_text}
+- Correct Answer: ${question.correct_answer}
+- Distractors: ${(question.distractors as string[]).join(', ')}
+- Explanation: ${question.explanation ?? 'None'}
+- Difficulty: ${question.difficulty}
+- Category: ${question.categories?.name ?? 'Unknown'}
+- Fun Fact: ${(question as Record<string, unknown>).fun_fact ?? 'None'}
+
+Fix the issue and return the complete corrected question as JSON.`;
+
+  const response = await claude.messages.create({
+    model: config.claudeModelGeneration,
+    max_tokens: 1024,
+    system: SONNET_REWRITE_PROMPT,
+    messages: [{ role: 'user', content: userPrompt }],
+  });
+
+  trackUsage(response, tokenAccumulator, SONNET_INPUT, SONNET_OUTPUT);
+  checkBudget(tokenAccumulator, config.budgetCapUsd);
+
+  const textContent = response.content.find((c) => c.type === 'text');
+  if (!textContent || textContent.type !== 'text') return null;
+
+  try {
+    const jsonStr = extractJson(textContent.text);
+    const parsed = JSON.parse(jsonStr);
+    const result = SonnetRewriteSchema.parse(parsed);
+
+    // Validate distractor count
+    if (result.distractors.length !== 3) return null;
+
+    // Validate no distractor matches the correct answer
+    if (result.distractors.some(d => d.toLowerCase().trim() === result.correct_answer.toLowerCase().trim())) {
+      log('warn', 'Sonnet rewrite has distractor matching correct answer', {
+        answer: result.correct_answer,
+      });
+      return null;
+    }
+
+    return result;
+  } catch (parseError) {
+    log('warn', 'Failed to parse Sonnet rewrite response', {
+      error: parseError instanceof Error ? parseError.message : String(parseError),
+    });
+    return null;
+  }
 }

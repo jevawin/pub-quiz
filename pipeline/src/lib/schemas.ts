@@ -49,7 +49,7 @@ export const FactCheckBatchSchema = z.object({
 
 export type FactCheckBatch = z.infer<typeof FactCheckBatchSchema>;
 
-// QA Agent output schemas
+// QA Agent output schemas (Haiku — diagnosis only, no rewrite fields)
 export const QaResultSchema = z.object({
   question_id: z.string().uuid(),
   passed: z.boolean(),
@@ -58,9 +58,6 @@ export const QaResultSchema = z.object({
   category_fit_score: z.number().min(0).max(10),
   difficulty_calibration_score: z.number().min(0).max(10),
   distractor_quality_score: z.number().min(0).max(10),
-  rewritten_question_text: z.string().optional(),
-  rewritten_distractors: z.array(z.string()).length(3).optional(),
-  rewritten_explanation: z.string().optional(),
   recalibrated_difficulty: z.enum(['easy', 'normal', 'hard']).optional(),
   reasoning: z.string(),
 });
@@ -72,3 +69,16 @@ export const QaBatchSchema = z.object({
 });
 
 export type QaBatch = z.infer<typeof QaBatchSchema>;
+
+// Sonnet Rewrite output schema (full rewrite with all fields)
+export const SonnetRewriteSchema = z.object({
+  question_text: z.string(),
+  correct_answer: z.string(),
+  distractors: z.array(z.string()).length(3),
+  explanation: z.string(),
+  difficulty: z.enum(['easy', 'normal', 'hard']),
+  fun_fact: z.string().nullable(),
+  changes_made: z.string(),
+});
+
+export type SonnetRewrite = z.infer<typeof SonnetRewriteSchema>;
