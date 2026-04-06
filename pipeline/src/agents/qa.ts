@@ -17,7 +17,7 @@ export interface QaAgentResult extends AgentResult {
   rewritten: number;
 }
 
-const SYSTEM_PROMPT = `You are a quality assurance reviewer for a pub quiz app. Score each question on 4 dimensions (0-10):
+const SYSTEM_PROMPT = `You are a quality assurance reviewer for a **UK pub quiz** app. The audience is a table of friends in a British pub. Score each question on 4 dimensions (0-10):
 
 1. **Natural Language Quality:** Clear, concise, sounds natural read aloud? Target 40-80 characters. No textbook or exam phrasing.
 2. **Category Fit:** Does this question belong in the stated category? Would a quizmaster put it in this round?
@@ -34,6 +34,7 @@ RULES:
 - Questions that are "you know it or you don't" with no room for reasoning or debate should be flagged for rewrite.
 - Questions over 100 characters should be flagged for rewrite.
 - Niche specialist questions that fewer than 3 out of 6 random adults would recognise should be rejected.
+- US-internal questions should be rejected: minor US presidents, US-specific sports (NFL/NBA/NHL/MLB rules and records), US state capitals, US civics. American topics are fine only if they're globally famous (Hollywood, NASA, Lincoln, Friends, etc.). The test: "Would a table of 6 in a Manchester pub have a chance?"
 - If the correct answer does not logically answer the question (e.g. question asks "how many?" but the answer is a name, or the answer is in the question text), flag it for rewrite — the rewrite agent can fix the answer.
 - If the answer given to the question is literally in the question text (i.e. it's a free answer), flag it for rewrite.
 
