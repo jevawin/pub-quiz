@@ -9,6 +9,7 @@ import { runQuestionsAgent } from './agents/questions.js';
 import { runFactCheckAgent } from './agents/fact-check.js';
 import { runQaAgent } from './agents/qa.js';
 import { runEnrichmentAgent } from './agents/enrichment.js';
+import { runCalibratorAgent } from './agents/calibrator.js';
 
 export async function runPipeline(): Promise<void> {
   // 1. Load config
@@ -106,6 +107,14 @@ export async function runPipeline(): Promise<void> {
       failed: enrichmentResult.failed,
     });
 
+    log('info', 'Starting Calibrator Agent');
+    const calibratorResult = await runCalibratorAgent(config, tokenAccumulator);
+    log('info', 'Calibrator Agent complete', {
+      processed: calibratorResult.processed,
+      recalibrated: calibratorResult.recalibrated,
+      failed: calibratorResult.failed,
+    });
+
     // Mark success
     await supabase
       .from('pipeline_runs')
@@ -124,6 +133,8 @@ export async function runPipeline(): Promise<void> {
         questions_qa_rewritten: qaResult.rewritten,
         questions_qa_rejected: qaResult.failed,
         questions_enriched: enrichmentResult.enriched,
+        questions_calibrated: calibratorResult.processed,
+        questions_recalibrated: calibratorResult.recalibrated,
         total_input_tokens: tokenAccumulator.input_tokens,
         total_output_tokens: tokenAccumulator.output_tokens,
         estimated_cost_usd: tokenAccumulator.estimated_cost_usd,

@@ -13,13 +13,28 @@ export interface AgentResult {
   failed: number;
 }
 
-const WIKIPEDIA_PROMPT = `You are a fact-checker for a pub quiz app. For each question, verify whether the stated correct answer is actually correct based ONLY on the provided reference text. Do NOT use your own knowledge -- only what the reference text states. Score verification strength: 0 = cannot verify from text, 1 = weakly supported, 2 = clearly supported, 3 = explicitly stated in text. If the answer contradicts the reference text, mark is_correct as false.
+const VERIFICATION_GUIDANCE = `
+CRITICAL — Parse the question as (Entity, Attribute, Value) and verify ALL THREE match:
+- ENTITY: what specific thing is the question asking about? (e.g. "penguin SKIN", not "penguin")
+- ATTRIBUTE: what property of that entity? (e.g. "colour", "height", "year of first climb")
+- VALUE: the stated correct answer
 
-IMPORTANT: Also check that the answer logically responds to the question. If the question asks "how many?" the answer must be a number. If it asks "who?" the answer must be a person. If it asks "what year?" the answer must be a year. If there is any type mismatch between question and answer, mark is_correct as false regardless of factual accuracy.`;
+Only mark is_correct as true if the source EXPLICITLY states that THIS entity has THIS attribute equal to THIS value. Do NOT accept confirmation from adjacent facts about the same topic. Common traps:
+- Question asks about penguin SKIN colour, source talks about penguin FEATHERS being black and white → NOT verified
+- Question asks when the Titanic SET SAIL, source gives the SINKING date → NOT verified
+- Question asks about antenna HEIGHT, source gives TOTAL tower height → NOT verified
+- Question asks about a specific SONG, source talks about the artist in general → NOT verified
+- Question asks what X plays on a SPECIFIC song, source says what X plays usually → NOT verified
+
+If the source is about the right general topic but doesn't explicitly confirm the entity+attribute+value triple, mark is_correct as false and score 0.
+
+Also check that the answer logically responds to the question. If the question asks "how many?" the answer must be a number. If it asks "who?" the answer must be a person. If it asks "what year?" the answer must be a year. If there is any type mismatch between question and answer, mark is_correct as false.`;
+
+const WIKIPEDIA_PROMPT = `You are a fact-checker for a pub quiz app. For each question, verify whether the stated correct answer is actually correct based ONLY on the provided reference text. Do NOT use your own knowledge -- only what the reference text states. Score verification strength: 0 = cannot verify from text, 1 = weakly supported, 2 = clearly supported, 3 = explicitly stated in text. If the answer contradicts the reference text, mark is_correct as false.
+${VERIFICATION_GUIDANCE}`;
 
 const OWN_KNOWLEDGE_PROMPT = `You are a fact-checker for a pub quiz app. Using your own knowledge (NOT a reference text), verify whether the stated correct answer is factually correct. Be strict — only mark is_correct as true if you are highly confident the answer is correct. Score: 0 = uncertain/likely wrong, 1 = probably correct but not sure, 2 = confident it is correct, 3 = certain. If in any doubt, mark is_correct as false.
-
-IMPORTANT: Also check that the answer logically responds to the question. If the question asks "how many?" the answer must be a number. If it asks "who?" the answer must be a person. If it asks "what year?" the answer must be a year. If there is any type mismatch between question and answer, mark is_correct as false regardless of factual accuracy.`;
+${VERIFICATION_GUIDANCE}`;
 
 export async function runFactCheckAgent(
   config: PipelineConfig,
