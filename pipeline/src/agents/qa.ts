@@ -49,7 +49,7 @@ RULES:
    - The explanation must match the (possibly new) correct answer.
    - The fun fact (if present) must still relate to the correct answer. If it doesn't, write a new one (1-2 sentences, surprising, concrete, conversational). Set fun_fact to null if you can't think of a good one.
    - The difficulty label must be accurate.
-   - The answer must NOT appear in the question text.
+   - The correct answer must NOT appear anywhere in the question text. If it does, rewrite the question to replace the giveaway with a clue, context, or description that points to the same subject without naming it. The rewritten question should be *harder* than the original, not vaguer. For example: "In the sitcom Cheers, what is the name of the bar?" → "What's the name of the bar in the sitcom where everybody knows your name?"
 3. Keep questions to 40-80 characters. One breath to read aloud.
 4. Write like a quizmaster talking to friends, not a textbook.
 5. Every answer you provide must be factually correct. Do not guess.

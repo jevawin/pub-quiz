@@ -60,6 +60,7 @@ Add an interesting detail that gives players something to work with:
 - Questions about events from the current or previous year — they date fast and won't age well
 - Corporate/business questions (company rebrandings, product launch dates, internal org names)
 - Questions where the answer doesn't match the question type. If you ask "what era?" the answer must be an era. Double-check this.
+- Never include the correct answer in the question text. If the question is about a named thing, describe it rather than naming it. For example, don't write "In the sitcom Cheers, what is the name of the bar?" — instead write "What's the name of the bar in the sitcom where everybody knows your name?"
 
 (Style reference: Open Trivia Database, CC BY-SA 4.0. Full guide: pipeline/STYLE-GUIDE.md)`;
 
@@ -197,6 +198,19 @@ Return as JSON with a "questions" array where each object has exactly these fiel
           );
           if (hasCollision) {
             log('warn', 'Distractor matches correct answer, skipping question', {
+              questionText: question.question_text,
+              correctAnswer: question.correct_answer,
+            });
+            failed++;
+            continue;
+          }
+
+          // Check if answer appears in question text
+          const answerInQuestion = question.question_text.toLowerCase().includes(
+            question.correct_answer.toLowerCase().trim(),
+          );
+          if (answerInQuestion && question.correct_answer.trim().length > 2) {
+            log('warn', 'Answer appears in question text, skipping question', {
               questionText: question.question_text,
               correctAnswer: question.correct_answer,
             });
