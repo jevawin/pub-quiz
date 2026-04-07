@@ -15,6 +15,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 1: Question Pipeline -- Agents & Schema** - Build the 4-agent Claude pipeline and the Supabase schema it writes to
 - [ ] **Phase 2: Question Pipeline -- Seed & Scheduling** - Run the initial high-frequency seed and establish ongoing daily schedule
 - [ ] **Phase 2.1: Question Pipeline -- QA Agent & Source Relevance** - QA Agent for question quality, Knowledge Agent source filtering (INSERTED)
+- [ ] **Phase 2.2: Web Quiz v1 & Feedback Collection** - Plain web quiz on Cloudflare Pages, collects real play + feedback data to seed calibration (INSERTED)
+- [ ] **Phase 2.3: Admin Dashboard v1 -- Library & Pipeline Inspection** - Internal web admin for library inspection, curation, and pipeline observability (INSERTED)
 - [ ] **Phase 3: Auth & App Backend** - Anonymous-first auth, app-side Supabase client, REST-only architecture
 - [ ] **Phase 4: Design System** - Editorial design tokens, typography, primitives, light/dark mode
 - [ ] **Phase 5: App Shell & Platform** - Expo Router navigation, cross-platform scaffold, home screen
@@ -69,6 +71,107 @@ Plans:
 - [x] 02.1-01-PLAN.md -- Database migration, QA schemas, config, remove auto-publish from Fact-Check
 - [x] 02.1-02-PLAN.md -- Knowledge Agent enhancements (hierarchy queries, Haiku relevance filtering, fallback search)
 - [x] 02.1-03-PLAN.md -- QA Agent implementation and pipeline orchestrator wiring
+
+### Phase 2.2: Web Quiz v1 & Feedback Collection (INSERTED)
+
+**Goal:** A deliberately plain public web quiz, shareable with friends and family, that collects real per-question answer data and feedback. Exists to break out of the "tweak prompts blindly" loop by generating ground-truth data: who gets what right, how long they take, and which questions feel bad. Also serves as the first real dress rehearsal for Phases 3 + 7 — every piece of logic (Supabase anonymous auth, question fetch, quiz state machine, answer reveal, scoring) transfers directly to the native app.
+
+**Depends on:** Phase 2.1 (enough published questions to play against — 309 is sufficient)
+
+**Stack:**
+- **Vite + React + React Router**, deployed to **Cloudflare Pages** (not Next.js, not Vercel — too plain to need SSR, and Cloudflare is already set up with wrangler)
+- Supabase client in the browser, RLS-gated. Reuses existing project and tables.
+- Anonymous Supabase auth on first load, session persisted in localStorage. No signup.
+- Minimal styling — the point is to test questions, not design. Clean typography, system fonts are fine.
+
+**User flow:**
+1. Landing page: "Play a pub quiz" + three options:
+   - Difficulty: Easy / Medium / Hard (maps to current tiers)
+   - Number of questions: 5 / 10 / 15 / 20
+   - Category: General, or pick one from a short list of top-level categories
+2. Quiz: one question per screen, 4 options, tap to answer. Reveal shows correct/incorrect + explanation.
+3. **Per-question feedback IS the "next question" button** — three buttons below the reveal:
+   - 👍 Good — next question
+   - 👎 Bad — next question
+   - 🤔 Confusing — next question
+   - Icons accompany text labels, never replace them (accessibility). One tap moves forward *and* logs feedback. Skipping feedback is fine — a fourth "Next →" button for no-opinion.
+4. End of quiz: **score summary first**, then feedback second (people are honest once they've seen how they did):
+   - Star rating or three faces for "how was that?"
+   - Single optional free-text box — "anything to tell us?" — no prompts, no placeholder questions
+5. Share button — copy link to landing page.
+
+**Data captured per question play** (new `question_plays` table):
+- question_id, session_id (anonymous user_id), chosen_option, is_correct, time_to_answer_ms, feedback_reaction (nullable: good/bad/confusing/null), played_at
+- **time_to_answer_ms counts only active-tab time** — `document.visibilityState === 'visible'` AND `window` focused. Accumulate via `visibilitychange` + `focus`/`blur` events. Pause the counter on blur, resume on focus. Prevents "left tab open during lunch" noise.
+
+**Data captured per session** (new `quiz_sessions` table):
+- session_id, category, difficulty, num_questions, score, overall_rating (nullable 1-5), feedback_text (nullable), started_at, completed_at
+
+**Feeds directly into:**
+- **Backlog 999.8** (per-category percentage scores) — `observed_score` and `observed_n` columns get seeded from real `question_plays` data, displacing Calibrator estimates as samples grow
+- **Backlog 999.2** (refinement from feedback) — the feedback_reaction field is exactly the signal that pipeline was always meant to consume
+- **Phase 2.3** (admin dashboard) — the histograms and estimate-vs-observed gap views become meaningful the day this ships
+- **Phases 3 + 7** — the Supabase client setup, anonymous auth flow, and quiz state machine are all directly reusable in the native app
+
+**Key decisions for plan-phase:**
+- Schema for `question_plays` and `quiz_sessions` — new migration, RLS lets any anonymous user insert their own rows and read nothing else
+- Where the tier thresholds live (hardcoded in config for v1 — easy/medium/hard map to Calibrator's current tiers; swap to % bands when 999.8 lands)
+- Question selection within a tier: random sample, or avoid recent-plays-by-session? Probably random for v1, session-aware later
+- Whether to gate anything behind an invite code (no — friction kills feedback rate)
+- Privacy copy — one line, "we log which answers you pick to improve questions, no personal data" — no cookie banner, no signup, nothing else
+
+**Deliberately out of scope for v1:**
+- Accounts, profiles, score history, leaderboards
+- Visual polish — editorial design system is Phase 4, not here
+- Mobile-specific anything — responsive is enough, native app is Phases 3-8
+- Social sharing beyond copy-link
+- Any gamification (streaks, XP, badges) — ever, per PROJECT.md anti-gamification stance
+
+**Why now (before admin dashboard):** Data > tools. The admin dashboard is more valuable once there are real plays to inspect — shipping this first means 2.3 lands with histograms that actually say something. And the single biggest unknown in the project right now is "do our questions feel good to strangers?" — no amount of internal review answers that.
+
+**Target size before sharing:** Current 309 questions is enough. Ship it.
+
+**Requirements:** WEB-00, WEB-01, WEB-02, WEB-03, WEB-04, WEB-05, WEB-06, WEB-07, WEB-08, WEB-09, WEB-10, WEB-11, WEB-12, WEB-13, WEB-14
+**Plans:** 9 plans
+
+Plans:
+- [ ] 02.2-01-PLAN.md — Scaffold apps/web/ Vite + React + TS + vitest + Tailwind + shadcn/ui
+- [ ] 02.2-02-PLAN.md — Supabase migrations: question_plays, quiz_sessions, random_published_questions RPC
+- [ ] 02.2-03-PLAN.md — Supabase client, anonymous auth, difficulty translator, category config
+- [ ] 02.2-04-PLAN.md — Active-tab timer, localStorage outbox, shuffle, quiz reducer state machine
+- [ ] 02.2-05-PLAN.md — Setup screen (/) with query-param pre-fill + fetchRandomQuestions RPC helper
+- [ ] 02.2-06-PLAN.md — Play screen (/play): question, reveal, feedback buttons, live question_plays insert
+- [ ] 02.2-07-PLAN.md — End screen (/done): score, three-face rating, feedback text, share URL
+- [ ] 02.2-08-PLAN.md — RLS integration tests + happy-path e2e + VALIDATION.md population
+- [ ] 02.2-09-PLAN.md — Cloudflare Pages deploy docs + human verify live URL
+
+### Phase 2.3: Admin Dashboard v1 -- Library & Pipeline Inspection (INSERTED)
+
+**Goal:** Internal web admin (separate Vite + React app on Cloudflare Pages, matching the Phase 2.2 stack) for inspecting the question library, curating content, and watching the pipeline. Replaces the current "open Supabase Studio and write SQL" workflow. Single hardcoded admin user, RLS-gated.
+
+**Depends on:** Phase 2.2 (real play data makes histograms and feedback inbox meaningful)
+
+**Scope (v1 — game-stats half deferred to 999.9b until the app ships):**
+- Library: counts by category / score band / status, score-distribution histograms per category, search + filter, per-question detail view (question, options, sources, verification trail, calibration history)
+- Curation: soft-delete / un-publish, edit any field with audit trail, bulk re-run Calibrator / re-fact-check, approve/reject the score 1-2 review queue (absorbs backlog 999.1)
+- Pipeline observability: recent runs (agents, cost, duration, in/out per stage, rejections + reasons), cost-to-date vs `PIPELINE_BUDGET_USD`, top rejection reasons per agent, manual "run now" trigger
+
+**Out of scope for v1 (deferred to 999.9b):** DAU / sessions / quizzes played, observed correct rate, estimate-vs-observed gap, user feedback inbox — none of this exists until the mobile app ships and starts logging plays.
+
+**Key decisions for plan-phase:**
+- Build as a sibling Next.js + Tremor app, not inside Expo. Wrong audience, wrong constraints, keeps the mobile bundle clean.
+- Reads: PostgREST direct. Writes: Edge Functions only, so audit trail can't be bypassed. Deletes are soft (status → archived).
+- Auth: reuse Supabase project, hardcoded admin user_id checked via RLS. No role system yet.
+- Absorbs backlog **999.1** entirely. Touches **999.2** (will become its UI), **999.6** (surfaces agent rejection patterns), and **999.8** (the score histograms are how you'll catch Calibrator clustering).
+
+**Why now (before the app phases):** Every session so far has lost time to "write SQL to see what's in the library". The penguin-skin question took manual rejection. The Calibrator distribution check was a one-off script. A v1 of this would have saved hours already and will keep saving them through every subsequent pipeline iteration.
+
+**Requirements:** TBD
+**Plans:** TBD
+
+Plans:
+- [ ] 02.2-01: TBD
+- [ ] 02.2-02: TBD
 
 ### Phase 3: Auth & App Backend
 **Goal**: Users can launch the app and immediately have an anonymous session with a working Supabase connection -- no signup wall, no friction
@@ -169,7 +272,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 2.1 → 3 → 4 → 5 → 6 → 7 → 8
+Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 2.3 → 3 → 4 → 5 → 6 → 7 → 8
 Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since the pipeline is an independent service.
 
 | Phase | Plans Complete | Status | Completed |
@@ -177,6 +280,8 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 | 1. Question Pipeline: Agents & Schema | 0/4 | Planning complete | - |
 | 2. Question Pipeline: Seed & Scheduling | 0/2 | Planning complete | - |
 | 2.1 Question Pipeline: QA Agent & Source Relevance | 0/3 | Planning complete | - |
+| 2.2 Web Quiz v1 & Feedback Collection | 0/0 | Not started | - |
+| 2.3 Admin Dashboard v1 | 0/0 | Not started | - |
 | 3. Auth & App Backend | 0/2 | Not started | - |
 | 4. Design System | 0/3 | Not started | - |
 | 5. App Shell & Platform | 0/2 | Not started | - |
@@ -185,15 +290,6 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 | 8. Question Cache & Cost Management | 0/2 | Not started | - |
 
 ## Backlog
-
-### Phase 999.1: Admin Review Queue for Score 1-2 Questions (BACKLOG)
-
-**Goal:** Basic admin area in the app (or standalone tool) to review, approve/reject, and publish questions that scored below the auto-publish threshold (verification_score 1-2). Natural fit for Phase 2 when the app UI exists, or could be a simple standalone admin page.
-**Requirements:** TBD
-**Plans:** 0 plans
-
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
 
 ### Phase 999.2: Question Refinement from User Feedback (BACKLOG)
 
@@ -234,6 +330,48 @@ Plans:
 ### Phase 999.7: SMS Daily Question Premium Feature (BACKLOG)
 
 **Goal:** Premium feature that sends one pub quiz question per day via SMS. Player receives the question, replies with their answer (A/B/C/D), gets the result + fun fact back. Relies on the Enrichment Agent's `fun_fact` field — each message is a standalone question + answer + fun fact that works without app context. Potential monetisation as a paid subscription (e.g. £1/mo). Needs: SMS provider integration (Twilio/similar), subscriber management, question selection logic (avoid repeats, vary categories), opt-in/opt-out, billing. Related to 999.2 (user feedback) — SMS reply data is a feedback signal for question quality.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.8: Multi-Category + Per-Category Percentage Difficulty (BACKLOG)
+
+**Goal:** Replace single-category + easy/medium/hard with multi-category tagging where each category carries its own "estimated % of that audience who'd get it right" score. Difficulty tiers become a runtime grouping over the score (e.g. hard 0-33, medium 34-66, easy 67-100), tunable without re-scoring questions. As real answer data accumulates, the same percentage field gets refined from observed correct rates — same metric end-to-end, no easy/medium/hard ↔ percentage translation layer.
+
+Example shape:
+```
+q: what element has a single proton in its nucleus?
+a: hydrogen
+category_scores: [{ "science_and_nature": 68 }, { "general_knowledge": 22 }]
+```
+68% of science-interested players get it; 22% of the general pub. Quizzes can be played per-category (uses that category's score) or general (uses general_knowledge score).
+
+Implications to work through during plan-phase:
+- **Schema**: `question_categories(question_id, category_id, estimate_score, observed_score, observed_n)` join table replaces single category_id + difficulty enum. Drop the enum entirely — runtime band lookup is one line, generated columns just drift.
+- **Always require a `general_knowledge` score** on every question. It's the canonical axis for quick play / mixed quizzes. Other category scores are optional.
+- **Cap categories per question at 1-3** (plus mandatory general_knowledge). Otherwise agents tag everything with 5 categories "to be safe" and the taxonomy goes mushy.
+- **Sample size matters**: store `observed_n` alongside `observed_score`. 3/5 ≠ 300/500. Use estimate until n ≥ ~30, then switch (or Bayesian-blend).
+- **Calibrate to the right audience**: prompt must say "% of players who *chose to play this category*", not "% interested in the topic". The former is what you'll actually measure later, so estimate and observed converge.
+- **Quiz-time selection rule**: when playing "Science", only show questions tagged science, ranked by science_score. Don't pull general-knowledge-adjacent questions — that would make multi-category tagging pointless.
+- **Calibrator agent rewrite**: produces a score per assigned category + general_knowledge, not a single tier.
+- **Questions agent**: proposes the category set + per-category scores at generation time.
+- **Migration path** for the existing 309 published questions: one Calibrator run with the new prompt reseeds the whole library — cheap, no data loss.
+- **Backlog 999.2** (user feedback refinement) feeds directly into this — observed correct rate replaces the estimate over time, same field.
+
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.9b: Admin Dashboard — Game Stats & Player Feedback (BACKLOG)
+
+**Goal:** Second half of the admin dashboard (v1 shipped as Phase 2.3). Adds the player-data views that only become meaningful once the mobile app ships and starts logging plays: DAU / sessions / quizzes played, per-question observed correct rate + sample size, gap between estimate and observed score (the questions where the Calibrator was most wrong are the most interesting), per-category play volume and average score, user feedback inbox (flagged questions, written reports, sentiment).
+
+**Depends on:** Phase 2.3 (admin shell exists), Phase 2.2 (feedback collection plumbing already in place from the web quiz), Phase 7 (native app ships and adds more play volume).
+
 **Requirements:** TBD
 **Plans:** 0 plans
 
