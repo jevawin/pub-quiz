@@ -94,10 +94,10 @@ export function Setup() {
     <div className="mx-auto max-w-lg px-4 py-8">
       <h1 className="mb-2 text-3xl font-bold tracking-tight flex items-center gap-2">
         <GraduationCap className="h-8 w-8" />
-        Self-learning quiz
+        Trivia Quiz
       </h1>
       <p className="mb-6 text-base text-neutral-600">
-        Learns and improves questions based on answers and feedback. Please play as much as you like to help me develop it! Jamie <Heart className="inline h-4 w-4 text-red-500 fill-red-500" />
+        My prototype quiz. I'm collecting feedback to improve it. Please play as much as you can! Jamie <Heart className="inline h-4 w-4 text-red-500 fill-red-500" />
       </p>
 
       {error && (
