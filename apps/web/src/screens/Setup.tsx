@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
-import { Heart, Play, GraduationCap, Square, CheckSquare, Smile, Flame, Skull } from 'lucide-react';
+import { Heart, Play, GraduationCap, Square, CheckSquare, Smile, Flame, Skull, Dice1, Dice3, Dice5, Dice6 } from 'lucide-react';
 import { CATEGORY_OPTIONS, QUESTION_COUNTS, isValidCategory, isValidCount } from '@/config/categories';
 import { UI_DIFFICULTIES, type UiDifficulty } from '@/lib/difficulty';
 import { fetchRandomQuestions } from '@/lib/questions';
@@ -189,17 +187,29 @@ export function Setup() {
           <CardTitle>Number of questions</CardTitle>
         </CardHeader>
         <CardContent>
-          <RadioGroup
-            value={String(count)}
-            onValueChange={(v) => setCount(parseInt(v, 10) as QuestionCount)}
-          >
-            {QUESTION_COUNTS.map((n) => (
-              <div key={n} className="flex items-center space-x-2">
-                <RadioGroupItem value={String(n)} id={`count-${n}`} />
-                <Label htmlFor={`count-${n}`}>{n}</Label>
-              </div>
-            ))}
-          </RadioGroup>
+          <div className="flex flex-wrap gap-2">
+            {QUESTION_COUNTS.map((n) => {
+              const active = count === n;
+              const Icon = n === 5 ? Dice1 : n === 10 ? Dice3 : n === 15 ? Dice5 : Dice6;
+              return (
+                <button
+                  type="button"
+                  key={n}
+                  onClick={() => setCount(n)}
+                  role="radio"
+                  aria-checked={active}
+                  className={`inline-flex items-center gap-1.5 rounded-lg border-2 px-4 py-2.5 text-base font-medium transition-colors ${
+                    active
+                      ? 'border-neutral-900 bg-neutral-900 text-white'
+                      : 'border-neutral-300 bg-white text-neutral-700 hover:border-neutral-400'
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {n}
+                </button>
+              );
+            })}
+          </div>
         </CardContent>
       </Card>
 
