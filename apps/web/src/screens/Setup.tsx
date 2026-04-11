@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Heart, HelpCircle } from 'lucide-react';
+import { Heart, Play, GraduationCap } from 'lucide-react';
 import { CATEGORY_OPTIONS, QUESTION_COUNTS, isValidCategory, isValidCount } from '@/config/categories';
 import { UI_DIFFICULTIES, type UiDifficulty } from '@/lib/difficulty';
 import { fetchRandomQuestions } from '@/lib/questions';
@@ -64,7 +64,10 @@ export function Setup() {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-8">
-      <h1 className="mb-2 text-3xl font-bold tracking-tight">Self-learning quiz</h1>
+      <h1 className="mb-2 text-3xl font-bold tracking-tight flex items-center gap-2">
+        <GraduationCap className="h-8 w-8" />
+        Self-learning quiz
+      </h1>
       <p className="mb-6 text-sm text-muted-foreground">
         Learns and improves questions based on answers and feedback. Please play as much as you like to help me develop it! Jamie <Heart className="inline h-4 w-4 text-red-500 fill-red-500" />
       </p>
@@ -76,9 +79,9 @@ export function Setup() {
       <button
         onClick={onPlay}
         disabled={loading}
-        className="w-full mb-8 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-4 text-lg font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none"
+        className="w-full mb-8 inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none"
       >
-        <HelpCircle className="h-5 w-5" />
+        <Play className="h-5 w-5 fill-current" />
         {loading ? 'Loading...' : 'Play'}
       </button>
 
@@ -133,9 +136,18 @@ export function Setup() {
         </CardContent>
       </Card>
 
-      <p className="text-sm text-neutral-500">
+      <p className="mb-6 text-sm text-neutral-500">
         We log which answers you pick to improve questions. No personal data.
       </p>
+
+      <button
+        onClick={onPlay}
+        disabled={loading}
+        className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none"
+      >
+        <Play className="h-5 w-5 fill-current" />
+        {loading ? 'Loading...' : 'Play'}
+      </button>
     </div>
   );
 }

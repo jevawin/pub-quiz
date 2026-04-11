@@ -76,7 +76,7 @@ describe('Happy path: setup → play → done', () => {
     expect(screen.getByRole('heading', { name: /self-learning quiz/i })).toBeInTheDocument();
 
     // Click Play
-    const playButton = screen.getByRole('button', { name: /play/i });
+    const playButton = screen.getAllByRole('button', { name: /play/i })[0]!;
     await user.click(playButton);
 
     // Wait for navigation to /play

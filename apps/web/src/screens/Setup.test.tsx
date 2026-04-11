@@ -87,7 +87,7 @@ describe('Setup screen', () => {
 
     renderSetup('/');
 
-    const playButton = screen.getByRole('button', { name: /play/i });
+    const playButton = screen.getAllByRole('button', { name: /play/i })[0]!;
     await user.click(playButton);
 
     await waitFor(() => {
