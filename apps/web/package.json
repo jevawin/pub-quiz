@@ -1,0 +1,40 @@
+{
+  "name": "pub-quiz-web",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "dependencies": {
+    "react": "^19",
+    "react-dom": "^19",
+    "react-router-dom": "^7",
+    "@supabase/supabase-js": "^2.101.1",
+    "class-variance-authority": "^0.7",
+    "clsx": "^2",
+    "tailwind-merge": "^2",
+    "@radix-ui/react-radio-group": "^1",
+    "@radix-ui/react-label": "^2",
+    "@radix-ui/react-slot": "^1",
+    "lucide-react": "^0.468"
+  },
+  "devDependencies": {
+    "vite": "^6",
+    "@vitejs/plugin-react": "^4",
+    "typescript": "^5.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "vitest": "^2",
+    "@testing-library/react": "^16",
+    "@testing-library/jest-dom": "^6",
+    "jsdom": "^25",
+    "tailwindcss": "^3.4",
+    "postcss": "^8",
+    "autoprefixer": "^10"
+  }
+}

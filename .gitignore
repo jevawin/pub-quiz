@@ -11,3 +11,6 @@ dist/
 *.orig.*
 web-build/
 .claude/
+apps/web/node_modules
+apps/web/dist
+apps/web/.env.local
