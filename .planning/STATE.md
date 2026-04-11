@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02.2-01-PLAN.md
-last_updated: "2026-04-11T15:28:00.171Z"
+stopped_at: Completed 02.2-05-setup-screen-PLAN.md
+last_updated: "2026-04-11T16:41:42.034Z"
 last_activity: 2026-04-05
 progress:
   total_phases: 19
@@ -61,7 +61,7 @@ Progress: [██░░░░░░░░] 11%
 | Phase 02.1 P01 | 4min | 2 tasks | 9 files |
 | Phase 02.1 P02 | 5min | 2 tasks | 3 files |
 | Phase 02.1 P03 | 5min | 2 tasks | 4 files |
-| Phase 02.2 P01 | 3min | 1 tasks | 25 files |
+| Phase 02.2 P05 | 4min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -90,8 +90,8 @@ Recent decisions affecting current work:
 - [Phase 02.1]: D-03 enforced: auto-publish removed from Fact-Check Agent, deferred to QA Agent
 - [Phase 02.1]: relevanceThreshold defaults to 0.6 via RELEVANCE_THRESHOLD env var
 - [Phase 02.1]: QA Agent uses same batching and Haiku pattern as Fact-Check Agent for consistency
-- [Phase 02.2]: Excluded vitest.config.ts from tsconfig.node.json to avoid vite plugin type conflicts
-- [Phase 02.2]: Used composite tsconfig.node.json with emitDeclarationOnly for tsc -b project references
+- [Phase 02.2]: Used vi.hoisted() for mock variables in vitest tests
+- [Phase 02.2]: Setup screen uses local useState for picker state -- three values don't need reducer
 
 ### Roadmap Evolution
 
@@ -107,5 +107,5 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T15:28:00.169Z
-Stopped at: Completed 02.2-01-PLAN.md
+Last session: 2026-04-11T16:41:42.032Z
+Stopped at: Completed 02.2-05-setup-screen-PLAN.md

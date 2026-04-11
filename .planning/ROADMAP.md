@@ -139,7 +139,7 @@ Plans:
 - [ ] 02.2-02-PLAN.md — Supabase migrations: question_plays, quiz_sessions, random_published_questions RPC
 - [ ] 02.2-03-PLAN.md — Supabase client, anonymous auth, difficulty translator, category config
 - [ ] 02.2-04-PLAN.md — Active-tab timer, localStorage outbox, shuffle, quiz reducer state machine
-- [ ] 02.2-05-PLAN.md — Setup screen (/) with query-param pre-fill + fetchRandomQuestions RPC helper
+- [x] 02.2-05-PLAN.md — Setup screen (/) with query-param pre-fill + fetchRandomQuestions RPC helper
 - [ ] 02.2-06-PLAN.md — Play screen (/play): question, reveal, feedback buttons, live question_plays insert
 - [ ] 02.2-07-PLAN.md — End screen (/done): score, three-face rating, feedback text, share URL
 - [ ] 02.2-08-PLAN.md — RLS integration tests + happy-path e2e + VALIDATION.md population
