@@ -1,8 +1,8 @@
 name: Question Pipeline
 
 on:
-  schedule:
-    - cron: '23 4 * * *'    # Daily at 04:23 UTC (odd time avoids GH Actions congestion)
+  # schedule:
+  #   - cron: '23 4 * * *'    # Daily at 04:23 UTC — disabled while fixing pipeline
   workflow_dispatch:
     inputs:
       budget_usd:
