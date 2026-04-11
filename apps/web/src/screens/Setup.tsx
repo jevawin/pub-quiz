@@ -95,7 +95,8 @@ export function Setup() {
         Trivia Quiz
       </h1>
       <p className="mb-6 text-base text-neutral-600">
-        My prototype quiz. I'm collecting feedback to improve it. Please play as much as you can! Jamie <Heart className="inline h-4 w-4 text-red-500 fill-red-500" />
+        My prototype quiz. I'm collecting feedback to improve it. Please play as much as you can!
+        <span className="block mt-1">Jamie <Heart className="inline h-4 w-4 text-red-500 fill-red-500" /></span>
       </p>
 
       {error && (
