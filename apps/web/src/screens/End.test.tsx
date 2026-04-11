@@ -117,19 +117,6 @@ describe('End screen', () => {
     expect(row.started_at).toBeDefined();
   });
 
-  it('Share button calls navigator.clipboard.writeText with buildShareUrl', async () => {
-    const user = userEvent.setup();
-    renderEnd();
-
-    await user.click(screen.getByRole('button', { name: /share/i }));
-
-    await waitFor(() => expect(writeTextMock).toHaveBeenCalledOnce());
-    const url = writeTextMock.mock.calls[0][0];
-    expect(url).toContain('cat=general');
-    expect(url).toContain('diff=Easy');
-    expect(url).toContain('n=10');
-  });
-
   it('Play Again button navigates to /', async () => {
     const user = userEvent.setup();
     renderEnd();

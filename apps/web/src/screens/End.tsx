@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { Smile, Meh, Frown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Smile, Meh, Frown, Play } from 'lucide-react';
 import { ensureSessionId } from '@/lib/auth';
 import { recordQuizSession, type QuizSessionRow } from '@/lib/plays';
 import { uiToDbDifficulty, type UiDifficulty } from '@/lib/difficulty';
-import { buildShareUrl } from '@/lib/shareUrl';
 
 type EndState = {
   score: number;
@@ -62,11 +60,6 @@ export function End() {
     }
   };
 
-  const onShare = async () => {
-    const url = buildShareUrl(config);
-    await navigator.clipboard.writeText(url);
-  };
-
   const onPlayAgain = () => {
     navigate('/');
   };
@@ -91,18 +84,25 @@ export function End() {
         <div className="space-y-6">
           <div>
             <p className="text-base font-medium mb-3">How was that?</p>
-            <div className="flex gap-3 justify-center">
-              {RATINGS.map(({ value, label, icon: Icon }) => (
-                <Button
-                  key={value}
-                  variant={rating === value ? 'default' : 'outline'}
-                  className="flex flex-col items-center gap-1 h-auto py-3 px-5"
-                  onClick={() => setRating(value)}
-                >
-                  <Icon className="h-6 w-6" />
-                  <span>{label}</span>
-                </Button>
-              ))}
+            <div className="flex flex-wrap gap-2 justify-center">
+              {RATINGS.map(({ value, label, icon: Icon }) => {
+                const active = rating === value;
+                return (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() => setRating(value)}
+                    className={`inline-flex items-center gap-1.5 rounded-lg border-2 px-5 py-2.5 text-base font-medium transition-colors ${
+                      active
+                        ? 'border-neutral-900 bg-neutral-900 text-white'
+                        : 'border-neutral-300 bg-white text-neutral-700 hover:border-neutral-400'
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" />
+                    {label}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -121,13 +121,13 @@ export function End() {
             />
           </div>
 
-          <Button
+          <button
             onClick={onSubmit}
             disabled={submitting}
-            className="w-full"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none"
           >
             {submitting ? 'Submitting...' : 'Submit'}
-          </Button>
+          </button>
         </div>
       ) : (
         <p className="text-center text-neutral-600 mb-8">
@@ -135,12 +135,13 @@ export function End() {
         </p>
       )}
 
-      <div className="flex gap-3 mt-8 justify-center">
-        <Button variant="outline" onClick={onShare}>
-          Share
-        </Button>
-        <Button onClick={onPlayAgain}>Play Again</Button>
-      </div>
+      <button
+        onClick={onPlayAgain}
+        className="w-full mt-8 inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-neutral-800"
+      >
+        <Play className="h-5 w-5 fill-current" />
+        Play Again
+      </button>
     </div>
   );
 }
