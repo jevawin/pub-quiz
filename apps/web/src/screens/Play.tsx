@@ -207,6 +207,9 @@ export function Play() {
                   Confusing: next question →
                 </button>
               </div>
+              <p className="text-base text-neutral-500">
+                Feedback based on how interesting the question was; how accurately it fit the category choice; and, how well it suits your chosen difficulty.
+              </p>
             </div>
           )}
         </CardContent>
