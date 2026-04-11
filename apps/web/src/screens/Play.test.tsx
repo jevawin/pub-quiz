@@ -94,18 +94,17 @@ describe('Play screen', () => {
     expect(screen.getByText('Paris is the capital city of France.')).toBeInTheDocument();
   });
 
-  it('Good/Bad/Confusing/Next buttons all appear after answer selection', async () => {
+  it('Good/Bad/Confusing feedback buttons all appear after answer selection', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /good/i })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /bad/i })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /confusing/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
     });
   });
 
-  it('clicking "Good" calls recordQuestionPlay with feedback_reaction === "good" then advances', async () => {
+  it('clicking "good" calls recordQuestionPlay with feedback_reaction === "good" then advances', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
@@ -127,18 +126,18 @@ describe('Play screen', () => {
     });
   });
 
-  it('clicking "Next" calls recordQuestionPlay with feedback_reaction === null', async () => {
+  it('clicking "bad" calls recordQuestionPlay with feedback_reaction === "bad"', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /bad/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /next/i }));
+    fireEvent.click(screen.getByRole('button', { name: /bad/i }));
     await waitFor(() => {
       expect(mockRecordPlay).toHaveBeenCalledWith(
         expect.objectContaining({
           question_id: 'q1',
-          feedback_reaction: null,
+          feedback_reaction: 'bad',
         }),
       );
     });
@@ -149,9 +148,9 @@ describe('Play screen', () => {
     // Answer Q1
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /good/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /next/i }));
+    fireEvent.click(screen.getByRole('button', { name: /good/i }));
 
     // Wait for Q2
     await waitFor(() => {
@@ -161,9 +160,9 @@ describe('Play screen', () => {
     // Answer Q2
     fireEvent.click(screen.getByText('4'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /good/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /next/i }));
+    fireEvent.click(screen.getByRole('button', { name: /good/i }));
 
     // Should navigate to /done
     await waitFor(() => {

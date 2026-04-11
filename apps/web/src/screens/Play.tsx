@@ -7,7 +7,7 @@ import { recordQuestionPlay } from '@/lib/plays';
 import { ensureSessionId } from '@/lib/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ThumbsUp, ThumbsDown, HelpCircle, ArrowRight, CheckCircle, XCircle } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, HelpCircle, CheckCircle, XCircle } from 'lucide-react';
 
 type LocationState = {
   questions: LoadedQuestion[];
@@ -174,15 +174,16 @@ export function Play() {
                 </p>
               )}
 
-              {/* Feedback buttons */}
-              <div className="flex gap-2">
+              {/* Feedback + next */}
+              <p className="text-sm font-medium">Feedback + next question</p>
+              <div className="flex flex-wrap gap-2 sm:gap-2 gap-y-2">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => onFeedback('good')}
                 >
                   <ThumbsUp className="mr-1 h-4 w-4" />
-                  Good
+                  good: next question →
                 </Button>
                 <Button
                   variant="outline"
@@ -190,7 +191,7 @@ export function Play() {
                   onClick={() => onFeedback('bad')}
                 >
                   <ThumbsDown className="mr-1 h-4 w-4" />
-                  Bad
+                  bad: next question →
                 </Button>
                 <Button
                   variant="outline"
@@ -198,15 +199,7 @@ export function Play() {
                   onClick={() => onFeedback('confusing')}
                 >
                   <HelpCircle className="mr-1 h-4 w-4" />
-                  Confusing
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => onFeedback(null)}
-                >
-                  <ArrowRight className="mr-1 h-4 w-4" />
-                  Next
+                  confusing: next question →
                 </Button>
               </div>
             </div>

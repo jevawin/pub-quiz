@@ -105,9 +105,9 @@ describe('Happy path: setup → play → done', () => {
         expect(screen.getByText(/correct!/i)).toBeInTheDocument();
       });
 
-      // Click "Next" feedback button (skips feedback)
-      const nextButton = screen.getByRole('button', { name: /next/i });
-      await user.click(nextButton);
+      // Click "good" feedback button
+      const goodFeedback = screen.getByRole('button', { name: /good: next question/i });
+      await user.click(goodFeedback);
 
       // Wait for recordQuestionPlay to be called
       await waitFor(() => {
