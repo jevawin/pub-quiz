@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Heart } from 'lucide-react';
+import { Heart, HelpCircle } from 'lucide-react';
 import { CATEGORY_OPTIONS, QUESTION_COUNTS, isValidCategory, isValidCount } from '@/config/categories';
 import { UI_DIFFICULTIES, type UiDifficulty } from '@/lib/difficulty';
 import { fetchRandomQuestions } from '@/lib/questions';
@@ -65,8 +64,7 @@ export function Setup() {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-8">
-      <h1 className="mb-1 text-3xl font-bold tracking-tight">Pub Quiz</h1>
-      <p className="mb-1 text-base text-muted-foreground">Self-learning quiz prototype</p>
+      <h1 className="mb-2 text-3xl font-bold tracking-tight">Self-learning quiz</h1>
       <p className="mb-6 text-sm text-muted-foreground">
         Learns and improves questions based on answers and feedback. Please play as much as you like to help me develop it! Jamie <Heart className="inline h-4 w-4 text-red-500 fill-red-500" />
       </p>
@@ -75,9 +73,14 @@ export function Setup() {
         <p className="mb-4 text-sm text-red-600">{error}</p>
       )}
 
-      <Button onClick={onPlay} disabled={loading} size="lg" className="w-full mb-8">
+      <button
+        onClick={onPlay}
+        disabled={loading}
+        className="w-full mb-8 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-4 text-lg font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none"
+      >
+        <HelpCircle className="h-5 w-5" />
         {loading ? 'Loading...' : 'Play'}
-      </Button>
+      </button>
 
       <Card className="mb-6">
         <CardHeader>

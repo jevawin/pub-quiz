@@ -73,7 +73,7 @@ describe('Happy path: setup → play → done', () => {
     renderApp();
 
     // --- Setup screen ---
-    expect(screen.getByRole('heading', { name: /pub quiz/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /self-learning quiz/i })).toBeInTheDocument();
 
     // Click Play
     const playButton = screen.getByRole('button', { name: /play/i });
