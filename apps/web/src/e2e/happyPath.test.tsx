@@ -42,6 +42,7 @@ const QUESTIONS: LoadedQuestion[] = Array.from({ length: 5 }, (_, i) => ({
   options: ['A', 'B', 'C', 'D'],
   correctIndex: 0,
   explanation: `Explanation for Q${i + 1}`,
+  category_slug: 'science',
 }));
 
 // --- Helpers ---

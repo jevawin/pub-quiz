@@ -10,6 +10,7 @@ type RpcRow = {
   distractors: string[];
   explanation: string | null;
   category_id: string;
+  category_slug: string;
 };
 
 function toLoadedQuestion(r: RpcRow): LoadedQuestion {
@@ -22,6 +23,7 @@ function toLoadedQuestion(r: RpcRow): LoadedQuestion {
     options,
     correctIndex,
     explanation: r.explanation,
+    category_slug: r.category_slug ?? 'general',
   };
 }
 

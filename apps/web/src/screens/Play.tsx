@@ -6,13 +6,17 @@ import { createActiveTimer } from '@/lib/activeTimer';
 import { recordQuestionPlay } from '@/lib/plays';
 import { ensureSessionId } from '@/lib/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ThumbsUp, ThumbsDown, HelpCircle, CheckCircle, XCircle, LogOut } from 'lucide-react';
+import { findCategory } from '@/config/categories';
+import { ThumbsUp, ThumbsDown, HelpCircle, CheckCircle, XCircle, LogOut, Smile, Flame, Skull } from 'lucide-react';
+import type { UiDifficulty } from '@/lib/difficulty';
 
 type LocationState = {
   questions: LoadedQuestion[];
-  config: { categorySlug: string; difficulty: string };
+  config: { category: string; difficulty: UiDifficulty; count: number };
   startedAt: number;
 };
+
+const DIFFICULTY_ICONS = { Easy: Smile, Medium: Flame, Hard: Skull } as const;
 
 export function Play() {
   const location = useLocation();
@@ -129,6 +133,25 @@ export function Play() {
 
       <Card>
         <CardHeader>
+          {(() => {
+            const cat = findCategory(question.category_slug);
+            const CatIcon = cat.icon;
+            const catLabel = cat.label;
+            const diff = locationState?.config.difficulty ?? 'Easy';
+            const DiffIcon = DIFFICULTY_ICONS[diff];
+            return (
+              <div className="flex items-center justify-between text-base text-neutral-500 mb-2">
+                <span className="inline-flex items-center gap-1">
+                  {CatIcon && <CatIcon className="h-4 w-4" />}
+                  {catLabel}
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <DiffIcon className="h-4 w-4" />
+                  {diff}
+                </span>
+              </div>
+            );
+          })()}
           <CardTitle className="text-xl leading-relaxed">
             {question.question_text}
           </CardTitle>

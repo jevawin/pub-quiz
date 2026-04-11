@@ -132,6 +132,7 @@ export function Setup() {
             </button>
             {CATEGORY_OPTIONS.filter((c) => c.slug !== 'general').map((c) => {
               const active = selectedCategories.has(c.slug);
+              const CatIcon = c.icon;
               return (
                 <button
                   type="button"
@@ -144,6 +145,7 @@ export function Setup() {
                   }`}
                 >
                   {active ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
+                  <CatIcon className="h-4 w-4" />
                   {c.label}
                 </button>
               );

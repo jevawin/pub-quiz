@@ -4,6 +4,7 @@ export type LoadedQuestion = {
   options: string[];
   correctIndex: number;
   explanation: string | null;
+  category_slug: string;
 };
 
 export type AnswerRecord = {

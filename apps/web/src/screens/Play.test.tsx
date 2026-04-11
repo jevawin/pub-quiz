@@ -32,6 +32,7 @@ const stubQuestions: LoadedQuestion[] = [
     options: ['London', 'Paris', 'Berlin', 'Madrid'],
     correctIndex: 1,
     explanation: 'Paris is the capital city of France.',
+    category_slug: 'geography',
   },
   {
     id: 'q2',
@@ -39,10 +40,11 @@ const stubQuestions: LoadedQuestion[] = [
     options: ['3', '4', '5', '6'],
     correctIndex: 1,
     explanation: 'Basic arithmetic.',
+    category_slug: 'science',
   },
 ];
 
-const stubConfig = { categorySlug: 'general', difficulty: 'normal' as const, numQuestions: 2 as const };
+const stubConfig = { category: 'general', difficulty: 'Medium' as const, count: 2 };
 const stubStartedAt = Date.now();
 
 function renderPlay(state?: Record<string, unknown>) {
