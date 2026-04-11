@@ -68,12 +68,12 @@ export function Setup() {
         <GraduationCap className="h-8 w-8" />
         Self-learning quiz
       </h1>
-      <p className="mb-6 text-sm text-muted-foreground">
+      <p className="mb-6 text-base text-neutral-600">
         Learns and improves questions based on answers and feedback. Please play as much as you like to help me develop it! Jamie <Heart className="inline h-4 w-4 text-red-500 fill-red-500" />
       </p>
 
       {error && (
-        <p className="mb-4 text-sm text-red-600">{error}</p>
+        <p className="mb-4 text-base text-red-700">{error}</p>
       )}
 
       <button
@@ -136,7 +136,7 @@ export function Setup() {
         </CardContent>
       </Card>
 
-      <p className="mb-6 text-sm text-neutral-500">
+      <p className="mb-6 text-base text-neutral-600">
         We log which answers you pick to improve questions. No personal data.
       </p>
 

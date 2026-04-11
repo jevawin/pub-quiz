@@ -114,7 +114,7 @@ export function Play() {
 
   return (
     <div className="mx-auto max-w-2xl p-4">
-      <div className="mb-4 text-sm text-muted-foreground">
+      <div className="mb-4 text-base text-neutral-600">
         Question {questionNumber} of {totalQuestions}
       </div>
 
@@ -161,38 +161,38 @@ export function Play() {
 
               {/* Show correct answer if wrong */}
               {!isCorrect && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-base text-neutral-600">
                   The correct answer was: <strong>{question.options[question.correctIndex]}</strong>
                 </p>
               )}
 
               {/* Explanation */}
               {question.explanation && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-base text-neutral-600">
                   {question.explanation}
                 </p>
               )}
 
               {/* Feedback + next */}
-              <p className="text-sm font-medium">Feedback + next question</p>
+              <p className="text-base font-medium">Feedback + next question</p>
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => onFeedback('good')}
-                  className="inline-flex items-center justify-center rounded-md border border-green-500 text-green-600 bg-transparent px-4 py-3 text-sm font-medium hover:bg-green-50 transition-colors w-full min-[500px]:w-auto"
+                  className="inline-flex items-center justify-center rounded-md border-2 border-green-600 text-green-700 bg-transparent px-4 py-3 text-base font-medium hover:bg-green-50 transition-colors w-full min-[500px]:w-auto"
                 >
                   <ThumbsUp className="mr-1.5 h-4 w-4" />
                   Good: next question →
                 </button>
                 <button
                   onClick={() => onFeedback('bad')}
-                  className="inline-flex items-center justify-center rounded-md border border-red-500 text-red-600 bg-transparent px-4 py-3 text-sm font-medium hover:bg-red-50 transition-colors w-full min-[500px]:w-auto"
+                  className="inline-flex items-center justify-center rounded-md border-2 border-red-600 text-red-700 bg-transparent px-4 py-3 text-base font-medium hover:bg-red-50 transition-colors w-full min-[500px]:w-auto"
                 >
                   <ThumbsDown className="mr-1.5 h-4 w-4" />
                   Bad: next question →
                 </button>
                 <button
                   onClick={() => onFeedback('confusing')}
-                  className="inline-flex items-center justify-center rounded-md border border-orange-500 text-orange-600 bg-transparent px-4 py-3 text-sm font-medium hover:bg-orange-50 transition-colors w-full min-[500px]:w-auto"
+                  className="inline-flex items-center justify-center rounded-md border-2 border-orange-600 text-orange-700 bg-transparent px-4 py-3 text-base font-medium hover:bg-orange-50 transition-colors w-full min-[500px]:w-auto"
                 >
                   <HelpCircle className="mr-1.5 h-4 w-4" />
                   Confusing: next question →

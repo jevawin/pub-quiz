@@ -77,7 +77,7 @@ export function End() {
         You scored {score} / {config.count}
       </h1>
 
-      <p className="text-center text-muted-foreground mb-8">
+      <p className="text-center text-neutral-600 mb-8">
         {score === config.count
           ? 'Perfect score!'
           : score >= config.count * 0.7
@@ -90,7 +90,7 @@ export function End() {
       {!submitted ? (
         <div className="space-y-6">
           <div>
-            <p className="text-sm font-medium mb-3">How was that?</p>
+            <p className="text-base font-medium mb-3">How was that?</p>
             <div className="flex gap-3 justify-center">
               {RATINGS.map(({ value, label, icon: Icon }) => (
                 <Button
@@ -109,13 +109,13 @@ export function End() {
           <div>
             <label
               htmlFor="feedback"
-              className="text-sm font-medium block mb-2"
+              className="text-base font-medium block mb-2"
             >
               Anything to tell us?
             </label>
             <textarea
               id="feedback"
-              className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               value={feedbackText}
               onChange={(e) => setFeedbackText(e.target.value)}
             />
@@ -130,7 +130,7 @@ export function End() {
           </Button>
         </div>
       ) : (
-        <p className="text-center text-muted-foreground mb-8">
+        <p className="text-center text-neutral-600 mb-8">
           Thanks for the feedback!
         </p>
       )}
