@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Heart, Play, GraduationCap, Square, CheckSquare } from 'lucide-react';
+import { Heart, Play, GraduationCap, Square, CheckSquare, Smile, Flame, Skull } from 'lucide-react';
 import { CATEGORY_OPTIONS, QUESTION_COUNTS, isValidCategory, isValidCount } from '@/config/categories';
 import { UI_DIFFICULTIES, type UiDifficulty } from '@/lib/difficulty';
 import { fetchRandomQuestions } from '@/lib/questions';
@@ -158,14 +158,29 @@ export function Setup() {
           <CardTitle>Difficulty</CardTitle>
         </CardHeader>
         <CardContent>
-          <RadioGroup value={difficulty} onValueChange={(v) => setDifficulty(v as UiDifficulty)}>
-            {UI_DIFFICULTIES.map((d) => (
-              <div key={d} className="flex items-center space-x-2">
-                <RadioGroupItem value={d} id={`diff-${d}`} />
-                <Label htmlFor={`diff-${d}`}>{d}</Label>
-              </div>
-            ))}
-          </RadioGroup>
+          <div className="flex flex-wrap gap-2">
+            {UI_DIFFICULTIES.map((d) => {
+              const active = difficulty === d;
+              const Icon = d === 'Easy' ? Smile : d === 'Medium' ? Flame : Skull;
+              return (
+                <button
+                  type="button"
+                  key={d}
+                  onClick={() => setDifficulty(d)}
+                  role="radio"
+                  aria-checked={active}
+                  className={`inline-flex items-center gap-1.5 rounded-lg border-2 px-4 py-2.5 text-base font-medium transition-colors ${
+                    active
+                      ? 'border-neutral-900 bg-neutral-900 text-white'
+                      : 'border-neutral-300 bg-white text-neutral-700 hover:border-neutral-400'
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {d}
+                </button>
+              );
+            })}
+          </div>
         </CardContent>
       </Card>
 
