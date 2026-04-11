@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 2.2 context gathered
-last_updated: "2026-04-07T20:26:11.678Z"
+stopped_at: Completed 02.2-05-setup-screen-PLAN.md
+last_updated: "2026-04-11T16:41:42.034Z"
 last_activity: 2026-04-05
 progress:
   total_phases: 19
   completed_phases: 3
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 18
+  completed_plans: 10
   percent: 11
 ---
 
@@ -61,6 +61,7 @@ Progress: [██░░░░░░░░] 11%
 | Phase 02.1 P01 | 4min | 2 tasks | 9 files |
 | Phase 02.1 P02 | 5min | 2 tasks | 3 files |
 | Phase 02.1 P03 | 5min | 2 tasks | 4 files |
+| Phase 02.2 P05 | 4min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -89,6 +90,8 @@ Recent decisions affecting current work:
 - [Phase 02.1]: D-03 enforced: auto-publish removed from Fact-Check Agent, deferred to QA Agent
 - [Phase 02.1]: relevanceThreshold defaults to 0.6 via RELEVANCE_THRESHOLD env var
 - [Phase 02.1]: QA Agent uses same batching and Haiku pattern as Fact-Check Agent for consistency
+- [Phase 02.2]: Used vi.hoisted() for mock variables in vitest tests
+- [Phase 02.2]: Setup screen uses local useState for picker state -- three values don't need reducer
 
 ### Roadmap Evolution
 
@@ -104,5 +107,5 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-07T20:26:11.670Z
-Stopped at: Phase 2.2 context gathered
+Last session: 2026-04-11T16:41:42.032Z
+Stopped at: Completed 02.2-05-setup-screen-PLAN.md
