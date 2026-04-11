@@ -43,6 +43,18 @@ export async function recordQuestionPlay(row: QuestionPlayRow): Promise<void> {
   flushOutbox<QuestionPlayRow>('question_plays', insertPlay).catch(() => {});
 }
 
+export async function recordQuestionFeedback(
+  sessionId: string,
+  questionId: string,
+  feedbackText: string,
+): Promise<void> {
+  await supabase.from('question_feedback').insert({
+    session_id: sessionId,
+    question_id: questionId,
+    feedback_text: feedbackText,
+  });
+}
+
 export async function recordRecategorisation(
   sessionId: string,
   questionId: string,

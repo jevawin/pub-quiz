@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { quizReducer, initialQuizState, selectScore } from '@/state/quiz';
 import type { LoadedQuestion } from '@/state/quiz';
 import { createActiveTimer } from '@/lib/activeTimer';
-import { recordQuestionPlay, recordRecategorisation } from '@/lib/plays';
+import { recordQuestionPlay, recordRecategorisation, recordQuestionFeedback } from '@/lib/plays';
 import { ensureSessionId } from '@/lib/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { findCategory, CATEGORY_OPTIONS } from '@/config/categories';
@@ -25,6 +25,9 @@ export function Play() {
   const timerRef = useRef<ReturnType<typeof createActiveTimer> | null>(null);
   const initialised = useRef(false);
   const [showRecategorise, setShowRecategorise] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackText, setFeedbackText] = useState('');
+  const [feedbackSent, setFeedbackSent] = useState(false);
 
   const locationState = location.state as LocationState | undefined;
 
@@ -118,6 +121,24 @@ export function Play() {
     [state],
   );
 
+  const onSubmitFeedback = useCallback(async () => {
+    if (!feedbackText.trim()) return;
+    if (state.phase === 'idle' || state.phase === 'loading' || state.phase === 'finished') return;
+    const sessionId = await ensureSessionId();
+    const q = state.questions[state.index]!;
+    await recordQuestionFeedback(sessionId, q.id, feedbackText.trim());
+    setFeedbackText('');
+    setFeedbackSent(true);
+  }, [feedbackText, state]);
+
+  // Reset feedback state when question changes
+  useEffect(() => {
+    setShowFeedback(false);
+    setShowRecategorise(false);
+    setFeedbackText('');
+    setFeedbackSent(false);
+  }, [state.phase === 'idle' || state.phase === 'loading' ? -1 : (state as { index: number }).index]);
+
   // Don't render anything while redirecting or loading
   if (state.phase === 'idle' || state.phase === 'loading' || state.phase === 'finished') {
     return null;
@@ -182,6 +203,12 @@ export function Play() {
                 <span className="inline-flex items-center gap-1">
                   <DiffIcon className="h-4 w-4" />
                   {diff}
+                  <button
+                    onClick={() => setShowFeedback(true)}
+                    className="ml-1 text-blue-600 underline underline-offset-2 text-base hover:text-blue-800"
+                  >
+                    Feedback
+                  </button>
                 </span>
               </div>
             );
@@ -339,6 +366,42 @@ export function Play() {
                 );
               })}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Feedback modal */}
+      {showFeedback && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-lg font-semibold">Feedback on this question</p>
+              <button
+                onClick={() => { setShowFeedback(false); setFeedbackSent(false); }}
+                className="rounded-md p-1 hover:bg-neutral-100 transition-colors"
+              >
+                <X className="h-5 w-5 text-neutral-500" />
+              </button>
+            </div>
+            {feedbackSent ? (
+              <p className="text-base text-neutral-600">Thanks for the feedback!</p>
+            ) : (
+              <>
+                <textarea
+                  value={feedbackText}
+                  onChange={(e) => setFeedbackText(e.target.value)}
+                  placeholder="e.g. The options don't make sense, the answer is wrong..."
+                  className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mb-4"
+                />
+                <button
+                  onClick={onSubmitFeedback}
+                  disabled={!feedbackText.trim()}
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-4 py-3 text-base font-semibold shadow transition-colors hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none"
+                >
+                  Submit feedback
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
