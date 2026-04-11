@@ -135,7 +135,7 @@ Plans:
 **Plans:** 9 plans
 
 Plans:
-- [ ] 02.2-01-PLAN.md — Scaffold apps/web/ Vite + React + TS + vitest + Tailwind + shadcn/ui
+- [x] 02.2-01-PLAN.md — Scaffold apps/web/ Vite + React + TS + vitest + Tailwind + shadcn/ui
 - [ ] 02.2-02-PLAN.md — Supabase migrations: question_plays, quiz_sessions, random_published_questions RPC
 - [ ] 02.2-03-PLAN.md — Supabase client, anonymous auth, difficulty translator, category config
 - [ ] 02.2-04-PLAN.md — Active-tab timer, localStorage outbox, shuffle, quiz reducer state machine
