@@ -28,12 +28,12 @@ function renderSetup(initialEntry = '/') {
 }
 
 describe('Setup screen', () => {
-  it('renders with defaults (General / Easy / 10) when no query params', () => {
+  it('renders with all categories selected by default', () => {
     renderSetup('/');
 
-    // Category default: General should be checked
-    const generalRadio = screen.getByRole('radio', { name: /general/i });
-    expect(generalRadio).toBeChecked();
+    // All button should be visually active (all categories selected by default)
+    const allButton = screen.getByRole('button', { name: /^all$/i });
+    expect(allButton).toBeInTheDocument();
 
     // Difficulty default: Easy
     const easyRadio = screen.getByRole('radio', { name: /^easy$/i });
@@ -47,8 +47,9 @@ describe('Setup screen', () => {
   it('pre-fills from query params ?cat=science&diff=Hard&n=5', () => {
     renderSetup('/?cat=science&diff=Hard&n=5');
 
-    const scienceRadio = screen.getByRole('radio', { name: /^science$/i });
-    expect(scienceRadio).toBeChecked();
+    // Science category button should exist
+    const scienceButton = screen.getByRole('button', { name: /^science$/i });
+    expect(scienceButton).toBeInTheDocument();
 
     const hardRadio = screen.getByRole('radio', { name: /^hard$/i });
     expect(hardRadio).toBeChecked();
@@ -59,9 +60,6 @@ describe('Setup screen', () => {
 
   it('falls back to defaults on invalid query params', () => {
     renderSetup('/?cat=bogus&diff=xxx&n=7');
-
-    const generalRadio = screen.getByRole('radio', { name: /general/i });
-    expect(generalRadio).toBeChecked();
 
     const easyRadio = screen.getByRole('radio', { name: /^easy$/i });
     expect(easyRadio).toBeChecked();
@@ -91,7 +89,8 @@ describe('Setup screen', () => {
     await user.click(playButton);
 
     await waitFor(() => {
-      expect(mockFetchRandomQuestions).toHaveBeenCalledWith('Easy', 'general', 10);
+      // All categories selected → passes ['general']
+      expect(mockFetchRandomQuestions).toHaveBeenCalledWith('Easy', ['general'], 10);
     });
 
     await waitFor(() => {

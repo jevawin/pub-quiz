@@ -81,7 +81,7 @@ describe('Happy path: setup → play → done', () => {
 
     // Wait for navigation to /play
     await waitFor(() => {
-      expect(mockFetchRandomQuestions).toHaveBeenCalledWith('Easy', 'general', 10);
+      expect(mockFetchRandomQuestions).toHaveBeenCalledWith('Easy', ['general'], 10);
     });
 
     // --- Play screen ---

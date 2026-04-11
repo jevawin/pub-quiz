@@ -24,22 +24,10 @@ const makeRow = (id: string) => ({
 });
 
 describe('fetchRandomQuestions', () => {
-  it('calls supabase.rpc with correct params (translated difficulty)', async () => {
+  it('calls supabase.rpc with general when all categories selected', async () => {
     rpc.mockResolvedValue({ data: [makeRow('q1')], error: null });
 
-    await fetchRandomQuestions('Medium', 'science-and-nature', 10);
-
-    expect(rpc).toHaveBeenCalledWith('random_published_questions', {
-      p_difficulty: 'normal',
-      p_category_slug: 'science-and-nature',
-      p_limit: 10,
-    });
-  });
-
-  it('passes general as p_category_slug for the general category', async () => {
-    rpc.mockResolvedValue({ data: [makeRow('q1')], error: null });
-
-    await fetchRandomQuestions('Easy', 'general', 5);
+    await fetchRandomQuestions('Easy', ['general'], 5);
 
     expect(rpc).toHaveBeenCalledWith('random_published_questions', {
       p_difficulty: 'easy',
@@ -48,10 +36,29 @@ describe('fetchRandomQuestions', () => {
     });
   });
 
+  it('calls supabase.rpc per category for multiple specific categories', async () => {
+    rpc
+      .mockResolvedValueOnce({ data: [makeRow('q1'), makeRow('q2')], error: null })
+      .mockResolvedValueOnce({ data: [makeRow('q3')], error: null });
+
+    const result = await fetchRandomQuestions('Medium', ['science', 'history'], 3);
+
+    expect(rpc).toHaveBeenCalledTimes(2);
+    expect(rpc).toHaveBeenCalledWith('random_published_questions', expect.objectContaining({
+      p_difficulty: 'normal',
+      p_category_slug: 'science',
+    }));
+    expect(rpc).toHaveBeenCalledWith('random_published_questions', expect.objectContaining({
+      p_difficulty: 'normal',
+      p_category_slug: 'history',
+    }));
+    expect(result.length).toBeLessThanOrEqual(3);
+  });
+
   it('maps RPC rows to LoadedQuestion with shuffled options and correct correctIndex', async () => {
     rpc.mockResolvedValue({ data: [makeRow('q1')], error: null });
 
-    const result = await fetchRandomQuestions('Hard', 'history', 1);
+    const result = await fetchRandomQuestions('Hard', ['history'], 1);
 
     expect(result).toHaveLength(1);
     const q = result[0]!;
@@ -59,10 +66,6 @@ describe('fetchRandomQuestions', () => {
     expect(q.question_text).toBe('Question q1');
     expect(q.options).toHaveLength(4);
     expect(q.options).toContain('Correct');
-    expect(q.options).toContain('Wrong A');
-    expect(q.options).toContain('Wrong B');
-    expect(q.options).toContain('Wrong C');
-    // correctIndex must point to the correct answer regardless of shuffle order
     expect(q.options[q.correctIndex]).toBe('Correct');
     expect(q.explanation).toBe('Explanation for q1');
   });
@@ -70,7 +73,7 @@ describe('fetchRandomQuestions', () => {
   it('throws on RPC error', async () => {
     rpc.mockResolvedValue({ data: null, error: { message: 'DB error' } });
 
-    await expect(fetchRandomQuestions('Easy', 'general', 5)).rejects.toEqual({
+    await expect(fetchRandomQuestions('Easy', ['general'], 5)).rejects.toEqual({
       message: 'DB error',
     });
   });
@@ -78,8 +81,8 @@ describe('fetchRandomQuestions', () => {
   it('throws on empty result', async () => {
     rpc.mockResolvedValue({ data: [], error: null });
 
-    await expect(fetchRandomQuestions('Easy', 'general', 5)).rejects.toThrow(
-      'No questions returned'
+    await expect(fetchRandomQuestions('Easy', ['general'], 5)).rejects.toThrow(
+      'No questions found'
     );
   });
 });

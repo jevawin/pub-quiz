@@ -9,7 +9,9 @@ import { UI_DIFFICULTIES, type UiDifficulty } from '@/lib/difficulty';
 import { fetchRandomQuestions } from '@/lib/questions';
 import type { QuestionCount } from '@/config/categories';
 
-const DEFAULT_CATEGORY = 'general';
+// All non-general category slugs
+const ALL_CATEGORY_SLUGS = CATEGORY_OPTIONS.filter((c) => c.slug !== 'general').map((c) => c.slug);
+
 const DEFAULT_DIFFICULTY: UiDifficulty = 'Easy';
 const DEFAULT_COUNT: QuestionCount = 10;
 
@@ -17,16 +19,41 @@ export function Setup() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const [category, setCategory] = useState(DEFAULT_CATEGORY);
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set(ALL_CATEGORY_SLUGS));
   const [difficulty, setDifficulty] = useState<UiDifficulty>(DEFAULT_DIFFICULTY);
   const [count, setCount] = useState<QuestionCount>(DEFAULT_COUNT);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const allSelected = selectedCategories.size === ALL_CATEGORY_SLUGS.length;
+
+  const toggleCategory = (slug: string) => {
+    setSelectedCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(slug)) {
+        next.delete(slug);
+      } else {
+        next.add(slug);
+      }
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    if (allSelected) {
+      setSelectedCategories(new Set());
+    } else {
+      setSelectedCategories(new Set(ALL_CATEGORY_SLUGS));
+    }
+  };
+
   useEffect(() => {
     const catParam = searchParams.get('cat');
-    if (catParam && isValidCategory(catParam)) {
-      setCategory(catParam);
+    if (catParam) {
+      const slugs = catParam.split(',').filter(isValidCategory);
+      if (slugs.length > 0) {
+        setSelectedCategories(new Set(slugs.filter((s) => s !== 'general')));
+      }
     }
 
     const diffParam = searchParams.get('diff');
@@ -47,11 +74,12 @@ export function Setup() {
     setLoading(true);
     setError(null);
     try {
-      const questions = await fetchRandomQuestions(difficulty, category, count);
+      const slugs = allSelected ? ['general'] : Array.from(selectedCategories);
+      const questions = await fetchRandomQuestions(difficulty, slugs, count);
       navigate('/play', {
         state: {
           questions,
-          config: { category, difficulty, count },
+          config: { category: slugs.join(','), difficulty, count },
           startedAt: Date.now(),
         },
       });
@@ -87,17 +115,39 @@ export function Setup() {
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Category</CardTitle>
+          <CardTitle>Categories</CardTitle>
         </CardHeader>
         <CardContent>
-          <RadioGroup value={category} onValueChange={setCategory}>
-            {CATEGORY_OPTIONS.map((c) => (
-              <div key={c.slug} className="flex items-center space-x-2">
-                <RadioGroupItem value={c.slug} id={`cat-${c.slug}`} />
-                <Label htmlFor={`cat-${c.slug}`}>{c.label}</Label>
-              </div>
-            ))}
-          </RadioGroup>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={toggleAll}
+              className={`rounded-lg border-2 px-4 py-2.5 text-base font-medium transition-colors ${
+                allSelected
+                  ? 'border-neutral-900 bg-neutral-900 text-white'
+                  : 'border-neutral-300 bg-white text-neutral-700 hover:border-neutral-400'
+              }`}
+            >
+              All
+            </button>
+            {CATEGORY_OPTIONS.filter((c) => c.slug !== 'general').map((c) => {
+              const active = selectedCategories.has(c.slug);
+              return (
+                <button
+                  type="button"
+                  key={c.slug}
+                  onClick={() => toggleCategory(c.slug)}
+                  className={`rounded-lg border-2 px-4 py-2.5 text-base font-medium transition-colors ${
+                    active
+                      ? 'border-neutral-900 bg-neutral-900 text-white'
+                      : 'border-neutral-300 bg-white text-neutral-700 hover:border-neutral-400'
+                  }`}
+                >
+                  {c.label}
+                </button>
+              );
+            })}
+          </div>
         </CardContent>
       </Card>
 
