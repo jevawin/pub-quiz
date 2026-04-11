@@ -7,7 +7,7 @@ export type QuestionPlayRow = {
   chosen_option: string;
   is_correct: boolean;
   time_to_answer_ms: number;
-  feedback_reaction: 'good' | 'bad' | 'confusing' | null;
+  feedback_reaction: 'too-easy' | 'too-hard' | 'just-right' | null;
   played_at: string;
 };
 
@@ -41,6 +41,18 @@ export async function recordQuestionPlay(row: QuestionPlayRow): Promise<void> {
     return;
   }
   flushOutbox<QuestionPlayRow>('question_plays', insertPlay).catch(() => {});
+}
+
+export async function recordRecategorisation(
+  sessionId: string,
+  questionId: string,
+  suggestedCategorySlug: string,
+): Promise<void> {
+  await supabase.from('question_recategorisations').insert({
+    session_id: sessionId,
+    question_id: questionId,
+    suggested_category_slug: suggestedCategorySlug,
+  });
 }
 
 export async function recordQuizSession(row: QuizSessionRow): Promise<void> {

@@ -24,6 +24,7 @@ vi.mock('@/lib/questions', () => ({
 vi.mock('@/lib/plays', () => ({
   recordQuestionPlay: mockRecordQuestionPlay,
   recordQuizSession: mockRecordQuizSession,
+  recordRecategorisation: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock('@/lib/auth', () => ({
@@ -106,9 +107,9 @@ describe('Happy path: setup → play → done', () => {
         expect(screen.getByText(/correct!/i)).toBeInTheDocument();
       });
 
-      // Click "good" feedback button
-      const goodFeedback = screen.getByRole('button', { name: /good: next question/i });
-      await user.click(goodFeedback);
+      // Click "Just right" feedback button
+      const justRight = screen.getByRole('button', { name: /just right/i });
+      await user.click(justRight);
 
       // Wait for recordQuestionPlay to be called
       await waitFor(() => {

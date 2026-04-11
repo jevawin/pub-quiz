@@ -6,6 +6,7 @@ import type { LoadedQuestion } from '@/state/quiz';
 // Mock plays + auth before importing component
 vi.mock('@/lib/plays', () => ({
   recordQuestionPlay: vi.fn().mockResolvedValue(undefined),
+  recordRecategorisation: vi.fn().mockResolvedValue(undefined),
 }));
 vi.mock('@/lib/auth', () => ({
   ensureSessionId: vi.fn().mockResolvedValue('test-session-id'),
@@ -88,7 +89,6 @@ describe('Play screen', () => {
 
   it('selecting an option transitions to revealed - correct/incorrect banner + explanation visible', async () => {
     renderPlay();
-    // Click the correct answer (Paris)
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
       expect(screen.getByText(/correct/i)).toBeInTheDocument();
@@ -96,50 +96,49 @@ describe('Play screen', () => {
     expect(screen.getByText('Paris is the capital city of France.')).toBeInTheDocument();
   });
 
-  it('Good/Bad/Confusing feedback buttons all appear after answer selection', async () => {
+  it('Too easy / Just right / Too hard feedback buttons appear after answer', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /good/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /bad/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /confusing/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /too easy/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /just right/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /too hard/i })).toBeInTheDocument();
     });
   });
 
-  it('clicking "good" calls recordQuestionPlay with feedback_reaction === "good" then advances', async () => {
+  it('clicking "Just right" calls recordQuestionPlay with feedback_reaction === "just-right" then advances', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /good/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /just right/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /good/i }));
+    fireEvent.click(screen.getByRole('button', { name: /just right/i }));
     await waitFor(() => {
       expect(mockRecordPlay).toHaveBeenCalledWith(
         expect.objectContaining({
           question_id: 'q1',
-          feedback_reaction: 'good',
+          feedback_reaction: 'just-right',
           is_correct: true,
         }),
       );
     });
-    // Should advance to next question
     await waitFor(() => {
       expect(screen.getByText('What is 2+2?')).toBeInTheDocument();
     });
   });
 
-  it('clicking "bad" calls recordQuestionPlay with feedback_reaction === "bad"', async () => {
+  it('clicking "Too hard" calls recordQuestionPlay with feedback_reaction === "too-hard"', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /bad/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /too hard/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /bad/i }));
+    fireEvent.click(screen.getByRole('button', { name: /too hard/i }));
     await waitFor(() => {
       expect(mockRecordPlay).toHaveBeenCalledWith(
         expect.objectContaining({
           question_id: 'q1',
-          feedback_reaction: 'bad',
+          feedback_reaction: 'too-hard',
         }),
       );
     });
@@ -147,26 +146,22 @@ describe('Play screen', () => {
 
   it('after the last question, navigates to /done', async () => {
     renderPlay();
-    // Answer Q1
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /good/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /just right/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /good/i }));
+    fireEvent.click(screen.getByRole('button', { name: /just right/i }));
 
-    // Wait for Q2
     await waitFor(() => {
       expect(screen.getByText('What is 2+2?')).toBeInTheDocument();
     });
 
-    // Answer Q2
     fireEvent.click(screen.getByText('4'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /good/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /just right/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /good/i }));
+    fireEvent.click(screen.getByRole('button', { name: /just right/i }));
 
-    // Should navigate to /done
     await waitFor(() => {
       expect(screen.getByTestId('done')).toBeInTheDocument();
     });

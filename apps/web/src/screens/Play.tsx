@@ -1,13 +1,13 @@
-import { useReducer, useEffect, useRef, useCallback } from 'react';
+import { useReducer, useEffect, useRef, useCallback, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { quizReducer, initialQuizState, selectScore } from '@/state/quiz';
 import type { LoadedQuestion } from '@/state/quiz';
 import { createActiveTimer } from '@/lib/activeTimer';
-import { recordQuestionPlay } from '@/lib/plays';
+import { recordQuestionPlay, recordRecategorisation } from '@/lib/plays';
 import { ensureSessionId } from '@/lib/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { findCategory } from '@/config/categories';
-import { ThumbsUp, ThumbsDown, HelpCircle, CheckCircle, XCircle, LogOut, Smile, Flame, Skull } from 'lucide-react';
+import { findCategory, CATEGORY_OPTIONS } from '@/config/categories';
+import { CheckCircle, XCircle, LogOut, Smile, Flame, Skull, Wind, ThumbsUp, X } from 'lucide-react';
 import type { UiDifficulty } from '@/lib/difficulty';
 
 type LocationState = {
@@ -24,6 +24,7 @@ export function Play() {
   const [state, dispatch] = useReducer(quizReducer, initialQuizState);
   const timerRef = useRef<ReturnType<typeof createActiveTimer> | null>(null);
   const initialised = useRef(false);
+  const [showRecategorise, setShowRecategorise] = useState(false);
 
   const locationState = location.state as LocationState | undefined;
 
@@ -85,8 +86,9 @@ export function Play() {
   );
 
   const onFeedback = useCallback(
-    async (reaction: 'good' | 'bad' | 'confusing' | null) => {
+    async (reaction: 'too-easy' | 'too-hard' | 'just-right') => {
       if (state.phase !== 'revealed') return;
+      setShowRecategorise(false);
       const sessionId = await ensureSessionId();
       const last = state.answers[state.answers.length - 1]!;
       const q = state.questions[state.index]!;
@@ -101,6 +103,17 @@ export function Play() {
       });
       dispatch({ type: 'FEEDBACK', reaction });
       dispatch({ type: 'NEXT' });
+    },
+    [state],
+  );
+
+  const onRecategorise = useCallback(
+    async (slug: string) => {
+      if (state.phase !== 'revealed') return;
+      const sessionId = await ensureSessionId();
+      const q = state.questions[state.index]!;
+      await recordRecategorisation(sessionId, q.id, slug);
+      setShowRecategorise(false);
     },
     [state],
   );
@@ -142,8 +155,16 @@ export function Play() {
             return (
               <div className="flex items-center justify-between text-base text-neutral-500 mb-2">
                 <span className="inline-flex items-center gap-1">
-                  {CatIcon && <CatIcon className="h-4 w-4" />}
+                  <CatIcon className="h-4 w-4" />
                   {catLabel}
+                  {state.phase === 'revealed' && (
+                    <button
+                      onClick={() => setShowRecategorise(true)}
+                      className="ml-1 text-blue-600 underline underline-offset-2 text-base hover:text-blue-800"
+                    >
+                      Wrong?
+                    </button>
+                  )}
                 </span>
                 <span className="inline-flex items-center gap-1">
                   <DiffIcon className="h-4 w-4" />
@@ -205,38 +226,67 @@ export function Play() {
                 </p>
               )}
 
-              {/* Feedback + next */}
-              <p className="text-base font-medium">Feedback + next question</p>
+              {/* Difficulty feedback + next */}
+              <p className="text-base font-medium">How was the difficulty?</p>
               <div className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => onFeedback('good')}
+                  onClick={() => onFeedback('too-easy')}
+                  className="inline-flex items-center justify-center rounded-md border-2 border-amber-600 text-amber-700 bg-amber-50 px-4 py-3 text-base font-medium hover:bg-amber-100 transition-colors w-full min-[500px]:w-auto"
+                >
+                  <Wind className="mr-1.5 h-4 w-4" />
+                  Too easy →
+                </button>
+                <button
+                  onClick={() => onFeedback('just-right')}
                   className="inline-flex items-center justify-center rounded-md border-2 border-green-600 text-green-700 bg-green-50 px-4 py-3 text-base font-medium hover:bg-green-100 transition-colors w-full min-[500px]:w-auto"
                 >
                   <ThumbsUp className="mr-1.5 h-4 w-4" />
-                  Good: next question →
+                  Just right →
                 </button>
                 <button
-                  onClick={() => onFeedback('bad')}
-                  className="inline-flex items-center justify-center rounded-md border-2 border-red-600 text-red-700 bg-red-50 px-4 py-3 text-base font-medium hover:bg-red-100 transition-colors w-full min-[500px]:w-auto"
-                >
-                  <ThumbsDown className="mr-1.5 h-4 w-4" />
-                  Bad: next question →
-                </button>
-                <button
-                  onClick={() => onFeedback('confusing')}
+                  onClick={() => onFeedback('too-hard')}
                   className="inline-flex items-center justify-center rounded-md border-2 border-amber-600 text-amber-700 bg-amber-50 px-4 py-3 text-base font-medium hover:bg-amber-100 transition-colors w-full min-[500px]:w-auto"
                 >
-                  <HelpCircle className="mr-1.5 h-4 w-4" />
-                  Confusing: next question →
+                  <Skull className="mr-1.5 h-4 w-4" />
+                  Too hard →
                 </button>
               </div>
-              <p className="text-base text-neutral-500">
-                Feedback based on how interesting the question was; how accurately it fit the category choice; and, how well it suits your chosen difficulty.
-              </p>
             </div>
           )}
         </CardContent>
       </Card>
+
+      {/* Recategorise modal */}
+      {showRecategorise && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto p-6">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-lg font-semibold">Which category does this belong to?</p>
+              <button
+                onClick={() => setShowRecategorise(false)}
+                className="rounded-md p-1 hover:bg-neutral-100 transition-colors"
+              >
+                <X className="h-5 w-5 text-neutral-500" />
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {CATEGORY_OPTIONS.filter((c) => c.slug !== 'general').map((c) => {
+                const CatIcon = c.icon;
+                return (
+                  <button
+                    key={c.slug}
+                    onClick={() => onRecategorise(c.slug)}
+                    className="inline-flex items-center gap-1.5 rounded-lg border-2 border-neutral-300 bg-white text-neutral-700 px-4 py-2.5 text-base font-medium hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition-colors"
+                  >
+                    <CatIcon className="h-4 w-4" />
+                    {c.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
