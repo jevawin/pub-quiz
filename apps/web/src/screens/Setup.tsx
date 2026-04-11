@@ -64,7 +64,15 @@ export function Setup() {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-8">
-      <h1 className="mb-8 text-3xl font-bold tracking-tight">Pub Quiz</h1>
+      <h1 className="mb-4 text-3xl font-bold tracking-tight">Pub Quiz</h1>
+
+      {error && (
+        <p className="mb-4 text-sm text-red-600">{error}</p>
+      )}
+
+      <Button onClick={onPlay} disabled={loading} size="lg" className="w-full mb-8">
+        {loading ? 'Loading...' : 'Play'}
+      </Button>
 
       <Card className="mb-6">
         <CardHeader>
@@ -117,17 +125,9 @@ export function Setup() {
         </CardContent>
       </Card>
 
-      <p className="mb-6 text-sm text-neutral-500">
+      <p className="text-sm text-neutral-500">
         We log which answers you pick to improve questions. No personal data.
       </p>
-
-      {error && (
-        <p className="mb-4 text-sm text-red-600">{error}</p>
-      )}
-
-      <Button onClick={onPlay} disabled={loading} size="lg" className="w-full">
-        {loading ? 'Loading...' : 'Play'}
-      </Button>
     </div>
   );
 }
