@@ -96,28 +96,28 @@ describe('Play screen', () => {
     expect(screen.getByText('Paris is the capital city of France.')).toBeInTheDocument();
   });
 
-  it('Too easy / Just right / Too hard feedback buttons appear after answer', async () => {
+  it('Easy / Medium / Hard feedback buttons appear after answer', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /too easy/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /just right/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /too hard/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /easy/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /medium/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /hard/i })).toBeInTheDocument();
     });
   });
 
-  it('clicking "Just right" calls recordQuestionPlay with feedback_reaction === "just-right" then advances', async () => {
+  it('clicking "Medium" calls recordQuestionPlay with feedback_reaction === "just-right" then advances', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /just right/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /medium/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /just right/i }));
+    fireEvent.click(screen.getByRole('button', { name: /medium/i }));
     await waitFor(() => {
       expect(mockRecordPlay).toHaveBeenCalledWith(
         expect.objectContaining({
           question_id: 'q1',
-          feedback_reaction: 'just-right',
+          feedback_reaction: 'medium',
           is_correct: true,
         }),
       );
@@ -127,18 +127,18 @@ describe('Play screen', () => {
     });
   });
 
-  it('clicking "Too hard" calls recordQuestionPlay with feedback_reaction === "too-hard"', async () => {
+  it('clicking "Hard" calls recordQuestionPlay with feedback_reaction === "too-hard"', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /too hard/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /hard/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /too hard/i }));
+    fireEvent.click(screen.getByRole('button', { name: /hard/i }));
     await waitFor(() => {
       expect(mockRecordPlay).toHaveBeenCalledWith(
         expect.objectContaining({
           question_id: 'q1',
-          feedback_reaction: 'too-hard',
+          feedback_reaction: 'hard',
         }),
       );
     });
@@ -148,9 +148,9 @@ describe('Play screen', () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /just right/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /medium/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /just right/i }));
+    fireEvent.click(screen.getByRole('button', { name: /medium/i }));
 
     await waitFor(() => {
       expect(screen.getByText('What is 2+2?')).toBeInTheDocument();
@@ -158,9 +158,9 @@ describe('Play screen', () => {
 
     fireEvent.click(screen.getByText('4'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /just right/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /medium/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /just right/i }));
+    fireEvent.click(screen.getByRole('button', { name: /medium/i }));
 
     await waitFor(() => {
       expect(screen.getByTestId('done')).toBeInTheDocument();

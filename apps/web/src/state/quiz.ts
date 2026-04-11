@@ -12,7 +12,7 @@ export type AnswerRecord = {
   chosenIndex: number;
   isCorrect: boolean;
   elapsedMs: number;
-  reaction: 'too-easy' | 'too-hard' | 'just-right' | null;
+  reaction: 'easy' | 'medium' | 'hard' | null;
 };
 
 export type QuizPhase = 'idle' | 'loading' | 'playing' | 'revealed' | 'reviewing' | 'finished';
@@ -34,7 +34,7 @@ export type QuizAction =
   | { type: 'LOAD' }
   | { type: 'START'; questions: LoadedQuestion[]; startedAt: number }
   | { type: 'ANSWER'; chosenIndex: number; elapsedMs: number }
-  | { type: 'FEEDBACK'; reaction: 'too-easy' | 'too-hard' | 'just-right' | null }
+  | { type: 'FEEDBACK'; reaction: 'easy' | 'medium' | 'hard' | null }
   | { type: 'NEXT' }
   | { type: 'VIEW_PREVIOUS' }
   | { type: 'VIEW_CURRENT' }

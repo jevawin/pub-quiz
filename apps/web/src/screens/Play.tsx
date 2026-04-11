@@ -7,7 +7,7 @@ import { recordQuestionPlay, recordRecategorisation } from '@/lib/plays';
 import { ensureSessionId } from '@/lib/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { findCategory, CATEGORY_OPTIONS } from '@/config/categories';
-import { CheckCircle, XCircle, LogOut, Smile, Flame, Skull, Wind, ThumbsUp, X, ChevronLeft, ArrowRight } from 'lucide-react';
+import { CheckCircle, XCircle, LogOut, Smile, Flame, Skull, X, ChevronLeft, ArrowRight } from 'lucide-react';
 import type { UiDifficulty } from '@/lib/difficulty';
 
 type LocationState = {
@@ -86,7 +86,7 @@ export function Play() {
   );
 
   const onFeedback = useCallback(
-    async (reaction: 'too-easy' | 'too-hard' | 'just-right') => {
+    async (reaction: 'easy' | 'medium' | 'hard') => {
       if (state.phase !== 'revealed') return;
       setShowRecategorise(false);
       const sessionId = await ensureSessionId();
@@ -109,7 +109,7 @@ export function Play() {
 
   const onRecategorise = useCallback(
     async (slug: string) => {
-      if (state.phase !== 'revealed' && state.phase !== 'reviewing') return;
+      if (state.phase === 'idle' || state.phase === 'loading' || state.phase === 'finished') return;
       const sessionId = await ensureSessionId();
       const q = state.questions[state.index]!;
       await recordRecategorisation(sessionId, q.id, slug);
@@ -172,14 +172,12 @@ export function Play() {
                 <span className="inline-flex items-center gap-1">
                   <CatIcon className="h-4 w-4" />
                   {catLabel}
-                  {(state.phase === 'revealed' || isReviewing) && (
-                    <button
-                      onClick={() => setShowRecategorise(true)}
-                      className="ml-1 text-blue-600 underline underline-offset-2 text-base hover:text-blue-800"
-                    >
-                      Wrong?
-                    </button>
-                  )}
+                  <button
+                    onClick={() => setShowRecategorise(true)}
+                    className="ml-1 text-blue-600 underline underline-offset-2 text-base hover:text-blue-800"
+                  >
+                    Wrong?
+                  </button>
                 </span>
                 <span className="inline-flex items-center gap-1">
                   <DiffIcon className="h-4 w-4" />
@@ -241,29 +239,29 @@ export function Play() {
                 </p>
               )}
 
-              {/* Difficulty feedback + next */}
-              <p className="text-base font-medium">How was the difficulty?</p>
+              {/* Difficulty rating + next */}
+              <p className="text-base font-medium">How would you rate this question?</p>
               <div className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => onFeedback('too-easy')}
-                  className="inline-flex items-center justify-center rounded-md border-2 border-amber-600 text-amber-700 bg-amber-50 px-4 py-3 text-base font-medium hover:bg-amber-100 transition-colors w-full min-[500px]:w-auto"
-                >
-                  <Wind className="mr-1.5 h-4 w-4" />
-                  Too easy →
-                </button>
-                <button
-                  onClick={() => onFeedback('just-right')}
+                  onClick={() => onFeedback('easy')}
                   className="inline-flex items-center justify-center rounded-md border-2 border-green-600 text-green-700 bg-green-50 px-4 py-3 text-base font-medium hover:bg-green-100 transition-colors w-full min-[500px]:w-auto"
                 >
-                  <ThumbsUp className="mr-1.5 h-4 w-4" />
-                  Just right →
+                  <Smile className="mr-1.5 h-4 w-4" />
+                  Easy →
                 </button>
                 <button
-                  onClick={() => onFeedback('too-hard')}
+                  onClick={() => onFeedback('medium')}
                   className="inline-flex items-center justify-center rounded-md border-2 border-amber-600 text-amber-700 bg-amber-50 px-4 py-3 text-base font-medium hover:bg-amber-100 transition-colors w-full min-[500px]:w-auto"
                 >
+                  <Flame className="mr-1.5 h-4 w-4" />
+                  Medium →
+                </button>
+                <button
+                  onClick={() => onFeedback('hard')}
+                  className="inline-flex items-center justify-center rounded-md border-2 border-red-600 text-red-700 bg-red-50 px-4 py-3 text-base font-medium hover:bg-red-100 transition-colors w-full min-[500px]:w-auto"
+                >
                   <Skull className="mr-1.5 h-4 w-4" />
-                  Too hard →
+                  Hard →
                 </button>
               </div>
             </div>

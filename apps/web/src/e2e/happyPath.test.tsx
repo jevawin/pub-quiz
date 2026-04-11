@@ -107,9 +107,9 @@ describe('Happy path: setup → play → done', () => {
         expect(screen.getByText(/correct!/i)).toBeInTheDocument();
       });
 
-      // Click "Just right" feedback button
-      const justRight = screen.getByRole('button', { name: /just right/i });
-      await user.click(justRight);
+      // Click "Medium" difficulty rating
+      const mediumBtn = screen.getByRole('button', { name: /medium/i });
+      await user.click(mediumBtn);
 
       // Wait for recordQuestionPlay to be called
       await waitFor(() => {
