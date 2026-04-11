@@ -6,7 +6,7 @@ import { createActiveTimer } from '@/lib/activeTimer';
 import { recordQuestionPlay } from '@/lib/plays';
 import { ensureSessionId } from '@/lib/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ThumbsUp, ThumbsDown, HelpCircle, CheckCircle, XCircle } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, HelpCircle, CheckCircle, XCircle, LogOut } from 'lucide-react';
 
 type LocationState = {
   questions: LoadedQuestion[];
@@ -114,8 +114,17 @@ export function Play() {
 
   return (
     <div className="mx-auto max-w-2xl p-4">
-      <div className="mb-4 text-base text-neutral-600">
-        Question {questionNumber} of {totalQuestions}
+      <div className="mb-4 flex items-center justify-between">
+        <span className="text-base text-neutral-600">
+          Question {questionNumber} of {totalQuestions}
+        </span>
+        <button
+          onClick={() => navigate('/', { replace: true })}
+          className="inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-base text-neutral-600 hover:bg-neutral-100 transition-colors"
+        >
+          <LogOut className="h-4 w-4" />
+          Exit
+        </button>
       </div>
 
       <Card>
