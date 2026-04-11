@@ -178,21 +178,21 @@ export function Play() {
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => onFeedback('good')}
-                  className="inline-flex items-center justify-center rounded-md border-2 border-green-600 text-green-700 bg-transparent px-4 py-3 text-base font-medium hover:bg-green-50 transition-colors w-full min-[500px]:w-auto"
+                  className="inline-flex items-center justify-center rounded-md border-2 border-green-600 text-green-700 bg-green-50 px-4 py-3 text-base font-medium hover:bg-green-100 transition-colors w-full min-[500px]:w-auto"
                 >
                   <ThumbsUp className="mr-1.5 h-4 w-4" />
                   Good: next question →
                 </button>
                 <button
                   onClick={() => onFeedback('bad')}
-                  className="inline-flex items-center justify-center rounded-md border-2 border-red-600 text-red-700 bg-transparent px-4 py-3 text-base font-medium hover:bg-red-50 transition-colors w-full min-[500px]:w-auto"
+                  className="inline-flex items-center justify-center rounded-md border-2 border-red-600 text-red-700 bg-red-50 px-4 py-3 text-base font-medium hover:bg-red-100 transition-colors w-full min-[500px]:w-auto"
                 >
                   <ThumbsDown className="mr-1.5 h-4 w-4" />
                   Bad: next question →
                 </button>
                 <button
                   onClick={() => onFeedback('confusing')}
-                  className="inline-flex items-center justify-center rounded-md border-2 border-orange-600 text-orange-700 bg-transparent px-4 py-3 text-base font-medium hover:bg-orange-50 transition-colors w-full min-[500px]:w-auto"
+                  className="inline-flex items-center justify-center rounded-md border-2 border-amber-600 text-amber-700 bg-amber-50 px-4 py-3 text-base font-medium hover:bg-amber-100 transition-colors w-full min-[500px]:w-auto"
                 >
                   <HelpCircle className="mr-1.5 h-4 w-4" />
                   Confusing: next question →
