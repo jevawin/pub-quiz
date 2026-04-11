@@ -103,7 +103,7 @@ export function Setup() {
         <p className="mb-4 text-base text-red-700">{error}</p>
       )}
 
-      <p className="mb-2 text-base text-neutral-500 text-center">
+      <p className="mb-2 text-base text-neutral-500">
         {allSelected ? 'All categories' : `${selectedCategories.size} ${selectedCategories.size === 1 ? 'category' : 'categories'}`}
         {' · '}
         {difficulty}
@@ -228,7 +228,7 @@ export function Setup() {
         We log which answers you pick to improve questions. No personal data.
       </p>
 
-      <p className="mb-2 text-base text-neutral-500 text-center">
+      <p className="mb-2 text-base text-neutral-500">
         {allSelected ? 'All categories' : `${selectedCategories.size} ${selectedCategories.size === 1 ? 'category' : 'categories'}`}
         {' · '}
         {difficulty}
