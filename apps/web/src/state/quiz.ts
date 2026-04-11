@@ -15,15 +15,17 @@ export type AnswerRecord = {
   reaction: 'too-easy' | 'too-hard' | 'just-right' | null;
 };
 
-export type QuizPhase = 'idle' | 'loading' | 'playing' | 'revealed' | 'finished';
+export type QuizPhase = 'idle' | 'loading' | 'playing' | 'revealed' | 'reviewing' | 'finished';
 
 export type QuizState =
   | { phase: 'idle' }
   | { phase: 'loading' }
   | {
-      phase: 'playing' | 'revealed' | 'finished';
+      phase: 'playing' | 'revealed' | 'reviewing' | 'finished';
       questions: LoadedQuestion[];
       index: number;
+      /** The index of the next unanswered question (the "frontier"). */
+      currentIndex: number;
       answers: AnswerRecord[];
       startedAt: number;
     };
@@ -34,6 +36,8 @@ export type QuizAction =
   | { type: 'ANSWER'; chosenIndex: number; elapsedMs: number }
   | { type: 'FEEDBACK'; reaction: 'too-easy' | 'too-hard' | 'just-right' | null }
   | { type: 'NEXT' }
+  | { type: 'VIEW_PREVIOUS' }
+  | { type: 'VIEW_CURRENT' }
   | { type: 'RESET' };
 
 export const initialQuizState: QuizState = { phase: 'idle' };
@@ -47,6 +51,7 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
         phase: 'playing',
         questions: action.questions,
         index: 0,
+        currentIndex: 0,
         answers: [],
         startedAt: action.startedAt,
       };
@@ -72,8 +77,25 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
     case 'NEXT': {
       if (state.phase !== 'revealed') return state;
       const nextIndex = state.index + 1;
-      if (nextIndex >= state.questions.length) return { ...state, phase: 'finished' };
-      return { ...state, phase: 'playing', index: nextIndex };
+      if (nextIndex >= state.questions.length) return { ...state, phase: 'finished', currentIndex: nextIndex };
+      return { ...state, phase: 'playing', index: nextIndex, currentIndex: nextIndex };
+    }
+    case 'VIEW_PREVIOUS': {
+      if (state.phase === 'idle' || state.phase === 'loading') return state;
+      if (state.index <= 0) return state;
+      return { ...state, phase: 'reviewing', index: state.index - 1 };
+    }
+    case 'VIEW_CURRENT': {
+      if (state.phase !== 'reviewing') return state;
+      const atFrontier = state.currentIndex;
+      if (atFrontier >= state.questions.length) return { ...state, phase: 'finished', index: atFrontier };
+      // If we have an answer for the current question but haven't given feedback yet, go to revealed
+      const hasAnswer = state.answers.length > atFrontier;
+      return {
+        ...state,
+        index: atFrontier,
+        phase: hasAnswer ? 'revealed' : 'playing',
+      };
     }
     case 'RESET':
       return { phase: 'idle' };
