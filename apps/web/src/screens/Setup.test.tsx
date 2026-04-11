@@ -44,10 +44,10 @@ describe('Setup screen', () => {
     expect(tenRadio).toBeChecked();
   });
 
-  it('pre-fills from query params ?cat=science-and-nature&diff=Hard&n=5', () => {
-    renderSetup('/?cat=science-and-nature&diff=Hard&n=5');
+  it('pre-fills from query params ?cat=science&diff=Hard&n=5', () => {
+    renderSetup('/?cat=science&diff=Hard&n=5');
 
-    const scienceRadio = screen.getByRole('radio', { name: /science and nature/i });
+    const scienceRadio = screen.getByRole('radio', { name: /^science$/i });
     expect(scienceRadio).toBeChecked();
 
     const hardRadio = screen.getByRole('radio', { name: /^hard$/i });

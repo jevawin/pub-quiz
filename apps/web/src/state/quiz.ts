@@ -51,7 +51,7 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
       };
     case 'ANSWER': {
       if (state.phase !== 'playing') return state;
-      const q = state.questions[state.index];
+      const q = state.questions[state.index]!;
       const record: AnswerRecord = {
         questionId: q.id,
         chosenIndex: action.chosenIndex,

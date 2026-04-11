@@ -1,12 +1,12 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Setup } from './screens/Setup';
-
-const Placeholder = ({ name }: { name: string }) => <div>{name} placeholder</div>;
+import { Play } from './screens/Play';
+import { End } from './screens/End';
 
 const router = createBrowserRouter([
   { path: '/', element: <Setup /> },
-  { path: '/play', element: <Placeholder name="play" /> },
-  { path: '/done', element: <Placeholder name="done" /> },
+  { path: '/play', element: <Play /> },
+  { path: '/done', element: <End /> },
 ]);
 
 export default function App() {
