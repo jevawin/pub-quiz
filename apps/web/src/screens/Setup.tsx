@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Heart, Play, GraduationCap } from 'lucide-react';
+import { Heart, Play, GraduationCap, Square, CheckSquare } from 'lucide-react';
 import { CATEGORY_OPTIONS, QUESTION_COUNTS, isValidCategory, isValidCount } from '@/config/categories';
 import { UI_DIFFICULTIES, type UiDifficulty } from '@/lib/difficulty';
 import { fetchRandomQuestions } from '@/lib/questions';
@@ -122,12 +122,13 @@ export function Setup() {
             <button
               type="button"
               onClick={toggleAll}
-              className={`rounded-lg border-2 px-4 py-2.5 text-base font-medium transition-colors ${
+              className={`inline-flex items-center gap-1.5 rounded-lg border-2 px-4 py-2.5 text-base font-medium transition-colors ${
                 allSelected
                   ? 'border-neutral-900 bg-neutral-900 text-white'
                   : 'border-neutral-300 bg-white text-neutral-700 hover:border-neutral-400'
               }`}
             >
+              {allSelected ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
               All
             </button>
             {CATEGORY_OPTIONS.filter((c) => c.slug !== 'general').map((c) => {
@@ -137,12 +138,13 @@ export function Setup() {
                   type="button"
                   key={c.slug}
                   onClick={() => toggleCategory(c.slug)}
-                  className={`rounded-lg border-2 px-4 py-2.5 text-base font-medium transition-colors ${
+                  className={`inline-flex items-center gap-1.5 rounded-lg border-2 px-4 py-2.5 text-base font-medium transition-colors ${
                     active
                       ? 'border-neutral-900 bg-neutral-900 text-white'
                       : 'border-neutral-300 bg-white text-neutral-700 hover:border-neutral-400'
                   }`}
                 >
+                  {active ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
                   {c.label}
                 </button>
               );
