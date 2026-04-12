@@ -1,6 +1,7 @@
 import { supabase } from './supabase';
 import { shuffle } from './shuffle';
 import { uiToDbDifficulties, type UiDifficulty } from './difficulty';
+import { getViewCounts } from './seen-store';
 import type { LoadedQuestion } from '@/state/quiz';
 
 type RpcRow = {
@@ -42,7 +43,8 @@ async function fetchForDifficulty(
   return (data ?? []) as RpcRow[];
 }
 
-function dedupeAndLimit(batches: RpcRow[][], n: number): RpcRow[] {
+/** Dedupe, then prefer questions with fewest views. Within same view-count tier, shuffle. */
+function dedupeAndPickFreshest(batches: RpcRow[][], n: number): RpcRow[] {
   const seen = new Set<string>();
   const all: RpcRow[] = [];
   for (const rows of batches) {
@@ -53,7 +55,22 @@ function dedupeAndLimit(batches: RpcRow[][], n: number): RpcRow[] {
       }
     }
   }
-  return shuffle(all).slice(0, n);
+
+  const views = getViewCounts(all.map((r) => r.id));
+
+  // Group by view count, shuffle within each group, then flatten lowest-first
+  const byCount = new Map<number, RpcRow[]>();
+  for (const row of all) {
+    const c = views[row.id] ?? 0;
+    if (!byCount.has(c)) byCount.set(c, []);
+    byCount.get(c)!.push(row);
+  }
+
+  const sorted = [...byCount.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .flatMap(([, rows]) => shuffle(rows));
+
+  return sorted.slice(0, n);
 }
 
 export async function fetchRandomQuestions(
@@ -65,15 +82,16 @@ export async function fetchRandomQuestions(
   const allSelected = categorySlugs.length === 0 || categorySlugs.includes('general');
   const slugs = allSelected ? ['general'] : categorySlugs;
 
-  // Build all (difficulty × category) RPC calls
-  const perCombo = Math.max(1, Math.ceil(n / (dbDifficulties.length * slugs.length)) + 2);
+  // Over-fetch 4x so we have enough to prefer unseen questions
+  const overFetch = n * 4;
+  const perCombo = Math.max(1, Math.ceil(overFetch / (dbDifficulties.length * slugs.length)) + 2);
   const batches = await Promise.all(
     dbDifficulties.flatMap((diff) =>
       slugs.map((slug) => fetchForDifficulty(diff, slug, perCombo)),
     ),
   );
 
-  const limited = dedupeAndLimit(batches, n);
+  const limited = dedupeAndPickFreshest(batches, n);
   if (limited.length === 0) throw new Error('No questions found — try a different category or difficulty');
   return limited.map(toLoadedQuestion);
 }

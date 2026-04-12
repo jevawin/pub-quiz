@@ -5,6 +5,7 @@ import { Heart, Play, GraduationCap, Square, CheckSquare, Shuffle, Smile, Flame,
 import { CATEGORY_OPTIONS, QUESTION_COUNTS, isValidCategory, isValidCount } from '@/config/categories';
 import { UI_DIFFICULTIES, type UiDifficulty } from '@/lib/difficulty';
 import { fetchRandomQuestions } from '@/lib/questions';
+import { totalPlayed, clearAll as clearSeenMemory } from '@/lib/seen-store';
 import type { QuestionCount } from '@/config/categories';
 
 // All non-general category slugs
@@ -22,6 +23,7 @@ export function Setup() {
   const [count, setCount] = useState<QuestionCount>(DEFAULT_COUNT);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [played, setPlayed] = useState(() => totalPlayed());
 
   const allSelected = selectedCategories.size === ALL_CATEGORY_SLUGS.length;
 
@@ -66,6 +68,7 @@ export function Setup() {
         setCount(parsed);
       }
     }
+    setPlayed(totalPlayed());
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onPlay = async () => {
@@ -246,6 +249,18 @@ export function Setup() {
         <Play className="h-5 w-5 fill-current" />
         {loading ? 'Loading...' : 'Play'}
       </button>
+
+      {played > 0 && (
+        <p className="mt-4 text-center text-sm text-neutral-400">
+          {played} {played === 1 ? 'question' : 'questions'} played and hidden.{' '}
+          <button
+            onClick={() => { clearSeenMemory(); setPlayed(0); }}
+            className="underline underline-offset-2 hover:text-neutral-600"
+          >
+            Clear memory.
+          </button>
+        </p>
+      )}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { quizReducer, initialQuizState, selectScore } from '@/state/quiz';
 import type { LoadedQuestion } from '@/state/quiz';
 import { createActiveTimer } from '@/lib/activeTimer';
 import { recordQuestionPlay, recordRecategorisation, recordQuestionFeedback } from '@/lib/plays';
+import { recordView } from '@/lib/seen-store';
 import { ensureSessionId } from '@/lib/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { findCategory, CATEGORY_OPTIONS } from '@/config/categories';
@@ -82,8 +83,9 @@ export function Play() {
       const elapsedMs = timerRef.current?.elapsedMs() ?? 0;
       timerRef.current?.pause();
       dispatch({ type: 'ANSWER', chosenIndex, elapsedMs });
+      recordView(state.questions[state.index].id);
     },
-    [state.phase],
+    [state],
   );
 
   const onNext = useCallback(

@@ -8,6 +8,10 @@ vi.mock('./supabase', () => ({
   supabase: { rpc },
 }));
 
+vi.mock('./seen-store', () => ({
+  getViewCounts: (ids: string[]) => Object.fromEntries(ids.map((id) => [id, 0])),
+}));
+
 import { fetchRandomQuestions } from './questions';
 
 beforeEach(() => {
