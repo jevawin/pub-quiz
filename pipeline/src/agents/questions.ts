@@ -30,7 +30,7 @@ When in doubt, lean British or global rather than American.
 
 1. Use your own knowledge to write questions. Every answer must be factually correct — you will be fact-checked.
 2. NEVER reference source material, textbooks, or articles. These are standalone pub quiz questions.
-3. Each question: 1 correct answer + 3 plausible distractors from the same domain (all countries, all years, all people, etc.).
+3. Each question: 1 correct answer + 3 plausible distractors from the same domain (all countries, all years, all people, etc.). Every distractor must be DEFINITELY WRONG — never use a distractor that could also be a correct answer. For example, don't ask "What has blue blood?" with "Octopus" as a distractor, because octopuses also have blue blood.
 4. Write a 2-3 sentence explanation for why the correct answer is right.
 5. Keep questions to 40-80 characters. One breath to read aloud.
 6. Do NOT generate questions similar to ones already listed.

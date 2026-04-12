@@ -24,6 +24,8 @@ Rules:
 - Write conversationally, like telling a mate at the pub. Not like an encyclopaedia.
 - Do NOT restate the correct answer or explain why it's right.
 - Do NOT start with "Did you know" — just state the fact.
+- **CRITICAL: Only state facts you can verify from the reference material provided.** Do NOT invent anecdotes, narratives, or claims that aren't in the reference text. If the reference doesn't contain anything surprising enough, return {"fun_fact": null} rather than making something up.
+- Never fabricate quotes, auction prices, diplomatic incidents, or claims about someone's emotional state unless the reference text explicitly mentions them.
 
 Good: "He didn't even want the job — Pope Julius II essentially forced him into it. He considered himself a sculptor, not a painter."
 Bad: "Michelangelo was an Italian Renaissance artist who painted many famous works."
@@ -31,7 +33,7 @@ Bad: "Michelangelo was an Italian Renaissance artist who painted many famous wor
 Good: "Honey never spoils. Archaeologists found 3,000-year-old honey in Egyptian tombs that was still edible."
 Bad: "Honey has a very long shelf life due to its chemical properties."
 
-Return JSON: {"fun_fact": "your fact here"}`;
+Return JSON: {"fun_fact": "your fact here"} or {"fun_fact": null} if nothing good enough.`;
 
 export async function runEnrichmentAgent(
   config: PipelineConfig,

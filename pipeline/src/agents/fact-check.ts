@@ -28,7 +28,9 @@ Only mark is_correct as true if the source EXPLICITLY states that THIS entity ha
 
 If the source is about the right general topic but doesn't explicitly confirm the entity+attribute+value triple, mark is_correct as false and score 0.
 
-Also check that the answer logically responds to the question. If the question asks "how many?" the answer must be a number. If it asks "who?" the answer must be a person. If it asks "what year?" the answer must be a year. If there is any type mismatch between question and answer, mark is_correct as false.`;
+Also check that the answer logically responds to the question. If the question asks "how many?" the answer must be a number. If it asks "who?" the answer must be a person. If it asks "what year?" or "in which year" the answer must be a year. If it asks "which country" the answer must be a country. If there is any type mismatch between question and answer, mark is_correct as false and score 0 — this is an automatic fail regardless of whether the fact itself is correct.
+
+Check the distractors too. They must be the same TYPE as the correct answer (all years, all people, all countries, etc.). If the distractors are a different type from what the question asks for, mark is_correct as false.`;
 
 const WIKIPEDIA_PROMPT = `You are a fact-checker for a pub quiz app. For each question, verify whether the stated correct answer is actually correct based ONLY on the provided reference text. Do NOT use your own knowledge -- only what the reference text states. Score verification strength: 0 = cannot verify from text, 1 = weakly supported, 2 = clearly supported, 3 = explicitly stated in text. If the answer contradicts the reference text, mark is_correct as false.
 ${VERIFICATION_GUIDANCE}`;
@@ -63,12 +65,41 @@ export async function runFactCheckAgent(
 
   log('info', `Found ${pendingQuestions.length} pending questions to fact-check`);
 
+  // Pre-filter: programmatic type-mismatch check
+  // Catches cases like "In which year...?" → answer is a person's name
+  const TYPE_PATTERNS: [RegExp, RegExp, string][] = [
+    [/\b(?:what|which)\s+year\b|in\s+which\s+year\b|\bwhen\s+(?:did|was|were|is)\b/i, /^\d{3,4}(?:\s|$)/, 'year'],
+    [/\bhow\s+many\b/i, /^\d/, 'number'],
+    [/\b(?:what|which)\s+country\b|in\s+which\s+country\b/i, /^[A-Z]/, 'country'],
+  ];
+
+  const passedQuestions: QuestionRow[] = [];
+  for (const question of pendingQuestions) {
+    let typeMismatch = false;
+    for (const [questionPattern, answerPattern, expectedType] of TYPE_PATTERNS) {
+      if (questionPattern.test(question.question_text) && !answerPattern.test(question.correct_answer)) {
+        log('warn', 'Type mismatch: question/answer type conflict', {
+          questionId: question.id,
+          questionText: question.question_text,
+          answer: question.correct_answer,
+          expectedType,
+        });
+        await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
+          .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
+        failed++;
+        typeMismatch = true;
+        break;
+      }
+    }
+    if (!typeMismatch) passedQuestions.push(question);
+  }
+
   // Source 1: Wikipedia search verification
   const needsOwnKnowledge: QuestionRow[] = [];
 
-  log('info', 'Starting Wikipedia verification', { count: pendingQuestions.length });
+  log('info', 'Starting Wikipedia verification', { count: passedQuestions.length });
 
-  for (const question of pendingQuestions) {
+  for (const question of passedQuestions) {
     try {
       const searchQuery = `${question.correct_answer} ${question.question_text}`;
       const titles = await searchArticles(searchQuery, config.wikipediaUserAgent, 1);
