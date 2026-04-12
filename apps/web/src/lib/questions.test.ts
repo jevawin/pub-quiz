@@ -29,11 +29,10 @@ describe('fetchRandomQuestions', () => {
 
     await fetchRandomQuestions('Easy', ['general'], 5);
 
-    expect(rpc).toHaveBeenCalledWith('random_published_questions', {
+    expect(rpc).toHaveBeenCalledWith('random_published_questions', expect.objectContaining({
       p_difficulty: 'easy',
       p_category_slug: 'general',
-      p_limit: 5,
-    });
+    }));
   });
 
   it('calls supabase.rpc per category for multiple specific categories', async () => {

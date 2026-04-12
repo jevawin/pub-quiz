@@ -14,7 +14,7 @@ export type QuestionPlayRow = {
 export type QuizSessionRow = {
   session_id: string;
   category_slug: string;
-  difficulty: 'easy' | 'normal' | 'hard';
+  difficulty: 'easy' | 'normal' | 'hard' | 'mixed';
   num_questions: 5 | 10 | 15 | 20;
   score: number;
   overall_rating: 'good' | 'okay' | 'bad' | null;

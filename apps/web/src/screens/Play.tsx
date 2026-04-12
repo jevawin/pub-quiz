@@ -7,7 +7,7 @@ import { recordQuestionPlay, recordRecategorisation, recordQuestionFeedback } fr
 import { ensureSessionId } from '@/lib/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { findCategory, CATEGORY_OPTIONS } from '@/config/categories';
-import { CheckCircle, XCircle, LogOut, Smile, Flame, Skull, X, ChevronLeft, ArrowRight } from 'lucide-react';
+import { CheckCircle, XCircle, LogOut, X, ChevronLeft, ArrowRight } from 'lucide-react';
 import type { UiDifficulty } from '@/lib/difficulty';
 
 type LocationState = {
@@ -15,8 +15,6 @@ type LocationState = {
   config: { category: string; difficulty: UiDifficulty; count: number };
   startedAt: number;
 };
-
-const DIFFICULTY_ICONS = { Easy: Smile, Medium: Flame, Hard: Skull } as const;
 
 export function Play() {
   const location = useLocation();
@@ -88,8 +86,8 @@ export function Play() {
     [state.phase],
   );
 
-  const onFeedback = useCallback(
-    async (reaction: 'easy' | 'medium' | 'hard') => {
+  const onNext = useCallback(
+    async () => {
       if (state.phase !== 'revealed') return;
       setShowRecategorise(false);
       const sessionId = await ensureSessionId();
@@ -101,10 +99,9 @@ export function Play() {
         chosen_option: q.options[last.chosenIndex]!,
         is_correct: last.isCorrect,
         time_to_answer_ms: last.elapsedMs,
-        feedback_reaction: reaction,
+        feedback_reaction: null,
         played_at: new Date().toISOString(),
       });
-      dispatch({ type: 'FEEDBACK', reaction });
       dispatch({ type: 'NEXT' });
     },
     [state],
@@ -186,10 +183,8 @@ export function Play() {
             const cat = findCategory(question.category_slug);
             const CatIcon = cat.icon;
             const catLabel = cat.label;
-            const diff = locationState?.config.difficulty ?? 'Easy';
-            const DiffIcon = DIFFICULTY_ICONS[diff];
             return (
-              <div className="flex items-center justify-between text-base text-neutral-500 mb-2">
+              <div className="flex items-center text-base text-neutral-500 mb-2">
                 <span className="inline-flex items-center gap-1">
                   <CatIcon className="h-4 w-4" />
                   {catLabel}
@@ -198,16 +193,6 @@ export function Play() {
                     className="ml-1 text-blue-600 underline underline-offset-2 text-base hover:text-blue-800"
                   >
                     Wrong?
-                  </button>
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <DiffIcon className="h-4 w-4" />
-                  {diff}
-                  <button
-                    onClick={() => setShowFeedback(true)}
-                    className="ml-1 text-blue-600 underline underline-offset-2 text-base hover:text-blue-800"
-                  >
-                    Feedback
                   </button>
                 </span>
               </div>
@@ -266,31 +251,22 @@ export function Play() {
                 </p>
               )}
 
-              {/* Difficulty rating + next */}
-              <p className="text-base font-medium">How would you rate this question?</p>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => onFeedback('easy')}
-                  className="inline-flex items-center justify-center rounded-md border-2 border-green-600 text-green-700 bg-green-50 px-4 py-3 text-base font-medium hover:bg-green-100 transition-colors w-full min-[500px]:w-auto"
-                >
-                  <Smile className="mr-1.5 h-4 w-4" />
-                  Easy →
-                </button>
-                <button
-                  onClick={() => onFeedback('medium')}
-                  className="inline-flex items-center justify-center rounded-md border-2 border-amber-600 text-amber-700 bg-amber-50 px-4 py-3 text-base font-medium hover:bg-amber-100 transition-colors w-full min-[500px]:w-auto"
-                >
-                  <Flame className="mr-1.5 h-4 w-4" />
-                  Medium →
-                </button>
-                <button
-                  onClick={() => onFeedback('hard')}
-                  className="inline-flex items-center justify-center rounded-md border-2 border-red-600 text-red-700 bg-red-50 px-4 py-3 text-base font-medium hover:bg-red-100 transition-colors w-full min-[500px]:w-auto"
-                >
-                  <Skull className="mr-1.5 h-4 w-4" />
-                  Hard →
-                </button>
-              </div>
+              {/* Next question */}
+              <button
+                onClick={onNext}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-4 py-3 text-base font-semibold shadow transition-colors hover:bg-neutral-800"
+              >
+                <ArrowRight className="h-4 w-4" />
+                Next
+              </button>
+
+              {/* Feedback link */}
+              <button
+                onClick={() => setShowFeedback(true)}
+                className="w-full text-center text-blue-600 underline underline-offset-2 text-base hover:text-blue-800"
+              >
+                Something wrong with this question?
+              </button>
             </div>
           )}
 

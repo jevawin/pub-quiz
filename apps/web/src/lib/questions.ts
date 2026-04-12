@@ -1,6 +1,6 @@
 import { supabase } from './supabase';
 import { shuffle } from './shuffle';
-import { uiToDbDifficulty, type UiDifficulty } from './difficulty';
+import { uiToDbDifficulties, type UiDifficulty } from './difficulty';
 import type { LoadedQuestion } from '@/state/quiz';
 
 type RpcRow = {
@@ -27,45 +27,25 @@ function toLoadedQuestion(r: RpcRow): LoadedQuestion {
   };
 }
 
-export async function fetchRandomQuestions(
-  uiDifficulty: UiDifficulty,
-  categorySlugs: string[],
-  n: number,
-): Promise<LoadedQuestion[]> {
-  const dbDifficulty = uiToDbDifficulty(uiDifficulty);
+/** Fetch rows for one difficulty + category slug combo. */
+async function fetchForDifficulty(
+  dbDifficulty: string,
+  categorySlug: string,
+  limit: number,
+): Promise<RpcRow[]> {
+  const { data, error } = await supabase.rpc('random_published_questions', {
+    p_difficulty: dbDifficulty,
+    p_category_slug: categorySlug,
+    p_limit: limit,
+  });
+  if (error) throw error;
+  return (data ?? []) as RpcRow[];
+}
 
-  // All categories or just "general" → single call with general (returns everything)
-  const allSelected = categorySlugs.length === 0 || categorySlugs.includes('general');
-  if (allSelected) {
-    const { data, error } = await supabase.rpc('random_published_questions', {
-      p_difficulty: dbDifficulty,
-      p_category_slug: 'general',
-      p_limit: n,
-    });
-    if (error) throw error;
-    const rows = (data ?? []) as RpcRow[];
-    if (rows.length === 0) throw new Error('No questions found — try a different category or difficulty');
-    return rows.map(toLoadedQuestion);
-  }
-
-  // Multiple specific categories → call per category, combine, shuffle, limit
-  const perCategory = Math.max(1, Math.ceil(n / categorySlugs.length) + 2); // overfetch slightly
-  const results = await Promise.all(
-    categorySlugs.map(async (slug) => {
-      const { data, error } = await supabase.rpc('random_published_questions', {
-        p_difficulty: dbDifficulty,
-        p_category_slug: slug,
-        p_limit: perCategory,
-      });
-      if (error) throw error;
-      return (data ?? []) as RpcRow[];
-    }),
-  );
-
-  // Deduplicate by id, shuffle, take n
+function dedupeAndLimit(batches: RpcRow[][], n: number): RpcRow[] {
   const seen = new Set<string>();
   const all: RpcRow[] = [];
-  for (const rows of results) {
+  for (const rows of batches) {
     for (const row of rows) {
       if (!seen.has(row.id)) {
         seen.add(row.id);
@@ -73,8 +53,27 @@ export async function fetchRandomQuestions(
       }
     }
   }
-  const shuffled = shuffle(all);
-  const limited = shuffled.slice(0, n);
+  return shuffle(all).slice(0, n);
+}
+
+export async function fetchRandomQuestions(
+  uiDifficulty: UiDifficulty,
+  categorySlugs: string[],
+  n: number,
+): Promise<LoadedQuestion[]> {
+  const dbDifficulties = uiToDbDifficulties(uiDifficulty);
+  const allSelected = categorySlugs.length === 0 || categorySlugs.includes('general');
+  const slugs = allSelected ? ['general'] : categorySlugs;
+
+  // Build all (difficulty × category) RPC calls
+  const perCombo = Math.max(1, Math.ceil(n / (dbDifficulties.length * slugs.length)) + 2);
+  const batches = await Promise.all(
+    dbDifficulties.flatMap((diff) =>
+      slugs.map((slug) => fetchForDifficulty(diff, slug, perCombo)),
+    ),
+  );
+
+  const limited = dedupeAndLimit(batches, n);
   if (limited.length === 0) throw new Error('No questions found — try a different category or difficulty');
   return limited.map(toLoadedQuestion);
 }

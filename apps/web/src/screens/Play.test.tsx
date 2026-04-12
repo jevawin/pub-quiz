@@ -96,28 +96,26 @@ describe('Play screen', () => {
     expect(screen.getByText('Paris is the capital city of France.')).toBeInTheDocument();
   });
 
-  it('Easy / Medium / Hard feedback buttons appear after answer', async () => {
+  it('Next button appears after answer', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /easy/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /medium/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /hard/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
     });
   });
 
-  it('clicking "Medium" calls recordQuestionPlay with feedback_reaction === "just-right" then advances', async () => {
+  it('clicking Next records play with null feedback_reaction and advances', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /medium/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /medium/i }));
+    fireEvent.click(screen.getByRole('button', { name: /next/i }));
     await waitFor(() => {
       expect(mockRecordPlay).toHaveBeenCalledWith(
         expect.objectContaining({
           question_id: 'q1',
-          feedback_reaction: 'medium',
+          feedback_reaction: null,
           is_correct: true,
         }),
       );
@@ -127,30 +125,13 @@ describe('Play screen', () => {
     });
   });
 
-  it('clicking "Hard" calls recordQuestionPlay with feedback_reaction === "too-hard"', async () => {
-    renderPlay();
-    fireEvent.click(screen.getByText('Paris'));
-    await waitFor(() => {
-      expect(screen.getByRole('button', { name: /hard/i })).toBeInTheDocument();
-    });
-    fireEvent.click(screen.getByRole('button', { name: /hard/i }));
-    await waitFor(() => {
-      expect(mockRecordPlay).toHaveBeenCalledWith(
-        expect.objectContaining({
-          question_id: 'q1',
-          feedback_reaction: 'hard',
-        }),
-      );
-    });
-  });
-
   it('after the last question, navigates to /done', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /medium/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /medium/i }));
+    fireEvent.click(screen.getByRole('button', { name: /next/i }));
 
     await waitFor(() => {
       expect(screen.getByText('What is 2+2?')).toBeInTheDocument();
@@ -158,9 +139,9 @@ describe('Play screen', () => {
 
     fireEvent.click(screen.getByText('4'));
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /medium/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByRole('button', { name: /medium/i }));
+    fireEvent.click(screen.getByRole('button', { name: /next/i }));
 
     await waitFor(() => {
       expect(screen.getByTestId('done')).toBeInTheDocument();

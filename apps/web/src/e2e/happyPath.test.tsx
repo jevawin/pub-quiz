@@ -83,7 +83,7 @@ describe('Happy path: setup → play → done', () => {
 
     // Wait for navigation to /play
     await waitFor(() => {
-      expect(mockFetchRandomQuestions).toHaveBeenCalledWith('Easy', ['general'], 10);
+      expect(mockFetchRandomQuestions).toHaveBeenCalledWith('Mixed', ['general'], 10);
     });
 
     // --- Play screen ---
@@ -107,9 +107,9 @@ describe('Happy path: setup → play → done', () => {
         expect(screen.getByText(/correct!/i)).toBeInTheDocument();
       });
 
-      // Click "Medium" difficulty rating
-      const mediumBtn = screen.getByRole('button', { name: /medium/i });
-      await user.click(mediumBtn);
+      // Click "Next" to advance
+      const nextBtn = screen.getByRole('button', { name: /next/i });
+      await user.click(nextBtn);
 
       // Wait for recordQuestionPlay to be called
       await waitFor(() => {

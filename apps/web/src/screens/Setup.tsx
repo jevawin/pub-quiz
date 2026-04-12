@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart, Play, GraduationCap, Square, CheckSquare, Smile, Flame, Skull, Dice1, Dice3, Dice5, Dice6 } from 'lucide-react';
+import { Heart, Play, GraduationCap, Square, CheckSquare, Shuffle, Smile, Flame, Skull, Dice1, Dice3, Dice5, Dice6 } from 'lucide-react';
 import { CATEGORY_OPTIONS, QUESTION_COUNTS, isValidCategory, isValidCount } from '@/config/categories';
 import { UI_DIFFICULTIES, type UiDifficulty } from '@/lib/difficulty';
 import { fetchRandomQuestions } from '@/lib/questions';
@@ -10,7 +10,7 @@ import type { QuestionCount } from '@/config/categories';
 // All non-general category slugs
 const ALL_CATEGORY_SLUGS = CATEGORY_OPTIONS.filter((c) => c.slug !== 'general').map((c) => c.slug);
 
-const DEFAULT_DIFFICULTY: UiDifficulty = 'Easy';
+const DEFAULT_DIFFICULTY: UiDifficulty = 'Mixed';
 const DEFAULT_COUNT: QuestionCount = 10;
 
 export function Setup() {
@@ -95,7 +95,9 @@ export function Setup() {
         Trivia Quiz
       </h1>
       <p className="mb-6 text-base text-neutral-600">
-        My prototype quiz. I'm collecting feedback to improve it. Please play as much as you can!
+        I'm making a quiz website and app! Please play as much as you can and give feedback.
+        The questions will keep changing (there are hundreds, growing daily).
+        The more people play the better it gets.
         <span className="block mt-1">Jamie <Heart className="inline h-4 w-4 text-red-500 fill-red-500" /></span>
       </p>
 
@@ -170,7 +172,7 @@ export function Setup() {
           <div className="flex flex-wrap gap-2">
             {UI_DIFFICULTIES.map((d) => {
               const active = difficulty === d;
-              const Icon = d === 'Easy' ? Smile : d === 'Medium' ? Flame : Skull;
+              const Icon = d === 'Mixed' ? Shuffle : d === 'Easy' ? Smile : d === 'Medium' ? Flame : Skull;
               return (
                 <button
                   type="button"

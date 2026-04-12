@@ -35,9 +35,9 @@ describe('Setup screen', () => {
     const allButton = screen.getByRole('button', { name: /^all$/i });
     expect(allButton).toBeInTheDocument();
 
-    // Difficulty default: Easy
-    const easyRadio = screen.getByRole('radio', { name: /^easy$/i });
-    expect(easyRadio).toBeChecked();
+    // Difficulty default: Mixed
+    const mixedRadio = screen.getByRole('radio', { name: /^mixed$/i });
+    expect(mixedRadio).toBeChecked();
 
     // Count default: 10
     const tenRadio = screen.getByRole('radio', { name: /^10$/ });
@@ -61,8 +61,8 @@ describe('Setup screen', () => {
   it('falls back to defaults on invalid query params', () => {
     renderSetup('/?cat=bogus&diff=xxx&n=7');
 
-    const easyRadio = screen.getByRole('radio', { name: /^easy$/i });
-    expect(easyRadio).toBeChecked();
+    const mixedRadio = screen.getByRole('radio', { name: /^mixed$/i });
+    expect(mixedRadio).toBeChecked();
 
     const tenRadio = screen.getByRole('radio', { name: /^10$/ });
     expect(tenRadio).toBeChecked();
@@ -89,8 +89,8 @@ describe('Setup screen', () => {
     await user.click(playButton);
 
     await waitFor(() => {
-      // All categories selected → passes ['general']
-      expect(mockFetchRandomQuestions).toHaveBeenCalledWith('Easy', ['general'], 10);
+      // All categories selected → passes ['general'], default difficulty is Mixed
+      expect(mockFetchRandomQuestions).toHaveBeenCalledWith('Mixed', ['general'], 10);
     });
 
     await waitFor(() => {

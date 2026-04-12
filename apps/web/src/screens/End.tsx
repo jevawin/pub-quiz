@@ -3,7 +3,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Smile, Meh, Frown, Play } from 'lucide-react';
 import { ensureSessionId } from '@/lib/auth';
 import { recordQuizSession, type QuizSessionRow } from '@/lib/plays';
-import { uiToDbDifficulty, type UiDifficulty } from '@/lib/difficulty';
+import type { UiDifficulty } from '@/lib/difficulty';
 
 type EndState = {
   score: number;
@@ -46,7 +46,7 @@ export function End() {
       const row: QuizSessionRow = {
         session_id: sessionId,
         category_slug: config.category,
-        difficulty: uiToDbDifficulty(config.difficulty),
+        difficulty: config.difficulty === 'Mixed' ? 'mixed' : config.difficulty === 'Easy' ? 'easy' : config.difficulty === 'Medium' ? 'normal' : 'hard',
         num_questions: config.count as 5 | 10 | 15 | 20,
         score,
         overall_rating: rating,
