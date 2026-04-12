@@ -1,16 +1,39 @@
+# Dependencies
 node_modules/
-.expo/
+
+# Build output
 dist/
+web-build/
+
+# Expo
+.expo/
+
+# Environment
 .env
 .env.local
+
+# Signing keys
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
 *.orig.*
-web-build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude
 .claude/
+
+# App-specific
 apps/web/node_modules
 apps/web/dist
 apps/web/.env.local

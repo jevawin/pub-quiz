@@ -260,13 +260,6 @@ export function Play() {
                 Next
               </button>
 
-              {/* Feedback link */}
-              <button
-                onClick={() => setShowFeedback(true)}
-                className="w-full text-center text-blue-600 underline underline-offset-2 text-base hover:text-blue-800"
-              >
-                Something wrong with this question?
-              </button>
             </div>
           )}
 
@@ -313,6 +306,14 @@ export function Play() {
           )}
         </CardContent>
       </Card>
+
+      {/* Feedback link — always visible when question shown */}
+      <button
+        onClick={() => setShowFeedback(true)}
+        className="w-full text-center text-blue-600 underline underline-offset-2 text-base hover:text-blue-800 mt-3"
+      >
+        Something wrong with this question?
+      </button>
 
       {/* Recategorise modal */}
       {showRecategorise && (
