@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import { appendFileSync } from 'node:fs';
 import type { TypedSupabaseClient } from './lib/supabase.js';
-import { loadConfig } from './lib/config.js';
 import { createSupabaseClient } from './lib/supabase.js';
 import { log } from './lib/logger.js';
 
@@ -64,7 +63,12 @@ const isDirectExecution = typeof process !== 'undefined' && process.argv[1] &&
   (process.argv[1].endsWith('seed-threshold-check.ts') || process.argv[1].endsWith('seed-threshold-check.js'));
 
 if (isDirectExecution) {
-  const config = loadConfig();
-  const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !supabaseKey) {
+    log('error', 'Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
+    process.exit(1);
+  }
+  const supabase = createSupabaseClient(supabaseUrl, supabaseKey);
   checkThreshold(supabase);
 }
