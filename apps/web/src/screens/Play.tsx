@@ -83,7 +83,8 @@ export function Play() {
       const elapsedMs = timerRef.current?.elapsedMs() ?? 0;
       timerRef.current?.pause();
       dispatch({ type: 'ANSWER', chosenIndex, elapsedMs });
-      recordView(state.questions[state.index].id);
+      const q = state.questions[state.index];
+      if (q) recordView(q.id);
     },
     [state],
   );
