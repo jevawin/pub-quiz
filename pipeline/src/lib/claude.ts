@@ -5,6 +5,8 @@ export const SONNET_INPUT = 3;
 export const SONNET_OUTPUT = 15;
 export const HAIKU_INPUT = 1;
 export const HAIKU_OUTPUT = 5;
+export const OPUS_INPUT = 15;
+export const OPUS_OUTPUT = 75;
 
 export interface TokenAccumulator {
   input_tokens: number;

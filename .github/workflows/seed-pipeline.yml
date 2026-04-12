@@ -20,7 +20,7 @@ on:
       questions_batch_size:
         description: 'Number of questions to generate'
         required: false
-        default: '20'
+        default: '10'
 
 jobs:
   seed-run:
@@ -76,5 +76,5 @@ jobs:
           PIPELINE_BUDGET_USD: ${{ inputs.budget_usd || '1.00' }}
           CATEGORY_BATCH_SIZE: ${{ inputs.category_batch_size || '3' }}
           KNOWLEDGE_BATCH_SIZE: ${{ inputs.knowledge_batch_size || '5' }}
-          QUESTIONS_BATCH_SIZE: ${{ inputs.questions_batch_size || '20' }}
+          QUESTIONS_BATCH_SIZE: ${{ inputs.questions_batch_size || '10' }}
         run: npx tsx src/run-pipeline.ts

@@ -49,6 +49,7 @@ export async function runPipeline(): Promise<void> {
         questionsBatchSize: config.questionsBatchSize,
         claudeModelGeneration: config.claudeModelGeneration,
         claudeModelVerification: config.claudeModelVerification,
+        claudeModelAudit: config.claudeModelAudit,
         budgetCapUsd: config.budgetCapUsd,
       },
     })

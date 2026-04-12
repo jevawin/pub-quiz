@@ -1,5 +1,5 @@
 import { PipelineConfig } from '../lib/config.js';
-import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, HAIKU_INPUT, HAIKU_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, OPUS_INPUT, OPUS_OUTPUT, BudgetExceededError } from '../lib/claude.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { FactCheckBatchSchema } from '../lib/schemas.js';
 import { searchArticles, getArticleText } from '../lib/wikipedia.js';
@@ -130,13 +130,13 @@ Correct Answer: ${question.correct_answer}
 Distractors: ${(question.distractors as string[]).join(', ')}`;
 
       const response = await claude.messages.create({
-        model: config.claudeModelVerification,
+        model: config.claudeModelAudit,
         max_tokens: 1024,
         system: WIKIPEDIA_PROMPT,
         messages: [{ role: 'user', content: userPrompt }],
       });
 
-      trackUsage(response, tokenAccumulator, HAIKU_INPUT, HAIKU_OUTPUT);
+      trackUsage(response, tokenAccumulator, OPUS_INPUT, OPUS_OUTPUT);
       checkBudget(tokenAccumulator, config.budgetCapUsd);
 
       const textContent = response.content.find(c => c.type === 'text');
@@ -203,13 +203,13 @@ Correct Answer: ${question.correct_answer}
 Distractors: ${(question.distractors as string[]).join(', ')}`;
 
         const response = await claude.messages.create({
-          model: config.claudeModelVerification,
+          model: config.claudeModelAudit,
           max_tokens: 512,
           system: OWN_KNOWLEDGE_PROMPT,
           messages: [{ role: 'user', content: userPrompt }],
         });
 
-        trackUsage(response, tokenAccumulator, HAIKU_INPUT, HAIKU_OUTPUT);
+        trackUsage(response, tokenAccumulator, OPUS_INPUT, OPUS_OUTPUT);
         checkBudget(tokenAccumulator, config.budgetCapUsd);
 
         const textContent = response.content.find(c => c.type === 'text');

@@ -8,6 +8,7 @@ export interface PipelineConfig {
   questionsBatchSize: number;
   claudeModelGeneration: string;
   claudeModelVerification: string;
+  claudeModelAudit: string;
   wikipediaUserAgent: string;
   wikipediaMaxContentLength: number;
   relevanceThreshold: number;
@@ -42,6 +43,7 @@ export function loadConfig(): PipelineConfig {
     questionsBatchSize: envNumber('QUESTIONS_BATCH_SIZE', 20),
     claudeModelGeneration: 'claude-sonnet-4-5-20250929',
     claudeModelVerification: 'claude-sonnet-4-5-20250929',
+    claudeModelAudit: 'claude-opus-4-20250918',
     wikipediaUserAgent: 'PubQuizPipeline/1.0 (https://github.com/pub-quiz)',
     wikipediaMaxContentLength: 3000,
     relevanceThreshold: envNumber('RELEVANCE_THRESHOLD', 0.6),

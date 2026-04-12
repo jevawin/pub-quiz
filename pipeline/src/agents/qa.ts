@@ -1,5 +1,5 @@
 import { PipelineConfig } from '../lib/config.js';
-import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, HAIKU_INPUT, HAIKU_OUTPUT, SONNET_INPUT, SONNET_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, OPUS_INPUT, OPUS_OUTPUT, SONNET_INPUT, SONNET_OUTPUT, BudgetExceededError } from '../lib/claude.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { QaBatchSchema, SonnetRewriteSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
@@ -137,14 +137,14 @@ ${questionsSection}`;
       log('info', 'Calling Claude Haiku for QA batch', { questionCount: questions.length });
 
       const response = await claude.messages.create({
-        model: config.claudeModelVerification,
+        model: config.claudeModelAudit,
         max_tokens: 4096,
         system: SYSTEM_PROMPT,
         messages: [{ role: 'user', content: userPrompt }],
       });
 
       // Track tokens with Haiku rates
-      trackUsage(response, tokenAccumulator, HAIKU_INPUT, HAIKU_OUTPUT);
+      trackUsage(response, tokenAccumulator, OPUS_INPUT, OPUS_OUTPUT);
       checkBudget(tokenAccumulator, config.budgetCapUsd);
 
       // Step 5: Parse response
