@@ -6,6 +6,7 @@ import { createActiveTimer } from '@/lib/activeTimer';
 import { recordQuestionPlay, recordRecategorisation, recordQuestionFeedback } from '@/lib/plays';
 import { recordView } from '@/lib/seen-store';
 import { ensureSessionId } from '@/lib/auth';
+import { saveQuizState, loadQuizState, clearQuizState } from '@/lib/quiz-persist';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { findCategory, CATEGORY_OPTIONS } from '@/config/categories';
 import { CheckCircle, XCircle, LogOut, X, ChevronLeft, ArrowRight } from 'lucide-react';
@@ -30,22 +31,32 @@ export function Play() {
 
   const locationState = location.state as LocationState | undefined;
 
-  // Redirect if no router state (deep-link protection)
+  // Redirect if no router state (deep-link protection), or restore from sessionStorage
   useEffect(() => {
+    if (initialised.current) return;
+
+    // Try restoring a saved quiz (e.g. after page refresh)
+    const saved = loadQuizState();
+    if (saved && saved.questions.length > 0 && saved.currentIndex < saved.questions.length) {
+      initialised.current = true;
+      timerRef.current = createActiveTimer();
+      timerRef.current.reset();
+      dispatch({ type: 'RESTORE', ...saved });
+      return;
+    }
+
     if (!locationState?.questions) {
       navigate('/', { replace: true });
       return;
     }
-    if (!initialised.current) {
-      initialised.current = true;
-      timerRef.current = createActiveTimer();
-      timerRef.current.reset();
-      dispatch({
-        type: 'START',
-        questions: locationState.questions,
-        startedAt: locationState.startedAt,
-      });
-    }
+    initialised.current = true;
+    timerRef.current = createActiveTimer();
+    timerRef.current.reset();
+    dispatch({
+      type: 'START',
+      questions: locationState.questions,
+      startedAt: locationState.startedAt,
+    });
   }, [locationState, navigate]);
 
   // Cleanup timer on unmount
@@ -62,6 +73,27 @@ export function Play() {
     }
   }, [state.phase === 'playing' ? (state.phase === 'playing' ? state.index : -1) : -1]);
 
+  // Persist quiz state to sessionStorage on every change (survives refresh)
+  const configRef = useRef(locationState?.config);
+  if (locationState?.config) configRef.current = locationState.config;
+
+  useEffect(() => {
+    if (state.phase === 'idle' || state.phase === 'loading') return;
+    if (state.phase === 'finished') {
+      clearQuizState();
+      return;
+    }
+    if (configRef.current) {
+      saveQuizState({
+        questions: state.questions,
+        answers: state.answers,
+        currentIndex: state.currentIndex,
+        config: configRef.current,
+        startedAt: state.startedAt,
+      });
+    }
+  }, [state]);
+
   // Navigate to /done on finish
   useEffect(() => {
     if (state.phase === 'finished') {
@@ -69,20 +101,28 @@ export function Play() {
         replace: true,
         state: {
           score: selectScore(state),
-          config: locationState?.config,
+          config: configRef.current,
           startedAt: state.startedAt,
           answers: state.answers,
         },
       });
     }
-  }, [state.phase, navigate, locationState?.config]);
+  }, [state.phase, navigate]);
 
-  const onChoose = useCallback(
+  const onSelect = useCallback(
     (chosenIndex: number) => {
       if (state.phase !== 'playing') return;
+      dispatch({ type: 'SELECT', chosenIndex });
+    },
+    [state],
+  );
+
+  const onConfirm = useCallback(
+    () => {
+      if (state.phase !== 'playing' || state.selectedIndex === null) return;
       const elapsedMs = timerRef.current?.elapsedMs() ?? 0;
       timerRef.current?.pause();
-      dispatch({ type: 'ANSWER', chosenIndex, elapsedMs });
+      dispatch({ type: 'ANSWER', chosenIndex: state.selectedIndex, elapsedMs });
       const q = state.questions[state.index];
       if (q) recordView(q.id);
     },
@@ -102,7 +142,6 @@ export function Play() {
         chosen_option: q.options[last.chosenIndex]!,
         is_correct: last.isCorrect,
         time_to_answer_ms: last.elapsedMs,
-        feedback_reaction: null,
         played_at: new Date().toISOString(),
       });
       dispatch({ type: 'NEXT' });
@@ -172,7 +211,7 @@ export function Play() {
           </span>
         </div>
         <button
-          onClick={() => navigate('/', { replace: true })}
+          onClick={() => { clearQuizState(); navigate('/', { replace: true }); }}
           className="inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-base text-neutral-600 hover:bg-neutral-100 transition-colors"
         >
           <LogOut className="h-4 w-4" />
@@ -208,15 +247,30 @@ export function Play() {
         <CardContent>
           {state.phase === 'playing' && (
             <div className="space-y-2">
-              {question.options.map((option, i) => (
+              {question.options.map((option, i) => {
+                const isSelected = state.selectedIndex === i;
+                return (
+                  <button
+                    key={i}
+                    onClick={() => onSelect(i)}
+                    className={`w-full rounded-lg border-2 p-3 text-left transition-colors ${
+                      isSelected
+                        ? 'border-neutral-900 bg-neutral-100 font-medium'
+                        : 'border-transparent hover:bg-accent'
+                    }`}
+                  >
+                    {option}
+                  </button>
+                );
+              })}
+              {state.selectedIndex !== null && (
                 <button
-                  key={i}
-                  onClick={() => onChoose(i)}
-                  className="w-full rounded-lg border p-3 text-left transition-colors hover:bg-accent"
+                  onClick={onConfirm}
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-4 py-3 text-base font-semibold shadow transition-colors hover:bg-neutral-800 mt-2"
                 >
-                  {option}
+                  Lock In
                 </button>
-              ))}
+              )}
             </div>
           )}
 

@@ -68,6 +68,7 @@ describe('Happy path: setup → play → done', () => {
     mockRecordQuestionPlay.mockReset().mockResolvedValue(undefined);
     mockRecordQuizSession.mockReset().mockResolvedValue(undefined);
     mockEnsureSessionId.mockReset().mockResolvedValue('test-session-id');
+    sessionStorage.clear();
   });
 
   it('walks through setup → answer all questions → submit feedback', async () => {
@@ -98,11 +99,15 @@ describe('Happy path: setup → play → done', () => {
         expect(screen.getByText(`Question ${i + 1}?`)).toBeInTheDocument();
       });
 
-      // Click the first option (correct answer)
+      // Click the first option (correct answer) — selects it
       const optionButton = screen.getByRole('button', { name: 'A' });
       await user.click(optionButton);
 
-      // Should show "Correct!" after answering
+      // Lock in the answer
+      const lockInBtn = await screen.findByRole('button', { name: /lock in/i });
+      await user.click(lockInBtn);
+
+      // Should show "Correct!" after confirming
       await waitFor(() => {
         expect(screen.getByText(/correct!/i)).toBeInTheDocument();
       });

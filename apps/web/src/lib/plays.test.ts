@@ -26,7 +26,6 @@ const playRow: QuestionPlayRow = {
   chosen_option: 'Paris',
   is_correct: true,
   time_to_answer_ms: 3200,
-  feedback_reaction: 'good',
   played_at: '2026-04-11T00:00:00Z',
 };
 

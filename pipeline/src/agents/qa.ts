@@ -37,9 +37,10 @@ RULES:
 - US-internal questions should be rejected: minor US presidents, US-specific sports (NFL/NBA/NHL/MLB rules and records), US state capitals, US civics. American topics are fine only if they're globally famous (Hollywood, NASA, Lincoln, Friends, etc.). The test: "Would a table of 6 in a Manchester pub have a chance?"
 - If the correct answer does not logically answer the question (e.g. question asks "how many?" but the answer is a name, or the answer is in the question text), flag it for rewrite — the rewrite agent can fix the answer.
 - If the answer given to the question is literally in the question text (i.e. it's a free answer), flag it for rewrite.
-- If a distinctive word from the answer appears in the question — e.g. question mentions "Hadrian" and answer is "Hadrian's Wall", or question mentions "Shakespeare" and answer is "Shakespeare's plays" — flag it for rewrite. The player shouldn't be able to work out the answer just by hearing the question.
+- If a distinctive word from the answer appears in the question — e.g. question mentions "Hadrian" and answer is "Hadrian's Wall", or question mentions "Shakespeare" and answer is "Shakespeare's plays" — flag it for rewrite. Also check the reverse: if a distinctive word from the question is a substring of the answer — e.g. question mentions "bower" and answer is "Bowerbird", or question mentions "Abbey" and answer is "Abbey Road". The player shouldn't be able to work out the answer just by hearing the question.
 - If any distractor is ALSO a correct answer to the question, reject it. For example: "What marine creature has blue blood?" with "Octopus" as a distractor is wrong because octopuses also have blue blood. All distractors must be definitively wrong.
 - Distractors should be plain, consistent answers — not explanatory phrases. "Blue" not "Blue like Sonic". "Rat" not "Electric type". Keep distractor format matching the correct answer format.
+- People must be referred to by their full commonly-known name: "David Bowie" not "Bowie", "Leonardo da Vinci" not "da Vinci". Surname-only is too informal — flag for rewrite.
 
 (Standards from: pipeline/STYLE-GUIDE.md)`;
 

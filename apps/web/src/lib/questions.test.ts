@@ -88,4 +88,22 @@ describe('fetchRandomQuestions', () => {
       'No questions found'
     );
   });
+
+  it('throws when a question has fewer than 3 distractors', async () => {
+    const bad = { ...makeRow('bad'), distractors: ['Wrong A'] };
+    rpc.mockResolvedValue({ data: [bad], error: null });
+
+    await expect(fetchRandomQuestions('Easy', ['general'], 1)).rejects.toThrow(
+      'expected 4'
+    );
+  });
+
+  it('throws when distractors is not an array', async () => {
+    const bad = { ...makeRow('bad'), distractors: 'not-an-array' };
+    rpc.mockResolvedValue({ data: [bad], error: null });
+
+    await expect(fetchRandomQuestions('Easy', ['general'], 1)).rejects.toThrow(
+      'expected 4'
+    );
+  });
 });

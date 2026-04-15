@@ -63,6 +63,7 @@ function renderPlay(state?: Record<string, unknown>) {
 
 beforeEach(() => {
   mockRecordPlay.mockReset().mockResolvedValue(undefined);
+  sessionStorage.clear();
 });
 
 describe('Play screen', () => {
@@ -87,26 +88,33 @@ describe('Play screen', () => {
     expect(screen.getByText('Madrid')).toBeInTheDocument();
   });
 
-  it('selecting an option transitions to revealed - correct/incorrect banner + explanation visible', async () => {
+  it('selecting an option shows Lock In button without revealing answer', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /lock in/i })).toBeInTheDocument();
+    });
+    // Answer not yet revealed
+    expect(screen.queryByText(/correct/i)).not.toBeInTheDocument();
+  });
+
+  it('Lock In confirms selection and reveals answer', async () => {
+    renderPlay();
+    fireEvent.click(screen.getByText('Paris'));
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /lock in/i })).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByRole('button', { name: /lock in/i }));
     await waitFor(() => {
       expect(screen.getByText(/correct/i)).toBeInTheDocument();
     });
     expect(screen.getByText('Paris is the capital city of France.')).toBeInTheDocument();
   });
 
-  it('Next button appears after answer', async () => {
+  it('clicking Next records play and advances', async () => {
     renderPlay();
     fireEvent.click(screen.getByText('Paris'));
-    await waitFor(() => {
-      expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
-    });
-  });
-
-  it('clicking Next records play with null feedback_reaction and advances', async () => {
-    renderPlay();
-    fireEvent.click(screen.getByText('Paris'));
+    fireEvent.click(await screen.findByRole('button', { name: /lock in/i }));
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
     });
@@ -115,7 +123,6 @@ describe('Play screen', () => {
       expect(mockRecordPlay).toHaveBeenCalledWith(
         expect.objectContaining({
           question_id: 'q1',
-          feedback_reaction: null,
           is_correct: true,
         }),
       );
@@ -127,7 +134,9 @@ describe('Play screen', () => {
 
   it('after the last question, navigates to /done', async () => {
     renderPlay();
+    // Q1: select + lock in + next
     fireEvent.click(screen.getByText('Paris'));
+    fireEvent.click(await screen.findByRole('button', { name: /lock in/i }));
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
     });
@@ -137,7 +146,9 @@ describe('Play screen', () => {
       expect(screen.getByText('What is 2+2?')).toBeInTheDocument();
     });
 
+    // Q2: select + lock in + next
     fireEvent.click(screen.getByText('4'));
+    fireEvent.click(await screen.findByRole('button', { name: /lock in/i }));
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
     });

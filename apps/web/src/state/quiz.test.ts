@@ -14,6 +14,7 @@ function makeQuestion(id: string, correctIndex = 0): LoadedQuestion {
     options: ['A', 'B', 'C', 'D'],
     correctIndex,
     explanation: null,
+    category_slug: 'general',
   };
 }
 
@@ -38,6 +39,20 @@ describe('quizReducer', () => {
     }
   });
 
+  it('SELECT sets selectedIndex without changing phase', () => {
+    const questions = [makeQuestion('q1')];
+    let state: QuizState = quizReducer(initialQuizState, {
+      type: 'START',
+      questions,
+      startedAt: 0,
+    });
+    state = quizReducer(state, { type: 'SELECT', chosenIndex: 2 });
+    expect(state.phase).toBe('playing');
+    if (state.phase === 'playing') {
+      expect(state.selectedIndex).toBe(2);
+    }
+  });
+
   it('ANSWER records the chosen index + elapsedMs and transitions to revealed', () => {
     const questions = [makeQuestion('q1', 2)];
     let state: QuizState = quizReducer(initialQuizState, {
@@ -53,21 +68,7 @@ describe('quizReducer', () => {
       expect(state.answers[0].chosenIndex).toBe(2);
       expect(state.answers[0].isCorrect).toBe(true);
       expect(state.answers[0].elapsedMs).toBe(500);
-      expect(state.answers[0].reaction).toBeNull();
-    }
-  });
-
-  it('from revealed, FEEDBACK sets the reaction on the last answer', () => {
-    const questions = [makeQuestion('q1'), makeQuestion('q2')];
-    let state: QuizState = quizReducer(initialQuizState, {
-      type: 'START',
-      questions,
-      startedAt: 0,
-    });
-    state = quizReducer(state, { type: 'ANSWER', chosenIndex: 0, elapsedMs: 100 });
-    state = quizReducer(state, { type: 'FEEDBACK', reaction: 'good' });
-    if (state.phase === 'revealed') {
-      expect(state.answers[0].reaction).toBe('good');
+      expect(state.selectedIndex).toBeNull();
     }
   });
 

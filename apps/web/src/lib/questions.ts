@@ -17,6 +17,12 @@ type RpcRow = {
 function toLoadedQuestion(r: RpcRow): LoadedQuestion {
   const distractors = Array.isArray(r.distractors) ? r.distractors : [];
   const options = shuffle([r.correct_answer, ...distractors]);
+  if (options.length !== 4) {
+    throw new Error(
+      `Question ${r.id} has ${options.length} options (expected 4). ` +
+      `Correct: "${r.correct_answer}", distractors: ${JSON.stringify(r.distractors)}`
+    );
+  }
   const correctIndex = options.indexOf(r.correct_answer);
   return {
     id: r.id,

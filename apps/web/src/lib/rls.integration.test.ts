@@ -31,7 +31,6 @@ describeIntegration('RLS integration (local supabase)', () => {
       chosen_option: 'test',
       is_correct: false,
       time_to_answer_ms: 1000,
-      feedback_reaction: null,
       played_at: new Date().toISOString(),
     });
     expect(error).toBeNull();
@@ -49,7 +48,6 @@ describeIntegration('RLS integration (local supabase)', () => {
       chosen_option: 'test',
       is_correct: false,
       time_to_answer_ms: 1000,
-      feedback_reaction: null,
       played_at: new Date().toISOString(),
     });
     expect(error).not.toBeNull();

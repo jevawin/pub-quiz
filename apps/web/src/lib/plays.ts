@@ -7,7 +7,6 @@ export type QuestionPlayRow = {
   chosen_option: string;
   is_correct: boolean;
   time_to_answer_ms: number;
-  feedback_reaction: 'easy' | 'medium' | 'hard' | null;
   played_at: string;
 };
 

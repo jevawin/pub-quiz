@@ -76,6 +76,7 @@ Add an interesting detail that gives players something to work with:
 - Corporate/business questions (company rebrandings, product launch dates, internal org names)
 - Questions where the answer doesn't match the question type. If you ask "what era?" the answer must be an era. Double-check this.
 - Never include the correct answer in the question text. If the question is about a named thing, describe it rather than naming it. For example, don't write "In the sitcom Cheers, what is the name of the bar?" — instead write "What's the name of the bar in the sitcom where everybody knows your name?"
+- Always use a person's full commonly-known name on first mention: "David Bowie" not "Bowie", "Leonardo da Vinci" not "da Vinci", "Marie Curie" not "Curie". Surname-only is too informal for a quiz question.
 
 (Style reference: Open Trivia Database, CC BY-SA 4.0. Full guide: pipeline/STYLE-GUIDE.md)`;
 
@@ -244,11 +245,19 @@ Return as JSON with a "questions" array where each object has exactly these fiel
             return re.test(question.question_text);
           });
 
-          if (fullMatch || distinctiveMatch) {
+          // Reverse check: distinctive words from the QUESTION that are substrings of the answer.
+          // Catches e.g. "bower" in question → "Bowerbird" answer.
+          const questionWords = qLowerText
+            .replace(/[^\w\s]/g, ' ')
+            .split(/\s+/)
+            .filter(w => w.length >= 5 && !stopwords.has(w));
+          const reverseMatch = questionWords.some(w => answerFull.includes(w));
+
+          if (fullMatch || distinctiveMatch || reverseMatch) {
             log('warn', 'Answer appears in question text, skipping question', {
               questionText: question.question_text,
               correctAnswer: question.correct_answer,
-              matchType: fullMatch ? 'full' : 'distinctive-word',
+              matchType: fullMatch ? 'full' : distinctiveMatch ? 'distinctive-word' : 'reverse-substring',
             });
             failed++;
             continue;

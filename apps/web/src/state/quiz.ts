@@ -12,7 +12,6 @@ export type AnswerRecord = {
   chosenIndex: number;
   isCorrect: boolean;
   elapsedMs: number;
-  reaction: 'easy' | 'medium' | 'hard' | null;
 };
 
 export type QuizPhase = 'idle' | 'loading' | 'playing' | 'revealed' | 'reviewing' | 'finished';
@@ -28,13 +27,16 @@ export type QuizState =
       currentIndex: number;
       answers: AnswerRecord[];
       startedAt: number;
+      /** Index of the selected (but not yet confirmed) option, or null. */
+      selectedIndex: number | null;
     };
 
 export type QuizAction =
   | { type: 'LOAD' }
   | { type: 'START'; questions: LoadedQuestion[]; startedAt: number }
+  | { type: 'RESTORE'; questions: LoadedQuestion[]; answers: AnswerRecord[]; currentIndex: number; startedAt: number }
+  | { type: 'SELECT'; chosenIndex: number }
   | { type: 'ANSWER'; chosenIndex: number; elapsedMs: number }
-  | { type: 'FEEDBACK'; reaction: 'easy' | 'medium' | 'hard' | null }
   | { type: 'NEXT' }
   | { type: 'VIEW_PREVIOUS' }
   | { type: 'VIEW_CURRENT' }
@@ -54,7 +56,22 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
         currentIndex: 0,
         answers: [],
         startedAt: action.startedAt,
+        selectedIndex: null,
       };
+    case 'RESTORE':
+      return {
+        phase: 'playing',
+        questions: action.questions,
+        index: action.currentIndex,
+        currentIndex: action.currentIndex,
+        answers: action.answers,
+        startedAt: action.startedAt,
+        selectedIndex: null,
+      };
+    case 'SELECT': {
+      if (state.phase !== 'playing') return state;
+      return { ...state, selectedIndex: action.chosenIndex };
+    }
     case 'ANSWER': {
       if (state.phase !== 'playing') return state;
       const q = state.questions[state.index]!;
@@ -63,27 +80,19 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
         chosenIndex: action.chosenIndex,
         isCorrect: action.chosenIndex === q.correctIndex,
         elapsedMs: action.elapsedMs,
-        reaction: null,
       };
-      return { ...state, phase: 'revealed', answers: [...state.answers, record] };
-    }
-    case 'FEEDBACK': {
-      if (state.phase !== 'revealed') return state;
-      const answers = state.answers.slice();
-      const last = answers[answers.length - 1];
-      if (last) answers[answers.length - 1] = { ...last, reaction: action.reaction };
-      return { ...state, answers };
+      return { ...state, phase: 'revealed', answers: [...state.answers, record], selectedIndex: null };
     }
     case 'NEXT': {
       if (state.phase !== 'revealed') return state;
       const nextIndex = state.index + 1;
       if (nextIndex >= state.questions.length) return { ...state, phase: 'finished', currentIndex: nextIndex };
-      return { ...state, phase: 'playing', index: nextIndex, currentIndex: nextIndex };
+      return { ...state, phase: 'playing', index: nextIndex, currentIndex: nextIndex, selectedIndex: null };
     }
     case 'VIEW_PREVIOUS': {
       if (state.phase === 'idle' || state.phase === 'loading') return state;
       if (state.index <= 0) return state;
-      return { ...state, phase: 'reviewing', index: state.index - 1 };
+      return { ...state, phase: 'reviewing', index: state.index - 1, selectedIndex: null };
     }
     case 'VIEW_CURRENT': {
       if (state.phase !== 'reviewing') return state;
