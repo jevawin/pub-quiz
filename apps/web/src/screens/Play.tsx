@@ -253,10 +253,10 @@ export function Play() {
                   <button
                     key={i}
                     onClick={() => onSelect(i)}
-                    className={`w-full rounded-lg border-2 p-3 text-left transition-colors ${
+                    className={`w-full rounded-lg border p-3 text-left transition-colors ${
                       isSelected
-                        ? 'border-neutral-900 bg-neutral-100 font-medium'
-                        : 'border-transparent hover:bg-accent'
+                        ? 'border-neutral-900 bg-neutral-100 font-medium ring-2 ring-neutral-900'
+                        : 'border-neutral-300 hover:border-neutral-500 hover:bg-accent'
                     }`}
                   >
                     {option}

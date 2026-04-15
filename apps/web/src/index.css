@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Force light mode until dark mode is properly designed */
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: #fff;
+}
