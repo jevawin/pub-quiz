@@ -97,6 +97,10 @@ export async function runCategoryAgent(
   const categories: CategoryRow[] = existingCategories ?? [];
   log('info', 'Found existing categories', { count: categories.length });
 
+  // Build existing-slugs set now so we can both feed it into the prompt and
+  // use it for duplicate detection after Claude responds.
+  const existingSlugs = new Set(categories.map((c) => c.slug));
+
   // 2. Build capped context
   const categoryContext = buildCategoryContext(categories);
 
@@ -129,8 +133,13 @@ Read the category name out loud as a quizmaster announcing the next round. Would
 
 (Full guide: pipeline/CATEGORY-GUIDE.md)`;
 
+  const existingSlugsBlock =
+    existingSlugs.size > 0
+      ? `\n\nDo NOT propose any of these existing slugs (they are already in the database):\n${Array.from(existingSlugs).join(', ')}`
+      : '';
+
   const userPrompt =
-    `${categoryContext}\n\n` +
+    `${categoryContext}${existingSlugsBlock}\n\n` +
     `Please propose exactly ${config.categoryBatchSize} new subcategories. ` +
     'Each must be a child of an existing category. ' +
     'Maximum depth is 3 (0=root, 1=child, 2=grandchild, 3=great-grandchild). Do not propose categories at depth 4 or deeper.\n\n' +
@@ -175,14 +184,15 @@ Read the category name out loud as a quizmaster announcing the next round. Would
   // 7. Process each proposed category with per-item error handling
   let processed = 0;
   let failed = 0;
-  const existingSlugs = new Set(categories.map((c) => c.slug));
+  let skippedDuplicates = 0;
 
   for (const proposal of batch.categories) {
     try {
-      // Check for duplicate slug
+      // Check for duplicate slug -- benign, Claude is expected to avoid these
+      // but may still propose them; track separately from real failures.
       if (existingSlugs.has(proposal.slug)) {
-        log('warn', 'Skipping duplicate category slug', { slug: proposal.slug });
-        failed++;
+        log('info', 'Skipping duplicate category slug', { slug: proposal.slug });
+        skippedDuplicates++;
         continue;
       }
 
@@ -245,9 +255,18 @@ Read the category name out loud as a quizmaster announcing the next round. Would
     }
   }
 
-  log('info', 'Category Agent complete', { processed, failed });
+  log('info', 'Category Agent complete', { processed, failed, skippedDuplicates });
 
-  // If ALL items failed, throw to the orchestrator
+  // All-duplicates is a benign no-op: Claude proposed only slugs that already
+  // exist. Don't treat as failure.
+  if (processed === 0 && failed === 0 && skippedDuplicates > 0) {
+    log('info', 'Category Agent: all proposed categories already exist -- no new work needed', {
+      count: skippedDuplicates,
+    });
+    return { processed: 0, failed: 0 };
+  }
+
+  // If ALL items failed with real errors, throw to the orchestrator
   if (processed === 0 && failed > 0) {
     throw new Error(`Category Agent: all ${failed} categories failed to process`);
   }
