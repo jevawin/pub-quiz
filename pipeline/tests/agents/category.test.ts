@@ -173,8 +173,8 @@ describe('Category Agent', () => {
     expect(insertedData).toHaveProperty('created_by', 'pipeline');
   });
 
-  it('skips categories that already exist by slug', async () => {
-    // Claude proposes a category with slug that already exists
+  it('returns {processed:0, failed:0} without throwing when all proposals are duplicates', async () => {
+    // Claude proposes categories with slugs that already exist
     mockCreate.mockResolvedValue({
       content: [
         {
@@ -182,6 +182,7 @@ describe('Category Agent', () => {
           text: JSON.stringify({
             categories: [
               { name: 'Science', slug: 'science', description: 'Duplicate', parent_slug: 'history' },
+              { name: 'History', slug: 'history', description: 'Duplicate', parent_slug: 'science' },
             ],
           }),
         },
@@ -204,9 +205,60 @@ describe('Category Agent', () => {
       return { select: vi.fn().mockResolvedValue({ data: [], error: null }) };
     });
 
-    // All items fail -> agent throws
-    await expect(runCategoryAgent(makeConfig(), makeTokenAccumulator())).rejects.toThrow('all 1 categories failed');
+    // All-duplicates is benign: no throw, returns zeros
+    const result = await runCategoryAgent(makeConfig(), makeTokenAccumulator());
+    expect(result.processed).toBe(0);
+    expect(result.failed).toBe(0);
     expect(insertMock).not.toHaveBeenCalled();
+  });
+
+  it('passes existing slugs to Claude prompt', async () => {
+    const threeCats = [
+      { id: 'cat-1', name: 'Science', slug: 'science', parent_id: null, depth: 0 },
+      { id: 'cat-2', name: 'History', slug: 'history', parent_id: null, depth: 0 },
+      { id: 'cat-3', name: 'Geography', slug: 'geography', parent_id: null, depth: 0 },
+    ];
+
+    mockFrom.mockImplementation((table: string) => {
+      if (table === 'categories') {
+        return {
+          select: vi.fn().mockReturnValue({
+            data: threeCats,
+            error: null,
+            then: (fn: (v: unknown) => unknown) => Promise.resolve(fn({ data: threeCats, error: null })),
+          }),
+          insert: vi.fn().mockReturnValue({
+            select: vi.fn().mockReturnValue({
+              single: vi.fn().mockResolvedValue({ data: { id: 'new-id' }, error: null }),
+            }),
+          }),
+        };
+      }
+      return { select: vi.fn().mockResolvedValue({ data: [], error: null }) };
+    });
+
+    mockCreate.mockResolvedValue({
+      content: [
+        {
+          type: 'text',
+          text: JSON.stringify({
+            categories: [
+              { name: 'Physics', slug: 'physics', description: 'Study of matter', parent_slug: 'science' },
+            ],
+          }),
+        },
+      ],
+      usage: { input_tokens: 100, output_tokens: 50 },
+    });
+
+    await runCategoryAgent(makeConfig(), makeTokenAccumulator());
+
+    const callArgs = mockCreate.mock.calls[0][0];
+    const userMessage: string = callArgs.messages[0].content;
+    expect(userMessage).toContain('Do NOT propose any of these existing slugs');
+    expect(userMessage).toContain('science');
+    expect(userMessage).toContain('history');
+    expect(userMessage).toContain('geography');
   });
 
   it('enforces max depth of 3 (skips depth 4+ proposals)', async () => {
