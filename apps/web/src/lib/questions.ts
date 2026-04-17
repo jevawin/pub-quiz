@@ -1,7 +1,7 @@
 import { supabase } from './supabase';
 import { shuffle } from './shuffle';
 import { uiToDbDifficulties, type UiDifficulty } from './difficulty';
-import { getViewCounts } from './seen-store';
+import { getViewCounts, getSeenIds } from './seen-store';
 import type { LoadedQuestion } from '@/state/quiz';
 
 type RpcRow = {
@@ -34,19 +34,49 @@ function toLoadedQuestion(r: RpcRow): LoadedQuestion {
   };
 }
 
-/** Fetch rows for one difficulty + category slug combo. */
+/** Fetch rows for one difficulty + category slug combo, excluding seen IDs server-side. */
 async function fetchForDifficulty(
   dbDifficulty: string,
   categorySlug: string,
   limit: number,
+  excludeIds: string[],
 ): Promise<RpcRow[]> {
-  const { data, error } = await supabase.rpc('random_published_questions', {
+  const { data, error } = await supabase.rpc('random_published_questions_excluding', {
     p_difficulty: dbDifficulty,
     p_category_slug: categorySlug,
     p_limit: limit,
+    p_exclude_ids: excludeIds,
   });
   if (error) throw error;
   return (data ?? []) as RpcRow[];
+}
+
+/** Count available questions across difficulties + slugs, excluding seen IDs. */
+export async function countAvailableQuestions(
+  uiDifficulty: UiDifficulty,
+  categorySlugs: string[],
+  excludeSeen: boolean,
+): Promise<number> {
+  const dbDifficulties = uiToDbDifficulties(uiDifficulty);
+  const allSelected = categorySlugs.length === 0 || categorySlugs.includes('general');
+  const slugs = allSelected ? ['general'] : categorySlugs;
+  const excludeIds = excludeSeen ? getSeenIds() : [];
+
+  const counts = await Promise.all(
+    dbDifficulties.flatMap((diff) =>
+      slugs.map(async (slug) => {
+        const { data, error } = await supabase.rpc('count_available_questions', {
+          p_difficulty: diff,
+          p_category_slug: slug,
+          p_exclude_ids: excludeIds,
+        });
+        if (error) throw error;
+        return (data as number) ?? 0;
+      }),
+    ),
+  );
+
+  return counts.reduce((sum, c) => sum + c, 0);
 }
 
 /** Dedupe, then prefer questions with fewest views. Within same view-count tier, shuffle. */
@@ -88,16 +118,34 @@ export async function fetchRandomQuestions(
   const allSelected = categorySlugs.length === 0 || categorySlugs.includes('general');
   const slugs = allSelected ? ['general'] : categorySlugs;
 
-  // Over-fetch 4x so we have enough to prefer unseen questions
-  const overFetch = n * 4;
+  // Server-side exclusion: ask DB to skip questions the user has already seen.
+  const excludeIds = getSeenIds();
+
+  // Over-fetch 2x (smaller factor now that server filters seen) so we still have
+  // some choice between options for within-batch ordering.
+  const overFetch = n * 2;
   const perCombo = Math.max(1, Math.ceil(overFetch / (dbDifficulties.length * slugs.length)) + 2);
-  const batches = await Promise.all(
+  let batches = await Promise.all(
     dbDifficulties.flatMap((diff) =>
-      slugs.map((slug) => fetchForDifficulty(diff, slug, perCombo)),
+      slugs.map((slug) => fetchForDifficulty(diff, slug, perCombo, excludeIds)),
     ),
   );
 
-  const limited = dedupeAndPickFreshest(batches, n);
+  let limited = dedupeAndPickFreshest(batches, n);
+
+  // Fallback: if the pool of unseen questions is too small to meet the request,
+  // refetch WITHOUT the exclusion so the user still gets a full-length quiz
+  // (repeats preferred to a short quiz). Pool-size warnings at Setup make this
+  // rare, but we retry defensively anyway.
+  if (limited.length < n && excludeIds.length > 0) {
+    batches = await Promise.all(
+      dbDifficulties.flatMap((diff) =>
+        slugs.map((slug) => fetchForDifficulty(diff, slug, perCombo, [])),
+      ),
+    );
+    limited = dedupeAndPickFreshest(batches, n);
+  }
+
   if (limited.length === 0) throw new Error('No questions found — try a different category or difficulty');
   return limited.map(toLoadedQuestion);
 }

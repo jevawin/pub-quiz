@@ -31,11 +31,27 @@ export function Play() {
 
   const locationState = location.state as LocationState | undefined;
 
-  // Redirect if no router state (deep-link protection), or restore from sessionStorage
+  // Prefer router state (fresh quiz from Setup) over saved sessionStorage state.
+  // Only restore a saved quiz if there is no router state — this handles the
+  // page-refresh case without clobbering a newly-configured quiz.
   useEffect(() => {
     if (initialised.current) return;
 
-    // Try restoring a saved quiz (e.g. after page refresh)
+    if (locationState?.questions && locationState.questions.length > 0) {
+      initialised.current = true;
+      // New quiz starting — discard any stale saved state from a previous run.
+      clearQuizState();
+      timerRef.current = createActiveTimer();
+      timerRef.current.reset();
+      dispatch({
+        type: 'START',
+        questions: locationState.questions,
+        startedAt: locationState.startedAt,
+      });
+      return;
+    }
+
+    // No router state — try restoring a saved quiz (page refresh case).
     const saved = loadQuizState();
     if (saved && saved.questions.length > 0 && saved.currentIndex < saved.questions.length) {
       initialised.current = true;
@@ -45,18 +61,7 @@ export function Play() {
       return;
     }
 
-    if (!locationState?.questions) {
-      navigate('/', { replace: true });
-      return;
-    }
-    initialised.current = true;
-    timerRef.current = createActiveTimer();
-    timerRef.current.reset();
-    dispatch({
-      type: 'START',
-      questions: locationState.questions,
-      startedAt: locationState.startedAt,
-    });
+    navigate('/', { replace: true });
   }, [locationState, navigate]);
 
   // Cleanup timer on unmount

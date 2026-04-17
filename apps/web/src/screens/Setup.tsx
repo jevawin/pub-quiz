@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart, Play, GraduationCap, Square, CheckSquare, Shuffle, Smile, Flame, Skull, Dice1, Dice3, Dice5, Dice6 } from 'lucide-react';
 import { CATEGORY_OPTIONS, QUESTION_COUNTS, isValidCategory, isValidCount } from '@/config/categories';
 import { UI_DIFFICULTIES, type UiDifficulty } from '@/lib/difficulty';
-import { fetchRandomQuestions } from '@/lib/questions';
+import { fetchRandomQuestions, countAvailableQuestions } from '@/lib/questions';
 import { totalPlayed, clearAll as clearSeenMemory } from '@/lib/seen-store';
 import type { QuestionCount } from '@/config/categories';
 
@@ -24,6 +24,8 @@ export function Setup() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [played, setPlayed] = useState(() => totalPlayed());
+  const [availableUnseen, setAvailableUnseen] = useState<number | null>(null);
+  const [availableTotal, setAvailableTotal] = useState<number | null>(null);
 
   const allSelected = selectedCategories.size === ALL_CATEGORY_SLUGS.length;
 
@@ -71,16 +73,47 @@ export function Setup() {
     setPlayed(totalPlayed());
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Recount available questions whenever the user's filter choices change.
+  useEffect(() => {
+    let cancelled = false;
+    const slugs = allSelected ? ['general'] : Array.from(selectedCategories);
+    if (slugs.length === 0) {
+      setAvailableUnseen(0);
+      setAvailableTotal(0);
+      return;
+    }
+    Promise.all([
+      countAvailableQuestions(difficulty, slugs, true),
+      countAvailableQuestions(difficulty, slugs, false),
+    ])
+      .then(([unseen, total]) => {
+        if (cancelled) return;
+        setAvailableUnseen(unseen);
+        setAvailableTotal(total);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setAvailableUnseen(null);
+        setAvailableTotal(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [difficulty, selectedCategories, allSelected, played]);
+
   const onPlay = async () => {
     setLoading(true);
     setError(null);
     try {
       const slugs = allSelected ? ['general'] : Array.from(selectedCategories);
       const questions = await fetchRandomQuestions(difficulty, slugs, count);
+      // Use the actual number of questions returned as the authoritative count
+      // so End screens and progress show the real denominator, not the request.
+      const actualCount = questions.length;
       navigate('/play', {
         state: {
           questions,
-          config: { category: slugs.join(','), difficulty, count },
+          config: { category: slugs.join(','), difficulty, count: actualCount },
           startedAt: Date.now(),
         },
       });
@@ -90,6 +123,18 @@ export function Setup() {
       setLoading(false);
     }
   };
+
+  // Derive pool-size warning message for the current filter choices.
+  let poolWarning: string | null = null;
+  if (availableTotal !== null && availableUnseen !== null) {
+    if (availableTotal === 0) {
+      poolWarning = 'No questions match these filters yet. Try another category or difficulty.';
+    } else if (availableTotal < count) {
+      poolWarning = `Only ${availableTotal} question${availableTotal === 1 ? '' : 's'} match these filters — the quiz will be shorter.`;
+    } else if (availableUnseen < count) {
+      poolWarning = `Only ${availableUnseen} unseen question${availableUnseen === 1 ? '' : 's'} left — some may repeat.`;
+    }
+  }
 
   return (
     <div className="mx-auto max-w-lg px-4 py-8">
@@ -108,6 +153,10 @@ export function Setup() {
         <p className="mb-4 text-base text-red-700">{error}</p>
       )}
 
+      {poolWarning && (
+        <p className="mb-4 text-base text-amber-700">{poolWarning}</p>
+      )}
+
       <p className="mb-2 text-base text-neutral-500">
         {allSelected ? 'All categories' : `${selectedCategories.size} ${selectedCategories.size === 1 ? 'category' : 'categories'}`}
         {' · '}
@@ -118,7 +167,7 @@ export function Setup() {
 
       <button
         onClick={onPlay}
-        disabled={loading}
+        disabled={loading || selectedCategories.size === 0 && !allSelected || (availableTotal !== null && availableTotal === 0)}
         className="w-full mb-8 inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none"
       >
         <Play className="h-5 w-5 fill-current" />
@@ -233,6 +282,10 @@ export function Setup() {
         We log which answers you pick to improve questions. No personal data.
       </p>
 
+      {poolWarning && (
+        <p className="mb-4 text-base text-amber-700">{poolWarning}</p>
+      )}
+
       <p className="mb-2 text-base text-neutral-500">
         {allSelected ? 'All categories' : `${selectedCategories.size} ${selectedCategories.size === 1 ? 'category' : 'categories'}`}
         {' · '}
@@ -243,7 +296,7 @@ export function Setup() {
 
       <button
         onClick={onPlay}
-        disabled={loading}
+        disabled={loading || selectedCategories.size === 0 && !allSelected || (availableTotal !== null && availableTotal === 0)}
         className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none"
       >
         <Play className="h-5 w-5 fill-current" />

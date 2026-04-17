@@ -37,6 +37,11 @@ export function totalPlayed(): number {
   return Object.keys(load()).length;
 }
 
+/** All seen question IDs. Used to exclude from server-side fetches. */
+export function getSeenIds(): string[] {
+  return Object.keys(load());
+}
+
 /** Clear all seen data. */
 export function clearAll(): void {
   localStorage.removeItem(STORAGE_KEY);
