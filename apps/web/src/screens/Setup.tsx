@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart, Play, GraduationCap, Square, CheckSquare, Shuffle, Smile, Flame, Skull, Dice1, Dice3, Dice5, Dice6 } from 'lucide-react';
 import { CATEGORY_OPTIONS, QUESTION_COUNTS, isValidCategory, isValidCount } from '@/config/categories';
 import { UI_DIFFICULTIES, type UiDifficulty } from '@/lib/difficulty';
-import { fetchRandomQuestions, countAvailableQuestions } from '@/lib/questions';
+import { fetchRandomQuestions, countAvailableQuestions, fetchCountsByRootCategory, type CategoryCounts } from '@/lib/questions';
 import { totalPlayed, clearAll as clearSeenMemory } from '@/lib/seen-store';
 import type { QuestionCount } from '@/config/categories';
 
@@ -13,6 +13,16 @@ const ALL_CATEGORY_SLUGS = CATEGORY_OPTIONS.filter((c) => c.slug !== 'general').
 
 const DEFAULT_DIFFICULTY: UiDifficulty = 'Mixed';
 const DEFAULT_COUNT: QuestionCount = 10;
+
+/** Read the question count for one root slug at the current UI difficulty. */
+function countForSlug(counts: CategoryCounts | null, slug: string, diff: UiDifficulty): number | null {
+  if (!counts) return null;
+  const bucket = counts[slug];
+  if (!bucket) return 0;
+  if (diff === 'Mixed') return bucket.total;
+  const key = diff === 'Easy' ? 'easy' : diff === 'Medium' ? 'normal' : 'hard';
+  return bucket[key];
+}
 
 export function Setup() {
   const [searchParams] = useSearchParams();
@@ -26,6 +36,7 @@ export function Setup() {
   const [played, setPlayed] = useState(() => totalPlayed());
   const [availableUnseen, setAvailableUnseen] = useState<number | null>(null);
   const [availableTotal, setAvailableTotal] = useState<number | null>(null);
+  const [catCounts, setCatCounts] = useState<CategoryCounts | null>(null);
 
   const allSelected = selectedCategories.size === ALL_CATEGORY_SLUGS.length;
 
@@ -72,6 +83,15 @@ export function Setup() {
     }
     setPlayed(totalPlayed());
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Fetch per-category counts once on mount. One RPC call; totals derived locally.
+  useEffect(() => {
+    let cancelled = false;
+    fetchCountsByRootCategory()
+      .then((c) => { if (!cancelled) setCatCounts(c); })
+      .catch(() => { if (!cancelled) setCatCounts(null); });
+    return () => { cancelled = true; };
+  }, []);
 
   // Recount available questions whenever the user's filter choices change.
   useEffect(() => {
@@ -124,6 +144,13 @@ export function Setup() {
     }
   };
 
+  // Sum of published-question counts across currently selected categories at the
+  // active difficulty. Null until catCounts loads; stays null if the fetch fails.
+  const selectionPoolCount = catCounts
+    ? (allSelected ? ALL_CATEGORY_SLUGS : Array.from(selectedCategories))
+        .reduce((sum, slug) => sum + (countForSlug(catCounts, slug, difficulty) ?? 0), 0)
+    : null;
+
   // Derive pool-size warning message for the current filter choices.
   let poolWarning: string | null = null;
   if (availableTotal !== null && availableUnseen !== null) {
@@ -163,6 +190,9 @@ export function Setup() {
         {difficulty}
         {' · '}
         {count} questions
+        {selectionPoolCount !== null && (
+          <> {' · '}{selectionPoolCount} in pool</>
+        )}
       </p>
 
       <button
@@ -195,6 +225,7 @@ export function Setup() {
             {CATEGORY_OPTIONS.filter((c) => c.slug !== 'general').map((c) => {
               const active = selectedCategories.has(c.slug);
               const CatIcon = c.icon;
+              const pillCount = countForSlug(catCounts, c.slug, difficulty);
               return (
                 <button
                   type="button"
@@ -209,6 +240,11 @@ export function Setup() {
                   {active ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
                   <CatIcon className="h-4 w-4" />
                   {c.label}
+                  {pillCount !== null && (
+                    <span className={`ml-1 text-xs ${active ? 'text-neutral-300' : 'text-neutral-500'}`}>
+                      {pillCount}
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -292,6 +328,9 @@ export function Setup() {
         {difficulty}
         {' · '}
         {count} questions
+        {selectionPoolCount !== null && (
+          <> {' · '}{selectionPoolCount} in pool</>
+        )}
       </p>
 
       <button

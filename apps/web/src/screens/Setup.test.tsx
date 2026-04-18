@@ -19,7 +19,7 @@ vi.mock('@/lib/questions', () => ({
 beforeEach(() => {
   mockFetchRandomQuestions.mockReset();
   mockCountAvailableQuestions.mockReset();
-  mockCountAvailableQuestions.mockResolvedValue(0);
+  mockCountAvailableQuestions.mockResolvedValue(100);
   mockFetchCountsByRootCategory.mockReset();
   mockFetchCountsByRootCategory.mockResolvedValue({
     science: { easy: 10, normal: 20, hard: 5, total: 35 },
@@ -163,9 +163,9 @@ describe('Setup screen', () => {
     await user.click(screen.getByRole('button', { name: /science.*35/i }));
     await user.click(screen.getByRole('button', { name: /history.*12/i }));
 
-    // Mixed totals: science 35 + history 12 = 47
+    // Mixed totals: science 35 + history 12 = 47. Two summary lines show it.
     await waitFor(() => {
-      expect(screen.getByText(/47 in pool/i)).toBeInTheDocument();
+      expect(screen.getAllByText(/47 in pool/i).length).toBeGreaterThan(0);
     });
   });
 
