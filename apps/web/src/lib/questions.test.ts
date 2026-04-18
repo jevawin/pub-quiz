@@ -12,7 +12,7 @@ vi.mock('./seen-store', () => ({
   getViewCounts: (ids: string[]) => Object.fromEntries(ids.map((id) => [id, 0])),
 }));
 
-import { fetchRandomQuestions } from './questions';
+import { fetchRandomQuestions, fetchCountsByRootCategory } from './questions';
 
 beforeEach(() => {
   rpc.mockReset();
@@ -105,5 +105,59 @@ describe('fetchRandomQuestions', () => {
     await expect(fetchRandomQuestions('Easy', ['general'], 1)).rejects.toThrow(
       'expected 4'
     );
+  });
+});
+
+describe('fetchCountsByRootCategory', () => {
+  it('calls the counts_by_root_category RPC', async () => {
+    rpc.mockResolvedValue({ data: [], error: null });
+
+    await fetchCountsByRootCategory();
+
+    expect(rpc).toHaveBeenCalledWith('counts_by_root_category');
+  });
+
+  it('groups rows by root_slug into easy/normal/hard buckets and sums total', async () => {
+    rpc.mockResolvedValue({
+      data: [
+        { root_slug: 'science', difficulty: 'easy', question_count: 5 },
+        { root_slug: 'science', difficulty: 'normal', question_count: 7 },
+        { root_slug: 'science', difficulty: 'hard', question_count: 3 },
+        { root_slug: 'history', difficulty: 'easy', question_count: 4 },
+      ],
+      error: null,
+    });
+
+    const result = await fetchCountsByRootCategory();
+
+    expect(result).toEqual({
+      science: { easy: 5, normal: 7, hard: 3, total: 15 },
+      history: { easy: 4, normal: 0, hard: 0, total: 4 },
+    });
+  });
+
+  it('defaults missing difficulties to 0 and still computes total', async () => {
+    rpc.mockResolvedValue({
+      data: [{ root_slug: 'music', difficulty: 'hard', question_count: 2 }],
+      error: null,
+    });
+
+    const result = await fetchCountsByRootCategory();
+
+    expect(result.music).toEqual({ easy: 0, normal: 0, hard: 2, total: 2 });
+  });
+
+  it('returns an empty object when data is null', async () => {
+    rpc.mockResolvedValue({ data: null, error: null });
+
+    const result = await fetchCountsByRootCategory();
+
+    expect(result).toEqual({});
+  });
+
+  it('throws when the RPC returns an error', async () => {
+    rpc.mockResolvedValue({ data: null, error: { message: 'DB error' } });
+
+    await expect(fetchCountsByRootCategory()).rejects.toEqual({ message: 'DB error' });
   });
 });

@@ -1,8 +1,28 @@
 import { supabase } from './supabase';
 import { shuffle } from './shuffle';
-import { uiToDbDifficulties, type UiDifficulty } from './difficulty';
+import { uiToDbDifficulties, type UiDifficulty, type DbDifficulty } from './difficulty';
 import { getViewCounts, getSeenIds } from './seen-store';
 import type { LoadedQuestion } from '@/state/quiz';
+
+export type CategoryCounts = Record<string, { easy: number; normal: number; hard: number; total: number }>;
+
+/** Fetch per-root-category question counts, keyed by root slug, per difficulty. */
+export async function fetchCountsByRootCategory(): Promise<CategoryCounts> {
+  const { data, error } = await supabase.rpc('counts_by_root_category');
+  if (error) throw error;
+  const rows = (data ?? []) as Array<{ root_slug: string; difficulty: DbDifficulty; question_count: number }>;
+  const out: CategoryCounts = {};
+  for (const r of rows) {
+    const bucket = out[r.root_slug] ?? { easy: 0, normal: 0, hard: 0, total: 0 };
+    bucket[r.difficulty] = r.question_count;
+    out[r.root_slug] = bucket;
+  }
+  for (const slug of Object.keys(out)) {
+    const b = out[slug]!;
+    b.total = b.easy + b.normal + b.hard;
+  }
+  return out;
+}
 
 type RpcRow = {
   id: string;
