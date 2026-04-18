@@ -386,3 +386,12 @@ Plans:
 
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.10: Fix Duplicate Local Migration 00011 Files (BACKLOG)
+
+**Goal:** Resolve duplicate local migration version 00011 — two files share that version: `supabase/migrations/00011_feedback_difficulty_rating.sql` and `supabase/migrations/00011_questions_staging.sql`. This breaks `supabase db push` with duplicate key on `schema_migrations_pkey`. Remote DB already has one 00011 applied. Actions: (1) identify which 00011 is applied remote, (2) renumber the other to next free version (latest was 00016 as of 2026-04-18), (3) run `supabase migration repair` to align local + remote history. Discovered 2026-04-18 during quick task 260418-stj while pushing the General Knowledge RPC migration.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
