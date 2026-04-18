@@ -4,16 +4,37 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { Setup } from './Setup';
 
-const { mockFetchRandomQuestions } = vi.hoisted(() => ({
+const { mockFetchRandomQuestions, mockCountAvailableQuestions, mockFetchCountsByRootCategory } = vi.hoisted(() => ({
   mockFetchRandomQuestions: vi.fn(),
+  mockCountAvailableQuestions: vi.fn(),
+  mockFetchCountsByRootCategory: vi.fn(),
 }));
 
 vi.mock('@/lib/questions', () => ({
   fetchRandomQuestions: mockFetchRandomQuestions,
+  countAvailableQuestions: mockCountAvailableQuestions,
+  fetchCountsByRootCategory: mockFetchCountsByRootCategory,
 }));
 
 beforeEach(() => {
   mockFetchRandomQuestions.mockReset();
+  mockCountAvailableQuestions.mockReset();
+  mockCountAvailableQuestions.mockResolvedValue(0);
+  mockFetchCountsByRootCategory.mockReset();
+  mockFetchCountsByRootCategory.mockResolvedValue({
+    science: { easy: 10, normal: 20, hard: 5, total: 35 },
+    history: { easy: 3, normal: 7, hard: 2, total: 12 },
+    geography: { easy: 1, normal: 2, hard: 3, total: 6 },
+    'movies-and-tv': { easy: 0, normal: 0, hard: 0, total: 0 },
+    music: { easy: 0, normal: 0, hard: 0, total: 0 },
+    gaming: { easy: 0, normal: 0, hard: 0, total: 0 },
+    sports: { easy: 0, normal: 0, hard: 0, total: 0 },
+    'food-and-drink': { easy: 0, normal: 0, hard: 0, total: 0 },
+    literature: { easy: 0, normal: 0, hard: 0, total: 0 },
+    'art-and-design': { easy: 0, normal: 0, hard: 0, total: 0 },
+    technology: { easy: 0, normal: 0, hard: 0, total: 0 },
+    'nature-and-animals': { easy: 0, normal: 0, hard: 0, total: 0 },
+  });
 });
 
 function renderSetup(initialEntry = '/') {
@@ -96,5 +117,65 @@ describe('Setup screen', () => {
     await waitFor(() => {
       expect(screen.getByTestId('play-screen')).toBeInTheDocument();
     });
+  });
+
+  it('renders per-pill counts after fetchCountsByRootCategory resolves', async () => {
+    renderSetup('/');
+
+    const scienceButton = await screen.findByRole('button', { name: /science.*35/i });
+    expect(scienceButton).toBeInTheDocument();
+    const historyButton = screen.getByRole('button', { name: /history.*12/i });
+    expect(historyButton).toBeInTheDocument();
+  });
+
+  it('updates pill counts when difficulty changes', async () => {
+    const user = userEvent.setup();
+    renderSetup('/');
+
+    // Wait for initial counts to load (Mixed → total)
+    await screen.findByRole('button', { name: /science.*35/i });
+
+    // Switch to Easy
+    await user.click(screen.getByRole('radio', { name: /^easy$/i }));
+
+    // Science easy = 10
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /science.*10/i })).toBeInTheDocument();
+    });
+
+    // Switch to Hard
+    await user.click(screen.getByRole('radio', { name: /^hard$/i }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /science.*5/i })).toBeInTheDocument();
+    });
+  });
+
+  it('summary line shows summed pool count for selected categories', async () => {
+    const user = userEvent.setup();
+    renderSetup('/');
+
+    // Wait until counts load
+    await screen.findByRole('button', { name: /science.*35/i });
+
+    // Deselect All, then select science + history only
+    await user.click(screen.getByRole('button', { name: /^all$/i }));
+    await user.click(screen.getByRole('button', { name: /science.*35/i }));
+    await user.click(screen.getByRole('button', { name: /history.*12/i }));
+
+    // Mixed totals: science 35 + history 12 = 47
+    await waitFor(() => {
+      expect(screen.getByText(/47 in pool/i)).toBeInTheDocument();
+    });
+  });
+
+  it('renders pills without counts when fetchCountsByRootCategory rejects', async () => {
+    mockFetchCountsByRootCategory.mockRejectedValueOnce(new Error('network'));
+
+    renderSetup('/');
+
+    // Plain label visible; no crash
+    const scienceButton = await screen.findByRole('button', { name: /^science$/i });
+    expect(scienceButton).toBeInTheDocument();
   });
 });
