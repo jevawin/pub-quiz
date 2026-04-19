@@ -300,23 +300,23 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
 
-### Phase 999.3: Improve Category Agent Prompt for Pub Quiz Suitability (BACKLOG)
+### Phase 999.3: Improve Category Agent Prompt for Pub Quiz Suitability (RESOLVED 2026-04-19 via quick 260419-pma)
 
 **Goal:** Tighten the Category Agent system prompt to favour categories that work in a real pub quiz. Add criteria: would a quizmaster say this out loud, would 3+ people at a table have a chance, avoid academic/technical categories. Current prompt is too vague ("avoid overly niche topics").
-**Requirements:** TBD
+**Resolution:** Depth-aware rule added to pipeline/src/agents/category.ts — strict at depth 0/1 (rejects Thermodynamics, Epistemology, Macroeconomics), permissive at depth 2/3 (keeps niche leaves like Quidditch). Commit `c257dfc`.
 **Plans:** 0 plans
 
 Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
+- [x] Resolved — no plan needed
 
-### Phase 999.4: Improve Questions Agent Prompt for Pub Quiz Tone (BACKLOG)
+### Phase 999.4: Improve Questions Agent Prompt for Pub Quiz Tone (RESOLVED 2026-04-19 via quick 260419-pma)
 
 **Goal:** Rewrite the Questions Agent system prompt so generated questions feel like real pub quiz questions, not Wikipedia comprehension tests. Questions should test general knowledge people might actually know, not "according to the reference material, what does paragraph 3 say". Favour "would you hear this in a pub" over "what does the source text say".
-**Requirements:** TBD
+**Resolution:** Tone section + comprehension-framing ban + answer-in-question ban added to pipeline/src/agents/questions.ts SYSTEM_PROMPT. Commits `794a422` (initial), `fa8158a` (answer-in-question ban after user flagged GTA/Dark Souls leakage). Verified via 20-sample live dry-run: tone shift confirmed, Q9/Q15-style leakage eliminated. User approved.
 **Plans:** 0 plans
 
 Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
+- [x] Resolved — no plan needed
 
 ### Phase 999.6: Style Guide Update Agent with Approval Gate (BACKLOG)
 

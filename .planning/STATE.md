@@ -115,9 +115,10 @@ None yet.
 | 260418-st9 | Add live question count display to category pills in Setup | 2026-04-18 | 81288e6 | [260418-st9-add-live-question-count-display-to-categ](./quick/260418-st9-add-live-question-count-display-to-categ/) |
 | 260419-oig | Fix duplicate local migration 00011 files (resolved-before-execution) | 2026-04-19 | 15511b3 | [260419-oig-fix-duplicate-local-migration-00011-file](./quick/260419-oig-fix-duplicate-local-migration-00011-file/) |
 | 260419-oxa | Fix pipeline test suite drift (7 failing tests -> all green, 94/94) | 2026-04-19 | 8c0e007 | [260419-oxa-fix-pipeline-test-suite-drift](./quick/260419-oxa-fix-pipeline-test-suite-drift/) |
+| 260419-pma | Tighten Category + Questions Agent prompts for pub quiz tone (closes 999.3, 999.4) | 2026-04-19 | 47d3432 | [260419-pma-tighten-category-questions-agent-prompts](./quick/260419-pma-tighten-category-questions-agent-prompts/) |
 
 ## Session Continuity
 
-Last session: 2026-04-19T17:03:00.000Z
-Stopped at: Completed quick task 260419-oxa
-Last activity: 2026-04-19 - Completed quick task 260419-oxa: Fix pipeline test suite drift (7 tests -> 94/94 passing)
+Last session: 2026-04-19T17:50:00.000Z
+Stopped at: Completed quick task 260419-pma
+Last activity: 2026-04-19 - Completed quick task 260419-pma: Tighten Category + Questions Agent prompts for pub quiz tone
