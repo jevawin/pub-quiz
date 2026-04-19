@@ -406,3 +406,12 @@ Plans:
 
 Plans:
 - [x] Resolved — no plan needed
+
+### Phase 999.12: Birth Decade Filter for Era-Appropriate Questions (BACKLOG)
+
+**Goal:** Player picks the decade they were born in (e.g. 1970s, 1980s, 1990s) during onboarding or per-quiz; question selection biases toward era-appropriate general knowledge (music, TV, events, brands, culture from that decade ±10 years). Goal: questions feel "of your time" — a 1985-born player isn't asked about 1960s Motown B-sides unless they opt in. Needs: decade tag on questions (`era_decade` or `era_range` field), agent-side era tagging during generation, runtime filter/boost in quiz selection (soft weighting, not hard filter, so cross-era general knowledge still appears). Optional UX: "play my decade" quick mode on home screen.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
