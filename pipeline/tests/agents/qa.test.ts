@@ -1,3 +1,11 @@
+// Drift repair 260419-oxa:
+// - QA split (commit 991ed2f) moved rewrites out of Haiku's response into a second Sonnet call
+//   (rewriteWithSonnet in qa.ts). Tests that exercise the rewrite path now mock two
+//   claude.messages.create responses: first the Haiku QA diagnosis, then the Sonnet rewrite.
+// - Fact-check/QA Opus upgrade (14edd7f) changed trackUsage cost args from HAIKU to OPUS.
+// - qa_rewritten remains a user-visible contract (calibrator.ts reads it as a proxy for
+//   published questions that went through QA), so agent-side behaviour preserved; tests
+//   update to the new two-call rewrite flow.
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { PipelineConfig } from '../../src/lib/config.js';
 import type { TokenAccumulator } from '../../src/lib/claude.js';
@@ -111,6 +119,37 @@ function createMockClaudeResponse(results: unknown[]) {
     usage: { input_tokens: 500, output_tokens: 200 },
     id: 'msg-test',
     model: 'claude-haiku-4-5-20250514',
+    role: 'assistant' as const,
+    type: 'message' as const,
+    stop_reason: 'end_turn' as const,
+  };
+}
+
+// Drift repair 260419-oxa: helper for the second Sonnet rewrite call added by commit 991ed2f.
+function createMockSonnetRewriteResponse(rewrite: {
+  question_text: string;
+  correct_answer: string;
+  distractors: string[];
+  explanation: string;
+  difficulty?: 'easy' | 'normal' | 'hard';
+  fun_fact?: string | null;
+  changes_made?: string;
+}) {
+  return {
+    content: [
+      {
+        type: 'text' as const,
+        text: JSON.stringify({
+          difficulty: 'normal',
+          fun_fact: null,
+          changes_made: 'Rewrote per QA feedback.',
+          ...rewrite,
+        }),
+      },
+    ],
+    usage: { input_tokens: 500, output_tokens: 200 },
+    id: 'msg-test',
+    model: 'claude-sonnet-4-5-20250514',
     role: 'assistant' as const,
     type: 'message' as const,
     stop_reason: 'end_turn' as const,
@@ -250,41 +289,46 @@ describe('QA Agent', () => {
   });
 
   it('rewrites fixable questions and updates DB with qa_rewritten=true', async () => {
-    mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
-      {
-        question_id: Q1_ID,
-        passed: false,
-        action: 'rewrite',
-        natural_language_score: 4,
-        category_fit_score: 9,
-        difficulty_calibration_score: 7,
-        distractor_quality_score: 8,
-        rewritten_question_text: 'What is the exact speed of light in a vacuum?',
-        rewritten_distractors: ['150 million m/s', '300 thousand km/s', '200 million m/s'],
-        rewritten_explanation: 'Light travels at 299,792,458 m/s in a vacuum.',
-        reasoning: 'Question phrasing was awkward.',
-      },
-      {
-        question_id: Q2_ID,
-        passed: true,
-        action: 'pass',
-        natural_language_score: 7,
-        category_fit_score: 8,
-        difficulty_calibration_score: 6,
-        distractor_quality_score: 7,
-        reasoning: 'Fine as-is.',
-      },
-      {
-        question_id: Q3_ID,
-        passed: true,
-        action: 'pass',
-        natural_language_score: 9,
-        category_fit_score: 9,
-        difficulty_calibration_score: 8,
-        distractor_quality_score: 9,
-        reasoning: 'Excellent.',
-      },
-    ]));
+    // Drift repair 260419-oxa: Haiku now only flags; second call goes to Sonnet for the rewrite.
+    mockClaude.messages.create
+      .mockResolvedValueOnce(createMockClaudeResponse([
+        {
+          question_id: Q1_ID,
+          passed: false,
+          action: 'rewrite',
+          natural_language_score: 4,
+          category_fit_score: 9,
+          difficulty_calibration_score: 7,
+          distractor_quality_score: 8,
+          reasoning: 'Question phrasing was awkward.',
+        },
+        {
+          question_id: Q2_ID,
+          passed: true,
+          action: 'pass',
+          natural_language_score: 7,
+          category_fit_score: 8,
+          difficulty_calibration_score: 6,
+          distractor_quality_score: 7,
+          reasoning: 'Fine as-is.',
+        },
+        {
+          question_id: Q3_ID,
+          passed: true,
+          action: 'pass',
+          natural_language_score: 9,
+          category_fit_score: 9,
+          difficulty_calibration_score: 8,
+          distractor_quality_score: 9,
+          reasoning: 'Excellent.',
+        },
+      ]))
+      .mockResolvedValueOnce(createMockSonnetRewriteResponse({
+        question_text: 'What is the exact speed of light in a vacuum?',
+        correct_answer: '299,792,458 m/s',
+        distractors: ['150 million m/s', '300 thousand km/s', '200 million m/s'],
+        explanation: 'Light travels at 299,792,458 m/s in a vacuum.',
+      }));
 
     const { runQaAgent } = await import('../../src/agents/qa.js');
     const result = await runQaAgent(makeConfig(), makeTokenAccumulator());
@@ -375,46 +419,61 @@ describe('QA Agent', () => {
   });
 
   it('validates rewritten distractors length is exactly 3', async () => {
-    mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
-      {
-        question_id: Q1_ID,
-        passed: false,
-        action: 'rewrite',
-        natural_language_score: 4,
-        category_fit_score: 9,
-        difficulty_calibration_score: 7,
-        distractor_quality_score: 8,
-        rewritten_question_text: 'Rewritten question',
-        rewritten_distractors: ['Only one', 'Only two'], // Wrong length -- should be 3
-        reasoning: 'Needs rewrite.',
-      },
-      {
-        question_id: Q2_ID,
-        passed: true,
-        action: 'pass',
-        natural_language_score: 7,
-        category_fit_score: 8,
-        difficulty_calibration_score: 6,
-        distractor_quality_score: 7,
-        reasoning: 'Fine.',
-      },
-      {
-        question_id: Q3_ID,
-        passed: true,
-        action: 'pass',
-        natural_language_score: 9,
-        category_fit_score: 9,
-        difficulty_calibration_score: 8,
-        distractor_quality_score: 9,
-        reasoning: 'Excellent.',
-      },
-    ]));
+    // Drift repair 260419-oxa: distractor length is now validated inside rewriteWithSonnet
+    // (qa.ts line 404). When Sonnet returns 2 distractors, rewriteWithSonnet returns null,
+    // the question is marked 'rejected', and the agent resolves with processed=2 (Q2, Q3
+    // pass) and failed=1 (Q1 rejected). The old "whole batch throws" behaviour is gone.
+    mockClaude.messages.create
+      .mockResolvedValueOnce(createMockClaudeResponse([
+        {
+          question_id: Q1_ID,
+          passed: false,
+          action: 'rewrite',
+          natural_language_score: 4,
+          category_fit_score: 9,
+          difficulty_calibration_score: 7,
+          distractor_quality_score: 8,
+          reasoning: 'Needs rewrite.',
+        },
+        {
+          question_id: Q2_ID,
+          passed: true,
+          action: 'pass',
+          natural_language_score: 7,
+          category_fit_score: 8,
+          difficulty_calibration_score: 6,
+          distractor_quality_score: 7,
+          reasoning: 'Fine.',
+        },
+        {
+          question_id: Q3_ID,
+          passed: true,
+          action: 'pass',
+          natural_language_score: 9,
+          category_fit_score: 9,
+          difficulty_calibration_score: 8,
+          distractor_quality_score: 9,
+          reasoning: 'Excellent.',
+        },
+      ]))
+      // Sonnet returns an invalid rewrite (2 distractors instead of 3).
+      // SonnetRewriteSchema.parse will throw, rewriteWithSonnet returns null,
+      // question gets rejected.
+      .mockResolvedValueOnce(createMockSonnetRewriteResponse({
+        question_text: 'Rewritten question',
+        correct_answer: 'Some answer',
+        distractors: ['Only one', 'Only two'] as unknown as string[],
+        explanation: 'Explanation.',
+      }));
 
-    // The QaBatchSchema enforces length(3) on rewritten_distractors,
-    // so parsing will fail entirely for this batch. All questions in the batch
-    // count as failed. Since processed=0 and errors>0, the agent throws.
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    await expect(runQaAgent(makeConfig(), makeTokenAccumulator())).rejects.toThrow('QA checks failed');
+    const result = await runQaAgent(makeConfig(), makeTokenAccumulator());
+    expect(result.rewritten).toBe(0);
+    expect(result.failed).toBe(1);
+    // Q1 was rejected (status='rejected') because Sonnet rewrite was invalid.
+    const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);
+    expect(q1Update).toBeDefined();
+    expect((q1Update!.data as any).status).toBe('rejected');
   });
 
   it('returns QaAgentResult with processed, failed, and rewritten counts', async () => {
@@ -436,15 +495,18 @@ describe('QA Agent', () => {
     expect(sourcesCalls.length).toBe(0);
   });
 
-  it('tracks tokens with Haiku cost rates', async () => {
+  // Drift repair 260419-oxa: QA audit was upgraded from Haiku to Opus (commit 14edd7f).
+  // Agent now calls trackUsage with OPUS_INPUT/OPUS_OUTPUT on the audit call. Test renamed
+  // and assertion updated to match current cost rates.
+  it('tracks tokens with Opus cost rates', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    const { trackUsage, HAIKU_INPUT, HAIKU_OUTPUT } = await import('../../src/lib/claude.js');
+    const { trackUsage, OPUS_INPUT, OPUS_OUTPUT } = await import('../../src/lib/claude.js');
     await runQaAgent(makeConfig(), makeTokenAccumulator());
     expect(trackUsage).toHaveBeenCalledWith(
       expect.anything(),
       expect.anything(),
-      HAIKU_INPUT,
-      HAIKU_OUTPUT,
+      OPUS_INPUT,
+      OPUS_OUTPUT,
     );
   });
 
@@ -460,41 +522,47 @@ describe('QA Agent', () => {
   });
 
   it('rewritten question with score >= 3 gets published', async () => {
-    mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
-      {
-        question_id: Q1_ID, // verification_score: 3
-        passed: false,
-        action: 'rewrite',
-        natural_language_score: 4,
-        category_fit_score: 9,
-        difficulty_calibration_score: 7,
-        distractor_quality_score: 8,
-        rewritten_question_text: 'Improved question text',
-        rewritten_distractors: ['Option A', 'Option B', 'Option C'],
-        rewritten_explanation: 'Better explanation.',
-        reasoning: 'Needed polish.',
-      },
-      {
-        question_id: Q2_ID,
-        passed: true,
-        action: 'pass',
-        natural_language_score: 7,
-        category_fit_score: 8,
-        difficulty_calibration_score: 6,
-        distractor_quality_score: 7,
-        reasoning: 'Fine.',
-      },
-      {
-        question_id: Q3_ID,
-        passed: true,
-        action: 'pass',
-        natural_language_score: 9,
-        category_fit_score: 9,
-        difficulty_calibration_score: 8,
-        distractor_quality_score: 9,
-        reasoning: 'Excellent.',
-      },
-    ]));
+    // Drift repair 260419-oxa: add Sonnet rewrite mock so rewriteWithSonnet succeeds.
+    // Without it, rewriteWithSonnet returns null and qa.ts rejects the question.
+    mockClaude.messages.create
+      .mockResolvedValueOnce(createMockClaudeResponse([
+        {
+          question_id: Q1_ID, // verification_score: 3
+          passed: false,
+          action: 'rewrite',
+          natural_language_score: 4,
+          category_fit_score: 9,
+          difficulty_calibration_score: 7,
+          distractor_quality_score: 8,
+          reasoning: 'Needed polish.',
+        },
+        {
+          question_id: Q2_ID,
+          passed: true,
+          action: 'pass',
+          natural_language_score: 7,
+          category_fit_score: 8,
+          difficulty_calibration_score: 6,
+          distractor_quality_score: 7,
+          reasoning: 'Fine.',
+        },
+        {
+          question_id: Q3_ID,
+          passed: true,
+          action: 'pass',
+          natural_language_score: 9,
+          category_fit_score: 9,
+          difficulty_calibration_score: 8,
+          distractor_quality_score: 9,
+          reasoning: 'Excellent.',
+        },
+      ]))
+      .mockResolvedValueOnce(createMockSonnetRewriteResponse({
+        question_text: 'Improved question text',
+        correct_answer: '299,792,458 m/s',
+        distractors: ['Option A', 'Option B', 'Option C'],
+        explanation: 'Better explanation.',
+      }));
 
     const { runQaAgent } = await import('../../src/agents/qa.js');
     await runQaAgent(makeConfig(), makeTokenAccumulator());

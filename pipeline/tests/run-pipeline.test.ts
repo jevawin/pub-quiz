@@ -1,3 +1,8 @@
+// Drift repair 260419-oxa:
+// - Added runCalibratorAgent mock (calibrator agent was added to run-pipeline.ts after this test was written).
+// - Added createClaudeClient export to the claude.js mock so calibrator's transitive dependency
+//   resolves cleanly (previously Test 3/Test 10 failed because the pipeline threw on missing mock export,
+//   short-circuiting the success path and the "Pipeline complete" log).
 import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 
 // Mock process.exit before any imports
@@ -15,6 +20,7 @@ vi.mock('../src/lib/config.js', () => ({
 
 // Mock claude
 vi.mock('../src/lib/claude.js', () => ({
+  createClaudeClient: vi.fn(() => ({ messages: { create: vi.fn() } })),
   createTokenAccumulator: vi.fn(() => ({
     input_tokens: 0,
     output_tokens: 0,
@@ -61,6 +67,10 @@ vi.mock('../src/agents/enrichment.js', () => ({
   runEnrichmentAgent: vi.fn(),
 }));
 
+vi.mock('../src/agents/calibrator.js', () => ({
+  runCalibratorAgent: vi.fn(),
+}));
+
 import { log } from '../src/lib/logger.js';
 import { loadConfig } from '../src/lib/config.js';
 import { createTokenAccumulator, BudgetExceededError } from '../src/lib/claude.js';
@@ -70,6 +80,7 @@ import { runQuestionsAgent } from '../src/agents/questions.js';
 import { runFactCheckAgent } from '../src/agents/fact-check.js';
 import { runQaAgent } from '../src/agents/qa.js';
 import { runEnrichmentAgent } from '../src/agents/enrichment.js';
+import { runCalibratorAgent } from '../src/agents/calibrator.js';
 
 import type { PipelineConfig } from '../src/lib/config.js';
 
@@ -144,6 +155,7 @@ describe('runPipeline', () => {
     (runFactCheckAgent as Mock).mockResolvedValue({ processed: 15, failed: 2 });
     (runQaAgent as Mock).mockResolvedValue({ processed: 12, failed: 1, rewritten: 3 });
     (runEnrichmentAgent as Mock).mockResolvedValue({ enriched: 10, skipped: 1, failed: 1 });
+    (runCalibratorAgent as Mock).mockResolvedValue({ processed: 0, recalibrated: 0, failed: 0 });
   });
 
   it('Test 1: calls agents in order: category -> questions -> fact-check -> qa -> enrichment', async () => {

@@ -292,15 +292,18 @@ describe('Fact-Check Agent', () => {
     }
   });
 
-  it('tracks tokens with Haiku cost rates', async () => {
+  // Drift repair 260419-oxa: fact-check was upgraded from Haiku to Opus (commit 14edd7f).
+  // Agent now calls trackUsage with OPUS_INPUT/OPUS_OUTPUT. Test name kept for continuity
+  // but assertion updated to match current cost rates.
+  it('tracks tokens with Opus cost rates', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
-    const { trackUsage, HAIKU_INPUT, HAIKU_OUTPUT } = await import('../../src/lib/claude.js');
+    const { trackUsage, OPUS_INPUT, OPUS_OUTPUT } = await import('../../src/lib/claude.js');
     await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
     expect(trackUsage).toHaveBeenCalledWith(
       expect.anything(),
       expect.anything(),
-      HAIKU_INPUT,
-      HAIKU_OUTPUT,
+      OPUS_INPUT,
+      OPUS_OUTPUT,
     );
   });
 
