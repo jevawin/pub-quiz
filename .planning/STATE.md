@@ -5,7 +5,7 @@ milestone_name: milestone
 status: executing
 stopped_at: Completed quick task 260418-st9
 last_updated: "2026-04-18T19:52:25.060Z"
-last_activity: 2026-04-05
+last_activity: 2026-04-18
 progress:
   total_phases: 19
   completed_phases: 4
@@ -111,6 +111,7 @@ None yet.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260417-vpl | Fix Category Agent duplicates + add pipeline failure notification | 2026-04-17 | ff07952 | [260417-vpl-fix-category-agent-duplicates-add-pipeli](./quick/260417-vpl-fix-category-agent-duplicates-add-pipeli/) |
+| 260418-stj | Add balanced General Knowledge quiz RPC (round-robin across roots) | 2026-04-18 | 0210ea0 | [260418-stj-add-general-knowledge-quiz-mode-with-bal](./quick/260418-stj-add-general-knowledge-quiz-mode-with-bal/) |
 | 260418-st9 | Add live question count display to category pills in Setup | 2026-04-18 | 81288e6 | [260418-st9-add-live-question-count-display-to-categ](./quick/260418-st9-add-live-question-count-display-to-categ/) |
 
 ## Session Continuity
