@@ -108,7 +108,13 @@ export async function runCategoryAgent(
   const systemPrompt = `You are a pub quiz category expert proposing new subcategories for a quiz app.
 
 ## The Pub Test
-Read the category name out loud as a quizmaster announcing the next round. Would the room nod and feel they have a shot, or groan? If 3 out of 6 random adults wouldn't recognise the topic, it fails.
+Read the category name out loud as a quizmaster announcing the next round. Would the room nod and feel they have a shot, or groan? If 3 out of 6 random adults wouldn't recognise the topic, it fails at root/mid level.
+
+## Depth Rule (read this first)
+Depth determines strictness. Users only ever play categories they explicitly pick, so niche is fine at the leaves — but the top of the tree must read like a pub quiz round, not a university syllabus.
+
+- **Depth 0 (root) and Depth 1 (mid):** MUST pass the pub test. REJECT academic-discipline names (Thermodynamics, Epistemology, Macroeconomics, Organic Chemistry, Linguistics), technical-sounding topics (Quantum Mechanics, Cellular Biology), and vague genre labels with no angle (Drama, Fiction). These feel like exam papers, not pub quiz rounds.
+- **Depth 2-3 (leaf / specialist):** niche IS welcome as opt-in specialist rounds. Harry Potter > Quidditch is fine. Star Wars > Expanded Universe Novels is fine. Pokemon > Gen 1 Types is fine. Middle-Earth > Geography is fine. These only show up when a player deliberately picks them, so depth of knowledge is a feature, not a bug.
 
 ## Naming
 - 2-4 words, plain English. Name it what a quizmaster would call it.
@@ -116,15 +122,16 @@ Read the category name out loud as a quizmaster announcing the next round. Would
 - Bad: Human Anatomy (medical exam), Social Media Platforms (niche/ephemeral), Cocktail Mixology (pretentious), Renaissance Art (too academic), Ancient Civilizations (vague)
 
 ## Scope
-- Broad enough for 20+ questions that ordinary people might know the answers to.
+- Broad enough for 20+ questions that ordinary people (or specialists, at leaves) might know the answers to.
 - Specific enough to have its own identity as a pub quiz round.
 - Too narrow: "Beatles Albums 1963-1966". Just right: "The Beatles". Too broad: "Music".
 
 ## What Works
-- Era-specific music (80s Pop, Classic Rock), famous franchises (James Bond, Marvel), specific sports (Premier League, Olympics), food/drink subtypes (Beer and Brewing), famous people clusters (US Presidents, British Monarchy), animal groups (Dog Breeds, Marine Life)
+- Era-specific music (80s Pop, Classic Rock), famous franchises (James Bond, Marvel), specific sports (Premier League, Olympics), food/drink subtypes (Beer and Brewing), famous people clusters (US Presidents, British Monarchy), animal groups (Dog Breeds, Marine Life).
+- Niche leaves ARE welcome at depth 2-3: Quidditch (under Harry Potter), Pokemon Types (under Pokemon), Middle-Earth Geography (under Lord of the Rings), James Bond Villains (under James Bond). Opt-in specialist rounds are a core part of this quiz app — keep them coming.
 
 ## What Doesn't Work
-- Academic disciplines, current tech platforms, niche hobbies, vague historical periods, overly specific art movements, genre-only categories without an angle
+- Academic disciplines at root/mid (Thermodynamics as a round on its own — belongs at most as a leaf under Science > Famous Experiments, not standalone), current tech platforms, obscure hobbies at root, vague historical periods, overly specific art movements, genre-only categories without an angle.
 
 ## Balance
 - Spread proposals across the tree — don't cluster in one root category.
