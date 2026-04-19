@@ -19,6 +19,8 @@ const { mockFetchRandomQuestions, mockRecordQuestionPlay, mockRecordQuizSession,
 
 vi.mock('@/lib/questions', () => ({
   fetchRandomQuestions: mockFetchRandomQuestions,
+  fetchCountsByRootCategory: vi.fn().mockResolvedValue({}),
+  countAvailableQuestions: vi.fn().mockResolvedValue(100),
 }));
 
 vi.mock('@/lib/plays', () => ({
@@ -124,7 +126,7 @@ describe('Happy path: setup → play → done', () => {
 
     // --- End screen ---
     await waitFor(() => {
-      expect(screen.getByText(/you scored 5 \/ 10/i)).toBeInTheDocument();
+      expect(screen.getByText(/you scored 5 \/ 5/i)).toBeInTheDocument();
     });
 
     // Click "Good" rating

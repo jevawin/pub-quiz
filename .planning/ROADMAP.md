@@ -395,3 +395,12 @@ Plans:
 
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.11: Pipeline Test Suite Drift Repair (BACKLOG)
+
+**Goal:** Pipeline test suite has 7 failing tests that drifted during recent agent tightening commits (`14edd7f` QA Opus upgrade, `e4ef688` fact-check/QA/enrichment tightening, `991ed2f` QA split into Haiku diagnosis + Sonnet rewrite). Production pipeline works — 2308 OpenTDB questions imported cleanly and daily runs succeed — but tests no longer match agent behaviour, so regressions are invisible. Failing suites: `tests/run-pipeline.test.ts` (Test 3 metrics/token totals, Test 10 logger usage), `tests/agents/fact-check.test.ts` (Haiku token tracking — expected args `1, 5` no longer match), `tests/agents/qa.test.ts` (4 tests: `qa_rewritten` flag now undefined in update payload, distractor-length validation no longer rejects but resolves with processed+failed count, Haiku token tracking drift, rewritten score>=3 path now returns `'rejected'` instead of `'published'`). Work: (1) read current agent code, (2) update test expectations to match new behaviour, or fix agents if tests encode intended contract, (3) re-run until green. Discovered 2026-04-19 during codebase health check. Not introduced by last 5 commits.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)

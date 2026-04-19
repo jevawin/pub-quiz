@@ -73,13 +73,13 @@ async function main(): Promise<void> {
   const spaceCat = byName.get('Space and Astronomy');
   const solarCat = byName.get('The Solar System');
   if (spaceCat && solarCat) {
-    const { error: moveErr, count } = await supabase
+    const { data: moved, error: moveErr } = await supabase
       .from('questions')
       .update({ category_id: solarCat.id })
       .eq('category_id', spaceCat.id)
-      .select('id', { count: 'exact', head: true });
+      .select('id');
     if (moveErr) throw new Error('Failed to move Space and Astronomy questions: ' + moveErr.message);
-    log('info', 'Moved questions: Space and Astronomy → The Solar System', { count: count ?? 0 });
+    log('info', 'Moved questions: Space and Astronomy → The Solar System', { count: moved?.length ?? 0 });
 
     const { error: delErr } = await supabase.from('categories').delete().eq('id', spaceCat.id);
     if (delErr) throw new Error('Failed to delete Space and Astronomy category: ' + delErr.message);

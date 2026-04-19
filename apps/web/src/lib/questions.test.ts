@@ -10,6 +10,7 @@ vi.mock('./supabase', () => ({
 
 vi.mock('./seen-store', () => ({
   getViewCounts: (ids: string[]) => Object.fromEntries(ids.map((id) => [id, 0])),
+  getSeenIds: () => [],
 }));
 
 import { fetchRandomQuestions, fetchCountsByRootCategory } from './questions';
@@ -33,7 +34,7 @@ describe('fetchRandomQuestions', () => {
 
     await fetchRandomQuestions('Easy', ['general'], 5);
 
-    expect(rpc).toHaveBeenCalledWith('random_published_questions', expect.objectContaining({
+    expect(rpc).toHaveBeenCalledWith('random_published_questions_excluding', expect.objectContaining({
       p_difficulty: 'easy',
       p_category_slug: 'general',
     }));
@@ -47,11 +48,11 @@ describe('fetchRandomQuestions', () => {
     const result = await fetchRandomQuestions('Medium', ['science', 'history'], 3);
 
     expect(rpc).toHaveBeenCalledTimes(2);
-    expect(rpc).toHaveBeenCalledWith('random_published_questions', expect.objectContaining({
+    expect(rpc).toHaveBeenCalledWith('random_published_questions_excluding', expect.objectContaining({
       p_difficulty: 'normal',
       p_category_slug: 'science',
     }));
-    expect(rpc).toHaveBeenCalledWith('random_published_questions', expect.objectContaining({
+    expect(rpc).toHaveBeenCalledWith('random_published_questions_excluding', expect.objectContaining({
       p_difficulty: 'normal',
       p_category_slug: 'history',
     }));
