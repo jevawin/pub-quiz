@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed quick task 260418-st9
-last_updated: "2026-04-18T19:52:25.060Z"
-last_activity: 2026-04-18
+stopped_at: Completed quick task 260419-oxa
+last_updated: "2026-04-19T17:03:00.000Z"
+last_activity: 2026-04-19
 progress:
   total_phases: 19
   completed_phases: 4
@@ -114,9 +114,10 @@ None yet.
 | 260418-stj | Add balanced General Knowledge quiz RPC (round-robin across roots) | 2026-04-18 | 0210ea0 | [260418-stj-add-general-knowledge-quiz-mode-with-bal](./quick/260418-stj-add-general-knowledge-quiz-mode-with-bal/) |
 | 260418-st9 | Add live question count display to category pills in Setup | 2026-04-18 | 81288e6 | [260418-st9-add-live-question-count-display-to-categ](./quick/260418-st9-add-live-question-count-display-to-categ/) |
 | 260419-oig | Fix duplicate local migration 00011 files (resolved-before-execution) | 2026-04-19 | 15511b3 | [260419-oig-fix-duplicate-local-migration-00011-file](./quick/260419-oig-fix-duplicate-local-migration-00011-file/) |
+| 260419-oxa | Fix pipeline test suite drift (7 failing tests -> all green, 94/94) | 2026-04-19 | 8c0e007 | [260419-oxa-fix-pipeline-test-suite-drift](./quick/260419-oxa-fix-pipeline-test-suite-drift/) |
 
 ## Session Continuity
 
-Last session: 2026-04-19T16:38:56.899Z
-Stopped at: Completed quick task 260419-oig
-Last activity: 2026-04-19 - Completed quick task 260419-oig: Fix duplicate local migration 00011 files (resolved-before-execution)
+Last session: 2026-04-19T17:03:00.000Z
+Stopped at: Completed quick task 260419-oxa
+Last activity: 2026-04-19 - Completed quick task 260419-oxa: Fix pipeline test suite drift (7 tests -> 94/94 passing)
