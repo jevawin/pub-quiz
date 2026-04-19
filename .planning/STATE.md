@@ -113,9 +113,10 @@ None yet.
 | 260417-vpl | Fix Category Agent duplicates + add pipeline failure notification | 2026-04-17 | ff07952 | [260417-vpl-fix-category-agent-duplicates-add-pipeli](./quick/260417-vpl-fix-category-agent-duplicates-add-pipeli/) |
 | 260418-stj | Add balanced General Knowledge quiz RPC (round-robin across roots) | 2026-04-18 | 0210ea0 | [260418-stj-add-general-knowledge-quiz-mode-with-bal](./quick/260418-stj-add-general-knowledge-quiz-mode-with-bal/) |
 | 260418-st9 | Add live question count display to category pills in Setup | 2026-04-18 | 81288e6 | [260418-st9-add-live-question-count-display-to-categ](./quick/260418-st9-add-live-question-count-display-to-categ/) |
+| 260419-oig | Fix duplicate local migration 00011 files (resolved-before-execution) | 2026-04-19 | 15511b3 | [260419-oig-fix-duplicate-local-migration-00011-file](./quick/260419-oig-fix-duplicate-local-migration-00011-file/) |
 
 ## Session Continuity
 
-Last session: 2026-04-18T19:52:25.057Z
-Stopped at: Completed quick task 260418-st9
-Last activity: 2026-04-18 - Completed quick task 260418-st9: Add live question count display to category pills
+Last session: 2026-04-19T16:38:56.899Z
+Stopped at: Completed quick task 260419-oig
+Last activity: 2026-04-19 - Completed quick task 260419-oig: Fix duplicate local migration 00011 files (resolved-before-execution)
