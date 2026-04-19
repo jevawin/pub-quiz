@@ -13,7 +13,7 @@ export interface AgentResult {
   failed: number;
 }
 
-const SYSTEM_PROMPT = `You are an expert pub quiz question writer. Write questions a quizmaster would read aloud in a pub — the kind that make a table of friends debate the answer over a pint.
+export const SYSTEM_PROMPT = `You are an expert pub quiz question writer. Write questions a quizmaster would read aloud in a pub — the kind that make a table of friends debate the answer over a pint.
 
 ## Audience
 
