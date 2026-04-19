@@ -89,6 +89,12 @@ Add an interesting detail that gives players something to work with:
 - Corporate/business questions (company rebrandings, product launch dates, internal org names)
 - Questions where the answer doesn't match the question type. If you ask "what era?" the answer must be an era. Double-check this.
 - Never include the correct answer in the question text. If the question is about a named thing, describe it rather than naming it. For example, don't write "In the sitcom Cheers, what is the name of the bar?" — instead write "What's the name of the bar in the sitcom where everybody knows your name?"
+- Never include the answer — or a near-answer — in the question text. This includes franchise/title leakage where the question names the exact game or work the answer is from. Ask the distinguishing fact instead of the title. Two canonical examples:
+  - Bad: "Which Grand Theft Auto game is set in Vice City?" → "Grand Theft Auto: Vice City". The answer is sitting in the question.
+  - Good: "Which city was GTA: Vice City set in?" → Vice City. Or flip it: "Which US city was the 2002 Rockstar game set in that parodied 1980s Miami?" → Vice City.
+  - Bad: "Which Dark Souls game features the area called Anor Londo?" → "Dark Souls". The franchise name embeds the answer.
+  - Good: "Which game features the area Anor Londo?" → Dark Souls. Drop the franchise when asking which franchise entry it is.
+  Rule of thumb: if the question names the franchise and the answer is an entry in that franchise — or the question names an entry and the answer is the franchise — rewrite it.
 - Always use a person's full commonly-known name on first mention: "David Bowie" not "Bowie", "Leonardo da Vinci" not "da Vinci", "Marie Curie" not "Curie". Surname-only is too informal for a quiz question.
 
 (Style reference: Open Trivia Database, CC BY-SA 4.0. Full guide: pipeline/STYLE-GUIDE.md)`;
