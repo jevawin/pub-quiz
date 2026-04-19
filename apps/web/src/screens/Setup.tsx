@@ -190,9 +190,6 @@ export function Setup() {
         {difficulty}
         {' · '}
         {count} questions
-        {selectionPoolCount !== null && (
-          <> {' · '}{selectionPoolCount} in pool</>
-        )}
       </p>
 
       <button
@@ -205,8 +202,11 @@ export function Setup() {
       </button>
 
       <Card className="mb-6">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Categories</CardTitle>
+          {selectionPoolCount !== null && (
+            <span className="text-sm font-normal text-neutral-500">{selectionPoolCount} in pool</span>
+          )}
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
@@ -328,9 +328,6 @@ export function Setup() {
         {difficulty}
         {' · '}
         {count} questions
-        {selectionPoolCount !== null && (
-          <> {' · '}{selectionPoolCount} in pool</>
-        )}
       </p>
 
       <button
