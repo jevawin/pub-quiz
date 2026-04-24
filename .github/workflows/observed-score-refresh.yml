@@ -1,0 +1,26 @@
+name: observed-score-refresh
+on:
+  schedule:
+    - cron: '0 3 * * *'  # 03:00 UTC nightly, offset from existing 08:00 pipeline
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: observed-score-refresh
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: pipeline/package-lock.json
+      - run: npm ci
+        working-directory: pipeline
+      - run: npm run refresh:observed-scores
+        working-directory: pipeline
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

@@ -250,6 +250,47 @@ export type Database = {
           },
         ]
       }
+      question_plays: {
+        Row: {
+          id: string
+          session_id: string
+          question_id: string
+          chosen_option: string
+          is_correct: boolean
+          time_to_answer_ms: number
+          feedback_reaction: string | null
+          played_at: string
+        }
+        Insert: {
+          id?: string
+          session_id: string
+          question_id: string
+          chosen_option: string
+          is_correct: boolean
+          time_to_answer_ms: number
+          feedback_reaction?: string | null
+          played_at?: string
+        }
+        Update: {
+          id?: string
+          session_id?: string
+          question_id?: string
+          chosen_option?: string
+          is_correct?: boolean
+          time_to_answer_ms?: number
+          feedback_reaction?: string | null
+          played_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_plays_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sources: {
         Row: {
           category_id: string

@@ -6,6 +6,7 @@
   "scripts": {
     "pipeline": "tsx src/run-pipeline.ts",
     "backfill:question-categories": "tsx src/scripts/backfill-question-categories.ts",
+    "refresh:observed-scores": "tsx src/jobs/observed-score-refresh.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint src/ tests/",
