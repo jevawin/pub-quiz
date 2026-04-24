@@ -409,13 +409,16 @@ describe('QA Agent', () => {
     expect(q3Data.published_at).toBeDefined();
   });
 
-  it('leaves score 1-2 questions as verified after QA pass (no DB update)', async () => {
+  it('leaves score 1-2 questions as verified after QA pass (stamps qa_passed_at, no publish)', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
     await runQaAgent(makeConfig(), makeTokenAccumulator());
 
-    // Q2 has verification_score 2 and action=pass => no update needed (stays verified)
+    // Q2 has verification_score 2 and action=pass => stamped qa_passed_at but NOT published
     const q2Update = mockSupabase.updateCalls.find((c) => c.questionId === Q2_ID);
-    expect(q2Update).toBeUndefined();
+    expect(q2Update).toBeDefined();
+    const q2Data = q2Update!.data as any;
+    expect(q2Data.qa_passed_at).toBeDefined();
+    expect(q2Data.status).toBeUndefined(); // not published (score < 3)
   });
 
   it('validates rewritten distractors length is exactly 3', async () => {

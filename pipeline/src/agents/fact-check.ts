@@ -158,6 +158,7 @@ Distractors: ${(question.distractors as string[]).join(', ')}`;
         await (supabase.from('questions').update({
           verification_score: result.verification_score,
           status: 'verified' as const,
+          fact_checked_at: new Date().toISOString(),
         } as never).eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
         log('info', 'Question verified via Wikipedia', {
           questionId: question.id,
@@ -235,6 +236,7 @@ Distractors: ${(question.distractors as string[]).join(', ')}`;
           await (supabase.from('questions').update({
             verification_score: result.verification_score,
             status: 'verified' as const,
+            fact_checked_at: new Date().toISOString(),
           } as never).eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
           log('info', 'Question verified by own knowledge', {
             questionId: question.id,

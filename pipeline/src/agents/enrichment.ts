@@ -132,7 +132,7 @@ Write a fun fact about the correct answer that would make someone say "oh really
       // Update the question with the fun fact
       const { error: updateError } = await (supabase
         .from('questions')
-        .update({ fun_fact: funFact } as never)
+        .update({ fun_fact: funFact, enriched_at: new Date().toISOString() } as never)
         .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
 
       if (updateError) {

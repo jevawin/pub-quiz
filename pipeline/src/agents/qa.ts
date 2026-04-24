@@ -234,6 +234,7 @@ ${questionsSection}`;
                 distractors: rewriteResult.distractors,
                 explanation: rewriteResult.explanation,
                 difficulty: rewriteResult.difficulty,
+                qa_passed_at: new Date().toISOString(),
               };
 
               // Update fun_fact: set to new value or null (clear stale ones)
@@ -278,7 +279,9 @@ ${questionsSection}`;
             }
           } else {
             // Pass: publish if score >= 3, otherwise leave as verified
-            const passUpdateData: Record<string, unknown> = {};
+            const passUpdateData: Record<string, unknown> = {
+              qa_passed_at: new Date().toISOString(),
+            };
 
             if (result.recalibrated_difficulty) {
               passUpdateData.difficulty = result.recalibrated_difficulty;
