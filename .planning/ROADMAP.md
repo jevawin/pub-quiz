@@ -424,3 +424,21 @@ Plans:
 
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.13: OpenTDB Attribution — Provenance Column + About/Credits Screen (BACKLOG)
+
+**Goal:** CC BY-SA 4.0 compliance for the 2308 OpenTDB-origin questions. Two parts: (1) add `origin TEXT` column to `questions` table so OpenTDB-sourced rows are distinguishable from native pipeline output — backfill 2308 rows with `origin = 'opentdb'`; (2) add an About or Credits section in-app showing "Some questions sourced from Open Trivia Database (opentdb.com), CC BY-SA 4.0". Must be user-visible — internal prompt footer is not sufficient for license compliance.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.14: Review Wikipedia Sourcing Step Value in Pipeline (BACKLOG)
+
+**Goal:** Audit whether the Knowledge Agent (Wikipedia sourcing) step earns its cost and complexity. The step fetches Wikipedia content per category to ground the Questions Agent — but native pipeline questions may not be meaningfully better than questions generated without a Wikipedia source, and the step adds latency, token cost, and a failure mode (bad source → bad questions). Review questions: (1) do questions with a Wikipedia source score higher in QA than those without? (2) are there categories where Wikipedia sourcing is actively harmful (too encyclopaedic, too detailed, pulls comprehension-framing)? (3) would a curated few-shot examples approach (already partially done via STYLE-GUIDE.md) be sufficient to replace it? Outcome: keep as-is, make sourcing optional per category depth, or remove and rely on model knowledge + style guide. Relates to 999.4 (prompt tone) — Wikipedia sourcing may be the root cause of the comprehension-framing problem even after prompt tightening.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
