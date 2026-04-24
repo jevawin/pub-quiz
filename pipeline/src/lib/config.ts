@@ -1,3 +1,17 @@
+export const DIFFICULTY_BANDS = {
+  hard:   { min: 0,  max: 33 },
+  medium: { min: 34, max: 66 },
+  easy:   { min: 67, max: 100 },
+} as const;
+
+export type DifficultyBand = keyof typeof DIFFICULTY_BANDS;
+
+export function scoreToBand(score: number): DifficultyBand {
+  if (score <= 33) return 'hard';
+  if (score <= 66) return 'medium';
+  return 'easy';
+}
+
 export interface PipelineConfig {
   anthropicApiKey: string;
   supabaseUrl: string;

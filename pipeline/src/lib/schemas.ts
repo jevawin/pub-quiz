@@ -22,7 +22,11 @@ export const QuestionGeneratedSchema = z.object({
   correct_answer: z.string(),
   distractors: z.array(z.string()).length(3),
   explanation: z.string(),
-  difficulty: z.enum(['easy', 'normal', 'hard']),
+  category_slugs: z.array(z.string()).min(1).max(3).refine(
+    (slugs) => !slugs.includes('general-knowledge') && !slugs.includes('general_knowledge'),
+    { message: "'general-knowledge' is a protected category and must not appear in category_slugs" },
+  ),
+  category_scores: z.record(z.string(), z.number().min(0).max(100)),
 });
 
 export type QuestionGenerated = z.infer<typeof QuestionGeneratedSchema>;
@@ -82,3 +86,14 @@ export const SonnetRewriteSchema = z.object({
 });
 
 export type SonnetRewrite = z.infer<typeof SonnetRewriteSchema>;
+
+// Calibrator Agent output schema (per-category scores)
+export const CalibratorScoreSchema = z.object({
+  scores: z.record(z.string(), z.number().min(0).max(100)).refine(
+    (scores) => Object.keys(scores).length > 0,
+    { message: 'scores must contain at least one entry' },
+  ),
+  reasoning: z.string(),
+});
+
+export type CalibratorScore = z.infer<typeof CalibratorScoreSchema>;
