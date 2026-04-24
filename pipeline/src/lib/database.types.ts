@@ -205,6 +205,51 @@ export type Database = {
           },
         ]
       }
+      question_categories: {
+        Row: {
+          question_id: string
+          category_id: string
+          estimate_score: number
+          observed_score: number | null
+          observed_n: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          question_id: string
+          category_id: string
+          estimate_score: number
+          observed_score?: number | null
+          observed_n?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          question_id?: string
+          category_id?: string
+          estimate_score?: number
+          observed_score?: number | null
+          observed_n?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_categories_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "question_categories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sources: {
         Row: {
           category_id: string
