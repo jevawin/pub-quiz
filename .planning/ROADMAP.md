@@ -361,11 +361,11 @@ Implications to work through during plan-phase:
 - **Backlog 999.2** (user feedback refinement) feeds directly into this — observed correct rate replaces the estimate over time, same field.
 
 **Requirements:** D-01 through D-15 (locked decisions from 999.8-CONTEXT.md)
-**Plans:** 5 plans
+**Plans:** 1/5 plans executed
 
 Plans:
 - [ ] 999.8-01-PLAN.md — Wave 0 test scaffolds (schema, agents, slug converter, observed-score, RPC)
-- [ ] 999.8-02-PLAN.md — Migration 00022: question_categories table, CHECKs, DEFERRABLE trigger, RLS, types
+- [x] 999.8-02-PLAN.md — Migration 00022: question_categories table, CHECKs, DEFERRABLE trigger, RLS, types
 - [ ] 999.8-03-PLAN.md — Pipeline rewrites: slug converter, GK guard, schemas, DIFFICULTY_BANDS, Questions + Calibrator agents
 - [ ] 999.8-04-PLAN.md — Backfill script, nightly observed-score job + GH Actions cron, human checkpoint to run backfill
 - [ ] 999.8-05-PLAN.md — Migrations 00023/00024: drop old columns + rewrite RPCs, web client rewrite, human smoke-test checkpoint

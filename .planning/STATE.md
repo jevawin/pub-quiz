@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 999.8 context gathered
-last_updated: "2026-04-24T21:35:04.647Z"
-last_activity: 2026-04-05
+stopped_at: Completed 999.8-02-PLAN.md
+last_updated: "2026-04-24T22:10:34.511Z"
+last_activity: 2026-04-24
 progress:
   total_phases: 24
   completed_phases: 4
-  total_plans: 18
-  completed_plans: 18
+  total_plans: 23
+  completed_plans: 19
   percent: 11
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-04)
 
 **Core value:** Great questions delivered through a clean, effortless interface -- the content is the star, not the chrome around it.
-**Current focus:** Phase 1: Question Pipeline -- Agents & Schema
+**Current focus:** Phase 999.8 — multi-category-per-category-percentage-difficulty-backlog
 
 ## Current Position
 
-Phase: 999.1
-Plan: Not started
+Phase: 999.8 (multi-category-per-category-percentage-difficulty-backlog) — EXECUTING
+Plan: 2 of 5
 Status: Ready to execute
-Last activity: 2026-04-05
+Last activity: 2026-04-24
 
 Progress: [██░░░░░░░░] 11%
 
@@ -62,6 +62,7 @@ Progress: [██░░░░░░░░] 11%
 | Phase 02.1 P02 | 5min | 2 tasks | 3 files |
 | Phase 02.1 P03 | 5min | 2 tasks | 4 files |
 | Phase 02.2 P05 | 4min | 2 tasks | 6 files |
+| Phase 999.8 P02 | 4min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,8 @@ Recent decisions affecting current work:
 - [Phase 02.2]: Used vi.hoisted() for mock variables in vitest tests
 - [Phase 02.2]: Setup screen uses local useState for picker state -- three values don't need reducer
 - [Phase 260417-vpl]: Category Agent: all-duplicates returns {0,0} without throwing; pipeline workflow opens GitHub issue on failure
+- [Phase 999.8]: Migration 00022 adds question_categories join table only; old questions columns (category_id, difficulty, calibration_percent) stay until Plan 05 drop migration
+- [Phase 999.8]: question_categories FK to categories uses ON DELETE RESTRICT — deleting a category is intentional and should fail if rows reference it
 
 ### Roadmap Evolution
 
@@ -121,7 +124,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-24T21:35:04.644Z
-Stopped at: Phase 999.8 context gathered
+Last session: 2026-04-24T22:10:34.509Z
+Stopped at: Completed 999.8-02-PLAN.md
 Last activity: 2026-04-24 - Completed quick task 260424-uju: fix 11 flagged feedback questions, all resolved
 Last activity: 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)
