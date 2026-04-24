@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 999.8-03-PLAN.md
-last_updated: "2026-04-24T22:19:00.701Z"
+stopped_at: "Checkpoint: 999.8-04 Task 3 awaiting backfill human action"
+last_updated: "2026-04-24T22:26:28.991Z"
 last_activity: 2026-04-24
 progress:
   total_phases: 24
   completed_phases: 4
   total_plans: 23
-  completed_plans: 21
+  completed_plans: 22
   percent: 11
 ---
 
@@ -65,6 +65,7 @@ Progress: [██░░░░░░░░] 11%
 | Phase 999.8 P02 | 4min | 2 tasks | 2 files |
 | Phase 999.8 P01 | 3min | 2 tasks | 6 files |
 | Phase 999.8 P03 | 7min | 3 tasks | 7 files |
+| Phase 999.8 P04 | 8min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -102,6 +103,9 @@ Recent decisions affecting current work:
 - [Phase 999.8]: Integration tests use describe.skipIf(!process.env.SUPABASE_TEST_URL) so CI runs cleanly without live test DB
 - [Phase 999.8]: QuestionGeneratedSchema uses Zod .refine() to reject 'general-knowledge' in category_slugs at parse time
 - [Phase 999.8]: calibrateQuestion exported with explicit client parameters for testability
+- [Phase 999.8]: backfillBatch instantiates claude client + config internally — callers only pass supabase + tokenAcc + limit
+- [Phase 999.8]: Used UPDATE not UPSERT for observed-score refresh — UPSERT would violate NOT NULL on estimate_score
+- [Phase 999.8]: question_plays added to database.types.ts manually (missing from generated types)
 
 ### Roadmap Evolution
 
@@ -130,7 +134,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-24T22:19:00.699Z
-Stopped at: Completed 999.8-03-PLAN.md
+Last session: 2026-04-24T22:26:17.748Z
+Stopped at: Checkpoint: 999.8-04 Task 3 awaiting backfill human action
 Last activity: 2026-04-24 - Completed quick task 260424-uju: fix 11 flagged feedback questions, all resolved
 Last activity: 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)
