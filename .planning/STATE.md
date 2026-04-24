@@ -119,6 +119,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-19T17:50:00.000Z
-Stopped at: Completed quick task 260419-pma
-Last activity: 2026-04-19 - Completed quick task 260419-pma: Tighten Category + Questions Agent prompts for pub quiz tone
+Last session: 2026-04-19T18:10:00.000Z
+Stopped at: Closed 999.5 + added 999.13 (OpenTDB attribution)
+Last activity: 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)

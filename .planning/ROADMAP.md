@@ -378,9 +378,18 @@ Plans:
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
 
-### Phase 999.5: OpenTDB Seed Data Import and Prompt Examples (BACKLOG)
+### Phase 999.5: OpenTDB Seed Data Import and Prompt Examples (RESOLVED 2026-04-19)
 
-**Goal:** Use Open Trivia Database (opentdb.com, CC BY-SA 4.0, ~4000 questions with categories and difficulty levels) as either seed data for the question database or as few-shot examples in the Questions Agent prompt to teach pub quiz tone. Two possible approaches: (1) bulk import OpenTDB questions as a baseline, mapping their 24 categories to ours; (2) cherry-pick ~10 high-quality examples per difficulty level and embed them in the Questions Agent system prompt as style references. Option 2 is lower effort and avoids mixing licensed content into our original pool. Must include CC BY-SA 4.0 attribution if any content is used.
+**Goal:** Use Open Trivia Database (opentdb.com, CC BY-SA 4.0, ~4000 questions with categories and difficulty levels) as either seed data for the question database or as few-shot examples in the Questions Agent prompt to teach pub quiz tone.
+**Resolution:** Both approaches satisfied. (1) 2308 questions bulk-imported and published (commit `2453a51`), 739 held in staging. (2) STYLE-GUIDE.md built from OpenTDB analysis, referenced from Questions Agent prompt footer (`questions.ts:100`). User-facing attribution + provenance column tracked in 999.13.
+**Plans:** 0 plans
+
+Plans:
+- [x] Resolved — no plan needed
+
+### Phase 999.13: OpenTDB Attribution — Provenance Column + About/Credits Screen (BACKLOG)
+
+**Goal:** CC BY-SA 4.0 compliance for the 2308 OpenTDB-origin questions. Two parts: (1) add `origin TEXT` column to `questions` table so OpenTDB-sourced rows are distinguishable from native pipeline output — backfill 2308 rows with `origin = 'opentdb'`; (2) add an About or Credits section in-app showing "Some questions sourced from Open Trivia Database (opentdb.com), CC BY-SA 4.0". Must be user-visible — internal prompt footer is not sufficient for license compliance.
 **Requirements:** TBD
 **Plans:** 0 plans
 
