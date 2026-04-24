@@ -1,11 +1,13 @@
 import { PipelineConfig } from '../lib/config.js';
 import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, HAIKU_INPUT, HAIKU_OUTPUT, BudgetExceededError } from '../lib/claude.js';
 import { createSupabaseClient } from '../lib/supabase.js';
+import { CalibratorScoreSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
-import { z } from 'zod';
+import { jsonKeyToSlug, slugToJsonKey } from '../lib/slug-converter.js';
+import { resolveSlugsToIds } from '../lib/categories.js';
+import { GENERAL_KNOWLEDGE_SLUG } from '../lib/general-knowledge-guard.js';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '../lib/database.types.js';
-
-type QuestionRow = Database['public']['Tables']['questions']['Row'];
 
 export interface CalibratorResult {
   processed: number;
@@ -13,41 +15,121 @@ export interface CalibratorResult {
   failed: number;
 }
 
-const CalibratorResponseSchema = z.object({
-  answered_correctly: z.boolean(),
-  confidence: z.enum(['high', 'medium', 'low']),
-  estimated_percent_correct: z.number().min(0).max(100),
-  difficulty: z.enum(['easy', 'normal', 'hard']),
-  reasoning: z.string(),
-});
+export interface CalibrateInput {
+  id: string;
+  question_text: string;
+  correct_answer: string;
+  distractors: string[];
+  assigned_slugs: string[]; // non-GK extras; GK is always added
+}
 
-const SYSTEM_PROMPT = `You are a pub quiz difficulty calibrator. For each question, you do two things:
+export interface CalibrateOutput {
+  success: boolean;
+  scores?: Record<string, number>; // keys are slugs (kebab-case), values 0-100
+  error?: string;
+}
 
-1. **Try to answer the question** from the four options. Answer honestly — don't cheat by looking for linguistic clues in the question. You are simulating a knowledgeable adult.
+const SYSTEM_PROMPT = `You are a pub quiz difficulty calibrator. For each category listed, estimate the percentage (0-100) of players who *chose to play this category* who would answer the given question correctly. Always include a separate score for \`general_knowledge\`, representing the mixed pub audience. Reason about each audience separately — a science enthusiast may get a physics question at 75% while the general pub gets 20%.
 
-2. **Estimate what % of degree-educated UK adults in a pub would get it right.** Be realistic. Most people are not as well-read as you are.
+Return JSON exactly in this shape:
+{ "scores": { "general_knowledge": 45, "science_and_nature": 68 }, "reasoning": "brief explanation" }
 
-Then map the result to a difficulty label:
+Keys use snake_case. Values are integers 0-100. Include exactly one score per assigned category plus general_knowledge.`;
 
-- **easy** (70%+ of adults would get it): Primary-school or universal knowledge. "What's the capital of France?" "Who wrote Romeo and Juliet?" The answer should feel obvious to most people, with no plausible trap in the distractors.
+export async function calibrateQuestion(
+  supabase: SupabaseClient<Database>,
+  tokenAcc: TokenAccumulator,
+  input: CalibrateInput,
+  claude: ReturnType<typeof createClaudeClient>,
+  config: Pick<PipelineConfig, 'claudeModelVerification' | 'budgetCapUsd'>,
+): Promise<CalibrateOutput> {
+  const allSlugs = [...input.assigned_slugs, GENERAL_KNOWLEDGE_SLUG];
 
-- **normal** (35-70%): Most adults have heard of the topic but could plausibly pick the wrong answer. "Who wrote Brave New World?" "Largest moon in the solar system?" The distractors are close enough that half the table might debate.
+  // Build user message with question + categories
+  const categoriesList = allSlugs.map(s => `- ${s}`).join('\n');
+  const userPrompt = `Question: ${input.question_text}
 
-- **hard** (<35%): Enthusiast knowledge. Pub table guesses; one person might know for sure. "Guinness's second brewery outside Ireland?" "First posthumous F1 champion?"
+Correct answer: ${input.correct_answer}
+Distractors: ${input.distractors.join(', ')}
 
-Rules:
-- If you got the answer WRONG or picked with LOW confidence → it's at least HARD
-- If the distractors are genuine traps (close, plausible, requiring specific knowledge to distinguish) → it's at least NORMAL
-- If the question requires remembering a specific number/year/name without context clues → it's at least NORMAL
-- Famous topic ≠ easy. The question is about the specific fact, not the topic.
+Categories to score:
+${categoriesList}
 
-Return JSON: {
-  "answered_correctly": boolean,
-  "confidence": "high" | "medium" | "low",
-  "estimated_percent_correct": number (0-100),
-  "difficulty": "easy" | "normal" | "hard",
-  "reasoning": string
-}`;
+Return the JSON scores object.`;
+
+  let response;
+  try {
+    response = await claude.messages.create({
+      model: config.claudeModelVerification,
+      max_tokens: 512,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: userPrompt }],
+    });
+  } catch (err) {
+    return { success: false, error: err instanceof Error ? err.message : String(err) };
+  }
+
+  trackUsage(response, tokenAcc, HAIKU_INPUT, HAIKU_OUTPUT);
+  checkBudget(tokenAcc, config.budgetCapUsd);
+
+  const textContent = response.content.find(c => c.type === 'text');
+  if (!textContent || textContent.type !== 'text') {
+    return { success: false, error: 'No text content in calibrator response' };
+  }
+
+  let parsed;
+  try {
+    parsed = CalibratorScoreSchema.parse(JSON.parse(extractJson(textContent.text)));
+  } catch (parseError) {
+    return {
+      success: false,
+      error: parseError instanceof Error ? parseError.message : String(parseError),
+    };
+  }
+
+  // Validate: every expected slug must have a score
+  for (const slug of allSlugs) {
+    const jsonKey = slugToJsonKey(slug);
+    if (!(jsonKey in parsed.scores)) {
+      return {
+        success: false,
+        error: `Calibrator response missing score for slug '${slug}' (json key '${jsonKey}')`,
+      };
+    }
+  }
+
+  // Convert snake_case JSON keys to kebab-case slugs
+  const slugScores: Record<string, number> = {};
+  for (const [k, v] of Object.entries(parsed.scores)) {
+    slugScores[jsonKeyToSlug(k)] = v;
+  }
+
+  // Resolve slugs to category IDs
+  let slugToId: Map<string, string>;
+  try {
+    slugToId = await resolveSlugsToIds(supabase, Object.keys(slugScores));
+  } catch (err) {
+    return { success: false, error: err instanceof Error ? err.message : String(err) };
+  }
+
+  // Upsert rows into question_categories
+  const rows = Object.entries(slugScores).map(([slug, score]) => ({
+    question_id: input.id,
+    category_id: slugToId.get(slug)!,
+    estimate_score: score,
+    observed_n: 0,
+  }));
+
+  const { error: upsertErr } = await (supabase
+    .from('question_categories')
+    .upsert(rows as never, { onConflict: 'question_id,category_id', ignoreDuplicates: false }) as unknown as Promise<{ error: { message: string } | null }>);
+
+  if (upsertErr) {
+    return { success: false, error: upsertErr.message };
+  }
+
+  return { success: true, scores: slugScores };
+}
 
 export async function runCalibratorAgent(
   config: PipelineConfig,
@@ -62,15 +144,23 @@ export async function runCalibratorAgent(
 
   log('info', 'Calibrator Agent starting');
 
-  // Fetch published questions that haven't been calibrated yet (use qa_rewritten as a proxy
-  // until we add a dedicated flag — for now calibrate all published each run is cheap enough).
-  // Only calibrate questions that have never been calibrated OR were rewritten.
-  const { data: questions, error: fetchError } = await supabase
+  // Fetch questions needing calibration:
+  // - status='pending' or published questions with no question_categories rows yet
+  const { data: questions, error: fetchError } = await (supabase
     .from('questions')
-    .select('*')
-    .eq('status', 'published')
+    .select('id, question_text, correct_answer, distractors, status')
+    .or('status.eq.pending,status.eq.published')
     .is('calibrated_at', null)
-    .limit(200) as { data: QuestionRow[] | null; error: { message: string } | null };
+    .limit(200) as unknown as Promise<{
+      data: Array<{
+        id: string;
+        question_text: string;
+        correct_answer: string;
+        distractors: string[];
+        status: string;
+      }> | null;
+      error: { message: string } | null;
+    }>);
 
   if (fetchError || !questions || questions.length === 0) {
     log('info', 'No questions to calibrate', { error: fetchError?.message });
@@ -81,91 +171,50 @@ export async function runCalibratorAgent(
 
   for (const question of questions) {
     try {
-      // Randomise the option order so the model can't cheat by position
-      const options = [
-        question.correct_answer,
-        ...(question.distractors as string[]),
-      ];
-      // Fisher-Yates shuffle
-      for (let i = options.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [options[i], options[j]] = [options[j], options[i]];
-      }
-      const correctIndex = options.indexOf(question.correct_answer);
-      const letters = ['A', 'B', 'C', 'D'];
+      // Fetch existing question_categories for this question to derive assigned_slugs
+      const { data: existingQC } = await (supabase
+        .from('question_categories')
+        .select('category_id, categories(slug)')
+        .eq('question_id', question.id) as unknown as Promise<{
+          data: Array<{ category_id: string; categories: { slug: string } | null }> | null;
+          error: unknown;
+        }>);
 
-      // Present question with NO category, NO explanation, NO hints
-      const userPrompt = `Question: ${question.question_text}
+      // Derive assigned_slugs (non-GK extras): exclude general-knowledge
+      const existingSlugs = (existingQC ?? [])
+        .map(r => r.categories?.slug)
+        .filter((s): s is string => !!s && s !== GENERAL_KNOWLEDGE_SLUG);
 
-Options:
-${options.map((o, i) => `${letters[i]}) ${o}`).join('\n')}
+      const result = await calibrateQuestion(
+        supabase,
+        tokenAccumulator,
+        {
+          id: question.id,
+          question_text: question.question_text,
+          correct_answer: question.correct_answer,
+          distractors: question.distractors as string[],
+          assigned_slugs: existingSlugs,
+        },
+        claude,
+        config,
+      );
 
-The correct answer is ${letters[correctIndex]}) ${question.correct_answer}.
-
-Would you have answered this correctly without being told? Rate the difficulty for UK pub-goers. Return the JSON.`;
-
-      const response = await claude.messages.create({
-        model: config.claudeModelVerification,
-        max_tokens: 512,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: userPrompt }],
-      });
-
-      trackUsage(response, tokenAccumulator, HAIKU_INPUT, HAIKU_OUTPUT);
-      checkBudget(tokenAccumulator, config.budgetCapUsd);
-
-      const textContent = response.content.find(c => c.type === 'text');
-      if (!textContent || textContent.type !== 'text') {
-        failed++;
-        continue;
-      }
-
-      let parsed;
-      try {
-        parsed = CalibratorResponseSchema.parse(JSON.parse(extractJson(textContent.text)));
-      } catch (parseError) {
-        log('warn', 'Failed to parse calibrator response', {
+      if (!result.success) {
+        log('warn', 'Failed to calibrate question', {
           questionId: question.id,
-          error: parseError instanceof Error ? parseError.message : String(parseError),
+          error: result.error,
         });
         failed++;
         continue;
       }
 
-      const didChange = parsed.difficulty !== question.difficulty;
-      const updateData: Record<string, unknown> = {
-        calibrated_at: new Date().toISOString(),
-        calibration_percent: parsed.estimated_percent_correct,
-      };
-      if (didChange) {
-        updateData.difficulty = parsed.difficulty;
-      }
-
-      const { error: updateError } = await (supabase
-        .from('questions')
-        .update(updateData as never)
-        .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
-
-      if (updateError) {
-        log('error', 'Failed to update calibration', {
-          questionId: question.id,
-          error: updateError.message,
-        });
-        failed++;
-        continue;
-      }
-
-      if (didChange) {
-        log('info', 'Question recalibrated', {
-          questionId: question.id,
-          from: question.difficulty,
-          to: parsed.difficulty,
-          percent: parsed.estimated_percent_correct,
-          answeredCorrectly: parsed.answered_correctly,
-        });
-        recalibrated++;
-      }
       processed++;
+      recalibrated++;
+
+      log('info', 'Question calibrated', {
+        questionId: question.id,
+        scores: result.scores,
+      });
     } catch (err) {
       if (err instanceof BudgetExceededError) throw err;
       log('error', 'Calibrator error', {
