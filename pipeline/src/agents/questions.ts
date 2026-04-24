@@ -4,9 +4,9 @@ import { createSupabaseClient } from '../lib/supabase.js';
 import { QuestionBatchSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
 import { getEligibleCategoriesOrdered } from '../lib/category-selection.js';
+import { assertGeneralKnowledge, assertNoGeneralKnowledgeInExtras, GENERAL_KNOWLEDGE_SLUG } from '../lib/general-knowledge-guard.js';
+import { resolveSlugsToIds } from '../lib/categories.js';
 import type { Database } from '../lib/database.types.js';
-
-type QuestionRow = Database['public']['Tables']['questions']['Row'];
 
 export interface AgentResult {
   processed: number;
@@ -47,55 +47,48 @@ You are a quizmaster talking to a table of friends, not a teacher setting a comp
 6. Keep questions to 40-80 characters. One breath to read aloud.
 7. Do NOT generate questions similar to ones already listed.
 
-## Difficulty (target per batch of 5: 2 easy, 2 normal, 1 hard)
+## Categories
+
+Every question belongs to \`general_knowledge\` plus 1-3 specific extra categories. You must:
+
+- Always include \`general_knowledge\` in \`category_scores\`. Never list \`general-knowledge\` in \`category_slugs\` — it is mandatory and injected automatically.
+- Propose 1-3 specific extra categories in \`category_slugs\` using kebab-case slugs (e.g. \`science-and-nature\`, \`history\`, \`geography\`).
+- Only propose a category if a player who chose that category would expect to see this question — not just tangentially related.
+
+## Scoring
+
+\`category_scores\` values are integers 0-100, representing the percentage of players who chose that category who would answer this question correctly. Score each category separately — a science enthusiast may get a physics question at 75% while the general pub gets 20%.
+
+## Difficulty target (per batch of 5: 2 easy, 2 normal, 1 hard using general_knowledge score)
 
 **Be strict about this.** Most questions end up harder than writers think. When in doubt, rate it harder.
 
-EASY (35-40%) — almost EVERYONE at a pub table would get this. Primary-school level, universal knowledge, no trap between close alternatives:
+EASY (general_knowledge 67-100) — almost EVERYONE at a pub table would get this:
 - "What is the capital of France?" → Paris
 - "How many sides does a hexagon have?" → Six
-- "What colour do you get when you mix red and yellow?" → Orange
-- "In which country would you find the Eiffel Tower?" → France
-- "Who wrote Romeo and Juliet?" → Shakespeare
 
-NORMAL (40-45%) — most adults have heard of this but might hesitate between close alternatives:
+NORMAL (general_knowledge 34-66) — most adults have heard of this but might hesitate:
 - "Who wrote the dystopian novel Brave New World?" → Aldous Huxley
 - "What is the largest moon in the Solar System?" → Ganymede
-- "What is the largest species of shark?" → Whale shark
-- "Which of Henry VIII's six wives was he married to the longest?" → Catherine of Aragon
-- "On a standard Monopoly board, which square is opposite Go?" → Free Parking
 
-HARD (15-20%) — one enthusiast at the table might know, but the answer is interesting:
+HARD (general_knowledge 0-33) — one enthusiast at the table might know:
 - "What did Alfred Hitchcock use as blood in Psycho?" → Chocolate syrup
-- "Which Disney princess has the least screen time in her own film?" → Aurora
 - "Who holds the record for most goals across all FIFA World Cups?" → Miroslav Klose
 
-**Key test for EASY:** Could a 10-year-old have a reasonable shot? If not, it's at least NORMAL. "Ganymede vs Titan" is NOT easy even though the solar system is a common topic. "Whale shark vs great white" is NOT easy because people assume great whites are biggest. The distractors matter — if they're plausible traps, bump the difficulty.
-
-## The Double-Up Technique
-Add an interesting detail that gives players something to work with:
-- Before: "For what movie did Paul Newman win his Oscar?"
-- After: "Paul Newman's only competitive Oscar was for a role he'd first played 25 years earlier. Name that movie."
-
 ## Anti-Patterns (never do these)
-- Comprehension-test framing. Never phrase questions as "according to the source/reference/text/article/paragraph". The player is at a pub, not reading an exam paper.
-- Hedged or indirect openers ("It is said that...", "One might argue that...", "Some people believe..."). Open with the subject or the verb.
+- Comprehension-test framing. Never phrase questions as "according to the source/reference/text/article/paragraph".
+- Hedged or indirect openers ("It is said that...", "One might argue that...", "Some people believe...").
 - Trick questions that punish rather than reward thinking
-- "You know it or you don't" questions with no room for reasoning — prefer questions that spark debate
+- "You know it or you don't" questions with no room for reasoning
 - Textbook/exam phrasing — write like you're talking to a friend
 - Niche specialist questions — would 3+ people at a random table have a chance?
 - Questions over 100 characters
-- Questions about events from the current or previous year — they date fast and won't age well
+- Questions about events from the current or previous year — they date fast
 - Corporate/business questions (company rebrandings, product launch dates, internal org names)
-- Questions where the answer doesn't match the question type. If you ask "what era?" the answer must be an era. Double-check this.
-- Never include the correct answer in the question text. If the question is about a named thing, describe it rather than naming it. For example, don't write "In the sitcom Cheers, what is the name of the bar?" — instead write "What's the name of the bar in the sitcom where everybody knows your name?"
-- Never include the answer — or a near-answer — in the question text. This includes franchise/title leakage where the question names the exact game or work the answer is from. Ask the distinguishing fact instead of the title. Two canonical examples:
-  - Bad: "Which Grand Theft Auto game is set in Vice City?" → "Grand Theft Auto: Vice City". The answer is sitting in the question.
-  - Good: "Which city was GTA: Vice City set in?" → Vice City. Or flip it: "Which US city was the 2002 Rockstar game set in that parodied 1980s Miami?" → Vice City.
-  - Bad: "Which Dark Souls game features the area called Anor Londo?" → "Dark Souls". The franchise name embeds the answer.
-  - Good: "Which game features the area Anor Londo?" → Dark Souls. Drop the franchise when asking which franchise entry it is.
-  Rule of thumb: if the question names the franchise and the answer is an entry in that franchise — or the question names an entry and the answer is the franchise — rewrite it.
-- Always use a person's full commonly-known name on first mention: "David Bowie" not "Bowie", "Leonardo da Vinci" not "da Vinci", "Marie Curie" not "Curie". Surname-only is too informal for a quiz question.
+- Questions where the answer doesn't match the question type
+- Never include the correct answer in the question text
+- Never include the answer — or a near-answer — in the question text
+- Always use a person's full commonly-known name on first mention
 
 (Style reference: Open Trivia Database, CC BY-SA 4.0. Full guide: pipeline/STYLE-GUIDE.md)`;
 
@@ -139,6 +132,7 @@ export async function runQuestionsAgent(
 
     try {
       // Step 2: Fetch existing questions for dedup (capped at DEDUP_CAP)
+      type QuestionRow = Database['public']['Tables']['questions']['Row'];
       const { data: existingQuestions } = await supabase
         .from('questions')
         .select('*')
@@ -170,17 +164,28 @@ export async function runQuestionsAgent(
         config.questionsBatchSize - totalQuestionsGenerated,
       );
 
-      const userPrompt = `Category: ${category.name}
+      const userPrompt = `Category: ${category.name} (slug: ${category.slug})
+${dedupSection}${dedupNote}
 
 Generate ${questionsToGenerate} pub quiz questions about ${category.name}. Use your own knowledge — write questions that are factually correct and would work in a real pub quiz.
-${dedupSection}${dedupNote}
 
 Return as JSON with a "questions" array where each object has exactly these fields:
 - "question_text": string (the question)
 - "correct_answer": string
 - "distractors": array of exactly 3 strings (wrong answers)
 - "explanation": string (2-3 sentences)
-- "difficulty": "easy" | "normal" | "hard"`;
+- "category_slugs": array of 1-3 specific extra category slugs (kebab-case). Do NOT include "general-knowledge" here.
+- "category_scores": object with snake_case keys and integer values 0-100. Always include "general_knowledge". Include one key per entry in category_slugs (using snake_case). Example: { "general_knowledge": 45, "science_and_nature": 68 }
+
+Example question object:
+{
+  "question_text": "What is the chemical symbol for gold?",
+  "correct_answer": "Au",
+  "distractors": ["Ag", "Fe", "Cu"],
+  "explanation": "Gold has the symbol Au from the Latin 'aurum'. It is a precious metal used throughout history.",
+  "category_slugs": ["science-and-nature"],
+  "category_scores": { "general_knowledge": 45, "science_and_nature": 68 }
+}`;
 
       // Step 3: Call Claude
       log('info', `Calling Claude for category: ${category.name}`, { questionsToGenerate });
@@ -216,7 +221,7 @@ Return as JSON with a "questions" array where each object has exactly these fiel
         continue;
       }
 
-      // Step 5: Validate and insert each question (no source_id — generated from knowledge)
+      // Step 5: Validate and insert each question
       for (const question of parsedBatch.questions) {
         try {
           if (question.distractors.length !== 3) {
@@ -248,7 +253,6 @@ Return as JSON with a "questions" array where each object has exactly these fiel
           const fullMatch = qLowerText.includes(answerFull) && answerFull.length > 2;
 
           // Distinctive-word match: any ≥5-char word from the answer appearing in the question.
-          // Skips common connective words to avoid false positives.
           const stopwords = new Set([
             'the', 'and', 'of', 'in', 'on', 'at', 'to', 'for', 'with', 'by',
             'from', 'is', 'was', 'are', 'were', 'been', 'being', 'have', 'has',
@@ -265,7 +269,6 @@ Return as JSON with a "questions" array where each object has exactly these fiel
           });
 
           // Reverse check: distinctive words from the QUESTION that are substrings of the answer.
-          // Catches e.g. "bower" in question → "Bowerbird" answer.
           const questionWords = qLowerText
             .replace(/[^\w\s]/g, ' ')
             .split(/\s+/)
@@ -298,23 +301,92 @@ Return as JSON with a "questions" array where each object has exactly these fiel
             continue;
           }
 
-          const insertData: Database['public']['Tables']['questions']['Insert'] = {
-            category_id: category.id,
-            source_id: null,
-            question_text: question.question_text,
-            correct_answer: question.correct_answer,
-            distractors: question.distractors,
-            explanation: question.explanation,
-            difficulty: question.difficulty,
-            verification_score: 0,
-            status: 'pending',
-          };
-          const { error: insertError } = await (supabase.from('questions').insert(insertData as never) as unknown as Promise<{ error: { message: string } | null }>);
+          // D-12: validate general_knowledge is present in scores
+          try {
+            assertGeneralKnowledge(question.category_scores);
+          } catch (gkError) {
+            log('error', 'Question missing general_knowledge score, skipping', {
+              questionText: question.question_text,
+              error: gkError instanceof Error ? gkError.message : String(gkError),
+            });
+            failed++;
+            continue;
+          }
 
-          if (insertError) {
+          // D-13: validate general-knowledge not in category_slugs (should be caught by Zod but belt-and-suspenders)
+          try {
+            assertNoGeneralKnowledgeInExtras(question.category_slugs);
+          } catch (gkExtrasError) {
+            log('error', 'Question proposes general-knowledge as extra, skipping', {
+              questionText: question.question_text,
+              error: gkExtrasError instanceof Error ? gkExtrasError.message : String(gkExtrasError),
+            });
+            failed++;
+            continue;
+          }
+
+          // Resolve slugs to category IDs
+          const allSlugs = [...question.category_slugs, GENERAL_KNOWLEDGE_SLUG];
+          let slugToId: Map<string, string>;
+          try {
+            slugToId = await resolveSlugsToIds(supabase, allSlugs);
+          } catch (resolveError) {
+            log('error', 'Failed to resolve category slugs to IDs, skipping question', {
+              questionText: question.question_text,
+              slugs: allSlugs,
+              error: resolveError instanceof Error ? resolveError.message : String(resolveError),
+            });
+            failed++;
+            continue;
+          }
+
+          // Insert question row (transitional: category_id and difficulty placeholders until Plan 05 drops them)
+          const { data: inserted, error: qErr } = await supabase
+            .from('questions')
+            .insert({
+              category_id: slugToId.get(GENERAL_KNOWLEDGE_SLUG)!,
+              source_id: null,
+              question_text: question.question_text,
+              correct_answer: question.correct_answer,
+              distractors: question.distractors,
+              explanation: question.explanation,
+              difficulty: 'normal',  // transitional placeholder — dropped in Plan 05
+              verification_score: 0,
+              status: 'pending',
+            } as never)
+            .select('id')
+            .single();
+
+          if (qErr || !inserted) {
             log('error', 'Failed to insert question', {
               questionText: question.question_text,
-              error: insertError.message,
+              error: qErr ? (qErr as { message: string }).message : 'no data returned',
+            });
+            failed++;
+            continue;
+          }
+
+          // Build question_categories rows — include ALL slugs (extras + GK)
+          const qcRows = allSlugs.map(slug => {
+            const jsonKey = slug.replace(/-/g, '_');
+            const score = question.category_scores[jsonKey];
+            if (typeof score !== 'number') {
+              throw new Error(`Missing score for slug ${slug} (json key ${jsonKey})`);
+            }
+            return {
+              question_id: (inserted as { id: string }).id,
+              category_id: slugToId.get(slug)!,
+              estimate_score: score,
+              observed_n: 0,
+            };
+          });
+
+          // Single multi-row insert — deferred trigger sees the full set at commit
+          const { error: qcErr } = await supabase.from('question_categories').insert(qcRows as never);
+          if (qcErr) {
+            log('error', 'Failed to insert question_categories rows', {
+              questionId: (inserted as { id: string }).id,
+              error: (qcErr as { message: string }).message,
             });
             failed++;
             continue;
