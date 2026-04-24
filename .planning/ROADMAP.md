@@ -442,3 +442,12 @@ Plans:
 
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.15: Retroactive QA + Fact-Check Pass on 2308 OpenTDB Imports (BACKLOG)
+
+**Goal:** The 2308 OpenTDB-imported questions (verification_score=2) bypassed Fact-Check and QA Agents — `fact_checked_at` and `qa_passed_at` are NULL. Run Fact-Check + QA in batches over all score=2 questions: rewrites fix tone/grammar/localisation, rejections remove bad ones, passes stamp the tracking columns and promote score to 3. Batch nightly via the existing scheduled pipeline to avoid cost spikes (~$23 total at ~$0.01/question). Fact-Check first (Q+A accuracy), then QA (pub quiz tone, distractors). Questions failing either step → status='rejected'. Directly addresses the class of feedback issues seen (Sorcerer's Stone, grammar, answer-in-question) at scale rather than manually. Depends on tracking columns from quick task 260424-tla.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
