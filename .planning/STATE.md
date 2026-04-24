@@ -116,9 +116,11 @@ None yet.
 | 260419-oig | Fix duplicate local migration 00011 files (resolved-before-execution) | 2026-04-19 | 15511b3 | [260419-oig-fix-duplicate-local-migration-00011-file](./quick/260419-oig-fix-duplicate-local-migration-00011-file/) |
 | 260419-oxa | Fix pipeline test suite drift (7 failing tests -> all green, 94/94) | 2026-04-19 | 8c0e007 | [260419-oxa-fix-pipeline-test-suite-drift](./quick/260419-oxa-fix-pipeline-test-suite-drift/) |
 | 260419-pma | Tighten Category + Questions Agent prompts for pub quiz tone (closes 999.3, 999.4) | 2026-04-19 | 47d3432 | [260419-pma-tighten-category-questions-agent-prompts](./quick/260419-pma-tighten-category-questions-agent-prompts/) |
+| 260424-tla | Add pipeline tracking columns + feedback resolution mechanism (migrations 00019-00021) | 2026-04-24 | 8fb242e | [260424-tla-add-pipeline-tracking-columns-and-feedba](./quick/260424-tla-add-pipeline-tracking-columns-and-feedba/) |
 
 ## Session Continuity
 
-Last session: 2026-04-19T18:10:00.000Z
-Stopped at: Closed 999.5 + added 999.13 (OpenTDB attribution)
+Last session: 2026-04-24T20:18:21.036Z
+Stopped at: Completed quick task 260424-tla
+Last activity: 2026-04-24 - Completed quick task 260424-tla: pipeline tracking columns + feedback resolution
 Last activity: 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)
