@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 999.8-01-PLAN.md
-last_updated: "2026-04-24T22:11:33.930Z"
+stopped_at: Completed 999.8-03-PLAN.md
+last_updated: "2026-04-24T22:19:00.701Z"
 last_activity: 2026-04-24
 progress:
   total_phases: 24
   completed_phases: 4
   total_plans: 23
-  completed_plans: 20
+  completed_plans: 21
   percent: 11
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-04)
 ## Current Position
 
 Phase: 999.8 (multi-category-per-category-percentage-difficulty-backlog) — EXECUTING
-Plan: 3 of 5
+Plan: 4 of 5
 Status: Ready to execute
 Last activity: 2026-04-24
 
@@ -64,6 +64,7 @@ Progress: [██░░░░░░░░] 11%
 | Phase 02.2 P05 | 4min | 2 tasks | 6 files |
 | Phase 999.8 P02 | 4min | 2 tasks | 2 files |
 | Phase 999.8 P01 | 3min | 2 tasks | 6 files |
+| Phase 999.8 P03 | 7min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -99,6 +100,8 @@ Recent decisions affecting current work:
 - [Phase 999.8]: question_categories FK to categories uses ON DELETE RESTRICT — deleting a category is intentional and should fail if rows reference it
 - [Phase 999.8]: Wave 0 test files intentionally import non-existent modules to force red state until Wave 2-3 creates them
 - [Phase 999.8]: Integration tests use describe.skipIf(!process.env.SUPABASE_TEST_URL) so CI runs cleanly without live test DB
+- [Phase 999.8]: QuestionGeneratedSchema uses Zod .refine() to reject 'general-knowledge' in category_slugs at parse time
+- [Phase 999.8]: calibrateQuestion exported with explicit client parameters for testability
 
 ### Roadmap Evolution
 
@@ -127,7 +130,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-24T22:11:33.926Z
-Stopped at: Completed 999.8-01-PLAN.md
+Last session: 2026-04-24T22:19:00.699Z
+Stopped at: Completed 999.8-03-PLAN.md
 Last activity: 2026-04-24 - Completed quick task 260424-uju: fix 11 flagged feedback questions, all resolved
 Last activity: 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)
