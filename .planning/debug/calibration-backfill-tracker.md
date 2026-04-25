@@ -94,10 +94,22 @@ Cumulative: 1750/2848 (61.4%), 3925 rows. 1098 remaining.
 
 Cumulative: **2000/2848 (70.2%)**, 4559 rows. 848 remaining (~17 batches).
 
+## Session 3 continued (batches 41-45)
+
+| Batch | Questions | Rows | Cumulative done | Notes |
+|-------|-----------|------|-----------------|-------|
+| 41    | 50        | 134  | 2050            | mixed history |
+| 42    | 50        | 134  | 2100            | art/sports |
+| 43    | 50        | 134  | 2150            | mixed |
+| 44    | 50        | 136  | 2200            | history/cuisine |
+| 45    | 50        | 127  | 2250            | mixed |
+
+Cumulative: **2250/2848 (79.0%)**, 5224 rows. 598 remaining (~12 batches).
+
 ## Outstanding
 
 - Apply pagination fix (paginate + order) to `pipeline/src/scripts/backfill-question-categories.ts` lines 26-29.
-- 848 questions remaining.
+- 598 questions remaining.
 
 ## Files
 
