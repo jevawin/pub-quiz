@@ -42,10 +42,24 @@ Session 2 done: 500 questions, 1060 rows. Cumulative 1000/2848 (35.1%), 2116 row
 
 New helper: `pipeline/scripts/fetch-qc-batch.mjs` — paginated done-id fetch, handles >1000 qc rows.
 
+## Session 3 progress
+
+| Batch | Questions | Rows | Cumulative done | Notes |
+|-------|-----------|------|-----------------|-------|
+| 21    | 50        | 115  | 1050            | sci/sports |
+| 22    | 50        | 117  | 1100            | tech/space |
+| 23    | 50        | 96   | 1150            | computing-heavy |
+| 24    | 50        | 106  | 1200            | computing/games |
+| 25    | 50        | 101  | 1250            | math/Pokemon/games |
+
+Session 3 done so far: 250 questions, 535 rows. Cumulative 1250/2848 (43.9%), 2651 rows.
+
+Also fixed second pagination bug in `fetch-qc-batch.mjs`: was using `.limit(done.size + 200)` which capped fetch below total published once done-set was large. Now paginates ALL published.
+
 ## Outstanding
 
-- Apply pagination fix to `pipeline/src/scripts/backfill-question-categories.ts` lines 26-29.
-- 1848 questions remaining → ~37 more batches.
+- Apply pagination fix to `pipeline/src/scripts/backfill-question-categories.ts` lines 26-29 (same root cause).
+- 1598 questions remaining → ~32 more batches.
 
 ## Files
 

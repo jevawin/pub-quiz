@@ -11,11 +11,16 @@ for (let from = 0; from < (total ?? 0); from += 1000) {
   for (const r of data) done.add(r.question_id);
 }
 
-// Fetch published, filter undone, take 50
-const { data: qs } = await sb.from('questions')
-  .select('id, question_text, correct_answer, distractors, category_id')
-  .eq('status', 'published')
-  .limit(done.size + 200);
+// Fetch ALL published (paginated), filter undone, take 50
+const { count: totalPub } = await sb.from('questions').select('*', { count: 'exact', head: true }).eq('status', 'published');
+let qs = [];
+for (let from = 0; from < (totalPub ?? 0); from += 1000) {
+  const { data } = await sb.from('questions')
+    .select('id, question_text, correct_answer, distractors, category_id')
+    .eq('status', 'published')
+    .range(from, from + 999);
+  qs = qs.concat(data);
+}
 const todo = qs.filter(q => !done.has(q.id)).slice(0, 50);
 
 const catIds = [...new Set(todo.map(q => q.category_id))];
