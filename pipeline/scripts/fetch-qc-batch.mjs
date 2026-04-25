@@ -7,7 +7,7 @@ const sb = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_R
 const done = new Set();
 const { count: total } = await sb.from('question_categories').select('*', { count: 'exact', head: true });
 for (let from = 0; from < (total ?? 0); from += 1000) {
-  const { data } = await sb.from('question_categories').select('question_id').range(from, from + 999);
+  const { data } = await sb.from('question_categories').select('question_id').order('question_id').range(from, from + 999);
   for (const r of data) done.add(r.question_id);
 }
 
@@ -18,6 +18,7 @@ for (let from = 0; from < (totalPub ?? 0); from += 1000) {
   const { data } = await sb.from('questions')
     .select('id, question_text, correct_answer, distractors, category_id')
     .eq('status', 'published')
+    .order('id')
     .range(from, from + 999);
   qs = qs.concat(data);
 }

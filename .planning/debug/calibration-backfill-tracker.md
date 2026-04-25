@@ -56,10 +56,24 @@ Session 3 done so far: 250 questions, 535 rows. Cumulative 1250/2848 (43.9%), 26
 
 Also fixed second pagination bug in `fetch-qc-batch.mjs`: was using `.limit(done.size + 200)` which capped fetch below total published once done-set was large. Now paginates ALL published.
 
+## Session 3 continued
+
+| Batch | Questions | Rows | Cumulative done | Notes |
+|-------|-----------|------|-----------------|-------|
+| 26    | 50        | 119  | 1300            | mixed/world geography |
+| 27    | 50        | 126  | 1350            | trivia variety |
+| 28    | 50        | 139  | 1400            | literature-heavy |
+| 29    | 50        | 120  | 1450            | re-fetched after dup bug; mixed |
+| 30    | 50        | 128  | 1500            | mixed |
+
+**Third pagination bug fixed:** `select` without `.order()` returns rows in non-deterministic order. With ranges + no order, .range(0,999) and .range(1000,1999) can overlap or miss rows entirely. Added `.order('question_id')` to done-id fetch and `.order('id')` to questions fetch. This was masking real progress count earlier sessions — we were actually further along than counted.
+
+Session 3 done: 500 questions, 1167 rows. Cumulative 1500/2848 (52.7%), 3283 rows. **Halfway.**
+
 ## Outstanding
 
-- Apply pagination fix to `pipeline/src/scripts/backfill-question-categories.ts` lines 26-29 (same root cause).
-- 1598 questions remaining → ~32 more batches.
+- Apply pagination fix (paginate + order) to `pipeline/src/scripts/backfill-question-categories.ts` lines 26-29.
+- 1348 questions remaining → ~27 more batches.
 
 ## Files
 
