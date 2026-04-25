@@ -70,10 +70,22 @@ Also fixed second pagination bug in `fetch-qc-batch.mjs`: was using `.limit(done
 
 Session 3 done: 500 questions, 1167 rows. Cumulative 1500/2848 (52.7%), 3283 rows. **Halfway.**
 
+## Session 3 continued (batches 31-35)
+
+| Batch | Questions | Rows | Cumulative done | Notes |
+|-------|-----------|------|-----------------|-------|
+| 31    | 50        | 126  | 1550            | mixed history/animation |
+| 32    | 50        | 136  | 1600            | art/geography heavy |
+| 33    | 50        | 119  | 1650            | mixed |
+| 34    | 50        | 128  | 1700            | superheroes + history |
+| 35    | 50        | 133  | 1750            | mixed/literature |
+
+Cumulative: 1750/2848 (61.4%), 3925 rows. 1098 remaining.
+
 ## Outstanding
 
 - Apply pagination fix (paginate + order) to `pipeline/src/scripts/backfill-question-categories.ts` lines 26-29.
-- 1348 questions remaining → ~27 more batches.
+- 1098 questions remaining → ~22 more batches.
 
 ## Files
 
