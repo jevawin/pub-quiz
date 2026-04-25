@@ -82,10 +82,22 @@ Session 3 done: 500 questions, 1167 rows. Cumulative 1500/2848 (52.7%), 3283 row
 
 Cumulative: 1750/2848 (61.4%), 3925 rows. 1098 remaining.
 
+## Session 3 continued (batches 36-40)
+
+| Batch | Questions | Rows | Cumulative done | Notes |
+|-------|-----------|------|-----------------|-------|
+| 36    | 50        | 118  | 1800            | history/landmarks |
+| 37    | 50        | 127  | 1850            | WW2/sports |
+| 38    | 50        | 138  | 1900            | sports/cuisine |
+| 39    | 50        | 123  | 1950            | mixed |
+| 40    | 50        | 128  | 2000            | history/landmarks |
+
+Cumulative: **2000/2848 (70.2%)**, 4559 rows. 848 remaining (~17 batches).
+
 ## Outstanding
 
 - Apply pagination fix (paginate + order) to `pipeline/src/scripts/backfill-question-categories.ts` lines 26-29.
-- 1098 questions remaining → ~22 more batches.
+- 848 questions remaining.
 
 ## Files
 
