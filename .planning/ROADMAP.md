@@ -289,6 +289,31 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 | 7. Quiz Engine & Play Modes | 0/3 | Not started | - |
 | 8. Question Cache & Cost Management | 0/2 | Not started | - |
 
+## Active Quick Tasks (prioritised 2026-04-26)
+
+### 260426-fct: Wire fun_fact into web quiz UI (PENDING)
+
+**Goal:** Fun facts exist on 100% of published questions but the web app never fetches or renders them. End-of-question reveal screen shows the explanation but no fun fact. Work: (1) update the question-fetch RPC to return `fun_fact`, (2) extend `LoadedQuestion` type and `RpcRow` in `apps/web/src/lib/questions.ts`, (3) render `fun_fact` on the answer reveal screen below explanation (style: subdued, italic, prefixed with a divider). Verify in localhost dev server.
+**Why now:** Just confirmed 0/2848 published questions are missing fun_facts — the content exists, the surface is missing. User reported facts not visible in localhost.
+
+### 260426-bkf: Resume 999.8 calibration backfill to completion (PENDING — HUMAN ACTION)
+
+**Goal:** Phase 999.8 Plan 04 is checkpointed awaiting human-driven Claude Code agent backfill. Latest commit `ef93e7a` reports 2250/2848 (79%). ~600 questions still missing question_categories rows. Plan 05 (drop old columns: `category_id`, `difficulty`, `calibration_percent`) is blocked until `still_missing = 0`.
+**Action:** Open a fresh Claude Code agent session and paste the prompt in `.planning/phases/999.8-multi-category-per-category-percentage-difficulty-backlog/999.8-04-SUMMARY.md` ("Checkpoint: Task 3 Awaiting Human Action"). Work in batches of 50, commit per batch, run the verification SQL when complete.
+**Why now:** Unblocks 999.8 completion and the schema cleanup migration. Subscription-paid (no API spend cap risk).
+
+### 260426-fdb: Fix 3 open question_feedback items (PENDING)
+
+**Goal:** Three open per-question reports — quick edits.
+1. `bd6d71fb` "What is the largest Muslim country in the world?" → "Largest by what measure?" Rewrite to disambiguate ("By population, which country has the largest Muslim population?" — keep Indonesia correct).
+2. `c8a909d0` "What cursed King Midas when he touched his food and daughter?" → "Weirdly written". Rewrite phrasing (e.g. "In Greek myth, what happened to King Midas's food and daughter when he touched them?" — keep "They turned to gold").
+3. `089ec5d2` (Bokassa question itself is fine) → "all questions appear highlighted as if tab-focused". UI bug, not content. Inspect `:focus-visible` / outline styles on the question card or answer buttons in `apps/web/src` and remove the unwanted persistent focus ring.
+**Resolve:** Update each row, set `resolved_at` + `resolved_note`.
+
+### 260426-q15: Confirm scope of 999.15 retroactive QA pass (PENDING — REVIEW)
+
+**Goal:** User asked "999.15 potentially done manually now". Confirm: **NOT done.** Current DB state shows **2307 published questions still have `qa_passed_at=NULL` and `fact_checked_at=NULL`** — i.e. virtually all of the 2308 OpenTDB imports are still untouched by Fact-Check/QA Agents. The manual quick task `260424-uju` fixed only 11 user-flagged questions; that does not satisfy 999.15. Decision: keep 999.15 in backlog and plan it (~$23 in API spend, batched nightly), or accept current quality and close it.
+
 ## Backlog
 
 ### Phase 999.2: Question Refinement from User Feedback (BACKLOG)
