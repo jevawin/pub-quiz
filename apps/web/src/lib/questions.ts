@@ -24,7 +24,7 @@ export async function fetchCountsByRootCategory(): Promise<CategoryCounts> {
   return out;
 }
 
-type RpcRow = {
+export type RpcRow = {
   id: string;
   question_text: string;
   correct_answer: string;
@@ -147,27 +147,30 @@ export async function fetchRandomQuestions(
   // some choice between options for within-batch ordering.
   const overFetch = n * 2;
   const perCombo = Math.max(1, Math.ceil(overFetch / (dbDifficulties.length * slugs.length)) + 2);
-  let batches = await Promise.all(
+  const batches = await Promise.all(
     dbDifficulties.flatMap((diff) =>
       slugs.map((slug) => fetchForDifficulty(diff, slug, perCombo, excludeIds)),
     ),
   );
 
-  let limited = dedupeAndPickFreshest(batches, n);
+  // No silent stale-repeat fallback: if the unseen pool is too small, return a
+  // shorter quiz. Setup screen surfaces a pool-size warning before play, and
+  // Setup.onPlay uses the actual returned length as the authoritative count.
+  const picked = dedupeAndPickFreshest(batches, n);
 
-  // Fallback: if the pool of unseen questions is too small to meet the request,
-  // refetch WITHOUT the exclusion so the user still gets a full-length quiz
-  // (repeats preferred to a short quiz). Pool-size warnings at Setup make this
-  // rare, but we retry defensively anyway.
-  if (limited.length < n && excludeIds.length > 0) {
-    batches = await Promise.all(
-      dbDifficulties.flatMap((diff) =>
-        slugs.map((slug) => fetchForDifficulty(diff, slug, perCombo, [])),
-      ),
-    );
-    limited = dedupeAndPickFreshest(batches, n);
+  // Final authoritative dedupe pass — belt-and-braces guarantee that the
+  // returned batch has no duplicate question_ids. dedupeAndPickFreshest
+  // already enforces this; the second pass makes the within-session
+  // uniqueness contract explicit and survives any future code-path changes.
+  const seenIdsInBatch = new Set<string>();
+  const unique: RpcRow[] = [];
+  for (const row of picked) {
+    if (!seenIdsInBatch.has(row.id)) {
+      seenIdsInBatch.add(row.id);
+      unique.push(row);
+    }
   }
 
-  if (limited.length === 0) throw new Error('No questions found — try a different category or difficulty');
-  return limited.map(toLoadedQuestion);
+  if (unique.length === 0) throw new Error('No questions found — try a different category or difficulty');
+  return unique.map(toLoadedQuestion);
 }
