@@ -3,7 +3,7 @@ phase: quick-260426-ow2
 plan: 01
 subsystem: db-rpc
 tags: [supabase, rpc, category-filter, question-categories, bug-fix]
-status: awaiting-human-verify
+status: complete
 requirements: [SPT-01]
 dependencies:
   requires:
@@ -24,7 +24,7 @@ decisions:
   - Compatibility shim: legacy category_id fallback used only when a question has zero question_categories rows. Removable after backfill reaches 100% (Phase 999.8 Plan 05).
   - Did NOT switch to a pure join filter because 348 of 2848 published questions still lack join rows; pool would collapse for several roots.
 metrics:
-  tasks_completed: 2_of_3
+  tasks_completed: 3_of_3
   duration: 12min
   completed_date: 2026-04-26
 commits:
@@ -79,20 +79,11 @@ Untouched (out of scope): `random_general_knowledge_questions_rpc`, `counts_by_r
 
 ## Verification result
 
-**Task 3 awaiting human action.** The migration has not been pushed to remote. The user must:
-
-1. Run `npx supabase db push` from the repo root (or the project's standard command) to apply migration 00025 to the live Supabase project.
-2. Start the web dev server (`pnpm --filter web dev` or equivalent).
-3. Open Setup, deselect All, select only the Sports pill, click Play, play a 10-question quiz.
-4. Confirm every question is sports-related.
-5. Repeat for one or two other roots (Science, Music) to check no regression.
-6. Reply with "approved" or describe which question slipped through and from which category.
-
-Until that human-verify checkpoint passes, this plan is **NOT COMPLETE**.
+**Approved by user 2026-04-26.** Migration 00025 pushed to remote (`Applying migration 00025_category_filter_uses_join_table.sql... Finished supabase db push.`). User played a Sports-only quiz and confirmed every question was sport-related; spot-checks of other roots showed no regression.
 
 ## Feedback row resolution
 
-Feedback row `2ddac7cc-778a-44be-b4ea-8c792c79f01c` (sport filter complaint) is **NOT YET resolved** — wait for live verification before marking it.
+Feedback row `2ddac7cc-778a-44be-b4ea-8c792c79f01c` updated with resolution note via service-role PATCH on `quiz_sessions`. Note: the row's recorded `category_slug` was actually 11 categories *excluding* sports — the user's recollection of "selected sport" was inverted. The migration still genuinely fixes the filter leak surfaced during investigation (10 legitimate sport questions were missing from Sports filter).
 
 ## Deviations from Plan
 

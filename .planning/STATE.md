@@ -133,10 +133,11 @@ None yet.
 | 260424-uju | Fix 11 flagged feedback questions, mark all resolved | 2026-04-24 | e10cbaf | [260424-uju-fix-11-flagged-feedback-questions-and-ma](./quick/260424-uju-fix-11-flagged-feedback-questions-and-ma/) |
 | 260426-czq | Wire fun_fact through to web quiz UI (migration 00024 + types + reveal render) | 2026-04-26 | be3a90a | [260426-czq-wire-fun-fact-through-to-web-quiz-ui](./quick/260426-czq-wire-fun-fact-through-to-web-quiz-ui/) |
 | 260426-myq | Fix 3 open question_feedback items: 2 reworded questions + answer button focus-visible CSS fix | 2026-04-26 | b4ca9f0 | [260426-myq-fix-3-open-question-feedback-items](./quick/260426-myq-fix-3-open-question-feedback-items/) |
+| 260426-ow2 | Fix sport category filter bug — migration 00025 filters via question_categories with legacy fallback | 2026-04-26 | 731785c | [260426-ow2-260427-spt-fix-sport-category-filter-bug](./quick/260426-ow2-260427-spt-fix-sport-category-filter-bug/) |
 
 ## Session Continuity
 
-Last session: 2026-04-26T15:40:00.000Z
-Stopped at: Completed quick task 260426-myq (all 3 question_feedback items resolved, 0 open)
-Last activity: 2026-04-26 - Completed quick task 260426-myq: fix 3 open question feedback items
+Last session: 2026-04-26T17:00:00.000Z
+Stopped at: Completed quick task 260426-ow2 (sport category filter fixed, migration 00025 applied to remote)
+Last activity: 2026-04-26 - Completed quick task 260426-ow2: fix sport category filter bug
 Last activity: 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)
