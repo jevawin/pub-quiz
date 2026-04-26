@@ -313,6 +313,15 @@ export function Play() {
                 </p>
               )}
 
+              {question.fun_fact && (
+                <div className="border-t border-neutral-200 pt-3">
+                  <p className="text-sm italic text-neutral-500">
+                    <span className="font-medium not-italic text-neutral-600">Fun fact:</span>{' '}
+                    {question.fun_fact}
+                  </p>
+                </div>
+              )}
+
               {/* Next question */}
               <button
                 onClick={onNext}
@@ -355,6 +364,15 @@ export function Play() {
                 <p className="text-base text-neutral-600">
                   {question.explanation}
                 </p>
+              )}
+
+              {question.fun_fact && (
+                <div className="border-t border-neutral-200 pt-3">
+                  <p className="text-sm italic text-neutral-500">
+                    <span className="font-medium not-italic text-neutral-600">Fun fact:</span>{' '}
+                    {question.fun_fact}
+                  </p>
+                </div>
               )}
 
               <button

@@ -4,6 +4,7 @@ export type LoadedQuestion = {
   options: string[];
   correctIndex: number;
   explanation: string | null;
+  fun_fact: string | null;
   category_slug: string;
 };
 
