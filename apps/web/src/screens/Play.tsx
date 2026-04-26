@@ -307,10 +307,7 @@ export function Play() {
               )}
 
               {question.fun_fact && (
-                <p className="text-base italic text-neutral-700">
-                  <span className="font-medium not-italic text-neutral-900">Fun fact:</span>{' '}
-                  {question.fun_fact}
-                </p>
+                <p className="text-base text-neutral-700">{question.fun_fact}</p>
               )}
 
               {/* Next question */}
@@ -352,10 +349,7 @@ export function Play() {
               )}
 
               {question.fun_fact && (
-                <p className="text-base italic text-neutral-700">
-                  <span className="font-medium not-italic text-neutral-900">Fun fact:</span>{' '}
-                  {question.fun_fact}
-                </p>
+                <p className="text-base text-neutral-700">{question.fun_fact}</p>
               )}
 
               <button

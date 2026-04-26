@@ -42,6 +42,9 @@ export function Setup() {
 
   const toggleCategory = (slug: string) => {
     setSelectedCategories((prev) => {
+      if (prev.size === ALL_CATEGORY_SLUGS.length) {
+        return new Set([slug]);
+      }
       const next = new Set(prev);
       if (next.has(slug)) {
         next.delete(slug);
@@ -53,11 +56,7 @@ export function Setup() {
   };
 
   const toggleAll = () => {
-    if (allSelected) {
-      setSelectedCategories(new Set());
-    } else {
-      setSelectedCategories(new Set(ALL_CATEGORY_SLUGS));
-    }
+    setSelectedCategories(new Set(ALL_CATEGORY_SLUGS));
   };
 
   useEffect(() => {
@@ -223,7 +222,7 @@ export function Setup() {
               All
             </button>
             {CATEGORY_OPTIONS.filter((c) => c.slug !== 'general').map((c) => {
-              const active = selectedCategories.has(c.slug);
+              const active = !allSelected && selectedCategories.has(c.slug);
               const CatIcon = c.icon;
               const pillCount = countForSlug(catCounts, c.slug, difficulty);
               return (
@@ -240,11 +239,19 @@ export function Setup() {
                   {active ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
                   <CatIcon className="h-4 w-4" />
                   {c.label}
-                  {pillCount !== null && (
-                    <span className={`ml-1 text-xs ${active ? 'text-neutral-300' : 'text-neutral-500'}`}>
-                      {pillCount}
-                    </span>
-                  )}
+                  <span className="ml-1 inline-block min-w-[2.5ch] text-right tabular-nums text-xs">
+                    {pillCount === null ? (
+                      <span
+                        className={`inline-block h-3 w-5 rounded animate-pulse ${
+                          active ? 'bg-neutral-700' : 'bg-neutral-200'
+                        }`}
+                      />
+                    ) : (
+                      <span className={active ? 'text-neutral-300' : 'text-neutral-500'}>
+                        {pillCount}
+                      </span>
+                    )}
+                  </span>
                 </button>
               );
             })}
