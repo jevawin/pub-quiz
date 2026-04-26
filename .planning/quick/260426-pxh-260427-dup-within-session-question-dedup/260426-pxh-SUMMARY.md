@@ -3,7 +3,7 @@ phase: quick-260426-pxh
 plan: 01
 subsystem: web/quiz-loading
 tags: [bug-fix, dedupe, interleave, web]
-status: awaiting-human-verify
+status: complete
 key-files:
   modified:
     - apps/web/src/lib/questions.ts
