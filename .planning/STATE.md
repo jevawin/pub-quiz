@@ -4,8 +4,8 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: "Checkpoint: 999.8-04 Task 3 awaiting backfill human action"
-last_updated: "2026-04-24T22:26:28.991Z"
-last_activity: 2026-04-24
+last_updated: "2026-04-26T08:30:00.000Z"
+last_activity: 2026-04-26
 progress:
   total_phases: 24
   completed_phases: 4
@@ -131,10 +131,11 @@ None yet.
 | 260419-pma | Tighten Category + Questions Agent prompts for pub quiz tone (closes 999.3, 999.4) | 2026-04-19 | 47d3432 | [260419-pma-tighten-category-questions-agent-prompts](./quick/260419-pma-tighten-category-questions-agent-prompts/) |
 | 260424-tla | Add pipeline tracking columns + feedback resolution mechanism (migrations 00019-00021) | 2026-04-24 | 8fb242e | [260424-tla-add-pipeline-tracking-columns-and-feedba](./quick/260424-tla-add-pipeline-tracking-columns-and-feedba/) |
 | 260424-uju | Fix 11 flagged feedback questions, mark all resolved | 2026-04-24 | e10cbaf | [260424-uju-fix-11-flagged-feedback-questions-and-ma](./quick/260424-uju-fix-11-flagged-feedback-questions-and-ma/) |
+| 260426-czq | Wire fun_fact through to web quiz UI (migration 00024 + types + reveal render) | 2026-04-26 | be3a90a | [260426-czq-wire-fun-fact-through-to-web-quiz-ui](./quick/260426-czq-wire-fun-fact-through-to-web-quiz-ui/) |
 
 ## Session Continuity
 
-Last session: 2026-04-24T22:26:17.748Z
-Stopped at: Checkpoint: 999.8-04 Task 3 awaiting backfill human action
+Last session: 2026-04-26T08:30:00.000Z
+Stopped at: Completed quick task 260426-czq (awaiting human-verify checkpoint + remote migration deploy)
 Last activity: 2026-04-24 - Completed quick task 260424-uju: fix 11 flagged feedback questions, all resolved
 Last activity: 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)
