@@ -1,6 +1,9 @@
 -- Add fun_fact to random_published_questions_excluding return signature so the web client can render it on answer reveal.
+-- DROP first because Postgres forbids changing a function's return type via CREATE OR REPLACE.
 
-CREATE OR REPLACE FUNCTION random_published_questions_excluding(
+DROP FUNCTION IF EXISTS random_published_questions_excluding(TEXT, TEXT, INT, UUID[]);
+
+CREATE FUNCTION random_published_questions_excluding(
   p_difficulty TEXT,
   p_category_slug TEXT,
   p_limit INT,
