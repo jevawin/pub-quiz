@@ -306,20 +306,11 @@ export function Play() {
                 </p>
               )}
 
-              {/* Explanation */}
-              {question.explanation && (
-                <p className="text-base text-neutral-600">
-                  {question.explanation}
-                </p>
-              )}
-
               {question.fun_fact && (
-                <div className="border-t border-neutral-200 pt-3">
-                  <p className="text-sm italic text-neutral-500">
-                    <span className="font-medium not-italic text-neutral-600">Fun fact:</span>{' '}
-                    {question.fun_fact}
-                  </p>
-                </div>
+                <p className="text-base italic text-neutral-700">
+                  <span className="font-medium not-italic text-neutral-900">Fun fact:</span>{' '}
+                  {question.fun_fact}
+                </p>
               )}
 
               {/* Next question */}
@@ -360,19 +351,11 @@ export function Play() {
                 </p>
               )}
 
-              {question.explanation && (
-                <p className="text-base text-neutral-600">
-                  {question.explanation}
-                </p>
-              )}
-
               {question.fun_fact && (
-                <div className="border-t border-neutral-200 pt-3">
-                  <p className="text-sm italic text-neutral-500">
-                    <span className="font-medium not-italic text-neutral-600">Fun fact:</span>{' '}
-                    {question.fun_fact}
-                  </p>
-                </div>
+                <p className="text-base italic text-neutral-700">
+                  <span className="font-medium not-italic text-neutral-900">Fun fact:</span>{' '}
+                  {question.fun_fact}
+                </p>
               )}
 
               <button
