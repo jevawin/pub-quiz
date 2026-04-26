@@ -169,10 +169,7 @@ export function Setup() {
         Trivia Quiz
       </h1>
       <p className="mb-6 text-base text-neutral-600">
-        I'm making a quiz website and app! Please play as much as you can and give feedback.
-        The questions will keep changing (there are hundreds, growing daily).
-        The more people play the better it gets.
-        <span className="block mt-1">Jamie <Heart className="inline h-4 w-4 text-red-500 fill-red-500" /></span>
+        I'm making a quiz website and app! Please play as much as you can and give feedback. Jamie <Heart className="inline h-4 w-4 text-red-500 fill-red-500" />
       </p>
 
       {error && (
