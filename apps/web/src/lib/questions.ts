@@ -35,6 +35,27 @@ export type RpcRow = {
   category_slug: string;
 };
 
+/**
+ * Greedy interleave by category_slug: walk the input, picking the first
+ * remaining row whose slug differs from the previous emitted slug. If none
+ * differ, take the first remaining (only happens when the tail shares one
+ * slug). O(n^2) — fine for n <= 20. Best-effort: if the user picked a single
+ * category, this is a no-op.
+ */
+export function interleaveByCategory(rows: RpcRow[]): RpcRow[] {
+  const out: RpcRow[] = [];
+  const remaining = [...rows];
+  let lastSlug: string | null = null;
+  while (remaining.length > 0) {
+    let pickIdx = remaining.findIndex((r) => r.category_slug !== lastSlug);
+    if (pickIdx === -1) pickIdx = 0;
+    const [picked] = remaining.splice(pickIdx, 1);
+    out.push(picked!);
+    lastSlug = picked!.category_slug;
+  }
+  return out;
+}
+
 function toLoadedQuestion(r: RpcRow): LoadedQuestion {
   const distractors = Array.isArray(r.distractors) ? r.distractors : [];
   const options = shuffle([r.correct_answer, ...distractors]);
@@ -156,7 +177,10 @@ export async function fetchRandomQuestions(
   // No silent stale-repeat fallback: if the unseen pool is too small, return a
   // shorter quiz. Setup screen surfaces a pool-size warning before play, and
   // Setup.onPlay uses the actual returned length as the authoritative count.
+  // Order: dedupe → pick freshest → slice n → interleave by category → final
+  // dedupe sanity check → map.
   const picked = dedupeAndPickFreshest(batches, n);
+  const interleaved = interleaveByCategory(picked);
 
   // Final authoritative dedupe pass — belt-and-braces guarantee that the
   // returned batch has no duplicate question_ids. dedupeAndPickFreshest
@@ -164,7 +188,7 @@ export async function fetchRandomQuestions(
   // uniqueness contract explicit and survives any future code-path changes.
   const seenIdsInBatch = new Set<string>();
   const unique: RpcRow[] = [];
-  for (const row of picked) {
+  for (const row of interleaved) {
     if (!seenIdsInBatch.has(row.id)) {
       seenIdsInBatch.add(row.id);
       unique.push(row);
