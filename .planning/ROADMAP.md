@@ -17,6 +17,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 2.1: Question Pipeline -- QA Agent & Source Relevance** - QA Agent for question quality, Knowledge Agent source filtering (INSERTED)
 - [ ] **Phase 2.2: Web Quiz v1 & Feedback Collection** - Plain web quiz on Cloudflare Pages, collects real play + feedback data to seed calibration (INSERTED)
 - [ ] **Phase 2.3: Admin Dashboard v1 -- Library & Pipeline Inspection** - Internal web admin for library inspection, curation, and pipeline observability (INSERTED)
+- [ ] **Phase 2.4: Multi-Category + Per-Category Percentage Difficulty** - Finish schema cleanup migration; promoted from 999.8 (PROMOTED)
+- [ ] **Phase 2.5: OpenTDB Attribution** - Provenance column + About/Credits screen, CC BY-SA 4.0 compliance; promoted from 999.13 (PROMOTED)
+- [ ] **Phase 2.6: Retroactive QA + Fact-Check on OpenTDB Imports** - Run Fact-Check + QA over 2307 untouched score=2 imports; promoted from 999.15 (PROMOTED, pending funding decision)
 - [ ] **Phase 3: Auth & App Backend** - Anonymous-first auth, app-side Supabase client, REST-only architecture
 - [ ] **Phase 4: Design System** - Editorial design tokens, typography, primitives, light/dark mode
 - [ ] **Phase 5: App Shell & Platform** - Expo Router navigation, cross-platform scaffold, home screen
@@ -173,6 +176,36 @@ Plans:
 - [ ] 02.2-01: TBD
 - [ ] 02.2-02: TBD
 
+### Phase 2.4: Multi-Category + Per-Category Percentage Difficulty (PROMOTED from 999.8)
+
+**Goal:** Finish the multi-category + percentage-difficulty migration. 4/5 plans executed; only schema-cleanup migration (drop legacy `category_id`, `difficulty`, `calibration_percent`) and RPC + web client rewrite remain.
+**Depends on:** 999.8 backfill complete (quick task 260426-bkf — ~600 questions still missing `question_categories` rows).
+**Requirements:** D-01 through D-15 (locked decisions in 999.8-CONTEXT.md).
+
+Plans:
+- [x] 999.8-01 through 999.8-04 — see backlog history
+- [ ] 999.8-05-PLAN.md — Migrations 00023/00024: drop old columns, rewrite RPCs, web client rewrite, smoke-test checkpoint
+
+### Phase 2.5: OpenTDB Attribution — Provenance Column + About/Credits Screen (PROMOTED from 999.13)
+
+**Goal:** CC BY-SA 4.0 compliance for the 2308 OpenTDB-origin questions. Two parts: (1) add `origin TEXT` column to `questions` and backfill 2308 rows with `origin = 'opentdb'`; (2) user-visible About/Credits screen showing "Some questions sourced from Open Trivia Database (opentdb.com), CC BY-SA 4.0". Internal prompt footer alone is not license-compliant.
+**Depends on:** Nothing — can ship anytime, but blocks public app launch.
+**Why promoted:** Compliance gate — must land before any public ship of Phase 2.2 web quiz or Phase 3+ native app.
+
+Plans:
+- [ ] 02.5-01: TBD — migration + backfill
+- [ ] 02.5-02: TBD — About/Credits screen in apps/web
+
+### Phase 2.6: Retroactive QA + Fact-Check Pass on OpenTDB Imports (PROMOTED from 999.15)
+
+**Goal:** Run Fact-Check + QA Agents over the 2307 published OpenTDB imports (`fact_checked_at IS NULL AND qa_passed_at IS NULL`). Rewrites fix tone/grammar/localisation; rejections remove bad ones; passes promote to score=3. Batch nightly via existing scheduled pipeline; ~£23 total at ~£0.01/question. Fact-Check first, QA second.
+**Depends on:** Tracking columns from quick task 260424-tla (already shipped).
+**Status:** Pending funding decision (quick task 260426-q15). User must confirm before plan-phase.
+**Why promoted:** Quality floor for app launch — 2307 questions are the bulk of the library and bypassed the agent pipeline.
+
+Plans:
+- [ ] 02.6-01: TBD — pending funding decision
+
 ### Phase 3: Auth & App Backend
 **Goal**: Users can launch the app and immediately have an anonymous session with a working Supabase connection -- no signup wall, no friction
 **Depends on**: Phase 1 (Supabase project and schema exist)
@@ -272,7 +305,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 2.3 → 3 → 4 → 5 → 6 → 7 → 8
+Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 2.3 → 2.4 → 2.5 → 2.6 → 3 → 4 → 5 → 6 → 7 → 8
 Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since the pipeline is an independent service.
 
 | Phase | Plans Complete | Status | Completed |
@@ -282,6 +315,9 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 | 2.1 Question Pipeline: QA Agent & Source Relevance | 0/3 | Planning complete | - |
 | 2.2 Web Quiz v1 & Feedback Collection | 0/0 | Not started | - |
 | 2.3 Admin Dashboard v1 | 0/0 | Not started | - |
+| 2.4 Multi-Category + % Difficulty (from 999.8) | 4/5 | Plan 05 pending backfill | - |
+| 2.5 OpenTDB Attribution (from 999.13) | 0/0 | Not started | - |
+| 2.6 Retroactive QA on OpenTDB (from 999.15) | 0/0 | Pending funding decision | - |
 | 3. Auth & App Backend | 0/2 | Not started | - |
 | 4. Design System | 0/3 | Not started | - |
 | 5. App Shell & Platform | 0/2 | Not started | - |
@@ -290,6 +326,40 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 | 8. Question Cache & Cost Management | 0/2 | Not started | - |
 
 ## Active Quick Tasks (prioritised 2026-04-26)
+
+**Tier 1 — ship now:**
+1. 260427-spt — Fix sport category filter bug
+2. 260426-fct — Wire fun_fact into reveal UI
+3. 260427-dup — Within-session question dedup
+4. 260427-end — End-of-quiz review screen (per-Q result + facts toggle)
+
+**Tier 2 — this week:**
+5. 260426-bkf — Resume 999.8 backfill (human action; unblocks Phase 2.4 plan 05)
+6. 260427-prm — Agent prompt nudges (year-of-creation, British English, acronyms)
+7. 260426-q15 — Decide 999.15/Phase 2.6: close or fund £23 batch
+
+### 260427-spt: Fix sport category filter bug (PENDING)
+
+**Goal:** Session feedback `2ddac7cc` (2026-04-20): "Selected sport and got other subjects, but no sport". Investigate `fetchRandomQuestions` RPC + category filter path in `apps/web/src/lib/questions.ts` and the corresponding Supabase RPC. Confirm category slug → category_id mapping and the join path against `question_categories` (or pre-999.8 single category_id) actually filters as expected. Reproduce locally by selecting Sport at the setup screen.
+**Why now:** Real bug, hits the core promise of "play this category". Highest signal-to-effort.
+
+### 260427-dup: Within-session question dedup (PENDING)
+
+**Goal:** Two session feedback items: `f65afa50` "2 Van Gogh questions back-to-back wasn't ideal" and `ef374940` "I only did well because half the questions were repeats". Track shown question_ids per active session (in-memory or localStorage outbox) and exclude them from subsequent picks within that session. Server-side seen-tracking for cross-session already exists (commit `3dc636b`); this is the within-session companion.
+**Why now:** Multiple sessions flagged it. Erodes trust in question variety.
+
+### 260427-end: End-of-quiz review screen (PENDING)
+
+**Goal:** Session feedback `116dc5a9`: "Would be good to get summary of correct/incorrect at end. Also possibly show hide facts toggle". Add a per-question recap to `End.tsx`: list each question with chosen answer vs correct answer, collapsible fun_fact. One toggle for show/hide all facts. Score summary stays at top.
+**Why now:** Most-requested missing feature in feedback. Small, high user value.
+
+### 260427-prm: Agent prompt nudges (PENDING)
+
+**Goal:** Three small Questions Agent prompt edits in one commit:
+1. Cap "year of creation/release" question density (feedback `17e9f94e`: "too many questions about year of creation").
+2. British English bias (feedback `cbdfa600`: "Soccer is understood but should it be football?") — favour "football" over "soccer", "lift" over "elevator", etc.
+3. Expand acronyms on first use (feedback `ced3bb1b`: "some questions about acronyms might need a bit of context") — e.g. "FBI (Federal Bureau of Investigation)".
+**Why now:** Pure prompt edit, zero infra cost, addresses three feedback signals at once. Feeds future style-guide updater (999.6).
 
 ### 260426-fct: Wire fun_fact into web quiz UI (PENDING)
 
@@ -302,13 +372,9 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 **Action:** Open a fresh Claude Code agent session and paste the prompt in `.planning/phases/999.8-multi-category-per-category-percentage-difficulty-backlog/999.8-04-SUMMARY.md` ("Checkpoint: Task 3 Awaiting Human Action"). Work in batches of 50, commit per batch, run the verification SQL when complete.
 **Why now:** Unblocks 999.8 completion and the schema cleanup migration. Subscription-paid (no API spend cap risk).
 
-### 260426-fdb: Fix 3 open question_feedback items (PENDING)
+### 260426-fdb: Fix 3 open question_feedback items (RESOLVED 2026-04-26)
 
-**Goal:** Three open per-question reports — quick edits.
-1. `bd6d71fb` "What is the largest Muslim country in the world?" → "Largest by what measure?" Rewrite to disambiguate ("By population, which country has the largest Muslim population?" — keep Indonesia correct).
-2. `c8a909d0` "What cursed King Midas when he touched his food and daughter?" → "Weirdly written". Rewrite phrasing (e.g. "In Greek myth, what happened to King Midas's food and daughter when he touched them?" — keep "They turned to gold").
-3. `089ec5d2` (Bokassa question itself is fine) → "all questions appear highlighted as if tab-focused". UI bug, not content. Inspect `:focus-visible` / outline styles on the question card or answer buttons in `apps/web/src` and remove the unwanted persistent focus ring.
-**Resolve:** Update each row, set `resolved_at` + `resolved_note`.
+**Resolution:** All three actioned. Items 1 + 2 (question rewrites) shipped in commit `ddd6359`. Item 3 (focus-state UI bug) shipped in commit `b4ca9f0` — answer buttons switched to `focus-visible:` so mouse clicks no longer leave a ring. `question_feedback` inbox confirmed empty as of 2026-04-26.
 
 ### 260426-q15: Confirm scope of 999.15 retroactive QA pass (PENDING — REVIEW)
 
@@ -361,7 +427,7 @@ Plans:
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
 
-### Phase 999.8: Multi-Category + Per-Category Percentage Difficulty (BACKLOG)
+### Phase 999.8: Multi-Category + Per-Category Percentage Difficulty (PROMOTED → Phase 2.4 on 2026-04-26)
 
 **Goal:** Replace single-category + easy/medium/hard with multi-category tagging where each category carries its own "estimated % of that audience who'd get it right" score. Difficulty tiers become a runtime grouping over the score (e.g. hard 0-33, medium 34-66, easy 67-100), tunable without re-scoring questions. As real answer data accumulates, the same percentage field gets refined from observed correct rates — same metric end-to-end, no easy/medium/hard ↔ percentage translation layer.
 
@@ -416,14 +482,9 @@ Plans:
 Plans:
 - [x] Resolved — no plan needed
 
-### Phase 999.13: OpenTDB Attribution — Provenance Column + About/Credits Screen (BACKLOG)
+### Phase 999.13: OpenTDB Attribution — Provenance Column + About/Credits Screen (PROMOTED → Phase 2.5 on 2026-04-26)
 
-**Goal:** CC BY-SA 4.0 compliance for the 2308 OpenTDB-origin questions. Two parts: (1) add `origin TEXT` column to `questions` table so OpenTDB-sourced rows are distinguishable from native pipeline output — backfill 2308 rows with `origin = 'opentdb'`; (2) add an About or Credits section in-app showing "Some questions sourced from Open Trivia Database (opentdb.com), CC BY-SA 4.0". Must be user-visible — internal prompt footer is not sufficient for license compliance.
-**Requirements:** TBD
-**Plans:** 0 plans
-
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
+See Phase 2.5 above. Original entry kept for history. Duplicate entry below also superseded.
 
 ### ~~Phase 999.10: Fix Duplicate Local Migration 00011 Files~~ (RESOLVED 2026-04-19)
 
@@ -454,15 +515,6 @@ Plans:
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
 
-### Phase 999.13: OpenTDB Attribution — Provenance Column + About/Credits Screen (BACKLOG)
-
-**Goal:** CC BY-SA 4.0 compliance for the 2308 OpenTDB-origin questions. Two parts: (1) add `origin TEXT` column to `questions` table so OpenTDB-sourced rows are distinguishable from native pipeline output — backfill 2308 rows with `origin = 'opentdb'`; (2) add an About or Credits section in-app showing "Some questions sourced from Open Trivia Database (opentdb.com), CC BY-SA 4.0". Must be user-visible — internal prompt footer is not sufficient for license compliance.
-**Requirements:** TBD
-**Plans:** 0 plans
-
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
-
 ### Phase 999.14: Review Wikipedia Sourcing Step Value in Pipeline (BACKLOG)
 
 **Goal:** Audit whether the Knowledge Agent (Wikipedia sourcing) step earns its cost and complexity. The step fetches Wikipedia content per category to ground the Questions Agent — but native pipeline questions may not be meaningfully better than questions generated without a Wikipedia source, and the step adds latency, token cost, and a failure mode (bad source → bad questions). Review questions: (1) do questions with a Wikipedia source score higher in QA than those without? (2) are there categories where Wikipedia sourcing is actively harmful (too encyclopaedic, too detailed, pulls comprehension-framing)? (3) would a curated few-shot examples approach (already partially done via STYLE-GUIDE.md) be sufficient to replace it? Outcome: keep as-is, make sourcing optional per category depth, or remove and rely on model knowledge + style guide. Relates to 999.4 (prompt tone) — Wikipedia sourcing may be the root cause of the comprehension-framing problem even after prompt tightening.
@@ -472,7 +524,7 @@ Plans:
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
 
-### Phase 999.15: Retroactive QA + Fact-Check Pass on 2308 OpenTDB Imports (BACKLOG)
+### Phase 999.15: Retroactive QA + Fact-Check Pass on 2308 OpenTDB Imports (PROMOTED → Phase 2.6 on 2026-04-26)
 
 **Goal:** The 2308 OpenTDB-imported questions (verification_score=2) bypassed Fact-Check and QA Agents — `fact_checked_at` and `qa_passed_at` are NULL. Run Fact-Check + QA in batches over all score=2 questions: rewrites fix tone/grammar/localisation, rejections remove bad ones, passes stamp the tracking columns and promote score to 3. Batch nightly via the existing scheduled pipeline to avoid cost spikes (~$23 total at ~$0.01/question). Fact-Check first (Q+A accuracy), then QA (pub quiz tone, distractors). Questions failing either step → status='rejected'. Directly addresses the class of feedback issues seen (Sorcerer's Stone, grammar, answer-in-question) at scale rather than manually. Depends on tracking columns from quick task 260424-tla.
 **Requirements:** TBD
