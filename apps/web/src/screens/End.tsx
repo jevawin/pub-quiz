@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { Smile, Meh, Frown, Play, Check, X } from 'lucide-react';
+import { Smile, Meh, Frown, Play } from 'lucide-react';
 import { ensureSessionId } from '@/lib/auth';
 import { recordQuizSession, type QuizSessionRow } from '@/lib/plays';
 import type { UiDifficulty } from '@/lib/difficulty';
@@ -87,49 +87,6 @@ export function End() {
               : 'Better luck next time!'}
       </p>
 
-      {recap.length > 0 && (
-        <ol className="space-y-4 mb-8">
-          {recap.map(({ q, a }, i) => {
-            const correctText = q.options[q.correctIndex]!;
-            const chosenText = q.options[a.chosenIndex] ?? '—';
-            return (
-              <li
-                key={q.id}
-                className={`rounded-lg border-l-4 bg-white p-4 ${
-                  a.isCorrect ? 'border-green-600' : 'border-red-600'
-                }`}
-              >
-                <div className="flex items-start gap-2 mb-2">
-                  <span className="text-base font-semibold text-neutral-500">{i + 1}.</span>
-                  {a.isCorrect ? (
-                    <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" aria-label="Correct" />
-                  ) : (
-                    <X className="h-5 w-5 text-red-600 shrink-0 mt-0.5" aria-label="Incorrect" />
-                  )}
-                  <p className="text-base font-medium text-neutral-900 leading-snug">
-                    {q.question_text}
-                  </p>
-                </div>
-                <dl className="text-sm text-neutral-700 space-y-1 pl-7">
-                  <div className="flex gap-2">
-                    <dt className="text-neutral-500 shrink-0">Your answer:</dt>
-                    <dd className={a.isCorrect ? 'text-green-700 font-medium' : 'text-red-700'}>
-                      {chosenText}
-                    </dd>
-                  </div>
-                  {!a.isCorrect && (
-                    <div className="flex gap-2">
-                      <dt className="text-neutral-500 shrink-0">Correct answer:</dt>
-                      <dd className="text-green-700 font-medium">{correctText}</dd>
-                    </div>
-                  )}
-                </dl>
-              </li>
-            );
-          })}
-        </ol>
-      )}
-
       {!submitted ? (
         <div className="space-y-6">
           <div>
@@ -192,6 +149,41 @@ export function End() {
         <Play className="h-5 w-5 fill-current" />
         Play Again
       </button>
+
+      {recap.length > 0 && (
+        <section className="mt-12">
+          <h2 className="text-xl font-semibold mb-4">Round summary</h2>
+          <ol className="space-y-2">
+            {recap.map(({ q, a }, i) => {
+              const correctText = q.options[q.correctIndex]!;
+              const chosenText = q.options[a.chosenIndex] ?? '—';
+              return (
+                <li
+                  key={q.id}
+                  className={`border-l-[6px] bg-white pl-3 py-2 pr-2 ${
+                    a.isCorrect ? 'border-green-600' : 'border-red-600'
+                  }`}
+                >
+                  <p className="text-base font-medium text-neutral-900 leading-snug">
+                    <span className="font-semibold mr-1">{i + 1}.</span>
+                    {q.question_text}
+                  </p>
+                  <p className="mt-1 text-base flex flex-wrap gap-x-2">
+                    {a.isCorrect ? (
+                      <span className="text-green-700 font-medium">{chosenText}</span>
+                    ) : (
+                      <>
+                        <span className="line-through text-red-700">{chosenText}</span>
+                        <span className="text-green-700 font-medium">{correctText}</span>
+                      </>
+                    )}
+                  </p>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      )}
     </div>
   );
 }
