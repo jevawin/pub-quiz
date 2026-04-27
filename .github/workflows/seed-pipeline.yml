@@ -1,5 +1,9 @@
 name: Seed Pipeline
 
+permissions:
+  contents: read
+  issues: write
+
 on:
   schedule:
     - cron: '0 8 * * *'       # Daily at 08:00 UTC
