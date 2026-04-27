@@ -83,6 +83,42 @@ jobs:
           QUESTIONS_BATCH_SIZE: ${{ inputs.questions_batch_size || '20' }}
         run: npx tsx src/run-pipeline.ts
 
+      - name: Close rolling failure issue on success
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const date = new Date().toISOString().slice(0, 10);
+            const title = 'Seed Pipeline failing';
+
+            const { data: existing } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'pipeline-failure',
+              per_page: 50,
+            });
+            const match = existing.find((i) => i.title === title);
+            if (!match) {
+              core.info('No open rolling failure issue to close.');
+              return;
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: match.number,
+              body: `Pipeline ran green on ${date}. Run: ${runUrl}. Auto-closing.`,
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: match.number,
+              state: 'closed',
+              state_reason: 'completed',
+            });
+            core.info(`Closed issue #${match.number}`);
+
       - name: Notify on failure
         if: failure()
         uses: actions/github-script@v7
