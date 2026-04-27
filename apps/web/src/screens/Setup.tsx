@@ -191,7 +191,7 @@ export function Setup() {
       <button
         onClick={onPlay}
         disabled={loading || selectedCategories.size === 0 && !allSelected || (availableTotal !== null && availableTotal === 0)}
-        className="w-full mb-8 inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none"
+        className="w-full mb-8 inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none"
       >
         <Play className="h-5 w-5 fill-current" />
         {loading ? 'Loading...' : 'Play'}
@@ -337,7 +337,7 @@ export function Setup() {
       <button
         onClick={onPlay}
         disabled={loading || selectedCategories.size === 0 && !allSelected || (availableTotal !== null && availableTotal === 0)}
-        className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none"
+        className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none"
       >
         <Play className="h-5 w-5 fill-current" />
         {loading ? 'Loading...' : 'Play'}

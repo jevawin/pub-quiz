@@ -328,15 +328,20 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 ## Active Quick Tasks (prioritised 2026-04-26)
 
 **Tier 1 — ship now:**
-1. 260427-spt — Fix sport category filter bug
-2. 260426-fct — Wire fun_fact into reveal UI
-3. 260427-dup — Within-session question dedup
-4. 260427-end — End-of-quiz review screen (per-Q result + facts toggle)
+1. 260427-spt — Fix sport category filter bug ✅
+2. 260426-fct — Wire fun_fact into reveal UI ✅
+3. 260427-dup — Within-session question dedup ✅
+4. 260427-end — End-of-quiz review screen (per-Q recap; facts toggle deferred to separate task) ✅
+5. 260427-qol — UI QoL tweaks (icons, colours, polish) — IN PROGRESS
 
 **Tier 2 — this week:**
 5. 260426-bkf — Resume 999.8 backfill (human action; unblocks Phase 2.4 plan 05)
 6. 260427-prm — Agent prompt nudges (year-of-creation, British English, acronyms)
 7. 260426-q15 — Decide 999.15/Phase 2.6: close or fund £23 batch
+
+### 260427-qol: UI QoL tweaks — icons, colours, polish (IN PROGRESS)
+
+**Goal:** Small batch of design polish on the web quiz — adding icons, refining colours, general visual quality-of-life improvements. Branch `260427-qol-ui-tweaks` for preview-led iteration. Items collected as work progresses.
 
 ### 260427-spt: Fix sport category filter bug (PENDING)
 
