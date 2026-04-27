@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { Smile, Meh, Frown, Play } from 'lucide-react';
+import { Smile, Meh, Frown, Play, Send } from 'lucide-react';
 import { ensureSessionId } from '@/lib/auth';
 import { recordQuizSession, type QuizSessionRow } from '@/lib/plays';
 import type { UiDifficulty } from '@/lib/difficulty';
@@ -20,10 +20,30 @@ type EndState = {
 
 type Rating = 'good' | 'okay' | 'bad';
 
-const RATINGS: { value: Rating; label: string; icon: typeof Smile }[] = [
-  { value: 'good', label: 'Good', icon: Smile },
-  { value: 'okay', label: 'Okay', icon: Meh },
-  { value: 'bad', label: 'Bad', icon: Frown },
+const RATINGS: {
+  value: Rating;
+  label: string;
+  icon: typeof Smile;
+  activeClass: string;
+}[] = [
+  {
+    value: 'good',
+    label: 'Good',
+    icon: Smile,
+    activeClass: 'border-green-600 bg-green-50 text-green-800',
+  },
+  {
+    value: 'okay',
+    label: 'Okay',
+    icon: Meh,
+    activeClass: 'border-orange-500 bg-orange-50 text-orange-800',
+  },
+  {
+    value: 'bad',
+    label: 'Bad',
+    icon: Frown,
+    activeClass: 'border-red-600 bg-red-50 text-red-800',
+  },
 ];
 
 export function End() {
@@ -92,7 +112,7 @@ export function End() {
           <div>
             <p className="text-base font-medium mb-3">How was that?</p>
             <div className="flex flex-wrap gap-2 justify-center">
-              {RATINGS.map(({ value, label, icon: Icon }) => {
+              {RATINGS.map(({ value, label, icon: Icon, activeClass }) => {
                 const active = rating === value;
                 return (
                   <button
@@ -101,7 +121,7 @@ export function End() {
                     onClick={() => setRating(value)}
                     className={`inline-flex items-center gap-1.5 rounded-lg border-2 px-5 py-2.5 text-base font-medium transition-colors ${
                       active
-                        ? 'border-neutral-900 bg-neutral-900 text-white'
+                        ? activeClass
                         : 'border-neutral-300 bg-white text-neutral-700 hover:border-neutral-400'
                     }`}
                   >
@@ -118,7 +138,7 @@ export function End() {
               htmlFor="feedback"
               className="text-base font-medium block mb-2"
             >
-              Anything to tell us?
+              Feedback?
             </label>
             <textarea
               id="feedback"
@@ -133,7 +153,8 @@ export function End() {
             disabled={submitting}
             className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none"
           >
-            {submitting ? 'Submitting...' : 'Submit'}
+            <Send className="h-5 w-5" />
+            {submitting ? 'Submitting...' : 'Submit feedback'}
           </button>
         </div>
       ) : (
@@ -144,7 +165,7 @@ export function End() {
 
       <button
         onClick={onPlayAgain}
-        className="w-full mt-8 inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-neutral-800"
+        className="w-full mt-8 inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 text-white px-6 py-4 text-lg font-semibold shadow transition-colors hover:bg-green-700"
       >
         <Play className="h-5 w-5 fill-current" />
         Play Again

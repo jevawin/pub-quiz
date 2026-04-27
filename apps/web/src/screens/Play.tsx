@@ -9,7 +9,7 @@ import { ensureSessionId } from '@/lib/auth';
 import { saveQuizState, loadQuizState, clearQuizState } from '@/lib/quiz-persist';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { findCategory, CATEGORY_OPTIONS } from '@/config/categories';
-import { CheckCircle, XCircle, LogOut, X, ChevronLeft, ArrowRight } from 'lucide-react';
+import { CheckCircle, XCircle, LogOut, X, ChevronLeft, ArrowRight, Lock, Lightbulb } from 'lucide-react';
 import type { UiDifficulty } from '@/lib/difficulty';
 
 type LocationState = {
@@ -274,6 +274,7 @@ export function Play() {
                   onClick={onConfirm}
                   className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-4 py-3 text-base font-semibold shadow transition-colors hover:bg-neutral-800 mt-2"
                 >
+                  <Lock className="h-4 w-4" />
                   Lock In
                 </button>
               )}
@@ -308,16 +309,19 @@ export function Play() {
               )}
 
               {question.fun_fact && (
-                <p className="text-base text-neutral-700">{question.fun_fact}</p>
+                <div className="flex gap-3 rounded-lg bg-blue-50 border border-blue-100 p-3">
+                  <Lightbulb className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+                  <p className="text-base text-blue-900">{question.fun_fact}</p>
+                </div>
               )}
 
               {/* Next question */}
               <button
                 onClick={onNext}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 text-white px-4 py-3 text-base font-semibold shadow transition-colors hover:bg-neutral-800"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 text-white px-4 py-3 text-base font-semibold shadow transition-colors hover:bg-green-700"
               >
-                <ArrowRight className="h-4 w-4" />
                 Next
+                <ArrowRight className="h-4 w-4" />
               </button>
 
             </div>
@@ -350,7 +354,10 @@ export function Play() {
               )}
 
               {question.fun_fact && (
-                <p className="text-base text-neutral-700">{question.fun_fact}</p>
+                <div className="flex gap-3 rounded-lg bg-blue-50 border border-blue-100 p-3">
+                  <Lightbulb className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+                  <p className="text-base text-blue-900">{question.fun_fact}</p>
+                </div>
               )}
 
               <button
