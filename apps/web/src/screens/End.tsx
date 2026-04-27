@@ -4,6 +4,7 @@ import { Smile, Meh, Frown, Play } from 'lucide-react';
 import { ensureSessionId } from '@/lib/auth';
 import { recordQuizSession, type QuizSessionRow } from '@/lib/plays';
 import type { UiDifficulty } from '@/lib/difficulty';
+import type { LoadedQuestion, AnswerRecord } from '@/state/quiz';
 
 type EndState = {
   score: number;
@@ -13,6 +14,8 @@ type EndState = {
     count: number;
   };
   startedAt: number;
+  questions: LoadedQuestion[];
+  answers: AnswerRecord[];
 };
 
 type Rating = 'good' | 'okay' | 'bad';
@@ -37,7 +40,11 @@ export function End() {
     return <Navigate to="/" replace />;
   }
 
-  const { score, config, startedAt } = state;
+  const { score, config, startedAt, questions, answers } = state;
+  const recap =
+    questions && answers && questions.length === answers.length
+      ? questions.map((q, i) => ({ q, a: answers[i]! }))
+      : [];
 
   const onSubmit = async () => {
     setSubmitting(true);
@@ -65,7 +72,7 @@ export function End() {
   };
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-12">
+    <div className="mx-auto max-w-2xl px-4 py-12">
       <h1 className="text-3xl font-bold text-center mb-2">
         You scored {score} / {config.count}
       </h1>
@@ -142,6 +149,41 @@ export function End() {
         <Play className="h-5 w-5 fill-current" />
         Play Again
       </button>
+
+      {recap.length > 0 && (
+        <section className="mt-12">
+          <h2 className="text-xl font-semibold mb-4">Round summary</h2>
+          <ol className="space-y-2">
+            {recap.map(({ q, a }, i) => {
+              const correctText = q.options[q.correctIndex]!;
+              const chosenText = q.options[a.chosenIndex] ?? '—';
+              return (
+                <li
+                  key={q.id}
+                  className={`border-l-[6px] bg-white pl-3 py-2 pr-2 ${
+                    a.isCorrect ? 'border-green-600' : 'border-red-600'
+                  }`}
+                >
+                  <p className="text-base font-medium text-neutral-900 leading-snug">
+                    <span className="font-semibold mr-1">{i + 1}.</span>
+                    {q.question_text}
+                  </p>
+                  <p className="mt-1 text-base flex flex-wrap gap-x-2">
+                    {a.isCorrect ? (
+                      <span className="text-green-700 font-medium">{chosenText}</span>
+                    ) : (
+                      <>
+                        <span className="line-through text-red-700">{chosenText}</span>
+                        <span className="text-green-700 font-medium">{correctText}</span>
+                      </>
+                    )}
+                  </p>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      )}
     </div>
   );
 }

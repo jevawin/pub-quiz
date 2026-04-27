@@ -109,6 +109,7 @@ export function Play() {
           config: configRef.current,
           startedAt: state.startedAt,
           answers: state.answers,
+          questions: state.questions,
         },
       });
     }
