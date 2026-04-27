@@ -173,7 +173,7 @@ export function Setup() {
       </p>
 
       {error && (
-        <p className="mb-4 text-base text-red-700">{error}</p>
+        <p className="mb-4 text-base text-red-800">{error}</p>
       )}
 
       {poolWarning && (

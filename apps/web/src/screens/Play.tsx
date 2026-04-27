@@ -311,7 +311,7 @@ export function Play() {
               {question.fun_fact && (
                 <div className="flex gap-3 rounded-lg bg-blue-50 border border-blue-100 p-3">
                   <Lightbulb className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
-                  <p className="text-base text-blue-900">{question.fun_fact}</p>
+                  <p className="text-base text-blue-800">{question.fun_fact}</p>
                 </div>
               )}
 
@@ -356,7 +356,7 @@ export function Play() {
               {question.fun_fact && (
                 <div className="flex gap-3 rounded-lg bg-blue-50 border border-blue-100 p-3">
                   <Lightbulb className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
-                  <p className="text-base text-blue-900">{question.fun_fact}</p>
+                  <p className="text-base text-blue-800">{question.fun_fact}</p>
                 </div>
               )}
 

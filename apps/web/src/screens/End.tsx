@@ -191,11 +191,11 @@ export function End() {
                   </p>
                   <p className="mt-1 text-base flex flex-wrap gap-x-2">
                     {a.isCorrect ? (
-                      <span className="text-green-700 font-medium">{chosenText}</span>
+                      <span className="text-green-800 font-medium">{chosenText}</span>
                     ) : (
                       <>
-                        <span className="line-through text-red-700">{chosenText}</span>
-                        <span className="text-green-700 font-medium">{correctText}</span>
+                        <span className="line-through text-red-800">{chosenText}</span>
+                        <span className="text-green-800 font-medium">{correctText}</span>
                       </>
                     )}
                   </p>
