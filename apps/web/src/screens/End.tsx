@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { Smile, Meh, Frown, Play } from 'lucide-react';
+import { Smile, Meh, Frown, Play, Check, X } from 'lucide-react';
 import { ensureSessionId } from '@/lib/auth';
 import { recordQuizSession, type QuizSessionRow } from '@/lib/plays';
 import type { UiDifficulty } from '@/lib/difficulty';
+import type { LoadedQuestion, AnswerRecord } from '@/state/quiz';
 
 type EndState = {
   score: number;
@@ -13,6 +14,8 @@ type EndState = {
     count: number;
   };
   startedAt: number;
+  questions: LoadedQuestion[];
+  answers: AnswerRecord[];
 };
 
 type Rating = 'good' | 'okay' | 'bad';
@@ -37,7 +40,11 @@ export function End() {
     return <Navigate to="/" replace />;
   }
 
-  const { score, config, startedAt } = state;
+  const { score, config, startedAt, questions, answers } = state;
+  const recap =
+    questions && answers && questions.length === answers.length
+      ? questions.map((q, i) => ({ q, a: answers[i]! }))
+      : [];
 
   const onSubmit = async () => {
     setSubmitting(true);
@@ -65,7 +72,7 @@ export function End() {
   };
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-12">
+    <div className="mx-auto max-w-2xl px-4 py-12">
       <h1 className="text-3xl font-bold text-center mb-2">
         You scored {score} / {config.count}
       </h1>
@@ -79,6 +86,49 @@ export function End() {
               ? 'Not bad!'
               : 'Better luck next time!'}
       </p>
+
+      {recap.length > 0 && (
+        <ol className="space-y-4 mb-8">
+          {recap.map(({ q, a }, i) => {
+            const correctText = q.options[q.correctIndex]!;
+            const chosenText = q.options[a.chosenIndex] ?? '—';
+            return (
+              <li
+                key={q.id}
+                className={`rounded-lg border-l-4 bg-white p-4 ${
+                  a.isCorrect ? 'border-green-600' : 'border-red-600'
+                }`}
+              >
+                <div className="flex items-start gap-2 mb-2">
+                  <span className="text-base font-semibold text-neutral-500">{i + 1}.</span>
+                  {a.isCorrect ? (
+                    <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" aria-label="Correct" />
+                  ) : (
+                    <X className="h-5 w-5 text-red-600 shrink-0 mt-0.5" aria-label="Incorrect" />
+                  )}
+                  <p className="text-base font-medium text-neutral-900 leading-snug">
+                    {q.question_text}
+                  </p>
+                </div>
+                <dl className="text-sm text-neutral-700 space-y-1 pl-7">
+                  <div className="flex gap-2">
+                    <dt className="text-neutral-500 shrink-0">Your answer:</dt>
+                    <dd className={a.isCorrect ? 'text-green-700 font-medium' : 'text-red-700'}>
+                      {chosenText}
+                    </dd>
+                  </div>
+                  {!a.isCorrect && (
+                    <div className="flex gap-2">
+                      <dt className="text-neutral-500 shrink-0">Correct answer:</dt>
+                      <dd className="text-green-700 font-medium">{correctText}</dd>
+                    </div>
+                  )}
+                </dl>
+              </li>
+            );
+          })}
+        </ol>
+      )}
 
       {!submitted ? (
         <div className="space-y-6">
