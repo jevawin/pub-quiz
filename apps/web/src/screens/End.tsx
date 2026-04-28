@@ -67,7 +67,6 @@ export function End() {
     questions && answers && questions.length === answers.length
       ? questions.map((q, i) => ({ q, a: answers[i]! }))
       : [];
-  const anyFunFacts = recap.some(({ q }) => Boolean(q.fun_fact));
 
   const onSubmit = async () => {
     setSubmitting(true);
@@ -178,18 +177,16 @@ export function End() {
         <section className="mt-12">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-semibold">Round summary</h2>
-            {anyFunFacts && (
-              <button
-                type="button"
-                onClick={() => setShowFacts((v) => { const next = !v; writeShowFacts(next); return next; })}
-                aria-pressed={showFacts}
-                aria-label={showFacts ? 'Hide facts' : 'Show facts'}
-                className="inline-flex items-center gap-1 rounded-md px-2 py-1.5 text-base text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 transition-colors"
-              >
-                {showFacts ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
-                <span className={showFacts ? '' : 'line-through'}>Facts</span>
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => setShowFacts((v) => { const next = !v; writeShowFacts(next); return next; })}
+              aria-pressed={showFacts}
+              aria-label={showFacts ? 'Hide facts' : 'Show facts'}
+              className="inline-flex items-center gap-1 rounded-md px-2 py-1.5 text-base text-neutral-600 hover:bg-neutral-100 transition-colors"
+            >
+              {showFacts ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+              <span className={showFacts ? '' : 'line-through'}>Facts</span>
+            </button>
           </div>
           <ol className="space-y-2">
             {recap.map(({ q, a }, i) => {
