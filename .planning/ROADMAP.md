@@ -19,7 +19,6 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 2.3: Admin Dashboard v1 -- Library & Pipeline Inspection** - Internal web admin for library inspection, curation, and pipeline observability (INSERTED)
 - [ ] **Phase 2.4: Multi-Category + Per-Category Percentage Difficulty** - Finish schema cleanup migration; promoted from 999.8 (PROMOTED)
 - [ ] **Phase 2.5: OpenTDB Attribution** - Provenance column + About/Credits screen, CC BY-SA 4.0 compliance; promoted from 999.13 (PROMOTED)
-- [ ] **Phase 2.6: Retroactive QA + Fact-Check on OpenTDB Imports** - Run Fact-Check + QA over 2307 untouched score=2 imports; promoted from 999.15 (PROMOTED, pending funding decision)
 - [ ] **Phase 3: Auth & App Backend** - Anonymous-first auth, app-side Supabase client, REST-only architecture
 - [ ] **Phase 4: Design System** - Editorial design tokens, typography, primitives, light/dark mode
 - [ ] **Phase 5: App Shell & Platform** - Expo Router navigation, cross-platform scaffold, home screen
@@ -196,20 +195,6 @@ Plans:
 - [ ] 02.5-01: TBD — migration + backfill
 - [ ] 02.5-02: TBD — About/Credits screen in apps/web
 
-### Phase 2.6: Grammar + Style Pass on OpenTDB Imports (PROMOTED from 999.15, REFOCUSED 2026-04-28)
-
-**Goal:** Run a grammar-and-style-only pass over the 2307 published OpenTDB imports (`qa_passed_at IS NULL` from the OpenTDB cohort). Fix capitalisation (e.g. "Keyboard"), grammatical agreement (e.g. singular/plural mismatches), no-nonsense rewrites for "badly worded" questions, swap "which" → "who" for people-questions, British English bias. Stamp `qa_passed_at` on success.
-
-**Refocused scope (2026-04-28):** Drop fact-check from this phase. Six recent feedback reports are all grammar/style — facts in OpenTDB questions are largely correct. Fact-check stays available as an opt-in pass later if specific content concerns surface. Fun_fact quality is handled separately by the Enrichment Agent (quick task 260428-fact).
-
-**Cost estimate:** ~£10 at Haiku (~£0.004/question × 2307) for a grammar-only pass — cheaper than original £23 dual-agent estimate. Run nightly via existing scheduled pipeline.
-
-**Depends on:** Tracking columns from quick task 260424-tla (already shipped).
-**Why promoted:** Quality floor for public ship. Visible feedback is "badly worded" / "grammar wrong" — a one-time pass cleans 2307 rows in a few nights.
-
-Plans:
-- [ ] 02.6-01: TBD — design grammar-pass agent prompt + nightly batch + verification
-
 ### Phase 3: Auth & App Backend
 **Goal**: Users can launch the app and immediately have an anonymous session with a working Supabase connection -- no signup wall, no friction
 **Depends on**: Phase 1 (Supabase project and schema exist)
@@ -309,7 +294,9 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 2.3 → 2.4 → 2.5 → 2.6 → 3 → 4 → 5 → 6 → 7 → 8
+Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 2.3 → 2.4 → 2.5 → 3 → 4 → 5 → 6 → 7 → 8
+
+**Pipeline scope (locked 2026-04-28):** The scheduled pipeline (~£15/mo Anthropic cap) is for **new question generation only**. Retroactive passes over published questions go through manual workflows (quick tasks for flagged feedback; backlog 999.16 for systematic full-library QA). Anything else = pipeline-budget waste.
 Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since the pipeline is an independent service.
 
 | Phase | Plans Complete | Status | Completed |
@@ -321,7 +308,6 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 | 2.3 Admin Dashboard v1 | 0/0 | Not started | - |
 | 2.4 Multi-Category + % Difficulty (from 999.8) | 4/5 | Plan 05 pending backfill | - |
 | 2.5 OpenTDB Attribution (from 999.13) | 0/0 | Not started | - |
-| 2.6 Retroactive QA on OpenTDB (from 999.15) | 0/0 | Pending funding decision | - |
 | 3. Auth & App Backend | 0/2 | Not started | - |
 | 4. Design System | 0/3 | Not started | - |
 | 5. App Shell & Platform | 0/2 | Not started | - |
@@ -346,7 +332,6 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 3. 260427-prm — Agent prompt nudges (year-of-creation, British English, acronyms, who-vs-which for people)
 4. 260428-fact — Tighten Enrichment Agent prompt for fun_fact quality (3 "badly written fact" reports in 2 days)
 5. 260426-bkf — Resume 999.8 backfill (human action; unblocks Phase 2.4 plan 05)
-6. **Phase 2.6 plan-phase** — Grammar+style pass on 2307 OpenTDB imports (~£10 Haiku batch). Refocused 2026-04-28; ready to plan.
 
 ### 260428-fdb: Fix 6 open question_feedback items (RESOLVED 2026-04-28 via 260428-rfe)
 
@@ -563,7 +548,40 @@ Plans:
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
 
-### Phase 999.15: Retroactive QA + Fact-Check Pass on 2308 OpenTDB Imports (PROMOTED → Phase 2.6 on 2026-04-26)
+### Phase 999.15: Retroactive QA + Fact-Check Pass on 2308 OpenTDB Imports (SUPERSEDED 2026-04-28 by 999.16)
+
+**Status:** Originally promoted to Phase 2.6 on 2026-04-26 (Haiku batch via pipeline). Demoted 2026-04-28 — pipeline budget is for new question generation only. Replaced by **999.16** (manual conversational QA pass).
+
+### Phase 999.16: Manual Conversational QA Pass on Question Library (BACKLOG)
+
+**Goal:** Systematic human + Claude review of every question in the library (focus: 2307 OpenTDB imports first, then native pipeline output as it grows). Each session reviews a batch (~25-30 questions) in a table format: question, correct answer, distractors, fun_fact. Claude flags suspect items + proposes rewrites; user approves/edits/rejects. Applied via service-role PATCH; resolved questions stamped with `qa_passed_at`.
+
+**Why manual:** Pipeline budget (~£15/mo Anthropic cap) is reserved for new question generation. Retroactive passes don't earn their slot. Manual catches:
+- Subtle factual errors (e.g. McCartney/Lennon name swap caught 2026-04-28)
+- Grammar/style issues (capitalisation, verb agreement, who-vs-which)
+- Awkward phrasing that auto-grading misses
+- Distractor quality (e.g. answer leakage, implausible options)
+
+**Scale & cadence:** ~80 sessions to clear OpenTDB at 30/session. Realistic across weeks, not days. Run alongside everyday work as a recurring quick task; rebuild quality floor before public launch.
+
+**Workflow:**
+1. Fetch next batch of unreviewed questions ordered by `created_at` (or random sample)
+2. Claude renders table with all relevant fields
+3. Claude proposes flag/keep/rewrite per row
+4. User approves/edits/rejects
+5. Apply approved changes; mark `qa_passed_at`
+6. Track progress: % of library reviewed, batches/week
+
+**Depends on:** Tracking columns from quick task 260424-tla (already shipped — `qa_passed_at` exists).
+**Replaces:** 999.15 / former Phase 2.6 (Haiku batch via pipeline — abandoned to keep pipeline focused on new generation).
+
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.15-original: Retroactive QA + Fact-Check Pass (HISTORIC, archived under 999.15 above)
 
 **Goal:** The 2308 OpenTDB-imported questions (verification_score=2) bypassed Fact-Check and QA Agents — `fact_checked_at` and `qa_passed_at` are NULL. Run Fact-Check + QA in batches over all score=2 questions: rewrites fix tone/grammar/localisation, rejections remove bad ones, passes stamp the tracking columns and promote score to 3. Batch nightly via the existing scheduled pipeline to avoid cost spikes (~$23 total at ~$0.01/question). Fact-Check first (Q+A accuracy), then QA (pub quiz tone, distractors). Questions failing either step → status='rejected'. Directly addresses the class of feedback issues seen (Sorcerer's Stone, grammar, answer-in-question) at scale rather than manually. Depends on tracking columns from quick task 260424-tla.
 **Requirements:** TBD
