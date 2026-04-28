@@ -196,15 +196,19 @@ Plans:
 - [ ] 02.5-01: TBD — migration + backfill
 - [ ] 02.5-02: TBD — About/Credits screen in apps/web
 
-### Phase 2.6: Retroactive QA + Fact-Check Pass on OpenTDB Imports (PROMOTED from 999.15)
+### Phase 2.6: Grammar + Style Pass on OpenTDB Imports (PROMOTED from 999.15, REFOCUSED 2026-04-28)
 
-**Goal:** Run Fact-Check + QA Agents over the 2307 published OpenTDB imports (`fact_checked_at IS NULL AND qa_passed_at IS NULL`). Rewrites fix tone/grammar/localisation; rejections remove bad ones; passes promote to score=3. Batch nightly via existing scheduled pipeline; ~£23 total at ~£0.01/question. Fact-Check first, QA second.
+**Goal:** Run a grammar-and-style-only pass over the 2307 published OpenTDB imports (`qa_passed_at IS NULL` from the OpenTDB cohort). Fix capitalisation (e.g. "Keyboard"), grammatical agreement (e.g. singular/plural mismatches), no-nonsense rewrites for "badly worded" questions, swap "which" → "who" for people-questions, British English bias. Stamp `qa_passed_at` on success.
+
+**Refocused scope (2026-04-28):** Drop fact-check from this phase. Six recent feedback reports are all grammar/style — facts in OpenTDB questions are largely correct. Fact-check stays available as an opt-in pass later if specific content concerns surface. Fun_fact quality is handled separately by the Enrichment Agent (quick task 260428-fact).
+
+**Cost estimate:** ~£10 at Haiku (~£0.004/question × 2307) for a grammar-only pass — cheaper than original £23 dual-agent estimate. Run nightly via existing scheduled pipeline.
+
 **Depends on:** Tracking columns from quick task 260424-tla (already shipped).
-**Status:** Pending funding decision (quick task 260426-q15). User must confirm before plan-phase.
-**Why promoted:** Quality floor for app launch — 2307 questions are the bulk of the library and bypassed the agent pipeline.
+**Why promoted:** Quality floor for public ship. Visible feedback is "badly worded" / "grammar wrong" — a one-time pass cleans 2307 rows in a few nights.
 
 Plans:
-- [ ] 02.6-01: TBD — pending funding decision
+- [ ] 02.6-01: TBD — design grammar-pass agent prompt + nightly batch + verification
 
 ### Phase 3: Auth & App Backend
 **Goal**: Users can launch the app and immediately have an anonymous session with a working Supabase connection -- no signup wall, no friction
@@ -342,7 +346,7 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 3. 260427-prm — Agent prompt nudges (year-of-creation, British English, acronyms, who-vs-which for people)
 4. 260428-fact — Tighten Enrichment Agent prompt for fun_fact quality (3 "badly written fact" reports in 2 days)
 5. 260426-bkf — Resume 999.8 backfill (human action; unblocks Phase 2.4 plan 05)
-6. 260426-q15 — Decide Phase 2.6: close or fund £23 retro QA batch
+6. **Phase 2.6 plan-phase** — Grammar+style pass on 2307 OpenTDB imports (~£10 Haiku batch). Refocused 2026-04-28; ready to plan.
 
 ### 260428-fdb: Fix 6 open question_feedback items (PENDING)
 
@@ -407,9 +411,9 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 
 **Resolution:** All three actioned. Items 1 + 2 (question rewrites) shipped in commit `ddd6359`. Item 3 (focus-state UI bug) shipped in commit `b4ca9f0` — answer buttons switched to `focus-visible:` so mouse clicks no longer leave a ring. `question_feedback` inbox confirmed empty as of 2026-04-26.
 
-### 260426-q15: Confirm scope of 999.15 retroactive QA pass (PENDING — REVIEW)
+### 260426-q15: Confirm scope of 999.15 retroactive QA pass (RESOLVED 2026-04-28)
 
-**Goal:** User asked "999.15 potentially done manually now". Confirm: **NOT done.** Current DB state shows **2307 published questions still have `qa_passed_at=NULL` and `fact_checked_at=NULL`** — i.e. virtually all of the 2308 OpenTDB imports are still untouched by Fact-Check/QA Agents. The manual quick task `260424-uju` fixed only 11 user-flagged questions; that does not satisfy 999.15. Decision: keep 999.15 in backlog and plan it (~$23 in API spend, batched nightly), or accept current quality and close it.
+**Resolution:** Refocused Phase 2.6 from full QA + fact-check to grammar+style-only pass per user direction (2026-04-28): "facts are solid; theme of poor grammar in OpenTDB questions". Cost estimate dropped from £23 to ~£10 Haiku-only. Phase 2.6 now ready to plan; q15 closed.
 
 ## Backlog
 
