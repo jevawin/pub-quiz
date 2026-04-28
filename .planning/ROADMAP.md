@@ -325,23 +325,49 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 | 7. Quiz Engine & Play Modes | 0/3 | Not started | - |
 | 8. Question Cache & Cost Management | 0/2 | Not started | - |
 
-## Active Quick Tasks (prioritised 2026-04-26)
+## Active Quick Tasks (prioritised 2026-04-28)
 
-**Tier 1 — ship now:**
+**Done:**
 1. 260427-spt — Fix sport category filter bug ✅
 2. 260426-fct — Wire fun_fact into reveal UI ✅
 3. 260427-dup — Within-session question dedup ✅
-4. 260427-end — End-of-quiz review screen (per-Q recap; facts toggle deferred to separate task) ✅
-5. 260427-qol — UI QoL tweaks (icons, colours, polish) — IN PROGRESS
+4. 260427-end — End-of-quiz per-question Round summary ✅
+5. 260427-qol — UI QoL tweaks (icons, colours, callouts, palette) ✅
+
+**Tier 1 — ship now:**
+1. 260428-fdb — Fix 6 open question_feedback items (3 fun-fact quality, 2 grammar, 1 who-vs-which)
+2. 260428-end-toggle — Show/hide facts toggle on End screen Round summary (deferred sibling of 260427-end)
 
 **Tier 2 — this week:**
+3. 260427-prm — Agent prompt nudges (year-of-creation, British English, acronyms, who-vs-which for people)
+4. 260428-fact — Tighten Enrichment Agent prompt for fun_fact quality (3 "badly written fact" reports in 2 days)
 5. 260426-bkf — Resume 999.8 backfill (human action; unblocks Phase 2.4 plan 05)
-6. 260427-prm — Agent prompt nudges (year-of-creation, British English, acronyms)
-7. 260426-q15 — Decide 999.15/Phase 2.6: close or fund £23 batch
+6. 260426-q15 — Decide Phase 2.6: close or fund £23 retro QA batch
 
-### 260427-qol: UI QoL tweaks — icons, colours, polish (IN PROGRESS)
+### 260428-fdb: Fix 6 open question_feedback items (PENDING)
 
-**Goal:** Small batch of design polish on the web quiz — adding icons, refining colours, general visual quality-of-life improvements. Branch `260427-qol-ui-tweaks` for preview-led iteration. Items collected as work progresses.
+**Goal:** 6 reports collected 2026-04-27/28. Mix of question grammar and fun_fact quality.
+1. `f2285df6` (qid `09aa4f7e…`) — "I'm not sure this fact makes sense"
+2. `b17185e1` (qid `aed6cc1d…`) — "Badly worded"
+3. `19e7b757` (qid `22aeee49…`) — "Keyboard not capitalised here"
+4. `09f0fd8b` (qid `f746e6a0…`) — "'Is found in eggplant seeds' the chemical is singular"
+5. `d8e55749` (qid `291ffce3…`) — "Confusing fact badly written"
+6. `d9c362dd` (qid `3267b640…`) — "Shouldn't it be 'who of the following' because they're people?"
+**Why now:** Same workflow as 260424-uju and 260426-myq — manual rewrites, mark resolved.
+
+### 260428-end-toggle: Show/hide facts toggle on Round summary (PENDING)
+
+**Goal:** Deferred sibling of 260427-end. Add a single toggle at top of Round summary that hides/shows fun_fact (and explanation if shown) for all rows at once. Default: hidden — most users want score recap fast; the toggle is for fact-readers (e.g. people who can't resist reading them). Per-row state not needed.
+**Why now:** Original feedback `116dc5a9` asked for both summary AND facts toggle; ship the toggle as its own preview-led branch so the default UX stays clean.
+
+### 260428-fact: Tighten Enrichment Agent fun_fact prompt (PENDING)
+
+**Goal:** Three "badly worded fun fact" reports in two days (`f2285df6`, `d8e55749`, plus eggplant grammar `09f0fd8b`). Pattern is bigger than per-question rewrites — Enrichment Agent prompt needs tightening. Investigate the prompt in `pipeline/src/agents/enrichment.ts` (or wherever fun_fact generation lives), tighten constraints: complete sentences, grammatical agreement, no "is/are" mismatches, must add new info beyond the question, max 1 sentence or 2 short ones. Sample-test against 20 questions before merging.
+**Why now:** Quality compounds. Cheaper to fix the agent than rewrite individual facts forever.
+
+### 260427-qol: UI QoL tweaks — icons, colours, polish (RESOLVED 2026-04-28)
+
+**Resolution:** Shipped via merge `5927771` and palette unification `a9a50dd`. Lock icon on Lock In, ArrowRight on Next (right side, green), Lightbulb-prefixed blue callout for fun_fact, green Play / Play Again, coloured rating-state styling on End feedback faces, "Submit feedback" + Send icon, "Anything to tell us?" → "Feedback?", consistent palette tiers (`-50` faded / `-600` brand / `-700` hover / `-800` text).
 
 ### 260427-spt: Fix sport category filter bug (PENDING)
 
