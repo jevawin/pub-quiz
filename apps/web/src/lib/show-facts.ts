@@ -1,11 +1,11 @@
 const KEY = 'pub-quiz:show-facts';
 
 export function readShowFacts(): boolean {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === 'undefined') return true;
   try {
-    return window.sessionStorage.getItem(KEY) === '1';
+    return window.sessionStorage.getItem(KEY) !== '0';
   } catch {
-    return false;
+    return true;
   }
 }
 
