@@ -184,7 +184,7 @@ export function End() {
               className="mb-3 inline-flex items-center gap-1.5 rounded-md border border-blue-100 bg-blue-50 px-3 py-1.5 text-base text-blue-800 hover:bg-blue-100 transition-colors"
               aria-pressed={showFacts}
             >
-              {showFacts ? <EyeOff className="h-4 w-4 text-blue-600" /> : <Eye className="h-4 w-4 text-blue-600" />}
+              {showFacts ? <Eye className="h-4 w-4 text-blue-600" /> : <EyeOff className="h-4 w-4 text-blue-600" />}
               {showFacts ? 'Hide facts' : 'Show facts'}
             </button>
           )}

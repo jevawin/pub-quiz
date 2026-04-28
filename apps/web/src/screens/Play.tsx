@@ -226,7 +226,7 @@ export function Play() {
             aria-label={showFacts ? 'Hide facts' : 'Show facts'}
             className="inline-flex items-center gap-1 rounded-md px-2 py-1.5 text-base text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 transition-colors"
           >
-            {showFacts ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            {showFacts ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
             <span className={showFacts ? '' : 'line-through'}>Facts</span>
           </button>
           <button
