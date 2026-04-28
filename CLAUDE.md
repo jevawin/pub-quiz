@@ -163,7 +163,22 @@ A clean, beautifully designed pub quiz app with a massive AI-generated question 
 <!-- GSD:conventions-start source:CONVENTIONS.md -->
 ## Conventions
 
-Conventions not yet established. Will populate as patterns emerge during development.
+### Cloudflare preview URL lookup
+
+This repo deploys via Cloudflare Workers Git Integration (project: `quiz`, account: `jevawin`). After every push to any branch, Cloudflare builds the worker and posts a check-run on the head commit. The preview URL is in the check-run output.
+
+**Do NOT run `wrangler deploy` or `wrangler pages deploy` manually.** Deploys are owned by Cloudflare's Git integration. Wrangler is for read-only inspection only.
+
+After pushing a branch, wait ~30-90 seconds, then fetch the preview URL from the check-run:
+
+```bash
+gh api repos/jevawin/pub-quiz/commits/<branch-name>/check-runs \
+  --jq '.check_runs[] | select(.name | startswith("Workers Builds")) | .output.summary'
+```
+
+The summary contains `Preview URL: https://<8-char-version-id>-quiz.jevawin.workers.dev`. Do not guess the URL from the branch name — the prefix is a version ID, not the branch slug.
+
+If a PR exists for the branch, the `cloudflare-workers-and-pages[bot]` posts a comment with both Commit Preview URL and Branch Preview URL. Bare branch pushes (no PR) get a check-run only.
 <!-- GSD:conventions-end -->
 
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->
