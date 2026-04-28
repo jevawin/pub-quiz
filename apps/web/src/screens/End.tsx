@@ -176,18 +176,21 @@ export function End() {
 
       {recap.length > 0 && (
         <section className="mt-12">
-          <h2 className="text-xl font-semibold mb-4">Round summary</h2>
-          {anyFunFacts && (
-            <button
-              type="button"
-              onClick={() => setShowFacts((v) => { const next = !v; writeShowFacts(next); return next; })}
-              className="mb-3 inline-flex items-center gap-1.5 rounded-md border border-blue-100 bg-blue-50 px-3 py-1.5 text-base text-blue-800 hover:bg-blue-100 transition-colors"
-              aria-pressed={showFacts}
-            >
-              {showFacts ? <Eye className="h-4 w-4 text-blue-600" /> : <EyeOff className="h-4 w-4 text-blue-600" />}
-              {showFacts ? 'Hide facts' : 'Show facts'}
-            </button>
-          )}
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-xl font-semibold">Round summary</h2>
+            {anyFunFacts && (
+              <button
+                type="button"
+                onClick={() => setShowFacts((v) => { const next = !v; writeShowFacts(next); return next; })}
+                aria-pressed={showFacts}
+                aria-label={showFacts ? 'Hide facts' : 'Show facts'}
+                className="inline-flex items-center gap-1 rounded-md px-2 py-1.5 text-base text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 transition-colors"
+              >
+                {showFacts ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                <span className={showFacts ? '' : 'line-through'}>Facts</span>
+              </button>
+            )}
+          </div>
           <ol className="space-y-2">
             {recap.map(({ q, a }, i) => {
               const correctText = q.options[q.correctIndex]!;
