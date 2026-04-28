@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { Smile, Meh, Frown, Play, Send } from 'lucide-react';
+import { Smile, Meh, Frown, Play, Send, Lightbulb, Eye, EyeOff } from 'lucide-react';
 import { ensureSessionId } from '@/lib/auth';
 import { recordQuizSession, type QuizSessionRow } from '@/lib/plays';
 import type { UiDifficulty } from '@/lib/difficulty';
@@ -55,6 +55,7 @@ export function End() {
   const [feedbackText, setFeedbackText] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [showFacts, setShowFacts] = useState(false);
 
   if (!state) {
     return <Navigate to="/" replace />;
@@ -65,6 +66,7 @@ export function End() {
     questions && answers && questions.length === answers.length
       ? questions.map((q, i) => ({ q, a: answers[i]! }))
       : [];
+  const anyFunFacts = recap.some(({ q }) => Boolean(q.fun_fact));
 
   const onSubmit = async () => {
     setSubmitting(true);
@@ -174,6 +176,17 @@ export function End() {
       {recap.length > 0 && (
         <section className="mt-12">
           <h2 className="text-xl font-semibold mb-4">Round summary</h2>
+          {anyFunFacts && (
+            <button
+              type="button"
+              onClick={() => setShowFacts((v) => !v)}
+              className="mb-3 inline-flex items-center gap-1.5 rounded-md border border-blue-100 bg-blue-50 px-3 py-1.5 text-base text-blue-800 hover:bg-blue-100 transition-colors"
+              aria-pressed={showFacts}
+            >
+              {showFacts ? <EyeOff className="h-4 w-4 text-blue-600" /> : <Eye className="h-4 w-4 text-blue-600" />}
+              {showFacts ? 'Hide facts' : 'Show facts'}
+            </button>
+          )}
           <ol className="space-y-2">
             {recap.map(({ q, a }, i) => {
               const correctText = q.options[q.correctIndex]!;
@@ -199,6 +212,12 @@ export function End() {
                       </>
                     )}
                   </p>
+                  {showFacts && q.fun_fact && (
+                    <div className="mt-2 flex gap-3 rounded-lg bg-blue-50 border border-blue-100 p-3">
+                      <Lightbulb className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+                      <p className="text-base text-blue-800">{q.fun_fact}</p>
+                    </div>
+                  )}
                 </li>
               );
             })}
