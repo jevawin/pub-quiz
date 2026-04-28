@@ -135,10 +135,13 @@ None yet.
 | 260426-myq | Fix 3 open question_feedback items: 2 reworded questions + answer button focus-visible CSS fix | 2026-04-26 | b4ca9f0 | [260426-myq-fix-3-open-question-feedback-items](./quick/260426-myq-fix-3-open-question-feedback-items/) |
 | 260426-ow2 | Fix sport category filter bug — migration 00025 filters via question_categories with legacy fallback | 2026-04-26 | 731785c | [260426-ow2-260427-spt-fix-sport-category-filter-bug](./quick/260426-ow2-260427-spt-fix-sport-category-filter-bug/) |
 | 260426-pxh | Within-session question dedup — drop stale-repeat fallback + greedy category interleave | 2026-04-26 | 1b7b54c | [260426-pxh-260427-dup-within-session-question-dedup](./quick/260426-pxh-260427-dup-within-session-question-dedup/) |
+| 260427-uf1 | End-of-quiz per-question Round summary | 2026-04-27 | 3902d79 | [260427-uf1-260427-end-end-of-quiz-per-question-summ](./quick/260427-uf1-260427-end-end-of-quiz-per-question-summ/) |
+| 260427-qol | UI QoL polish — icons, palette, callouts, button colours | 2026-04-27 | 5927771 | (inline) |
+| 260428-rfe | Fix 6 open question_feedback items (260428-fdb) | 2026-04-28 | (db-only, no commit) | [260428-rfe-260428-fdb-fix-6-open-question-feedback-](./quick/260428-rfe-260428-fdb-fix-6-open-question-feedback-/) |
 
 ## Session Continuity
 
-Last session: 2026-04-26T18:00:00.000Z
-Stopped at: Completed quick task 260426-pxh (within-session dedup hardened + category interleave)
-Last activity: 2026-04-26 - Completed quick task 260426-pxh: within-session question dedup
+Last session: 2026-04-28T18:45:00.000Z
+Stopped at: Completed quick task 260428-rfe (6 question_feedback items resolved, inbox empty)
+Last activity: 2026-04-28 - Completed quick task 260428-fdb: fix 6 open question_feedback items
 Last activity: 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)

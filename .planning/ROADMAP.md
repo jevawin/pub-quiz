@@ -339,7 +339,7 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 5. 260427-qol — UI QoL tweaks (icons, colours, callouts, palette) ✅
 
 **Tier 1 — ship now:**
-1. 260428-fdb — Fix 6 open question_feedback items (3 fun-fact quality, 2 grammar, 1 who-vs-which)
+1. 260428-fdb — Fix 6 open question_feedback items ✅ (260428-rfe, 2026-04-28; inbox empty)
 2. 260428-end-toggle — Show/hide facts toggle on End screen Round summary (deferred sibling of 260427-end)
 
 **Tier 2 — this week:**
@@ -348,7 +348,11 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 5. 260426-bkf — Resume 999.8 backfill (human action; unblocks Phase 2.4 plan 05)
 6. **Phase 2.6 plan-phase** — Grammar+style pass on 2307 OpenTDB imports (~£10 Haiku batch). Refocused 2026-04-28; ready to plan.
 
-### 260428-fdb: Fix 6 open question_feedback items (PENDING)
+### 260428-fdb: Fix 6 open question_feedback items (RESOLVED 2026-04-28 via 260428-rfe)
+
+**Resolution:** All 6 rewrites applied via service-role PATCH. `question_feedback` rows marked resolved with notes; open inbox count = 0. Detail in `.planning/quick/260428-rfe-…/260428-rfe-SUMMARY.md`. Pattern reinforces case for Phase 2.6 (grammar+style pass) and 260428-fact (Enrichment Agent prompt).
+
+### 260428-fdb-original: Fix 6 open question_feedback items (HISTORIC)
 
 **Goal:** 6 reports collected 2026-04-27/28. Mix of question grammar and fun_fact quality.
 1. `f2285df6` (qid `09aa4f7e…`) — "I'm not sure this fact makes sense"
