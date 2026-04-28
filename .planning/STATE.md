@@ -138,10 +138,11 @@ None yet.
 | 260427-uf1 | End-of-quiz per-question Round summary | 2026-04-27 | 3902d79 | [260427-uf1-260427-end-end-of-quiz-per-question-summ](./quick/260427-uf1-260427-end-end-of-quiz-per-question-summ/) |
 | 260427-qol | UI QoL polish — icons, palette, callouts, button colours | 2026-04-27 | 5927771 | (inline) |
 | 260428-rfe | Fix 6 open question_feedback items (260428-fdb) | 2026-04-28 | (db-only, no commit) | [260428-rfe-260428-fdb-fix-6-open-question-feedback-](./quick/260428-rfe-260428-fdb-fix-6-open-question-feedback-/) |
+| 260428-tao | Show/hide facts toggle on Play header + End Round summary (sessionStorage-persisted, default ON) | 2026-04-28 | 45cbf64 | [260428-tao-260428-end-toggle-show-hide-facts-toggle](./quick/260428-tao-260428-end-toggle-show-hide-facts-toggle/) |
 
 ## Session Continuity
 
-Last session: 2026-04-28T18:45:00.000Z
-Stopped at: Completed quick task 260428-rfe (6 question_feedback items resolved, inbox empty)
-Last activity: 2026-04-28 - Completed quick task 260428-fdb: fix 6 open question_feedback items
+Last session: 2026-04-28T21:30:00.000Z
+Stopped at: Merged 260428-tao (facts toggle on Play + End) into main
+Last activity: 2026-04-28 - Completed quick task 260428-tao: facts toggle on Play header + End Round summary
 Last activity: 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)

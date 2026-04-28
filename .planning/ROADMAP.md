@@ -326,7 +326,7 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 
 **Tier 1 — ship now:**
 1. 260428-fdb — Fix 6 open question_feedback items ✅ (260428-rfe, 2026-04-28; inbox empty)
-2. 260428-end-toggle — Show/hide facts toggle on End screen Round summary (deferred sibling of 260427-end)
+2. 260428-end-toggle — Show/hide facts toggle on End screen Round summary (deferred sibling of 260427-end) ✅ (260428-tao, 2026-04-28; mirrored in Play header + sessionStorage-persisted, default ON)
 
 **Tier 2 — this week:**
 3. 260427-prm — Agent prompt nudges (year-of-creation, British English, acronyms, who-vs-which for people)
@@ -348,10 +348,9 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 6. `d9c362dd` (qid `3267b640…`) — "Shouldn't it be 'who of the following' because they're people?"
 **Why now:** Same workflow as 260424-uju and 260426-myq — manual rewrites, mark resolved.
 
-### 260428-end-toggle: Show/hide facts toggle on Round summary (PENDING)
+### 260428-end-toggle: Show/hide facts toggle on Round summary (RESOLVED 2026-04-28 via 260428-tao)
 
-**Goal:** Deferred sibling of 260427-end. Add a single toggle at top of Round summary that hides/shows fun_fact (and explanation if shown) for all rows at once. Default: hidden — most users want score recap fast; the toggle is for fact-readers (e.g. people who can't resist reading them). Per-row state not needed.
-**Why now:** Original feedback `116dc5a9` asked for both summary AND facts toggle; ship the toggle as its own preview-led branch so the default UX stays clean.
+**Resolution:** Toggle shipped on End Round summary AND mirrored in Play screen header (right of "Question N of M", left of Exit). State persisted via sessionStorage so the preference carries between Play and End within a tab. Final design defaults to **ON** (flipped from original "default hidden" after preview iteration). Solid neutral-600 colour matching Exit button; state communicated via Eye/EyeOff icon + strikethrough on the "Facts" label. Detail in `.planning/quick/260428-tao-260428-end-toggle-show-hide-facts-toggle/260428-tao-SUMMARY.md`.
 
 ### 260428-fact: Tighten Enrichment Agent fun_fact prompt (PENDING)
 
