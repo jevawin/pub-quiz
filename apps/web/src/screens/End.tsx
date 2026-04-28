@@ -5,6 +5,7 @@ import { ensureSessionId } from '@/lib/auth';
 import { recordQuizSession, type QuizSessionRow } from '@/lib/plays';
 import type { UiDifficulty } from '@/lib/difficulty';
 import type { LoadedQuestion, AnswerRecord } from '@/state/quiz';
+import { readShowFacts, writeShowFacts } from '@/lib/show-facts';
 
 type EndState = {
   score: number;
@@ -55,7 +56,7 @@ export function End() {
   const [feedbackText, setFeedbackText] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [showFacts, setShowFacts] = useState(false);
+  const [showFacts, setShowFacts] = useState<boolean>(() => readShowFacts());
 
   if (!state) {
     return <Navigate to="/" replace />;
@@ -179,7 +180,7 @@ export function End() {
           {anyFunFacts && (
             <button
               type="button"
-              onClick={() => setShowFacts((v) => !v)}
+              onClick={() => setShowFacts((v) => { const next = !v; writeShowFacts(next); return next; })}
               className="mb-3 inline-flex items-center gap-1.5 rounded-md border border-blue-100 bg-blue-50 px-3 py-1.5 text-base text-blue-800 hover:bg-blue-100 transition-colors"
               aria-pressed={showFacts}
             >

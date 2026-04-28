@@ -9,7 +9,8 @@ import { ensureSessionId } from '@/lib/auth';
 import { saveQuizState, loadQuizState, clearQuizState } from '@/lib/quiz-persist';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { findCategory, CATEGORY_OPTIONS } from '@/config/categories';
-import { CheckCircle, XCircle, LogOut, X, ChevronLeft, ArrowRight, Lock, Lightbulb } from 'lucide-react';
+import { CheckCircle, XCircle, LogOut, X, ChevronLeft, ArrowRight, Lock, Lightbulb, Eye, EyeOff } from 'lucide-react';
+import { readShowFacts, writeShowFacts } from '@/lib/show-facts';
 import type { UiDifficulty } from '@/lib/difficulty';
 
 type LocationState = {
@@ -28,6 +29,7 @@ export function Play() {
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackText, setFeedbackText] = useState('');
   const [feedbackSent, setFeedbackSent] = useState(false);
+  const [showFacts, setShowFacts] = useState<boolean>(() => readShowFacts());
 
   const locationState = location.state as LocationState | undefined;
 
@@ -216,13 +218,24 @@ export function Play() {
             Question {questionNumber} of {totalQuestions}
           </span>
         </div>
-        <button
-          onClick={() => { clearQuizState(); navigate('/', { replace: true }); }}
-          className="inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-base text-neutral-600 hover:bg-neutral-100 transition-colors"
-        >
-          <LogOut className="h-4 w-4" />
-          Exit
-        </button>
+        <div className="inline-flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => setShowFacts((v) => { const next = !v; writeShowFacts(next); return next; })}
+            aria-pressed={showFacts}
+            aria-label={showFacts ? 'Hide facts' : 'Show facts'}
+            className="inline-flex items-center justify-center rounded-md p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 transition-colors"
+          >
+            {showFacts ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          </button>
+          <button
+            onClick={() => { clearQuizState(); navigate('/', { replace: true }); }}
+            className="inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-base text-neutral-600 hover:bg-neutral-100 transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            Exit
+          </button>
+        </div>
       </div>
 
       <Card>
@@ -308,7 +321,7 @@ export function Play() {
                 </p>
               )}
 
-              {question.fun_fact && (
+              {showFacts && question.fun_fact && (
                 <div className="flex gap-3 rounded-lg bg-blue-50 border border-blue-100 p-3">
                   <Lightbulb className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
                   <p className="text-base text-blue-800">{question.fun_fact}</p>
@@ -353,7 +366,7 @@ export function Play() {
                 </p>
               )}
 
-              {question.fun_fact && (
+              {showFacts && question.fun_fact && (
                 <div className="flex gap-3 rounded-lg bg-blue-50 border border-blue-100 p-3">
                   <Lightbulb className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
                   <p className="text-base text-blue-800">{question.fun_fact}</p>
