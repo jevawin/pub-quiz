@@ -135,12 +135,8 @@ export type Database = {
       }
       questions: {
         Row: {
-          calibrated_at: string | null
-          calibration_percent: number | null
-          category_id: string
           correct_answer: string
           created_at: string
-          difficulty: string
           distractors: Json
           explanation: string | null
           fun_fact: string | null
@@ -153,12 +149,8 @@ export type Database = {
           verification_score: number
         }
         Insert: {
-          calibrated_at?: string | null
-          calibration_percent?: number | null
-          category_id: string
           correct_answer: string
           created_at?: string
-          difficulty: string
           distractors?: Json
           explanation?: string | null
           fun_fact?: string | null
@@ -171,12 +163,8 @@ export type Database = {
           verification_score?: number
         }
         Update: {
-          calibrated_at?: string | null
-          calibration_percent?: number | null
-          category_id?: string
           correct_answer?: string
           created_at?: string
-          difficulty?: string
           distractors?: Json
           explanation?: string | null
           fun_fact?: string | null
@@ -189,13 +177,6 @@ export type Database = {
           verification_score?: number
         }
         Relationships: [
-          {
-            foreignKeyName: "questions_category_id_fkey"
-            columns: ["category_id"]
-            isOneToOne: false
-            referencedRelation: "categories"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "questions_source_id_fkey"
             columns: ["source_id"]
@@ -334,7 +315,75 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      counts_by_root_category: {
+        Args: Record<string, never>
+        Returns: {
+          root_slug: string
+          difficulty: string
+          question_count: number
+        }[]
+      }
+      count_available_questions: {
+        Args: {
+          p_score_min: number
+          p_score_max: number
+          p_category_slug: string | null
+          p_exclude_ids: string[]
+        }
+        Returns: number
+      }
+      random_published_questions_excluding: {
+        Args: {
+          p_score_min: number
+          p_score_max: number
+          p_category_slug: string | null
+          p_limit: number
+          p_exclude_ids: string[]
+        }
+        Returns: {
+          id: string
+          question_text: string
+          correct_answer: string
+          distractors: Json
+          explanation: string | null
+          category_id: string
+          category_slug: string
+          fun_fact: string | null
+        }[]
+      }
+      random_general_knowledge_questions: {
+        Args: {
+          p_score_min: number
+          p_score_max: number
+          p_limit: number
+        }
+        Returns: {
+          id: string
+          question_text: string
+          correct_answer: string
+          distractors: Json
+          explanation: string | null
+          category_id: string
+          category_slug: string
+        }[]
+      }
+      random_published_questions: {
+        Args: {
+          p_score_min: number
+          p_score_max: number
+          p_category_slug: string | null
+          p_limit: number
+        }
+        Returns: {
+          id: string
+          question_text: string
+          correct_answer: string
+          distractors: Json
+          explanation: string | null
+          category_id: string
+          category_slug: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -6,7 +6,6 @@ import { log } from '../lib/logger.js';
 import { getEligibleCategoriesOrdered } from '../lib/category-selection.js';
 import { assertGeneralKnowledge, assertNoGeneralKnowledgeInExtras, GENERAL_KNOWLEDGE_SLUG } from '../lib/general-knowledge-guard.js';
 import { resolveSlugsToIds } from '../lib/categories.js';
-import type { Database } from '../lib/database.types.js';
 
 export interface AgentResult {
   processed: number;
@@ -142,15 +141,22 @@ export async function runQuestionsAgent(
 
     try {
       // Step 2: Fetch existing questions for dedup (capped at DEDUP_CAP)
-      type QuestionRow = Database['public']['Tables']['questions']['Row'];
-      const { data: existingQuestions } = await supabase
-        .from('questions')
-        .select('*')
+      // Questions no longer have a single category_id (Phase 999.8 Plan 05 dropped it);
+      // membership lives in question_categories. Read recent question texts in this
+      // category by joining through that table.
+      type DedupQcRow = {
+        questions: { question_text: string; created_at: string } | null;
+      };
+      const { data: existingQcRows } = await supabase
+        .from('question_categories')
+        .select('questions!inner(question_text, created_at)')
         .eq('category_id', category.id)
-        .order('created_at', { ascending: false })
-        .limit(DEDUP_CAP) as { data: QuestionRow[] | null; error: unknown };
+        .order('created_at', { ascending: false, foreignTable: 'questions' })
+        .limit(DEDUP_CAP) as { data: DedupQcRow[] | null; error: unknown };
 
-      const existingQuestionTexts = existingQuestions?.map((q) => q.question_text) ?? [];
+      const existingQuestionTexts = (existingQcRows ?? [])
+        .map((row) => row.questions?.question_text)
+        .filter((t): t is string => typeof t === 'string');
 
       // Build dedup context
       let dedupSection = '';
@@ -158,12 +164,14 @@ export async function runQuestionsAgent(
         dedupSection = `\n\nExisting questions to avoid (do NOT create similar questions):\n${existingQuestionTexts.map((q, i) => `${i + 1}. ${q}`).join('\n')}`;
       }
 
-      const { data: allQuestions } = await supabase
-        .from('questions')
-        .select('*')
-        .eq('category_id', category.id) as { data: QuestionRow[] | null; error: unknown };
+      // Total count for this category — single COUNT query through question_categories
+      // is cheaper than fetching every row.
+      const { count: totalExistingCount } = await supabase
+        .from('question_categories')
+        .select('question_id', { count: 'exact', head: true })
+        .eq('category_id', category.id);
 
-      const totalExisting = allQuestions?.length ?? 0;
+      const totalExisting = totalExistingCount ?? 0;
       let dedupNote = '';
       if (totalExisting > DEDUP_CAP) {
         dedupNote = `\n\nNote: There are ${totalExisting} existing questions for this category -- avoid overlapping topics.`;
@@ -350,17 +358,16 @@ Example question object:
             continue;
           }
 
-          // Insert question row (transitional: category_id and difficulty placeholders until Plan 05 drops them)
+          // Insert question row. Plan 05 dropped category_id and difficulty —
+          // category membership lives in question_categories rows inserted below.
           const { data: inserted, error: qErr } = await supabase
             .from('questions')
             .insert({
-              category_id: slugToId.get(GENERAL_KNOWLEDGE_SLUG)!,
               source_id: null,
               question_text: question.question_text,
               correct_answer: question.correct_answer,
               distractors: question.distractors,
               explanation: question.explanation,
-              difficulty: 'normal',  // transitional placeholder — dropped in Plan 05
               verification_score: 0,
               status: 'pending',
             } as never)

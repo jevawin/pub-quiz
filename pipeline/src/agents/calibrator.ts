@@ -145,13 +145,16 @@ export async function runCalibratorAgent(
   log('info', 'Calibrator Agent starting');
 
   // Fetch questions needing calibration:
-  // - status='pending' or published questions with no question_categories rows yet
-  const { data: questions, error: fetchError } = await (supabase
+  // - status='pending' or 'published' AND no question_categories rows yet.
+  // Phase 999.8 Plan 05 dropped questions.calibrated_at; "uncalibrated" now means
+  // no row exists in the question_categories join table (empty join → never scored).
+  // PostgREST does not have a clean "where no related row exists" filter, so we
+  // fetch the candidate set then drop those that already have join rows.
+  const { data: candidateRows, error: fetchError } = await (supabase
     .from('questions')
     .select('id, question_text, correct_answer, distractors, status')
     .or('status.eq.pending,status.eq.published')
-    .is('calibrated_at', null)
-    .limit(200) as unknown as Promise<{
+    .limit(2000) as unknown as Promise<{
       data: Array<{
         id: string;
         question_text: string;
@@ -161,6 +164,19 @@ export async function runCalibratorAgent(
       }> | null;
       error: { message: string } | null;
     }>);
+
+  let questions = candidateRows;
+  if (questions && questions.length > 0) {
+    const ids = questions.map((q) => q.id);
+    const { data: alreadyScoredRows } = await supabase
+      .from('question_categories')
+      .select('question_id')
+      .in('question_id', ids);
+    const alreadyScored = new Set(
+      ((alreadyScoredRows ?? []) as Array<{ question_id: string }>).map((r) => r.question_id),
+    );
+    questions = questions.filter((q) => !alreadyScored.has(q.id)).slice(0, 200);
+  }
 
   if (fetchError || !questions || questions.length === 0) {
     log('info', 'No questions to calibrate', { error: fetchError?.message });

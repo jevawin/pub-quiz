@@ -36,7 +36,9 @@ function createMockSupabase(data: MockCategoryData) {
       };
       return chain;
     }
-    if (table === 'questions') {
+    if (table === 'questions' || table === 'question_categories') {
+      // Phase 999.8 Plan 05: per-category question counts now come from
+      // question_categories (questions.category_id was dropped).
       return {
         select: vi.fn((_cols: string, _opts?: any) => ({
           eq: vi.fn((col: string, val: string) => {

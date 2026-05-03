@@ -6,7 +6,21 @@ import { log } from '../lib/logger.js';
 import type { Database } from '../lib/database.types.js';
 
 type QuestionRow = Database['public']['Tables']['questions']['Row'];
-type QuestionWithCategory = QuestionRow & { categories: { name: string } | null };
+// Phase 999.8 Plan 05: questions no longer have a single category_id, so the
+// "category" displayed to the QA prompt comes from joining question_categories
+// → categories(name). Picking the first joined name is sufficient context for
+// the LLM (it does not need every category, only a representative one).
+type QuestionWithCategory = QuestionRow & {
+  question_categories: Array<{ categories: { name: string } | null }> | null;
+};
+
+/** Comma-joined category names from the joined question_categories rows, or 'Unknown'. */
+function categoryNamesOf(q: QuestionWithCategory): string {
+  const names = (q.question_categories ?? [])
+    .map((row) => row.categories?.name)
+    .filter((n): n is string => typeof n === 'string');
+  return names.length > 0 ? names.join(', ') : 'Unknown';
+}
 
 export interface AgentResult {
   processed: number;
@@ -83,12 +97,13 @@ export async function runQaAgent(
 
   log('info', 'QA Agent starting');
 
-  // Step 1: Fetch all verified questions with score >= 1, including category name
+  // Step 1: Fetch all verified questions with score >= 1, including category names
+  // (joined via question_categories since questions.category_id was dropped in Plan 05).
   const { data: verifiedQuestions, error: fetchError } = await supabase
     .from('questions')
-    .select('*, categories(name)')
+    .select('*, question_categories(categories(name))')
     .eq('status', 'verified')
-    .gte('verification_score', 1) as { data: (QuestionRow & { categories: { name: string } | null })[] | null; error: { message: string } | null };
+    .gte('verification_score', 1) as { data: QuestionWithCategory[] | null; error: { message: string } | null };
 
   if (fetchError || !verifiedQuestions || verifiedQuestions.length === 0) {
     log('info', 'No verified questions to QA', { error: fetchError?.message });
@@ -113,8 +128,7 @@ Question: ${q.question_text}
 Correct Answer: ${q.correct_answer}
 Distractors: ${(q.distractors as string[]).join(', ')}
 Explanation: ${q.explanation ?? 'None'}
-Difficulty: ${q.difficulty}
-Category: ${q.categories?.name ?? 'Unknown'}`;
+Categories: ${categoryNamesOf(q)}`;
       }).join('\n\n');
 
       const userPrompt = `Please quality-check the following pub quiz questions. No reference text is needed — judge them on clarity, difficulty calibration, distractor quality, and pub quiz suitability.
@@ -379,8 +393,7 @@ async function rewriteWithSonnet(
 - Correct Answer: ${question.correct_answer}
 - Distractors: ${(question.distractors as string[]).join(', ')}
 - Explanation: ${question.explanation ?? 'None'}
-- Difficulty: ${question.difficulty}
-- Category: ${question.categories?.name ?? 'Unknown'}
+- Categories: ${categoryNamesOf(question)}
 - Fun Fact: ${(question as Record<string, unknown>).fun_fact ?? 'None'}
 
 Fix the issue and return the complete corrected question as JSON.`;

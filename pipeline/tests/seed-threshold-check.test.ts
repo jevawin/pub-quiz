@@ -30,28 +30,32 @@ describe('Seed Threshold Check', () => {
   function createMockSupabase(verifiedCount: number, categoryIds: string[], error: boolean = false) {
     const mockFrom = vi.fn((table: string) => {
       if (table === 'questions') {
+        // Count query for total verified questions (head:true variant).
         const chain: any = {};
         chain.select = vi.fn((_cols: string, opts?: { count?: string; head?: boolean }) => {
           if (opts?.head) {
-            // Count query for total verified
             if (error) {
               return { gte: vi.fn(() => ({ data: null, error: { message: 'DB error' }, count: null })) };
             }
             return { gte: vi.fn(() => ({ data: null, error: null, count: verifiedCount })) };
           }
-          // Category ID query
-          if (error) {
-            return {
-              gte: vi.fn(() => ({ data: null, error: { message: 'DB error' } })),
-            };
-          }
-          return {
-            gte: vi.fn(() => ({
-              data: categoryIds.map(id => ({ category_id: id })),
-              error: null,
-            })),
-          };
+          return { gte: vi.fn(() => ({ data: [], error: null })) };
         });
+        return chain;
+      }
+      if (table === 'question_categories') {
+        // Phase 999.8 Plan 05: category coverage now read via question_categories
+        // joined with questions (status >= 3 verification score).
+        const chain: any = {};
+        chain.select = vi.fn(() => ({
+          gte: vi.fn(() => {
+            if (error) return { data: null, error: { message: 'DB error' } };
+            return {
+              data: categoryIds.map((id) => ({ category_id: id })),
+              error: null,
+            };
+          }),
+        }));
         return chain;
       }
       return { select: vi.fn() };
