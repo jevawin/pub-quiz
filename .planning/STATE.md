@@ -3,15 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: "Checkpoint: 999.8-04 Task 3 awaiting backfill human action"
-last_updated: "2026-04-26T08:30:00.000Z"
-last_activity: 2026-04-26
-progress:
-  total_phases: 24
-  completed_phases: 4
-  total_plans: 23
-  completed_plans: 22
-  percent: 11
+stopped_at: "Phase 2.2 prototype iteration — feedback-driven; 999.8 backfill (260426-bkf) deferred"
+last_updated: "2026-05-03T00:00:00.000Z"
+last_activity: 2026-05-03
 ---
 
 # Project State
@@ -21,37 +15,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-04)
 
 **Core value:** Great questions delivered through a clean, effortless interface -- the content is the star, not the chrome around it.
-**Current focus:** Phase 999.8 — multi-category-per-category-percentage-difficulty-backlog
+**Current focus:** Phase 2.2 — Web Quiz v1 & Feedback Collection (prototype iteration, feedback-driven)
 
 ## Current Position
 
-Phase: 999.8 (multi-category-per-category-percentage-difficulty-backlog) — EXECUTING
-Plan: 4 of 5
-Status: Ready to execute
-Last activity: 2026-04-24
+Phase: 2.2 (Web Quiz v1 & Feedback Collection) — ACTIVE (prototype phase)
+Plans: 2/9 complete
+Active tracks (per ROADMAP C-section):
+- C1 quick tasks: 260428-fact (pending), 260426-bkf (deferred — Phase 2.4 backfill, ~600 questions)
+- C2 sequenced library work: 999.18 → 999.19 → 999.16
 
-Progress: [██░░░░░░░░] 11%
+Build path queue (after prototype proves out):
+- Phase 2.3 Admin Dashboard, 2.4 Multi-Category schema cleanup (blocked on 260426-bkf), 2.5 OpenTDB Attribution
+- Phase 3-8: Auth, Design, Shell, Browser, Engine, Cache
+
+Last activity: 2026-05-03 — quick task 260427-prm shipped (Questions Agent prompt nudges)
 
 ## Performance Metrics
-
-**Velocity:**
-
-- Total plans completed: 0
-- Average duration: -
-- Total execution time: 0 hours
-
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| - | - | - | - |
-
-**Recent Trend:**
-
-- Last 5 plans: -
-- Trend: -
-
-*Updated after each plan completion*
 | Phase 01 P01 | 3min | 2 tasks | 19 files |
 | Phase 01 P02 | 6min | 2 tasks | 7 files |
 | Phase 01 P03 | 14min | 2 tasks | 4 files |
@@ -110,6 +90,9 @@ Recent decisions affecting current work:
 ### Roadmap Evolution
 
 - Phase 2.1 inserted after Phase 2: Question Pipeline -- QA Agent & Source Relevance (URGENT)
+- Phase 999.8 promoted to Phase 2.4 (Multi-Category + Per-Category % Difficulty) on 2026-04-26
+- Phase 999.13 promoted to Phase 2.5 (OpenTDB Attribution) on 2026-04-26
+- ROADMAP restructured 2026-05-03 (260503-rmp) into 3 sections: A. Build Path / B. Post-launch / C. Prototype Iteration (with C1 quick / C2 sequenced / C3 add-new); D archive consolidates resolved + promoted + superseded + quick-task specs
 
 ### Pending Todos
 
@@ -118,6 +101,7 @@ None yet.
 ### Blockers/Concerns
 
 - Claude Code Remote Triggers has known HTTP 500 errors (April 2026) -- GitHub Actions cron is the fallback. Must be evaluated in Phase 1.
+- 260426-bkf (deferred): Phase 2.4 Plan 05 schema cleanup blocked until ~600 published questions get question_categories rows. Old columns coexist fine; defer until next dedicated session or before any work that reads/writes legacy category_id/difficulty/calibration_percent.
 
 ### Quick Tasks Completed
 
@@ -145,8 +129,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-28T21:30:00.000Z
-Stopped at: Merged 260428-tao (facts toggle on Play + End) into main
+Last session: 2026-05-03
+Stopped at: Phase 2.2 prototype iteration; 260426-bkf backfill deferred
 Last activity: 2026-05-03 - Completed quick task 260427-prm: Questions Agent prompt nudges (British English + acronym expansion + year-of-release cap)
-Last activity: 2026-04-28 - Completed quick task 260428-tao: facts toggle on Play header + End Round summary
-Last activity: 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)
+Prior activity:
+- 2026-05-03 - Restructured ROADMAP into 3 tracks (260503-rmp); fixed 13 question_feedback items (260503-kxb)
+- 2026-04-28 - Shipped facts toggle on Play header + End Round summary (260428-tao)
+- 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)
