@@ -55,7 +55,7 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 | 2.1 Question Pipeline: QA Agent & Source Relevance | 3/3 | Shipped | - |
 | 2.2 Web Quiz v1 & Feedback Collection | 2/9 | Active — prototype phase | - |
 | 2.3 Admin Dashboard v1 | 0/0 | Not started | - |
-| 2.4 Multi-Category + % Difficulty (from 999.8) | 4/5 | Plan 05 pending backfill (260426-bkf) | - |
+| 2.4 Multi-Category + % Difficulty (from 999.8) | 4/5 | Plan 05 unblocked (260426-bkf complete) | - |
 | 2.5 OpenTDB Attribution (from 999.13) | 0/2 | Not started | - |
 | 3. Auth & App Backend | 0/2 | Not started | - |
 | 4. Design System | 0/3 | Not started | - |
@@ -404,11 +404,10 @@ Small, current-state-appropriate fixes triggered directly by recent feedback. Pu
 **Goal:** Three "badly worded fun fact" reports in two days (`f2285df6`, `d8e55749`, plus eggplant grammar `09f0fd8b`). Pattern is bigger than per-question rewrites — Enrichment Agent prompt needs tightening. Investigate the prompt in `pipeline/src/agents/enrichment.ts` (or wherever fun_fact generation lives), tighten constraints: complete sentences, grammatical agreement, no "is/are" mismatches, must add new info beyond the question, max 1 sentence or 2 short ones. Sample-test against 20 questions before merging.
 **Why now:** Quality compounds. Cheaper to fix the agent than rewrite individual facts forever.
 
-### 260426-bkf: Resume 999.8 calibration backfill to completion (PENDING — HUMAN ACTION)
+### 260426-bkf: Resume 999.8 calibration backfill to completion (COMPLETE — 2026-05-03)
 
-**Goal:** Phase 999.8 Plan 04 is checkpointed awaiting human-driven Claude Code agent backfill. Latest commit `ef93e7a` reports 2250/2848 (79%). ~600 questions still missing question_categories rows. Plan 05 (drop old columns: `category_id`, `difficulty`, `calibration_percent`) is blocked until `still_missing = 0`.
-**Action:** Open a fresh Claude Code agent session and paste the prompt in `.planning/phases/999.8-multi-category-per-category-percentage-difficulty-backlog/999.8-04-SUMMARY.md` ("Checkpoint: Task 3 Awaiting Human Action"). Work in batches of 50, commit per batch, run the verification SQL when complete.
-**Why now:** Unblocks Phase 2.4 plan 05 (the schema cleanup migration). Subscription-paid (no API spend cap risk).
+**Goal:** Phase 999.8 Plan 04 was checkpointed awaiting human-driven Claude Code agent backfill. All 2848 published questions now have ≥1 `question_categories` row (verified `still_missing = 0`). Backfilled 347 remaining questions across 7 batches of 50 on 2026-05-03 — 827 rows inserted (every row has mandatory `general-knowledge` plus 1-3 audience-specific category scores). Plan 05 (drop old columns: `category_id`, `difficulty`, `calibration_percent`) is now unblocked.
+**Why now:** Unblocked Phase 2.4 plan 05 (the schema cleanup migration). Subscription-paid (no API spend).
 
 ## C2. Library quality work (sequenced)
 
