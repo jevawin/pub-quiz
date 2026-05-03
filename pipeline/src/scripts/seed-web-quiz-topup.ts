@@ -70,14 +70,17 @@ async function main(): Promise<void> {
   const bySlug = new Map(cats.map((c) => [c.slug, c]));
 
   // -- 2. Merge "Space and Astronomy" into "The Solar System"
+  // Phase 999.8 Plan 05 dropped questions.category_id, so per-question category
+  // membership is now in question_categories. This merge has already run on prod;
+  // re-running would need to UPDATE question_categories instead of questions.
   const spaceCat = byName.get('Space and Astronomy');
   const solarCat = byName.get('The Solar System');
   if (spaceCat && solarCat) {
     const { data: moved, error: moveErr } = await supabase
-      .from('questions')
+      .from('question_categories')
       .update({ category_id: solarCat.id })
       .eq('category_id', spaceCat.id)
-      .select('id');
+      .select('question_id');
     if (moveErr) throw new Error('Failed to move Space and Astronomy questions: ' + moveErr.message);
     log('info', 'Moved questions: Space and Astronomy → The Solar System', { count: moved?.length ?? 0 });
 
@@ -94,8 +97,8 @@ async function main(): Promise<void> {
   const chemCat = byName.get('Chemistry Basics');
   if (chemCat) {
     const { count: qCount } = await supabase
-      .from('questions')
-      .select('id', { count: 'exact', head: true })
+      .from('question_categories')
+      .select('question_id', { count: 'exact', head: true })
       .eq('category_id', chemCat.id);
     const { error: delErr } = await supabase.from('categories').delete().eq('id', chemCat.id);
     if (delErr) throw new Error('Failed to delete Chemistry Basics: ' + delErr.message);
@@ -138,26 +141,19 @@ async function main(): Promise<void> {
   log('info', 'Migration complete', { inserted, skipped });
 
   // -- 6. Post-state summary per root
-  const { data: catsAfter } = await supabase.from('categories').select('id,name,parent_id');
-  const { data: qsAfter } = await supabase
-    .from('questions')
-    .select('category_id,difficulty')
-    .eq('status', 'published');
-  if (!catsAfter || !qsAfter) return;
-
-  const byId = new Map(catsAfter.map((c) => [c.id, c]));
-  const rootOf = (id: string): string => {
-    let c = byId.get(id);
-    while (c && c.parent_id) c = byId.get(c.parent_id);
-    return c?.name ?? '?';
-  };
+  // Phase 999.8 Plan 05: questions.category_id and questions.difficulty are gone.
+  // Use the counts_by_root_category RPC, which is now backed by question_categories
+  // with score-band bucketing (easy/normal/hard derived from effective score).
+  const { data: rows } = await supabase.rpc('counts_by_root_category');
+  if (!rows) return;
 
   const summary: Record<string, { easy: number; normal: number; hard: number; total: number }> = {};
-  for (const q of qsAfter) {
-    const root = rootOf(q.category_id);
-    summary[root] = summary[root] || { easy: 0, normal: 0, hard: 0, total: 0 };
-    summary[root][q.difficulty as 'easy' | 'normal' | 'hard']++;
-    summary[root].total++;
+  for (const r of rows as Array<{ root_slug: string; difficulty: string; question_count: number }>) {
+    const bucket = (summary[r.root_slug] ||= { easy: 0, normal: 0, hard: 0, total: 0 });
+    if (r.difficulty === 'easy' || r.difficulty === 'normal' || r.difficulty === 'hard') {
+      bucket[r.difficulty] = r.question_count;
+      bucket.total += r.question_count;
+    }
   }
 
   console.log('\nPUBLISHED QUESTIONS BY ROOT (post-migration, pre-pipeline-run):');

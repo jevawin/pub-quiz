@@ -1,0 +1,1 @@
+- [pre-existing] pipeline/tests/agents/questions.test.ts has 13 failing tests on main as of 2026-05-04 (before Plan 05). The mock chain.insert returns a bare Promise but the agent calls .insert(...).select('id').single(); the chained .select on a Promise is a runtime TypeError. Not caused by Plan 05 column drop. Track separately.

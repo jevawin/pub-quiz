@@ -104,6 +104,11 @@ function createMockSupabase() {
     },
   ];
   const existingQuestionsForDedup = [{ question_text: 'What is the speed of light?' }];
+  // Phase 999.8 Plan 05: dedup query now goes through question_categories with
+  // an inner join to questions, so the shape is { questions: { question_text } }.
+  const existingDedupViaJoin = existingQuestionsForDedup.map((q) => ({
+    questions: { question_text: q.question_text, created_at: '2026-01-01' },
+  }));
 
   function makeChain(resolvedData: unknown, resolvedError: unknown = null) {
     const chain: any = {};
@@ -133,8 +138,8 @@ function createMockSupabase() {
     }
     if (table === 'questions') {
       questionFromCallIndex++;
+      // Insert path only — dedup reads moved to question_categories.
       const chain = makeChain(existingQuestionsForDedup);
-      // Override insert
       chain.insert = vi.fn((data: unknown) => {
         insertCalls.push({ table, data });
         if (insertFailOnce && insertFailCount === 0) {
@@ -146,6 +151,23 @@ function createMockSupabase() {
         }
         return Promise.resolve({ data: null, error: null });
       });
+      return chain;
+    }
+    if (table === 'question_categories') {
+      // Two query shapes:
+      //   1. SELECT 'questions!inner(question_text, created_at)' .eq('category_id') .order().limit() — dedup
+      //   2. SELECT 'question_id' { count: 'exact', head: true } .eq('category_id') — count
+      // Single chain is fine: the dedup path awaits data, the count path reads count.
+      const chain: any = makeChain(existingDedupViaJoin);
+      chain.count = existingQuestionsForDedup.length;
+      // Re-wire .then to also surface count for the head:true variant.
+      chain.then = (resolve: (val: unknown) => void) =>
+        Promise.resolve({
+          data: existingDedupViaJoin,
+          error: null,
+          count: existingQuestionsForDedup.length,
+        }).then(resolve);
+      chain.insert = vi.fn(() => Promise.resolve({ data: null, error: null }));
       return chain;
     }
     return makeChain([]);

@@ -26,18 +26,22 @@ export async function checkThreshold(supabase: TypedSupabaseClient): Promise<Thr
 
   const verified = verifiedCount ?? 0;
 
-  // Get unique category IDs from verified questions
+  // Get unique category IDs covered by verified questions.
+  // Phase 999.8 Plan 05 dropped questions.category_id, so coverage is derived from
+  // question_categories rows whose question is verified (score >= 3).
   const { data: categoryRows, error: catError } = await supabase
-    .from('questions')
-    .select('category_id')
-    .gte('verification_score', 3);
+    .from('question_categories')
+    .select('category_id, questions!inner(verification_score)')
+    .gte('questions.verification_score', 3);
 
   if (catError) {
     log('error', 'Failed to fetch verified question categories', { error: catError.message });
     process.exit(1);
   }
 
-  const uniqueCategories = new Set((categoryRows ?? []).map((r) => r.category_id));
+  const uniqueCategories = new Set(
+    ((categoryRows ?? []) as Array<{ category_id: string }>).map((r) => r.category_id),
+  );
   const categoryCount = uniqueCategories.size;
 
   const seedComplete = verified >= VERIFIED_THRESHOLD;

@@ -88,10 +88,11 @@ export async function runEnrichmentAgent(
         continue;
       }
 
-      // Call Haiku to generate the fun fact
+      // Call Haiku to generate the fun fact.
+      // (Category context dropped — questions no longer have a single category_id
+      // since Phase 999.8 Plan 05; per-category data lives in question_categories.)
       const userPrompt = `Question: ${question.question_text}
 Correct answer: ${question.correct_answer}
-Category: ${question.category_id}
 
 Reference material about the answer:
 ${articleText}

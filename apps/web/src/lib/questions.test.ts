@@ -17,6 +17,7 @@ vi.mock('./seen-store', () => ({
 import {
   fetchRandomQuestions,
   fetchCountsByRootCategory,
+  countAvailableQuestions,
   interleaveByCategory,
   type RpcRow,
 } from './questions';
@@ -39,18 +40,30 @@ const makeRow = (id: string, category_slug = 'general') => ({
 });
 
 describe('fetchRandomQuestions', () => {
-  it('calls supabase.rpc with general when all categories selected', async () => {
+  it('calls random_published_questions_excluding with full score range and "general" when all categories selected', async () => {
+    rpc.mockResolvedValue({ data: [makeRow('q1')], error: null });
+
+    await fetchRandomQuestions('Mixed', ['general'], 5);
+
+    expect(rpc).toHaveBeenCalledWith('random_published_questions_excluding', expect.objectContaining({
+      p_score_min: 0,
+      p_score_max: 100,
+      p_category_slug: 'general',
+    }));
+  });
+
+  it('passes Easy as 67..100 score range', async () => {
     rpc.mockResolvedValue({ data: [makeRow('q1')], error: null });
 
     await fetchRandomQuestions('Easy', ['general'], 5);
 
     expect(rpc).toHaveBeenCalledWith('random_published_questions_excluding', expect.objectContaining({
-      p_difficulty: 'easy',
-      p_category_slug: 'general',
+      p_score_min: 67,
+      p_score_max: 100,
     }));
   });
 
-  it('calls supabase.rpc per category for multiple specific categories', async () => {
+  it('calls supabase.rpc per category for multiple specific categories with the same score range', async () => {
     rpc
       .mockResolvedValueOnce({ data: [makeRow('q1'), makeRow('q2')], error: null })
       .mockResolvedValueOnce({ data: [makeRow('q3')], error: null });
@@ -59,11 +72,13 @@ describe('fetchRandomQuestions', () => {
 
     expect(rpc).toHaveBeenCalledTimes(2);
     expect(rpc).toHaveBeenCalledWith('random_published_questions_excluding', expect.objectContaining({
-      p_difficulty: 'normal',
+      p_score_min: 34,
+      p_score_max: 66,
       p_category_slug: 'science',
     }));
     expect(rpc).toHaveBeenCalledWith('random_published_questions_excluding', expect.objectContaining({
-      p_difficulty: 'normal',
+      p_score_min: 34,
+      p_score_max: 66,
       p_category_slug: 'history',
     }));
     expect(result.length).toBeLessThanOrEqual(3);
@@ -119,9 +134,8 @@ describe('fetchRandomQuestions', () => {
   });
 });
 
-describe('fetchRandomQuestions — within-session dedupe (Task 1)', () => {
-  it('dedupeAndPickFreshest returns each ID at most once when sub-batches share IDs', async () => {
-    // Two RPC calls (two slugs) returning overlapping IDs.
+describe('fetchRandomQuestions — within-session dedupe', () => {
+  it('returns each ID at most once when sub-batches share IDs', async () => {
     rpc
       .mockResolvedValueOnce({ data: [makeRow('q1', 'science'), makeRow('q2', 'science')], error: null })
       .mockResolvedValueOnce({ data: [makeRow('q2', 'history'), makeRow('q3', 'history')], error: null });
@@ -146,14 +160,12 @@ describe('fetchRandomQuestions — within-session dedupe (Task 1)', () => {
 
   it('returns short array when unseen pool is too small — no fallback fetch with empty exclude list', async () => {
     getSeenIdsMock.mockReturnValue(['seen-a', 'seen-b']);
-    // First (and only) call returns just 2 rows for an n=5 request.
     rpc.mockResolvedValueOnce({ data: [makeRow('q1'), makeRow('q2')], error: null });
 
     const result = await fetchRandomQuestions('Easy', ['general'], 5);
 
     expect(result).toHaveLength(2);
     expect(rpc).toHaveBeenCalledTimes(1);
-    // Crucial: no follow-up call with p_exclude_ids: [].
     const callsWithEmptyExclude = rpc.mock.calls.filter(
       ([fn, args]) =>
         fn === 'random_published_questions_excluding' &&
@@ -164,7 +176,44 @@ describe('fetchRandomQuestions — within-session dedupe (Task 1)', () => {
   });
 });
 
-describe('interleaveByCategory (Task 2)', () => {
+describe('countAvailableQuestions', () => {
+  it('calls count_available_questions per slug with the score range', async () => {
+    rpc.mockResolvedValue({ data: 7, error: null });
+
+    const total = await countAvailableQuestions('Hard', ['science', 'history'], false);
+
+    expect(rpc).toHaveBeenCalledTimes(2);
+    expect(rpc).toHaveBeenCalledWith('count_available_questions', expect.objectContaining({
+      p_score_min: 0,
+      p_score_max: 33,
+      p_category_slug: 'science',
+      p_exclude_ids: [],
+    }));
+    expect(rpc).toHaveBeenCalledWith('count_available_questions', expect.objectContaining({
+      p_score_min: 0,
+      p_score_max: 33,
+      p_category_slug: 'history',
+      p_exclude_ids: [],
+    }));
+    expect(total).toBe(14);
+  });
+
+  it('passes seen IDs as p_exclude_ids when excludeSeen=true', async () => {
+    getSeenIdsMock.mockReturnValue(['s1', 's2']);
+    rpc.mockResolvedValue({ data: 0, error: null });
+
+    await countAvailableQuestions('Mixed', ['general'], true);
+
+    expect(rpc).toHaveBeenCalledWith('count_available_questions', expect.objectContaining({
+      p_score_min: 0,
+      p_score_max: 100,
+      p_category_slug: 'general',
+      p_exclude_ids: ['s1', 's2'],
+    }));
+  });
+});
+
+describe('interleaveByCategory', () => {
   const rowOf = (id: string, slug: string): RpcRow => ({
     id,
     question_text: id,

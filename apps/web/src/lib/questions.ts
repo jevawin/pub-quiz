@@ -1,16 +1,25 @@
 import { supabase } from './supabase';
 import { shuffle } from './shuffle';
-import { uiToDbDifficulties, type UiDifficulty, type DbDifficulty } from './difficulty';
+import { uiToScoreRange, type UiDifficulty } from './difficulty';
 import { getViewCounts, getSeenIds } from './seen-store';
 import type { LoadedQuestion } from '@/state/quiz';
 
+// Phase 999.8 Plan 05: questions are filtered by score-range against the
+// question_categories join table, not by a single 'difficulty' enum on questions.
+// The web RPC contract changed but this module keeps its public signatures
+// stable so Setup/Play screens do not need to change. The `easy/normal/hard`
+// keys in CategoryCounts now come from the new banded RPC output (counts_by_root_category
+// buckets effective scores into easy = 67..100, normal = 34..66, hard = 0..33).
+
 export type CategoryCounts = Record<string, { easy: number; normal: number; hard: number; total: number }>;
 
-/** Fetch per-root-category question counts, keyed by root slug, per difficulty. */
+type CountsRow = { root_slug: string; difficulty: 'easy' | 'normal' | 'hard'; question_count: number };
+
+/** Fetch per-root-category question counts, keyed by root slug, per difficulty band. */
 export async function fetchCountsByRootCategory(): Promise<CategoryCounts> {
   const { data, error } = await supabase.rpc('counts_by_root_category');
   if (error) throw error;
-  const rows = (data ?? []) as Array<{ root_slug: string; difficulty: DbDifficulty; question_count: number }>;
+  const rows = (data ?? []) as CountsRow[];
   const out: CategoryCounts = {};
   for (const r of rows) {
     const bucket = out[r.root_slug] ?? { easy: 0, normal: 0, hard: 0, total: 0 };
@@ -77,15 +86,17 @@ function toLoadedQuestion(r: RpcRow): LoadedQuestion {
   };
 }
 
-/** Fetch rows for one difficulty + category slug combo, excluding seen IDs server-side. */
-async function fetchForDifficulty(
-  dbDifficulty: string,
+/** Fetch rows for one score-range + category slug combo, excluding seen IDs server-side. */
+async function fetchForRange(
+  scoreMin: number,
+  scoreMax: number,
   categorySlug: string,
   limit: number,
   excludeIds: string[],
 ): Promise<RpcRow[]> {
   const { data, error } = await supabase.rpc('random_published_questions_excluding', {
-    p_difficulty: dbDifficulty,
+    p_score_min: scoreMin,
+    p_score_max: scoreMax,
     p_category_slug: categorySlug,
     p_limit: limit,
     p_exclude_ids: excludeIds,
@@ -94,29 +105,28 @@ async function fetchForDifficulty(
   return (data ?? []) as RpcRow[];
 }
 
-/** Count available questions across difficulties + slugs, excluding seen IDs. */
+/** Count available questions across the score range + slugs, excluding seen IDs. */
 export async function countAvailableQuestions(
   uiDifficulty: UiDifficulty,
   categorySlugs: string[],
   excludeSeen: boolean,
 ): Promise<number> {
-  const dbDifficulties = uiToDbDifficulties(uiDifficulty);
+  const { min, max } = uiToScoreRange(uiDifficulty);
   const allSelected = categorySlugs.length === 0 || categorySlugs.includes('general');
   const slugs = allSelected ? ['general'] : categorySlugs;
   const excludeIds = excludeSeen ? getSeenIds() : [];
 
   const counts = await Promise.all(
-    dbDifficulties.flatMap((diff) =>
-      slugs.map(async (slug) => {
-        const { data, error } = await supabase.rpc('count_available_questions', {
-          p_difficulty: diff,
-          p_category_slug: slug,
-          p_exclude_ids: excludeIds,
-        });
-        if (error) throw error;
-        return (data as number) ?? 0;
-      }),
-    ),
+    slugs.map(async (slug) => {
+      const { data, error } = await supabase.rpc('count_available_questions', {
+        p_score_min: min,
+        p_score_max: max,
+        p_category_slug: slug,
+        p_exclude_ids: excludeIds,
+      });
+      if (error) throw error;
+      return (data as number) ?? 0;
+    }),
   );
 
   return counts.reduce((sum, c) => sum + c, 0);
@@ -157,21 +167,19 @@ export async function fetchRandomQuestions(
   categorySlugs: string[],
   n: number,
 ): Promise<LoadedQuestion[]> {
-  const dbDifficulties = uiToDbDifficulties(uiDifficulty);
+  const { min, max } = uiToScoreRange(uiDifficulty);
   const allSelected = categorySlugs.length === 0 || categorySlugs.includes('general');
   const slugs = allSelected ? ['general'] : categorySlugs;
 
   // Server-side exclusion: ask DB to skip questions the user has already seen.
   const excludeIds = getSeenIds();
 
-  // Over-fetch 2x (smaller factor now that server filters seen) so we still have
-  // some choice between options for within-batch ordering.
+  // Over-fetch 2x so we still have some choice between options for within-batch
+  // ordering after server-side seen-exclusion.
   const overFetch = n * 2;
-  const perCombo = Math.max(1, Math.ceil(overFetch / (dbDifficulties.length * slugs.length)) + 2);
+  const perCombo = Math.max(1, Math.ceil(overFetch / slugs.length) + 2);
   const batches = await Promise.all(
-    dbDifficulties.flatMap((diff) =>
-      slugs.map((slug) => fetchForDifficulty(diff, slug, perCombo, excludeIds)),
-    ),
+    slugs.map((slug) => fetchForRange(min, max, slug, perCombo, excludeIds)),
   );
 
   // No silent stale-repeat fallback: if the unseen pool is too small, return a
@@ -183,9 +191,7 @@ export async function fetchRandomQuestions(
   const interleaved = interleaveByCategory(picked);
 
   // Final authoritative dedupe pass — belt-and-braces guarantee that the
-  // returned batch has no duplicate question_ids. dedupeAndPickFreshest
-  // already enforces this; the second pass makes the within-session
-  // uniqueness contract explicit and survives any future code-path changes.
+  // returned batch has no duplicate question_ids.
   const seenIdsInBatch = new Set<string>();
   const unique: RpcRow[] = [];
   for (const row of interleaved) {

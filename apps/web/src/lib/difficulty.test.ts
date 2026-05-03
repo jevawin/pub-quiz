@@ -1,22 +1,26 @@
 import { describe, it, expect } from 'vitest';
-import { uiToDbDifficulty, dbToUiDifficulty, type UiDifficulty } from './difficulty';
+import { uiToScoreRange, UI_DIFFICULTIES } from './difficulty';
 
-describe('difficulty translator', () => {
-  it('converts UI labels to DB values', () => {
-    expect(uiToDbDifficulty('Easy')).toBe('easy');
-    expect(uiToDbDifficulty('Medium')).toBe('normal');
-    expect(uiToDbDifficulty('Hard')).toBe('hard');
+describe('uiToScoreRange', () => {
+  it('Mixed -> full range', () => {
+    expect(uiToScoreRange('Mixed')).toEqual({ min: 0, max: 100 });
   });
 
-  it('converts DB values to UI labels', () => {
-    expect(dbToUiDifficulty('easy')).toBe('Easy');
-    expect(dbToUiDifficulty('normal')).toBe('Medium');
-    expect(dbToUiDifficulty('hard')).toBe('Hard');
+  it('Easy -> 67..100', () => {
+    expect(uiToScoreRange('Easy')).toEqual({ min: 67, max: 100 });
   });
 
-  it('throws on unknown UI difficulty', () => {
-    expect(() => uiToDbDifficulty('bogus' as UiDifficulty)).toThrow(
-      'Unknown UI difficulty: bogus',
-    );
+  it('Medium -> 34..66', () => {
+    expect(uiToScoreRange('Medium')).toEqual({ min: 34, max: 66 });
+  });
+
+  it('Hard -> 0..33', () => {
+    expect(uiToScoreRange('Hard')).toEqual({ min: 0, max: 33 });
+  });
+});
+
+describe('UI_DIFFICULTIES', () => {
+  it('lists all four UI buckets in order', () => {
+    expect(UI_DIFFICULTIES).toEqual(['Mixed', 'Easy', 'Medium', 'Hard']);
   });
 });

@@ -32,9 +32,11 @@ export async function getEligibleCategoriesOrdered(
   const eligible: OrderedCategory[] = [];
 
   for (const cat of categories) {
+    // Phase 999.8 Plan 05: questions.category_id is gone — count via the
+    // question_categories join table (one row per (question, category)).
     const { count: questionCount, error: qErr } = await supabase
-      .from('questions')
-      .select('*', { count: 'exact', head: true })
+      .from('question_categories')
+      .select('question_id', { count: 'exact', head: true })
       .eq('category_id', cat.id);
 
     if (qErr) continue;

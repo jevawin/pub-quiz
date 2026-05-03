@@ -2,10 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: "Phase 2.2 prototype iteration — feedback-driven; 999.8 backfill (260426-bkf) deferred"
-last_updated: "2026-05-03T00:00:00.000Z"
-last_activity: 2026-05-03
+status: Executing Phase 999.8
+stopped_at: Phase 2.2 prototype iteration; 260426-bkf backfill deferred
+last_updated: "2026-05-03T22:53:05.836Z"
+last_activity: 2026-05-03 -- Phase 999.8 execution started
+progress:
+  total_phases: 31
+  completed_phases: 4
+  total_plans: 23
+  completed_plans: 22
+  percent: 96
 ---
 
 # Project State
@@ -15,23 +21,27 @@ last_activity: 2026-05-03
 See: .planning/PROJECT.md (updated 2026-04-04)
 
 **Core value:** Great questions delivered through a clean, effortless interface -- the content is the star, not the chrome around it.
-**Current focus:** Phase 2.2 — Web Quiz v1 & Feedback Collection (prototype iteration, feedback-driven)
+**Current focus:** Phase 999.8 — multi-category-per-category-percentage-difficulty-backlog
 
 ## Current Position
 
-Phase: 2.2 (Web Quiz v1 & Feedback Collection) — ACTIVE (prototype phase)
+Phase: 999.8 (multi-category-per-category-percentage-difficulty-backlog) — EXECUTING
+Plan: 1 of 5
 Plans: 2/9 complete
 Active tracks (per ROADMAP C-section):
+
 - C1 quick tasks: 260428-fact (pending), 260426-bkf (deferred — Phase 2.4 backfill, ~600 questions)
 - C2 sequenced library work: 999.18 → 999.19 → 999.16
 
 Build path queue (after prototype proves out):
+
 - Phase 2.3 Admin Dashboard, 2.4 Multi-Category schema cleanup (blocked on 260426-bkf), 2.5 OpenTDB Attribution
 - Phase 3-8: Auth, Design, Shell, Browser, Engine, Cache
 
-Last activity: 2026-05-03 — quick task 260427-prm shipped (Questions Agent prompt nudges)
+Last activity: 2026-05-03 -- Phase 999.8 execution started
 
 ## Performance Metrics
+
 | Phase 01 P01 | 3min | 2 tasks | 19 files |
 | Phase 01 P02 | 6min | 2 tasks | 7 files |
 | Phase 01 P03 | 14min | 2 tasks | 4 files |
@@ -133,6 +143,7 @@ Last session: 2026-05-03
 Stopped at: Phase 2.2 prototype iteration; 260426-bkf backfill deferred
 Last activity: 2026-05-03 - Completed quick task 260427-prm: Questions Agent prompt nudges (British English + acronym expansion + year-of-release cap)
 Prior activity:
+
 - 2026-05-03 - Restructured ROADMAP into 3 tracks (260503-rmp); fixed 13 question_feedback items (260503-kxb)
 - 2026-04-28 - Shipped facts toggle on Play header + End Round summary (260428-tao)
 - 2026-04-19 - Closed 999.5 (OpenTDB import done); added 999.13 (provenance column + About/Credits)

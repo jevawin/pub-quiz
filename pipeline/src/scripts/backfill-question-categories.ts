@@ -12,7 +12,6 @@ import { loadConfig } from '../lib/config.js';
 import { log } from '../lib/logger.js';
 
 const BATCH_SIZE = 50;
-const GK_SLUG = 'general-knowledge';
 
 export async function backfillBatch(
   supabase: ReturnType<typeof createSupabaseClient>,
@@ -28,11 +27,16 @@ export async function backfillBatch(
     .select('question_id');
   const doneSet = new Set((existingIds ?? []).map((r: { question_id: string }) => r.question_id));
 
-  // Fetch published questions — over-fetch then filter client-side
+  // Fetch published questions — over-fetch then filter client-side.
+  // Phase 999.8 Plan 05 dropped questions.category_id, so we no longer pre-seed
+  // calibrateQuestion with the legacy single-category slug; the calibrator picks
+  // categories from scratch. The Plan 04 backfill is already complete on prod
+  // (see 999.8-04-SUMMARY); this script remains as a fallback for any future
+  // un-scored published rows.
   const fetchLimit = batchLimit + doneSet.size + 100;
   const { data: allPublished, error } = await supabase
     .from('questions')
-    .select('id, question_text, correct_answer, distractors, category_id')
+    .select('id, question_text, correct_answer, distractors')
     .eq('status', 'published')
     .limit(fetchLimit);
   if (error) throw new Error(error.message);
@@ -49,15 +53,8 @@ export async function backfillBatch(
     question_text: string;
     correct_answer: string;
     distractors: string[];
-    category_id: string;
   }>) {
-    const { data: cat } = await supabase
-      .from('categories')
-      .select('slug')
-      .eq('id', q.category_id)
-      .single();
-    const oldSlug = (cat as { slug?: string } | null)?.slug;
-    const assigned_slugs = oldSlug && oldSlug !== GK_SLUG ? [oldSlug] : [];
+    const assigned_slugs: string[] = [];
 
     try {
       const result = await calibrateQuestion(

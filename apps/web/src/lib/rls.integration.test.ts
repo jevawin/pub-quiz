@@ -19,7 +19,7 @@ describeIntegration('RLS integration (local supabase)', () => {
 
   it('insert succeeds with session_id = auth.uid() and NO .select()', async () => {
     const { data: qs } = await client.rpc('random_published_questions', {
-      p_difficulty: 'easy', p_category_slug: 'general', p_limit: 1,
+      p_score_min: 67, p_score_max: 100, p_category_slug: 'general', p_limit: 1,
     });
     expect(qs).toBeTruthy();
     expect((qs as unknown[]).length).toBeGreaterThan(0);
@@ -38,7 +38,7 @@ describeIntegration('RLS integration (local supabase)', () => {
 
   it('insert is denied when session_id does not match auth.uid()', async () => {
     const { data: qs } = await client.rpc('random_published_questions', {
-      p_difficulty: 'easy', p_category_slug: 'general', p_limit: 1,
+      p_score_min: 67, p_score_max: 100, p_category_slug: 'general', p_limit: 1,
     });
     const question = (qs as Array<{ id: string }>)[0]!;
 

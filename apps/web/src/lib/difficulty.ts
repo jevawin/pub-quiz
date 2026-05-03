@@ -1,35 +1,26 @@
+// Phase 999.8 Plan 05: difficulty is no longer a string enum stored on questions.
+// Questions live in the question_categories join table with per-category numeric
+// scores (0..100, lower = harder). UI difficulty buckets translate to score
+// ranges that the new RPCs accept. Mirrors pipeline/src/lib/config.ts
+// DIFFICULTY_BANDS — keep in sync if extracted to a shared package later.
+
 export type UiDifficulty = 'Mixed' | 'Easy' | 'Medium' | 'Hard';
-export type DbDifficulty = 'easy' | 'normal' | 'hard';
 
-const UI_TO_DB: Record<Exclude<UiDifficulty, 'Mixed'>, DbDifficulty> = {
-  Easy: 'easy',
-  Medium: 'normal',
-  Hard: 'hard',
-};
-
-const DB_TO_UI: Record<DbDifficulty, UiDifficulty> = {
-  easy: 'Easy',
-  normal: 'Medium',
-  hard: 'Hard',
-};
-
-export function uiToDbDifficulty(ui: UiDifficulty): DbDifficulty {
-  if (ui === 'Mixed') throw new Error('Mixed difficulty has no single DB mapping — use uiToDbDifficulties instead');
-  const v = UI_TO_DB[ui];
-  if (!v) throw new Error(`Unknown UI difficulty: ${ui}`);
-  return v;
+export interface ScoreRange {
+  min: number;
+  max: number;
 }
 
-/** Return all DB difficulties for a UI selection. Mixed → all three. */
-export function uiToDbDifficulties(ui: UiDifficulty): DbDifficulty[] {
-  if (ui === 'Mixed') return ['easy', 'normal', 'hard'];
-  return [uiToDbDifficulty(ui)];
-}
+const BANDS: Record<Exclude<UiDifficulty, 'Mixed'>, ScoreRange> = {
+  Easy:   { min: 67, max: 100 },
+  Medium: { min: 34, max: 66 },
+  Hard:   { min: 0,  max: 33 },
+};
 
-export function dbToUiDifficulty(db: DbDifficulty): UiDifficulty {
-  const v = DB_TO_UI[db];
-  if (!v) throw new Error(`Unknown DB difficulty: ${db}`);
-  return v;
+/** Convert a UI difficulty selection to the score range to send to RPCs. */
+export function uiToScoreRange(ui: UiDifficulty): ScoreRange {
+  if (ui === 'Mixed') return { min: 0, max: 100 };
+  return BANDS[ui];
 }
 
 export const UI_DIFFICULTIES: readonly UiDifficulty[] = ['Mixed', 'Easy', 'Medium', 'Hard'];
