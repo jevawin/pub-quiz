@@ -588,3 +588,71 @@ Plans:
 
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.17: Manual Feedback Inbox Sweep — May 2026 batch (RESOLVED 2026-05-03 via 260503-kxb)
+
+**Resolution:** All 13 rows resolved via DB-only `supabase db query --linked` UPDATEs. 7 question rewrites applied (00356aeb / 87d46d3f / 3f39d670 / c59f2a01 / 082aaa09 / e9ebf25a / 90422fe9), 6 marked no-action with cross-references to 999.16 / 999.18 / 999.19. Open inbox count: 0. Detail in `.planning/quick/260503-kxb-fix-13-open-question-feedback-items/260503-kxb-SUMMARY.md`.
+
+**Goal:** Resolve 13 open `question_feedback` rows accumulated 2026-04-28 → 2026-05-02. Same workflow as 260424-uju / 260426-myq / 260428-rfe.
+
+**Rewrites (7):**
+- `00356aeb` (binary): Q="If you were to write software using 1s and 0s, what would you be writing in?" correct=Binary, distractors=Machine code, Python, C++. (Easier-than-original framing; "Machine code" added as plausible distractor.)
+- `87d46d3f` (first Pokémon): rewrite to canonical answer Rhydon (Sugimori-cited, Internal ID #1, Guinness-confirmed). Q="According to Ken Sugimori, which Pokémon was the first ever designed?" correct=Rhydon, distractors=Bulbasaur, Mew, Clefairy.
+- `3f39d670` (GTA): "What character is NOT apart of…" → "What character is NOT a part of the Grand Theft Auto series?"
+- `c59f2a01` (semiconductor): normalise capitalisation across all options (Transistor / Tube / Diode / P-N junction).
+- `082aaa09` (brain freeze): add missing article — "Which one of these is the scientific term for…"
+- `e9ebf25a` (Brazil): drop duplicated `was` — "Which of the following was Brazil a former colony of?"
+- `90422fe9` (Carlos Estevez): canonicalise to "By what name is Carlos Estévez better known?" + rewrite fact to remove meta-reference to "this batch".
+
+**Mark resolved (no-action, 6):**
+- `c130bc2c` (Overwatch volume) — covered by 999.19 theme-skew audit.
+- `eb1e90a5` (year-distractors ±1yr) — flag for 999.16 style guide.
+- `291841bc` (niche science / "rate hard") — already hard; no change.
+- `74d15a90` ×2 + `7add0d30` (touch-highlight, pre-highlighted last answer) — covered by 999.18 UI bundle.
+- `7add0d30` (cat picker X overlap) — covered by 999.18 UI bundle.
+- `55530bc2` (sister of `90422fe9`, meta fact) — covered by 90422fe9 rewrite.
+
+**Workflow:** service-role PATCH on `questions` for rewrites; mark all `question_feedback` rows `resolved_at` + `resolved_note`. Confirm open inbox count = 0 at end.
+
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.18: UI Polish Bundle — Hover/Touch States, Loading State, Cat Picker (BACKLOG)
+
+**Goal:** Tighten Play/Setup/cat-picker UI based on recurring overall-feedback complaints. Mobile-first; remove hover affordance entirely (not useful on touch, bleeds onto answer/Next buttons).
+
+**Scope:**
+1. Remove all `:hover` styles app-wide (or convert to `@media (hover: hover)` guards if any need to stay for desktop pointer users — review case-by-case).
+2. Fix lingering touch state on Next button (stays dark green after tap) and on answer buttons (last answer pre-highlighted, highlight on scroll).
+3. Add disabled + loading state on Next/Submit. Loader = Lucide `BrainCog` (or composed `Brain`+`Cog`) with cog rotating clockwise + brain rotating anti-clockwise. Pair with cycling "thinking" verb every 3s, randomised per load. Verb list (lock during exec, ~12-15 terms): Pontificating, Postulating, Hypothesising, Speculating, Ruminating, Cogitating, Deliberating, Contemplating, Pondering, Mulling, Reasoning, Conjecturing, Theorising, Reflecting, Surmising, Inferring, Deducing, Musing, Synthesising, Reckoning, Philosophising, Devising, Wondering, Analysing, Computing, Processing. British -ising spellings.
+4. Cat picker modal: close X to top-right corner, no overlap with title.
+5. Browser verify: golden path on iOS Safari + Chrome desktop.
+
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.19: Library Theme-Skew & Question-Format Standardisation Audit (BACKLOG)
+
+**Goal:** Whole-library distribution + grammatical-structure audit. Distinct from 999.16 (per-row QA review). Two complementary passes:
+
+**Pass A — Theme-skew audit:**
+- Count questions per fine-grained theme within each category (e.g. Overwatch / year-of-creation / Van Gogh).
+- Flag any theme exceeding N% of category total (N TBD during exec; likely 5-10%).
+- Most skew expected from OpenTDB import bulk.
+- Output: report ranked by over-representation. Manually rebalance — reject or rewrite the excess.
+
+**Pass B — Question-format standardisation:**
+- Pass over all questions; collate distinct phrasings of equivalent question-shapes (e.g. "What year was X released" vs "In what year was X released" vs "When was X released").
+- Group variants; agree canonical format per shape with user.
+- Rewrite outliers to canonical. Capture rules in 999.16 style guide for future generation/QA passes.
+
+**Why both in one phase:** both are whole-library audits run on the same data scan. Cheaper to do together.
+
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
