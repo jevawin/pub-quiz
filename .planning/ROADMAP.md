@@ -399,14 +399,6 @@ Current-state work. The web prototype (Phase 2.2) is the testbed; this section i
 
 Small, current-state-appropriate fixes triggered directly by recent feedback. Pure prompt edits or single-file tweaks. Execute with `/gsd-quick`.
 
-### 260427-prm: Agent prompt nudges (PENDING)
-
-**Goal:** Three small Questions Agent prompt edits in one commit:
-1. Cap "year of creation/release" question density (feedback `17e9f94e`: "too many questions about year of creation").
-2. British English bias (feedback `cbdfa600`: "Soccer is understood but should it be football?") — favour "football" over "soccer", "lift" over "elevator", etc.
-3. Expand acronyms on first use (feedback `ced3bb1b`: "some questions about acronyms might need a bit of context") — e.g. "FBI (Federal Bureau of Investigation)".
-**Why now:** Pure prompt edit, zero infra cost, addresses three feedback signals at once. Feeds future style-guide updater (999.6).
-
 ### 260428-fact: Tighten Enrichment Agent fun_fact prompt (PENDING)
 
 **Goal:** Three "badly worded fun fact" reports in two days (`f2285df6`, `d8e55749`, plus eggplant grammar `09f0fd8b`). Pattern is bigger than per-question rewrites — Enrichment Agent prompt needs tightening. Investigate the prompt in `pipeline/src/agents/enrichment.ts` (or wherever fun_fact generation lives), tighten constraints: complete sentences, grammatical agreement, no "is/are" mismatches, must add new info beyond the question, max 1 sentence or 2 short ones. Sample-test against 20 questions before merging.
@@ -580,6 +572,14 @@ See Phase 2.5 above. Original entry kept for history.
 ## D4. Resolved quick-task specs (preserved)
 
 These specs lived inline in the prior roadmap; their resolutions are tracked in `.planning/STATE.md` and individual `.planning/quick/<slug>/SUMMARY.md` files.
+
+### 260427-prm: Agent prompt nudges (RESOLVED 2026-05-03 via 260427-prm)
+
+**Goal:** Three small Questions Agent prompt edits in one commit:
+1. Cap "year of creation/release" question density (feedback `17e9f94e`).
+2. British English bias (feedback `cbdfa600`).
+3. Expand acronyms on first use (feedback `ced3bb1b`).
+**Resolution:** All three additions made to `pipeline/src/agents/questions.ts` `SYSTEM_PROMPT`: new `## British English` section (vocabulary + spellings), new Rule 8 (acronym expansion with carve-out for universally known acronyms), and new top Anti-Pattern (year-of-creation soft cap ~1-in-10). Verification via prompt-diff inspection — no live run (pipeline budget locked).
 
 ### 260428-fdb: Fix 6 open question_feedback items (RESOLVED 2026-04-28 via 260428-rfe)
 
