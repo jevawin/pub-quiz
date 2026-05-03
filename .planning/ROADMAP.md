@@ -4,18 +4,38 @@
 
 The build follows two parallel tracks: a question pipeline that runs independently in the cloud (Phases 1-2), and the quiz app itself (Phases 3-8). The pipeline is highest priority because without questions there is no product -- it starts first and runs in the background while the app is built. The app track flows from backend foundation through design system, navigation, category browsing, quiz gameplay, and finally local caching. Cost management requirements are woven into the phases where costs arise rather than isolated in a separate phase.
 
-## Phases
+## How to use this roadmap
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+This document is split into three tracks plus an archive:
 
-Decimal phases appear between their surrounding integers in numeric order.
+- **A. Build Path — Long Game.** The planned milestone phases (1-8 + 2.x inserts). The actual product. Currently in prototype phase (2.2 web quiz).
+- **B. Post-Launch Backlog.** System-level / future-feature ideas that depend on play volume, public launch, or post-MVP context. Park until after launch.
+- **C. Prototype Iteration Backlog.** Current-state work while iterating on the web prototype before the proper app build. Quick fixes from feedback + library quality work. **New feedback-driven items go here.**
+- **D. Archive.** Resolved, promoted, and superseded items, preserved for traceability.
 
-- [ ] **Phase 1: Question Pipeline -- Agents & Schema** - Build the 4-agent Claude pipeline and the Supabase schema it writes to
-- [ ] **Phase 2: Question Pipeline -- Seed & Scheduling** - Run the initial high-frequency seed and establish ongoing daily schedule
-- [ ] **Phase 2.1: Question Pipeline -- QA Agent & Source Relevance** - QA Agent for question quality, Knowledge Agent source filtering (INSERTED)
-- [ ] **Phase 2.2: Web Quiz v1 & Feedback Collection** - Plain web quiz on Cloudflare Pages, collects real play + feedback data to seed calibration (INSERTED)
+**Phase numbering:**
+- Integer phases (1, 2, 3): planned milestone work
+- Decimal phases (2.1, 2.2): urgent insertions (marked INSERTED)
+- 999.x: backlog items (live in B or C, never on the build path until promoted)
+
+---
+
+# A. Build Path — Long Game
+
+The planned milestone phases. Pipeline (1, 2, 2.1) runs autonomously; app track (3-8) gates on prototype validation.
+
+**Execution order:** 1 → 2 → 2.1 → 2.2 → 2.3 → 2.4 → 2.5 → 3 → 4 → 5 → 6 → 7 → 8
+
+**Pipeline scope (locked 2026-04-28):** the scheduled pipeline (~£15/mo Anthropic cap) is for **new question generation only**. Retroactive passes over published questions go through manual workflows (quick tasks for flagged feedback; backlog 999.16 for systematic full-library QA). Anything else = pipeline-budget waste.
+
+Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since the pipeline is an independent service.
+
+## Build phases at a glance
+
+- [x] **Phase 1: Question Pipeline -- Agents & Schema** - Build the 4-agent Claude pipeline and the Supabase schema it writes to
+- [x] **Phase 2: Question Pipeline -- Seed & Scheduling** - Run the initial high-frequency seed and establish ongoing daily schedule
+- [x] **Phase 2.1: Question Pipeline -- QA Agent & Source Relevance** - QA Agent for question quality, Knowledge Agent source filtering (INSERTED)
+- [ ] **Phase 2.2: Web Quiz v1 & Feedback Collection** - Plain web quiz on Cloudflare Pages, collects real play + feedback data to seed calibration (INSERTED) — **active, prototype phase**
 - [ ] **Phase 2.3: Admin Dashboard v1 -- Library & Pipeline Inspection** - Internal web admin for library inspection, curation, and pipeline observability (INSERTED)
 - [ ] **Phase 2.4: Multi-Category + Per-Category Percentage Difficulty** - Finish schema cleanup migration; promoted from 999.8 (PROMOTED)
 - [ ] **Phase 2.5: OpenTDB Attribution** - Provenance column + About/Credits screen, CC BY-SA 4.0 compliance; promoted from 999.13 (PROMOTED)
@@ -25,6 +45,24 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 6: Category Browser** - Hierarchical category browsing with play-at-any-level interaction
 - [ ] **Phase 7: Quiz Engine & Play Modes** - Core quiz gameplay, quick play, solo play, scoring, results
 - [ ] **Phase 8: Question Cache & Cost Management** - Local question cache, sync strategy, Supabase usage monitoring
+
+## Progress
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 1. Question Pipeline: Agents & Schema | 4/4 | Shipped | - |
+| 2. Question Pipeline: Seed & Scheduling | 2/2 | Shipped | - |
+| 2.1 Question Pipeline: QA Agent & Source Relevance | 3/3 | Shipped | - |
+| 2.2 Web Quiz v1 & Feedback Collection | 2/9 | Active — prototype phase | - |
+| 2.3 Admin Dashboard v1 | 0/0 | Not started | - |
+| 2.4 Multi-Category + % Difficulty (from 999.8) | 4/5 | Plan 05 pending backfill (260426-bkf) | - |
+| 2.5 OpenTDB Attribution (from 999.13) | 0/2 | Not started | - |
+| 3. Auth & App Backend | 0/2 | Not started | - |
+| 4. Design System | 0/3 | Not started | - |
+| 5. App Shell & Platform | 0/2 | Not started | - |
+| 6. Category Browser | 0/2 | Not started | - |
+| 7. Quiz Engine & Play Modes | 0/3 | Not started | - |
+| 8. Question Cache & Cost Management | 0/2 | Not started | - |
 
 ## Phase Details
 
@@ -291,90 +329,75 @@ Plans:
 - [ ] 08-01: TBD
 - [ ] 08-02: TBD
 
-## Progress
+---
 
-**Execution Order:**
-Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 2.3 → 2.4 → 2.5 → 3 → 4 → 5 → 6 → 7 → 8
+# B. Post-Launch Backlog
 
-**Pipeline scope (locked 2026-04-28):** The scheduled pipeline (~£15/mo Anthropic cap) is for **new question generation only**. Retroactive passes over published questions go through manual workflows (quick tasks for flagged feedback; backlog 999.16 for systematic full-library QA). Anything else = pipeline-budget waste.
-Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since the pipeline is an independent service.
+System-level work and future features that depend on play volume, public launch, or post-MVP context. **Do not promote without re-evaluating fit** — most of these items need data or infrastructure that doesn't exist yet.
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Question Pipeline: Agents & Schema | 0/4 | Planning complete | - |
-| 2. Question Pipeline: Seed & Scheduling | 0/2 | Planning complete | - |
-| 2.1 Question Pipeline: QA Agent & Source Relevance | 0/3 | Planning complete | - |
-| 2.2 Web Quiz v1 & Feedback Collection | 0/0 | Not started | - |
-| 2.3 Admin Dashboard v1 | 0/0 | Not started | - |
-| 2.4 Multi-Category + % Difficulty (from 999.8) | 4/5 | Plan 05 pending backfill | - |
-| 2.5 OpenTDB Attribution (from 999.13) | 0/0 | Not started | - |
-| 3. Auth & App Backend | 0/2 | Not started | - |
-| 4. Design System | 0/3 | Not started | - |
-| 5. App Shell & Platform | 0/2 | Not started | - |
-| 6. Category Browser | 0/2 | Not started | - |
-| 7. Quiz Engine & Play Modes | 0/3 | Not started | - |
-| 8. Question Cache & Cost Management | 0/2 | Not started | - |
+## Index
 
-## Active Quick Tasks (prioritised 2026-04-28)
+- **999.2** — Question Refinement from User Feedback (automated pipeline; needs play volume)
+- **999.6** — Style Guide Update Agent with Approval Gate (automated; needs 500-question batch cadence + canonical style guide)
+- **999.7** — SMS Daily Question Premium Feature (monetisation; needs app launched)
+- **999.9b** — Admin Dashboard — Game Stats & Player Feedback (depends on app shipping with play data)
+- **999.12** — Birth Decade Filter for Era-Appropriate Questions (UX feature; post-MVP)
+- **999.14** — Review Wikipedia Sourcing Step Value in Pipeline (audit; do once pipeline is stable)
 
-**Done:**
-1. 260427-spt — Fix sport category filter bug ✅
-2. 260426-fct — Wire fun_fact into reveal UI ✅
-3. 260427-dup — Within-session question dedup ✅
-4. 260427-end — End-of-quiz per-question Round summary ✅
-5. 260427-qol — UI QoL tweaks (icons, colours, callouts, palette) ✅
+### Phase 999.2: Question Refinement from User Feedback (BACKLOG)
 
-**Tier 1 — ship now:**
-1. 260428-fdb — Fix 6 open question_feedback items ✅ (260428-rfe, 2026-04-28; inbox empty)
-2. 260428-end-toggle — Show/hide facts toggle on End screen Round summary (deferred sibling of 260427-end) ✅ (260428-tao, 2026-04-28; mirrored in Play header + sessionStorage-persisted, default ON)
+**Goal:** Automated pipeline that continuously reviews user feedback (correct answer rates, sentiment scores, written feedback) and refines questions -- adjusting difficulty labels, rewriting confusing questions, re-categorising, and retiring poor performers. Target: easy mode converges to ~80% correct rate, categories feel right, questions feel polished.
+**Why post-launch:** Needs the input data (play counts, observed correct rate, written feedback at scale). 2.2 web quiz is the prototype that starts producing this data; meaningful refinement requires post-launch volume.
+**Requirements:** TBD
+**Plans:** 0 plans
 
-**Tier 2 — this week:**
-3. 260427-prm — Agent prompt nudges (year-of-creation, British English, acronyms, who-vs-which for people)
-4. 260428-fact — Tighten Enrichment Agent prompt for fun_fact quality (3 "badly written fact" reports in 2 days)
-5. 260426-bkf — Resume 999.8 backfill (human action; unblocks Phase 2.4 plan 05)
+### Phase 999.6: Style Guide Update Agent with Approval Gate (BACKLOG)
 
-### 260428-fdb: Fix 6 open question_feedback items (RESOLVED 2026-04-28 via 260428-rfe)
+**Goal:** Repeatable agent that analyses batches of ~500 new questions and proposes updates to the question writing style guide. Triggered automatically when 500 new questions accumulate. Reads the existing style guide first, then looks for new patterns, category-specific insights, or calibration shifts in the latest batch. Produces a PROPOSED-UPDATE.md diff — never overwrites the original gold standard directly. Updates require human approval before merging into the canonical style guide. Related to 999.2 (user feedback refinement) — as user feedback data becomes available, the style guide agent should incorporate correctness rates and user sentiment alongside question analysis.
+**Why post-launch:** Needs the 500-question batch cadence (post-2.2 ship rate) plus the canonical style guide formalised first. Could be revisited once 999.19 (format standardisation) lands, since 999.19 produces the canonical rules this agent would maintain.
+**Requirements:** TBD
+**Plans:** 0 plans
 
-**Resolution:** All 6 rewrites applied via service-role PATCH. `question_feedback` rows marked resolved with notes; open inbox count = 0. Detail in `.planning/quick/260428-rfe-…/260428-rfe-SUMMARY.md`. Pattern reinforces case for Phase 2.6 (grammar+style pass) and 260428-fact (Enrichment Agent prompt).
+### Phase 999.7: SMS Daily Question Premium Feature (BACKLOG)
 
-### 260428-fdb-original: Fix 6 open question_feedback items (HISTORIC)
+**Goal:** Premium feature that sends one pub quiz question per day via SMS. Player receives the question, replies with their answer (A/B/C/D), gets the result + fun fact back. Relies on the Enrichment Agent's `fun_fact` field — each message is a standalone question + answer + fun fact that works without app context. Potential monetisation as a paid subscription (e.g. £1/mo). Needs: SMS provider integration (Twilio/similar), subscriber management, question selection logic (avoid repeats, vary categories), opt-in/opt-out, billing. Related to 999.2 (user feedback) — SMS reply data is a feedback signal for question quality.
+**Why post-launch:** Monetisation feature; needs paying users + app-launched context. SMS infrastructure cost not justified pre-launch.
+**Requirements:** TBD
+**Plans:** 0 plans
 
-**Goal:** 6 reports collected 2026-04-27/28. Mix of question grammar and fun_fact quality.
-1. `f2285df6` (qid `09aa4f7e…`) — "I'm not sure this fact makes sense"
-2. `b17185e1` (qid `aed6cc1d…`) — "Badly worded"
-3. `19e7b757` (qid `22aeee49…`) — "Keyboard not capitalised here"
-4. `09f0fd8b` (qid `f746e6a0…`) — "'Is found in eggplant seeds' the chemical is singular"
-5. `d8e55749` (qid `291ffce3…`) — "Confusing fact badly written"
-6. `d9c362dd` (qid `3267b640…`) — "Shouldn't it be 'who of the following' because they're people?"
-**Why now:** Same workflow as 260424-uju and 260426-myq — manual rewrites, mark resolved.
+### Phase 999.9b: Admin Dashboard — Game Stats & Player Feedback (BACKLOG)
 
-### 260428-end-toggle: Show/hide facts toggle on Round summary (RESOLVED 2026-04-28 via 260428-tao)
+**Goal:** Second half of the admin dashboard (v1 shipped as Phase 2.3). Adds the player-data views that only become meaningful once the mobile app ships and starts logging plays: DAU / sessions / quizzes played, per-question observed correct rate + sample size, gap between estimate and observed score (the questions where the Calibrator was most wrong are the most interesting), per-category play volume and average score, user feedback inbox (flagged questions, written reports, sentiment).
+**Depends on:** Phase 2.3 (admin shell exists), Phase 2.2 (feedback collection plumbing already in place from the web quiz), Phase 7 (native app ships and adds more play volume).
+**Why post-launch:** Stats views are empty until the native app generates volume. Build with real data, not synthetic.
+**Requirements:** TBD
+**Plans:** 0 plans
 
-**Resolution:** Toggle shipped on End Round summary AND mirrored in Play screen header (right of "Question N of M", left of Exit). State persisted via sessionStorage so the preference carries between Play and End within a tab. Final design defaults to **ON** (flipped from original "default hidden" after preview iteration). Solid neutral-600 colour matching Exit button; state communicated via Eye/EyeOff icon + strikethrough on the "Facts" label. Detail in `.planning/quick/260428-tao-260428-end-toggle-show-hide-facts-toggle/260428-tao-SUMMARY.md`.
+### Phase 999.12: Birth Decade Filter for Era-Appropriate Questions (BACKLOG)
 
-### 260428-fact: Tighten Enrichment Agent fun_fact prompt (PENDING)
+**Goal:** Player picks the decade they were born in (e.g. 1970s, 1980s, 1990s) during onboarding or per-quiz; question selection biases toward era-appropriate general knowledge (music, TV, events, brands, culture from that decade ±10 years). Goal: questions feel "of your time" — a 1985-born player isn't asked about 1960s Motown B-sides unless they opt in. Needs: decade tag on questions (`era_decade` or `era_range` field), agent-side era tagging during generation, runtime filter/boost in quiz selection (soft weighting, not hard filter, so cross-era general knowledge still appears). Optional UX: "play my decade" quick mode on home screen.
+**Why post-launch:** UX feature, not core. Needs the native app + onboarding flow (Phases 5-7) to land first.
+**Requirements:** TBD
+**Plans:** 0 plans
 
-**Goal:** Three "badly worded fun fact" reports in two days (`f2285df6`, `d8e55749`, plus eggplant grammar `09f0fd8b`). Pattern is bigger than per-question rewrites — Enrichment Agent prompt needs tightening. Investigate the prompt in `pipeline/src/agents/enrichment.ts` (or wherever fun_fact generation lives), tighten constraints: complete sentences, grammatical agreement, no "is/are" mismatches, must add new info beyond the question, max 1 sentence or 2 short ones. Sample-test against 20 questions before merging.
-**Why now:** Quality compounds. Cheaper to fix the agent than rewrite individual facts forever.
+### Phase 999.14: Review Wikipedia Sourcing Step Value in Pipeline (BACKLOG)
 
-### 260427-qol: UI QoL tweaks — icons, colours, polish (RESOLVED 2026-04-28)
+**Goal:** Audit whether the Knowledge Agent (Wikipedia sourcing) step earns its cost and complexity. The step fetches Wikipedia content per category to ground the Questions Agent — but native pipeline questions may not be meaningfully better than questions generated without a Wikipedia source, and the step adds latency, token cost, and a failure mode (bad source → bad questions). Review questions: (1) do questions with a Wikipedia source score higher in QA than those without? (2) are there categories where Wikipedia sourcing is actively harmful (too encyclopaedic, too detailed, pulls comprehension-framing)? (3) would a curated few-shot examples approach (already partially done via STYLE-GUIDE.md) be sufficient to replace it? Outcome: keep as-is, make sourcing optional per category depth, or remove and rely on model knowledge + style guide. Relates to 999.4 (prompt tone) — Wikipedia sourcing may be the root cause of the comprehension-framing problem even after prompt tightening.
+**Why post-launch:** Audit; pipeline is currently working. Defer until cost / quality pressure makes it worth doing, or until 999.16 + 999.19 surface enough data to compare sourced vs unsourced quality.
+**Requirements:** TBD
+**Plans:** 0 plans
 
-**Resolution:** Shipped via merge `5927771` and palette unification `a9a50dd`. Lock icon on Lock In, ArrowRight on Next (right side, green), Lightbulb-prefixed blue callout for fun_fact, green Play / Play Again, coloured rating-state styling on End feedback faces, "Submit feedback" + Send icon, "Anything to tell us?" → "Feedback?", consistent palette tiers (`-50` faded / `-600` brand / `-700` hover / `-800` text).
+---
 
-### 260427-spt: Fix sport category filter bug (PENDING)
+# C. Prototype Iteration Backlog
 
-**Goal:** Session feedback `2ddac7cc` (2026-04-20): "Selected sport and got other subjects, but no sport". Investigate `fetchRandomQuestions` RPC + category filter path in `apps/web/src/lib/questions.ts` and the corresponding Supabase RPC. Confirm category slug → category_id mapping and the join path against `question_categories` (or pre-999.8 single category_id) actually filters as expected. Reproduce locally by selecting Sport at the setup screen.
-**Why now:** Real bug, hits the core promise of "play this category". Highest signal-to-effort.
+Current-state work. The web prototype (Phase 2.2) is the testbed; this section is where feedback-driven iterations and library-quality work live until the prototype is solid enough to commit to the proper build (Phase 3+).
 
-### 260427-dup: Within-session question dedup (PENDING)
+**Add new feedback-driven items here.** Use the date-prefix slug convention (e.g. `260503-xxx`) for tactical fixes; reserve `999.x` numbers for phase-sized items.
 
-**Goal:** Two session feedback items: `f65afa50` "2 Van Gogh questions back-to-back wasn't ideal" and `ef374940` "I only did well because half the questions were repeats". Track shown question_ids per active session (in-memory or localStorage outbox) and exclude them from subsequent picks within that session. Server-side seen-tracking for cross-session already exists (commit `3dc636b`); this is the within-session companion.
-**Why now:** Multiple sessions flagged it. Erodes trust in question variety.
+## C1. Active quick tasks (this week)
 
-### 260427-end: End-of-quiz review screen (PENDING)
-
-**Goal:** Session feedback `116dc5a9`: "Would be good to get summary of correct/incorrect at end. Also possibly show hide facts toggle". Add a per-question recap to `End.tsx`: list each question with chosen answer vs correct answer, collapsible fun_fact. One toggle for show/hide all facts. Score summary stays at top.
-**Why now:** Most-requested missing feature in feedback. Small, high user value.
+Small, current-state-appropriate fixes triggered directly by recent feedback. Pure prompt edits or single-file tweaks. Execute with `/gsd-quick`.
 
 ### 260427-prm: Agent prompt nudges (PENDING)
 
@@ -384,172 +407,53 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 3. Expand acronyms on first use (feedback `ced3bb1b`: "some questions about acronyms might need a bit of context") — e.g. "FBI (Federal Bureau of Investigation)".
 **Why now:** Pure prompt edit, zero infra cost, addresses three feedback signals at once. Feeds future style-guide updater (999.6).
 
-### 260426-fct: Wire fun_fact into web quiz UI (PENDING)
+### 260428-fact: Tighten Enrichment Agent fun_fact prompt (PENDING)
 
-**Goal:** Fun facts exist on 100% of published questions but the web app never fetches or renders them. End-of-question reveal screen shows the explanation but no fun fact. Work: (1) update the question-fetch RPC to return `fun_fact`, (2) extend `LoadedQuestion` type and `RpcRow` in `apps/web/src/lib/questions.ts`, (3) render `fun_fact` on the answer reveal screen below explanation (style: subdued, italic, prefixed with a divider). Verify in localhost dev server.
-**Why now:** Just confirmed 0/2848 published questions are missing fun_facts — the content exists, the surface is missing. User reported facts not visible in localhost.
+**Goal:** Three "badly worded fun fact" reports in two days (`f2285df6`, `d8e55749`, plus eggplant grammar `09f0fd8b`). Pattern is bigger than per-question rewrites — Enrichment Agent prompt needs tightening. Investigate the prompt in `pipeline/src/agents/enrichment.ts` (or wherever fun_fact generation lives), tighten constraints: complete sentences, grammatical agreement, no "is/are" mismatches, must add new info beyond the question, max 1 sentence or 2 short ones. Sample-test against 20 questions before merging.
+**Why now:** Quality compounds. Cheaper to fix the agent than rewrite individual facts forever.
 
 ### 260426-bkf: Resume 999.8 calibration backfill to completion (PENDING — HUMAN ACTION)
 
 **Goal:** Phase 999.8 Plan 04 is checkpointed awaiting human-driven Claude Code agent backfill. Latest commit `ef93e7a` reports 2250/2848 (79%). ~600 questions still missing question_categories rows. Plan 05 (drop old columns: `category_id`, `difficulty`, `calibration_percent`) is blocked until `still_missing = 0`.
 **Action:** Open a fresh Claude Code agent session and paste the prompt in `.planning/phases/999.8-multi-category-per-category-percentage-difficulty-backlog/999.8-04-SUMMARY.md` ("Checkpoint: Task 3 Awaiting Human Action"). Work in batches of 50, commit per batch, run the verification SQL when complete.
-**Why now:** Unblocks 999.8 completion and the schema cleanup migration. Subscription-paid (no API spend cap risk).
+**Why now:** Unblocks Phase 2.4 plan 05 (the schema cleanup migration). Subscription-paid (no API spend cap risk).
 
-### 260426-fdb: Fix 3 open question_feedback items (RESOLVED 2026-04-26)
+## C2. Library quality work (sequenced)
 
-**Resolution:** All three actioned. Items 1 + 2 (question rewrites) shipped in commit `ddd6359`. Item 3 (focus-state UI bug) shipped in commit `b4ca9f0` — answer buttons switched to `focus-visible:` so mouse clicks no longer leave a ring. `question_feedback` inbox confirmed empty as of 2026-04-26.
+Phase-sized iterations on the question library. Run in order — 999.18 first (UI bundle, browser-verifiable), then 999.19 (whole-library audit kills bulk skew), then 999.16 (per-row sweep over what's left).
 
-### 260426-q15: Confirm scope of 999.15 retroactive QA pass (RESOLVED 2026-04-28)
+### Phase 999.18: UI Polish Bundle — Hover/Touch States, Loading State, Cat Picker (BACKLOG)
 
-**Resolution:** Refocused Phase 2.6 from full QA + fact-check to grammar+style-only pass per user direction (2026-04-28): "facts are solid; theme of poor grammar in OpenTDB questions". Cost estimate dropped from £23 to ~£10 Haiku-only. Phase 2.6 now ready to plan; q15 closed.
+**Goal:** Tighten Play/Setup/cat-picker UI based on recurring overall-feedback complaints. Mobile-first; remove hover affordance entirely (not useful on touch, bleeds onto answer/Next buttons).
 
-## Backlog
+**Scope:**
+1. Remove all `:hover` styles app-wide (or convert to `@media (hover: hover)` guards if any need to stay for desktop pointer users — review case-by-case).
+2. Fix lingering touch state on Next button (stays dark green after tap) and on answer buttons (last answer pre-highlighted, highlight on scroll).
+3. Add disabled + loading state on Next/Submit. Loader = Lucide `BrainCog` (or composed `Brain`+`Cog`) with cog rotating clockwise + brain rotating anti-clockwise. Pair with cycling "thinking" verb every 3s, randomised per load. Verb list (lock during exec, ~12-15 terms): Pontificating, Postulating, Hypothesising, Speculating, Ruminating, Cogitating, Deliberating, Contemplating, Pondering, Mulling, Reasoning, Conjecturing, Theorising, Reflecting, Surmising, Inferring, Deducing, Musing, Synthesising, Reckoning, Philosophising, Devising, Wondering, Analysing, Computing, Processing. British -ising spellings.
+4. Cat picker modal: close X to top-right corner, no overlap with title.
+5. Browser verify: golden path on iOS Safari + Chrome desktop.
 
-### Phase 999.2: Question Refinement from User Feedback (BACKLOG)
-
-**Goal:** Automated pipeline that continuously reviews user feedback (correct answer rates, sentiment scores, written feedback) and refines questions -- adjusting difficulty labels, rewriting confusing questions, re-categorising, and retiring poor performers. Target: easy mode converges to ~80% correct rate, categories feel right, questions feel polished.
-**Requirements:** TBD
 **Plans:** 0 plans
 
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
+### Phase 999.19: Library Theme-Skew & Question-Format Standardisation Audit (BACKLOG)
 
-### Phase 999.3: Improve Category Agent Prompt for Pub Quiz Suitability (RESOLVED 2026-04-19 via quick 260419-pma)
+**Goal:** Whole-library distribution + grammatical-structure audit. Distinct from 999.16 (per-row QA review). Two complementary passes:
 
-**Goal:** Tighten the Category Agent system prompt to favour categories that work in a real pub quiz. Add criteria: would a quizmaster say this out loud, would 3+ people at a table have a chance, avoid academic/technical categories. Current prompt is too vague ("avoid overly niche topics").
-**Resolution:** Depth-aware rule added to pipeline/src/agents/category.ts — strict at depth 0/1 (rejects Thermodynamics, Epistemology, Macroeconomics), permissive at depth 2/3 (keeps niche leaves like Quidditch). Commit `c257dfc`.
+**Pass A — Theme-skew audit:**
+- Count questions per fine-grained theme within each category (e.g. Overwatch / year-of-creation / Van Gogh).
+- Flag any theme exceeding N% of category total (N TBD during exec; likely 5-10%).
+- Most skew expected from OpenTDB import bulk.
+- Output: report ranked by over-representation. Manually rebalance — reject or rewrite the excess.
+
+**Pass B — Question-format standardisation:**
+- Pass over all questions; collate distinct phrasings of equivalent question-shapes (e.g. "What year was X released" vs "In what year was X released" vs "When was X released").
+- Group variants; agree canonical format per shape with user.
+- Rewrite outliers to canonical. Capture rules in 999.16 style guide for future generation/QA passes.
+
+**Why both in one phase:** both are whole-library audits run on the same data scan. Cheaper to do together.
+**Why before 999.16:** kills bulk skew first, so per-row sweep doesn't waste cycles on questions destined for delete or rewrite.
+
 **Plans:** 0 plans
-
-Plans:
-- [x] Resolved — no plan needed
-
-### Phase 999.4: Improve Questions Agent Prompt for Pub Quiz Tone (RESOLVED 2026-04-19 via quick 260419-pma)
-
-**Goal:** Rewrite the Questions Agent system prompt so generated questions feel like real pub quiz questions, not Wikipedia comprehension tests. Questions should test general knowledge people might actually know, not "according to the reference material, what does paragraph 3 say". Favour "would you hear this in a pub" over "what does the source text say".
-**Resolution:** Tone section + comprehension-framing ban + answer-in-question ban added to pipeline/src/agents/questions.ts SYSTEM_PROMPT. Commits `794a422` (initial), `fa8158a` (answer-in-question ban after user flagged GTA/Dark Souls leakage). Verified via 20-sample live dry-run: tone shift confirmed, Q9/Q15-style leakage eliminated. User approved.
-**Plans:** 0 plans
-
-Plans:
-- [x] Resolved — no plan needed
-
-### Phase 999.6: Style Guide Update Agent with Approval Gate (BACKLOG)
-
-**Goal:** Repeatable agent that analyses batches of ~500 new questions and proposes updates to the question writing style guide. Triggered automatically when 500 new questions accumulate. Reads the existing style guide first, then looks for new patterns, category-specific insights, or calibration shifts in the latest batch. Produces a PROPOSED-UPDATE.md diff — never overwrites the original gold standard directly. Updates require human approval before merging into the canonical style guide. Related to 999.2 (user feedback refinement) — as user feedback data becomes available, the style guide agent should incorporate correctness rates and user sentiment alongside question analysis.
-**Requirements:** TBD
-**Plans:** 0 plans
-
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
-
-### Phase 999.7: SMS Daily Question Premium Feature (BACKLOG)
-
-**Goal:** Premium feature that sends one pub quiz question per day via SMS. Player receives the question, replies with their answer (A/B/C/D), gets the result + fun fact back. Relies on the Enrichment Agent's `fun_fact` field — each message is a standalone question + answer + fun fact that works without app context. Potential monetisation as a paid subscription (e.g. £1/mo). Needs: SMS provider integration (Twilio/similar), subscriber management, question selection logic (avoid repeats, vary categories), opt-in/opt-out, billing. Related to 999.2 (user feedback) — SMS reply data is a feedback signal for question quality.
-**Requirements:** TBD
-**Plans:** 0 plans
-
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
-
-### Phase 999.8: Multi-Category + Per-Category Percentage Difficulty (PROMOTED → Phase 2.4 on 2026-04-26)
-
-**Goal:** Replace single-category + easy/medium/hard with multi-category tagging where each category carries its own "estimated % of that audience who'd get it right" score. Difficulty tiers become a runtime grouping over the score (e.g. hard 0-33, medium 34-66, easy 67-100), tunable without re-scoring questions. As real answer data accumulates, the same percentage field gets refined from observed correct rates — same metric end-to-end, no easy/medium/hard ↔ percentage translation layer.
-
-Example shape:
-```
-q: what element has a single proton in its nucleus?
-a: hydrogen
-category_scores: [{ "science_and_nature": 68 }, { "general_knowledge": 22 }]
-```
-68% of science-interested players get it; 22% of the general pub. Quizzes can be played per-category (uses that category's score) or general (uses general_knowledge score).
-
-Implications to work through during plan-phase:
-- **Schema**: `question_categories(question_id, category_id, estimate_score, observed_score, observed_n)` join table replaces single category_id + difficulty enum. Drop the enum entirely — runtime band lookup is one line, generated columns just drift.
-- **Always require a `general_knowledge` score** on every question. It's the canonical axis for quick play / mixed quizzes. Other category scores are optional.
-- **Cap categories per question at 1-3** (plus mandatory general_knowledge). Otherwise agents tag everything with 5 categories "to be safe" and the taxonomy goes mushy.
-- **Sample size matters**: store `observed_n` alongside `observed_score`. 3/5 ≠ 300/500. Use estimate until n ≥ ~30, then switch (or Bayesian-blend).
-- **Calibrate to the right audience**: prompt must say "% of players who *chose to play this category*", not "% interested in the topic". The former is what you'll actually measure later, so estimate and observed converge.
-- **Quiz-time selection rule**: when playing "Science", only show questions tagged science, ranked by science_score. Don't pull general-knowledge-adjacent questions — that would make multi-category tagging pointless.
-- **Calibrator agent rewrite**: produces a score per assigned category + general_knowledge, not a single tier.
-- **Questions agent**: proposes the category set + per-category scores at generation time.
-- **Migration path** for the existing 309 published questions: one Calibrator run with the new prompt reseeds the whole library — cheap, no data loss.
-- **Backlog 999.2** (user feedback refinement) feeds directly into this — observed correct rate replaces the estimate over time, same field.
-
-**Requirements:** D-01 through D-15 (locked decisions from 999.8-CONTEXT.md)
-**Plans:** 4/5 plans executed
-
-Plans:
-- [x] 999.8-01-PLAN.md — Wave 0 test scaffolds (schema, agents, slug converter, observed-score, RPC)
-- [x] 999.8-02-PLAN.md — Migration 00022: question_categories table, CHECKs, DEFERRABLE trigger, RLS, types
-- [x] 999.8-03-PLAN.md — Pipeline rewrites: slug converter, GK guard, schemas, DIFFICULTY_BANDS, Questions + Calibrator agents
-- [x] 999.8-04-PLAN.md — Backfill script, nightly observed-score job + GH Actions cron, human checkpoint to run backfill
-- [ ] 999.8-05-PLAN.md — Migrations 00023/00024: drop old columns + rewrite RPCs, web client rewrite, human smoke-test checkpoint
-
-### Phase 999.9b: Admin Dashboard — Game Stats & Player Feedback (BACKLOG)
-
-**Goal:** Second half of the admin dashboard (v1 shipped as Phase 2.3). Adds the player-data views that only become meaningful once the mobile app ships and starts logging plays: DAU / sessions / quizzes played, per-question observed correct rate + sample size, gap between estimate and observed score (the questions where the Calibrator was most wrong are the most interesting), per-category play volume and average score, user feedback inbox (flagged questions, written reports, sentiment).
-
-**Depends on:** Phase 2.3 (admin shell exists), Phase 2.2 (feedback collection plumbing already in place from the web quiz), Phase 7 (native app ships and adds more play volume).
-
-**Requirements:** TBD
-**Plans:** 0 plans
-
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
-
-### Phase 999.5: OpenTDB Seed Data Import and Prompt Examples (RESOLVED 2026-04-19)
-
-**Goal:** Use Open Trivia Database (opentdb.com, CC BY-SA 4.0, ~4000 questions with categories and difficulty levels) as either seed data for the question database or as few-shot examples in the Questions Agent prompt to teach pub quiz tone.
-**Resolution:** Both approaches satisfied. (1) 2308 questions bulk-imported and published (commit `2453a51`), 739 held in staging. (2) STYLE-GUIDE.md built from OpenTDB analysis, referenced from Questions Agent prompt footer (`questions.ts:100`). User-facing attribution + provenance column tracked in 999.13.
-**Plans:** 0 plans
-
-Plans:
-- [x] Resolved — no plan needed
-
-### Phase 999.13: OpenTDB Attribution — Provenance Column + About/Credits Screen (PROMOTED → Phase 2.5 on 2026-04-26)
-
-See Phase 2.5 above. Original entry kept for history. Duplicate entry below also superseded.
-
-### ~~Phase 999.10: Fix Duplicate Local Migration 00011 Files~~ (RESOLVED 2026-04-19)
-
-**Status:** Resolved before execution. The conflicting `00011_questions_staging.sql` was never tracked in git and is no longer on disk. Canonical staging migration lives at `00018_questions_staging.sql` (commit `2453a51`). Local migrations 00001–00018 all have unique version prefixes. Closed out by quick task `260419-oig` — see `.planning/quick/260419-oig-fix-duplicate-local-migration-00011-file/260419-oig-SUMMARY.md`. Remote `supabase migration list` / `db push` confirmation is user-side follow-up, tracked outside the backlog.
-
-~~**Goal:** Resolve duplicate local migration version 00011 — two files share that version: `supabase/migrations/00011_feedback_difficulty_rating.sql` and `supabase/migrations/00011_questions_staging.sql`. This breaks `supabase db push` with duplicate key on `schema_migrations_pkey`. Remote DB already has one 00011 applied. Actions: (1) identify which 00011 is applied remote, (2) renumber the other to next free version (latest was 00016 as of 2026-04-18), (3) run `supabase migration repair` to align local + remote history. Discovered 2026-04-18 during quick task 260418-stj while pushing the General Knowledge RPC migration.~~
-**Requirements:** TBD
-**Plans:** 0 plans
-
-Plans:
-- [x] Resolved — no plan needed
-
-### Phase 999.11: Pipeline Test Suite Drift Repair (RESOLVED 2026-04-19 via quick 260419-oxa)
-
-**Goal:** Pipeline test suite has 7 failing tests that drifted during recent agent tightening commits (`14edd7f` QA Opus upgrade, `e4ef688` fact-check/QA/enrichment tightening, `991ed2f` QA split into Haiku diagnosis + Sonnet rewrite). Production pipeline works — 2308 OpenTDB questions imported cleanly and daily runs succeed — but tests no longer match agent behaviour, so regressions are invisible. Failing suites: `tests/run-pipeline.test.ts` (Test 3 metrics/token totals, Test 10 logger usage), `tests/agents/fact-check.test.ts` (Haiku token tracking — expected args `1, 5` no longer match), `tests/agents/qa.test.ts` (4 tests: `qa_rewritten` flag now undefined in update payload, distractor-length validation no longer rejects but resolves with processed+failed count, Haiku token tracking drift, rewritten score>=3 path now returns `'rejected'` instead of `'published'`). Work: (1) read current agent code, (2) update test expectations to match new behaviour, or fix agents if tests encode intended contract, (3) re-run until green. Discovered 2026-04-19 during codebase health check. Not introduced by last 5 commits.
-**Resolution:** Fixed in quick task 260419-oxa (commit 8c0e007). All 7 tests repaired test-side; zero agent code changes. Final: 94/94 passing.
-**Plans:** 0 plans
-
-Plans:
-- [x] Resolved — no plan needed
-
-### Phase 999.12: Birth Decade Filter for Era-Appropriate Questions (BACKLOG)
-
-**Goal:** Player picks the decade they were born in (e.g. 1970s, 1980s, 1990s) during onboarding or per-quiz; question selection biases toward era-appropriate general knowledge (music, TV, events, brands, culture from that decade ±10 years). Goal: questions feel "of your time" — a 1985-born player isn't asked about 1960s Motown B-sides unless they opt in. Needs: decade tag on questions (`era_decade` or `era_range` field), agent-side era tagging during generation, runtime filter/boost in quiz selection (soft weighting, not hard filter, so cross-era general knowledge still appears). Optional UX: "play my decade" quick mode on home screen.
-**Requirements:** TBD
-**Plans:** 0 plans
-
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
-
-### Phase 999.14: Review Wikipedia Sourcing Step Value in Pipeline (BACKLOG)
-
-**Goal:** Audit whether the Knowledge Agent (Wikipedia sourcing) step earns its cost and complexity. The step fetches Wikipedia content per category to ground the Questions Agent — but native pipeline questions may not be meaningfully better than questions generated without a Wikipedia source, and the step adds latency, token cost, and a failure mode (bad source → bad questions). Review questions: (1) do questions with a Wikipedia source score higher in QA than those without? (2) are there categories where Wikipedia sourcing is actively harmful (too encyclopaedic, too detailed, pulls comprehension-framing)? (3) would a curated few-shot examples approach (already partially done via STYLE-GUIDE.md) be sufficient to replace it? Outcome: keep as-is, make sourcing optional per category depth, or remove and rely on model knowledge + style guide. Relates to 999.4 (prompt tone) — Wikipedia sourcing may be the root cause of the comprehension-framing problem even after prompt tightening.
-**Requirements:** TBD
-**Plans:** 0 plans
-
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
-
-### Phase 999.15: Retroactive QA + Fact-Check Pass on 2308 OpenTDB Imports (SUPERSEDED 2026-04-28 by 999.16)
-
-**Status:** Originally promoted to Phase 2.6 on 2026-04-26 (Haiku batch via pipeline). Demoted 2026-04-28 — pipeline budget is for new question generation only. Replaced by **999.16** (manual conversational QA pass).
 
 ### Phase 999.16: Manual Conversational QA Pass on Question Library (BACKLOG)
 
@@ -574,85 +478,155 @@ Plans:
 **Depends on:** Tracking columns from quick task 260424-tla (already shipped — `qa_passed_at` exists).
 **Replaces:** 999.15 / former Phase 2.6 (Haiku batch via pipeline — abandoned to keep pipeline focused on new generation).
 
-**Requirements:** TBD
 **Plans:** 0 plans
 
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
+## C3. Adding new items
 
-### Phase 999.15-original: Retroactive QA + Fact-Check Pass (HISTORIC, archived under 999.15 above)
+When new feedback or prototype-iteration ideas surface during testing, add them here:
 
-**Goal:** The 2308 OpenTDB-imported questions (verification_score=2) bypassed Fact-Check and QA Agents — `fact_checked_at` and `qa_passed_at` are NULL. Run Fact-Check + QA in batches over all score=2 questions: rewrites fix tone/grammar/localisation, rejections remove bad ones, passes stamp the tracking columns and promote score to 3. Batch nightly via the existing scheduled pipeline to avoid cost spikes (~$23 total at ~$0.01/question). Fact-Check first (Q+A accuracy), then QA (pub quiz tone, distractors). Questions failing either step → status='rejected'. Directly addresses the class of feedback issues seen (Sorcerer's Stone, grammar, answer-in-question) at scale rather than manually. Depends on tracking columns from quick task 260424-tla.
-**Requirements:** TBD
-**Plans:** 0 plans
+- **Tactical (single fix, prompt edit, small UI tweak):** new entry under **C1** with date-prefix slug `YYMMDD-xxx` (e.g. `260510-foo`). Execute via `/gsd-quick`.
+- **Phase-sized (whole-library work, multi-step UI bundle):** new entry under **C2** with next free `999.x` number.
+- **System-level / post-launch:** add to **section B** instead.
 
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
+When a C-section item lands, move it to the **D. Archive** with a `RESOLVED YYYY-MM-DD via <quick-task-slug>` marker.
+
+---
+
+# D. Archive — Resolved, Promoted & Superseded
+
+Preserved for traceability. The canonical commit/date list lives in `.planning/STATE.md` "Quick Tasks Completed".
+
+## D1. Resolved backlog phases
+
+### Phase 999.3: Improve Category Agent Prompt for Pub Quiz Suitability (RESOLVED 2026-04-19 via quick 260419-pma)
+
+**Goal:** Tighten the Category Agent system prompt to favour categories that work in a real pub quiz. Add criteria: would a quizmaster say this out loud, would 3+ people at a table have a chance, avoid academic/technical categories. Current prompt is too vague ("avoid overly niche topics").
+**Resolution:** Depth-aware rule added to pipeline/src/agents/category.ts — strict at depth 0/1 (rejects Thermodynamics, Epistemology, Macroeconomics), permissive at depth 2/3 (keeps niche leaves like Quidditch). Commit `c257dfc`.
+
+### Phase 999.4: Improve Questions Agent Prompt for Pub Quiz Tone (RESOLVED 2026-04-19 via quick 260419-pma)
+
+**Goal:** Rewrite the Questions Agent system prompt so generated questions feel like real pub quiz questions, not Wikipedia comprehension tests. Questions should test general knowledge people might actually know, not "according to the reference material, what does paragraph 3 say". Favour "would you hear this in a pub" over "what does the source text say".
+**Resolution:** Tone section + comprehension-framing ban + answer-in-question ban added to pipeline/src/agents/questions.ts SYSTEM_PROMPT. Commits `794a422` (initial), `fa8158a` (answer-in-question ban after user flagged GTA/Dark Souls leakage). Verified via 20-sample live dry-run: tone shift confirmed, Q9/Q15-style leakage eliminated. User approved.
+
+### Phase 999.5: OpenTDB Seed Data Import and Prompt Examples (RESOLVED 2026-04-19)
+
+**Goal:** Use Open Trivia Database (opentdb.com, CC BY-SA 4.0, ~4000 questions with categories and difficulty levels) as either seed data for the question database or as few-shot examples in the Questions Agent prompt to teach pub quiz tone.
+**Resolution:** Both approaches satisfied. (1) 2308 questions bulk-imported and published (commit `2453a51`), 739 held in staging. (2) STYLE-GUIDE.md built from OpenTDB analysis, referenced from Questions Agent prompt footer (`questions.ts:100`). User-facing attribution + provenance column tracked in 999.13 (now 2.5).
+
+### ~~Phase 999.10: Fix Duplicate Local Migration 00011 Files~~ (RESOLVED 2026-04-19)
+
+**Status:** Resolved before execution. The conflicting `00011_questions_staging.sql` was never tracked in git and is no longer on disk. Canonical staging migration lives at `00018_questions_staging.sql` (commit `2453a51`). Local migrations 00001–00018 all have unique version prefixes. Closed out by quick task `260419-oig` — see `.planning/quick/260419-oig-fix-duplicate-local-migration-00011-file/260419-oig-SUMMARY.md`.
+
+### Phase 999.11: Pipeline Test Suite Drift Repair (RESOLVED 2026-04-19 via quick 260419-oxa)
+
+**Goal:** Pipeline test suite has 7 failing tests that drifted during recent agent tightening commits. Production pipeline works but tests no longer match agent behaviour, so regressions are invisible.
+**Resolution:** Fixed in quick task 260419-oxa (commit 8c0e007). All 7 tests repaired test-side; zero agent code changes. Final: 94/94 passing.
 
 ### Phase 999.17: Manual Feedback Inbox Sweep — May 2026 batch (RESOLVED 2026-05-03 via 260503-kxb)
 
 **Resolution:** All 13 rows resolved via DB-only `supabase db query --linked` UPDATEs. 7 question rewrites applied (00356aeb / 87d46d3f / 3f39d670 / c59f2a01 / 082aaa09 / e9ebf25a / 90422fe9), 6 marked no-action with cross-references to 999.16 / 999.18 / 999.19. Open inbox count: 0. Detail in `.planning/quick/260503-kxb-fix-13-open-question-feedback-items/260503-kxb-SUMMARY.md`.
 
-**Goal:** Resolve 13 open `question_feedback` rows accumulated 2026-04-28 → 2026-05-02. Same workflow as 260424-uju / 260426-myq / 260428-rfe.
+## D2. Promoted to build path
 
-**Rewrites (7):**
-- `00356aeb` (binary): Q="If you were to write software using 1s and 0s, what would you be writing in?" correct=Binary, distractors=Machine code, Python, C++. (Easier-than-original framing; "Machine code" added as plausible distractor.)
-- `87d46d3f` (first Pokémon): rewrite to canonical answer Rhydon (Sugimori-cited, Internal ID #1, Guinness-confirmed). Q="According to Ken Sugimori, which Pokémon was the first ever designed?" correct=Rhydon, distractors=Bulbasaur, Mew, Clefairy.
-- `3f39d670` (GTA): "What character is NOT apart of…" → "What character is NOT a part of the Grand Theft Auto series?"
-- `c59f2a01` (semiconductor): normalise capitalisation across all options (Transistor / Tube / Diode / P-N junction).
-- `082aaa09` (brain freeze): add missing article — "Which one of these is the scientific term for…"
-- `e9ebf25a` (Brazil): drop duplicated `was` — "Which of the following was Brazil a former colony of?"
-- `90422fe9` (Carlos Estevez): canonicalise to "By what name is Carlos Estévez better known?" + rewrite fact to remove meta-reference to "this batch".
+### Phase 999.8: Multi-Category + Per-Category Percentage Difficulty (PROMOTED → Phase 2.4 on 2026-04-26)
 
-**Mark resolved (no-action, 6):**
-- `c130bc2c` (Overwatch volume) — covered by 999.19 theme-skew audit.
-- `eb1e90a5` (year-distractors ±1yr) — flag for 999.16 style guide.
-- `291841bc` (niche science / "rate hard") — already hard; no change.
-- `74d15a90` ×2 + `7add0d30` (touch-highlight, pre-highlighted last answer) — covered by 999.18 UI bundle.
-- `7add0d30` (cat picker X overlap) — covered by 999.18 UI bundle.
-- `55530bc2` (sister of `90422fe9`, meta fact) — covered by 90422fe9 rewrite.
+**Goal:** Replace single-category + easy/medium/hard with multi-category tagging where each category carries its own "estimated % of that audience who'd get it right" score. Difficulty tiers become a runtime grouping over the score (e.g. hard 0-33, medium 34-66, easy 67-100), tunable without re-scoring questions. As real answer data accumulates, the same percentage field gets refined from observed correct rates — same metric end-to-end, no easy/medium/hard ↔ percentage translation layer.
 
-**Workflow:** service-role PATCH on `questions` for rewrites; mark all `question_feedback` rows `resolved_at` + `resolved_note`. Confirm open inbox count = 0 at end.
+Example shape:
+```
+q: what element has a single proton in its nucleus?
+a: hydrogen
+category_scores: [{ "science_and_nature": 68 }, { "general_knowledge": 22 }]
+```
+68% of science-interested players get it; 22% of the general pub.
 
-**Plans:** 0 plans
+Implications worked through during plan-phase:
+- **Schema**: `question_categories(question_id, category_id, estimate_score, observed_score, observed_n)` join table replaces single category_id + difficulty enum.
+- **Always require a `general_knowledge` score** on every question.
+- **Cap categories per question at 1-3** (plus mandatory general_knowledge).
+- **Sample size matters**: store `observed_n` alongside `observed_score`. Use estimate until n ≥ ~30, then switch (or Bayesian-blend).
+- **Calibrate to the right audience**: "% of players who *chose to play this category*", not "% interested in the topic".
+- **Quiz-time selection rule**: when playing "Science", only show questions tagged science, ranked by science_score.
+- **Calibrator agent rewrite**: produces a score per assigned category + general_knowledge.
+- **Questions agent**: proposes the category set + per-category scores at generation time.
+- **Migration path** for existing 309 published questions: one Calibrator run with the new prompt reseeds the whole library.
+- **Backlog 999.2** feeds directly into this — observed correct rate replaces the estimate over time, same field.
 
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
-
-### Phase 999.18: UI Polish Bundle — Hover/Touch States, Loading State, Cat Picker (BACKLOG)
-
-**Goal:** Tighten Play/Setup/cat-picker UI based on recurring overall-feedback complaints. Mobile-first; remove hover affordance entirely (not useful on touch, bleeds onto answer/Next buttons).
-
-**Scope:**
-1. Remove all `:hover` styles app-wide (or convert to `@media (hover: hover)` guards if any need to stay for desktop pointer users — review case-by-case).
-2. Fix lingering touch state on Next button (stays dark green after tap) and on answer buttons (last answer pre-highlighted, highlight on scroll).
-3. Add disabled + loading state on Next/Submit. Loader = Lucide `BrainCog` (or composed `Brain`+`Cog`) with cog rotating clockwise + brain rotating anti-clockwise. Pair with cycling "thinking" verb every 3s, randomised per load. Verb list (lock during exec, ~12-15 terms): Pontificating, Postulating, Hypothesising, Speculating, Ruminating, Cogitating, Deliberating, Contemplating, Pondering, Mulling, Reasoning, Conjecturing, Theorising, Reflecting, Surmising, Inferring, Deducing, Musing, Synthesising, Reckoning, Philosophising, Devising, Wondering, Analysing, Computing, Processing. British -ising spellings.
-4. Cat picker modal: close X to top-right corner, no overlap with title.
-5. Browser verify: golden path on iOS Safari + Chrome desktop.
-
-**Plans:** 0 plans
+**Requirements:** D-01 through D-15 (locked decisions from 999.8-CONTEXT.md)
+**Plans:** 4/5 plans executed
 
 Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
+- [x] 999.8-01-PLAN.md — Wave 0 test scaffolds (schema, agents, slug converter, observed-score, RPC)
+- [x] 999.8-02-PLAN.md — Migration 00022: question_categories table, CHECKs, DEFERRABLE trigger, RLS, types
+- [x] 999.8-03-PLAN.md — Pipeline rewrites: slug converter, GK guard, schemas, DIFFICULTY_BANDS, Questions + Calibrator agents
+- [x] 999.8-04-PLAN.md — Backfill script, nightly observed-score job + GH Actions cron, human checkpoint to run backfill
+- [ ] 999.8-05-PLAN.md — Migrations 00023/00024: drop old columns + rewrite RPCs, web client rewrite, human smoke-test checkpoint (now tracked under Phase 2.4; blocked on 260426-bkf)
 
-### Phase 999.19: Library Theme-Skew & Question-Format Standardisation Audit (BACKLOG)
+### Phase 999.13: OpenTDB Attribution — Provenance Column + About/Credits Screen (PROMOTED → Phase 2.5 on 2026-04-26)
 
-**Goal:** Whole-library distribution + grammatical-structure audit. Distinct from 999.16 (per-row QA review). Two complementary passes:
+See Phase 2.5 above. Original entry kept for history.
 
-**Pass A — Theme-skew audit:**
-- Count questions per fine-grained theme within each category (e.g. Overwatch / year-of-creation / Van Gogh).
-- Flag any theme exceeding N% of category total (N TBD during exec; likely 5-10%).
-- Most skew expected from OpenTDB import bulk.
-- Output: report ranked by over-representation. Manually rebalance — reject or rewrite the excess.
+## D3. Superseded
 
-**Pass B — Question-format standardisation:**
-- Pass over all questions; collate distinct phrasings of equivalent question-shapes (e.g. "What year was X released" vs "In what year was X released" vs "When was X released").
-- Group variants; agree canonical format per shape with user.
-- Rewrite outliers to canonical. Capture rules in 999.16 style guide for future generation/QA passes.
+### Phase 999.15: Retroactive QA + Fact-Check Pass on 2308 OpenTDB Imports (SUPERSEDED 2026-04-28 by 999.16)
 
-**Why both in one phase:** both are whole-library audits run on the same data scan. Cheaper to do together.
+**Status:** Originally promoted to Phase 2.6 on 2026-04-26 (Haiku batch via pipeline). Demoted 2026-04-28 — pipeline budget is for new question generation only. Replaced by **999.16** (manual conversational QA pass).
 
-**Plans:** 0 plans
+### Phase 999.15-original: Retroactive QA + Fact-Check Pass (HISTORIC)
 
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
+**Goal:** The 2308 OpenTDB-imported questions (verification_score=2) bypassed Fact-Check and QA Agents — `fact_checked_at` and `qa_passed_at` are NULL. Run Fact-Check + QA in batches over all score=2 questions: rewrites fix tone/grammar/localisation, rejections remove bad ones, passes stamp the tracking columns and promote score to 3. Batch nightly via the existing scheduled pipeline to avoid cost spikes (~$23 total at ~$0.01/question). Fact-Check first (Q+A accuracy), then QA (pub quiz tone, distractors). Questions failing either step → status='rejected'.
+**Status:** Archived under 999.15 above. Approach abandoned (pipeline-budget waste); see 999.16 for replacement.
+
+## D4. Resolved quick-task specs (preserved)
+
+These specs lived inline in the prior roadmap; their resolutions are tracked in `.planning/STATE.md` and individual `.planning/quick/<slug>/SUMMARY.md` files.
+
+### 260428-fdb: Fix 6 open question_feedback items (RESOLVED 2026-04-28 via 260428-rfe)
+
+**Resolution:** All 6 rewrites applied via service-role PATCH. `question_feedback` rows marked resolved with notes; open inbox count = 0.
+
+### 260428-fdb-original: Fix 6 open question_feedback items (HISTORIC)
+
+**Goal:** 6 reports collected 2026-04-27/28. Mix of question grammar and fun_fact quality.
+1. `f2285df6` (qid `09aa4f7e…`) — "I'm not sure this fact makes sense"
+2. `b17185e1` (qid `aed6cc1d…`) — "Badly worded"
+3. `19e7b757` (qid `22aeee49…`) — "Keyboard not capitalised here"
+4. `09f0fd8b` (qid `f746e6a0…`) — "'Is found in eggplant seeds' the chemical is singular"
+5. `d8e55749` (qid `291ffce3…`) — "Confusing fact badly written"
+6. `d9c362dd` (qid `3267b640…`) — "Shouldn't it be 'who of the following' because they're people?"
+
+### 260428-end-toggle: Show/hide facts toggle on Round summary (RESOLVED 2026-04-28 via 260428-tao)
+
+**Resolution:** Toggle shipped on End Round summary AND mirrored in Play screen header (right of "Question N of M", left of Exit). State persisted via sessionStorage so the preference carries between Play and End within a tab. Final design defaults to **ON** (flipped from original "default hidden" after preview iteration). Solid neutral-600 colour matching Exit button; state communicated via Eye/EyeOff icon + strikethrough on the "Facts" label.
+
+### 260427-qol: UI QoL tweaks — icons, colours, polish (RESOLVED 2026-04-28)
+
+**Resolution:** Shipped via merge `5927771` and palette unification `a9a50dd`. Lock icon on Lock In, ArrowRight on Next (right side, green), Lightbulb-prefixed blue callout for fun_fact, green Play / Play Again, coloured rating-state styling on End feedback faces, "Submit feedback" + Send icon, "Anything to tell us?" → "Feedback?", consistent palette tiers (`-50` faded / `-600` brand / `-700` hover / `-800` text).
+
+### 260427-spt: Fix sport category filter bug (RESOLVED 2026-04-26 via 260426-ow2)
+
+**Goal:** Session feedback `2ddac7cc` (2026-04-20): "Selected sport and got other subjects, but no sport". Investigate `fetchRandomQuestions` RPC + category filter path.
+**Resolution:** Migration 00025 filters via `question_categories` with legacy fallback. Commit `731785c`.
+
+### 260427-dup: Within-session question dedup (RESOLVED 2026-04-26 via 260426-pxh)
+
+**Goal:** Session feedback `f65afa50` ("2 Van Gogh questions back-to-back wasn't ideal") and `ef374940` ("half the questions were repeats"). Track shown question_ids per session; exclude from subsequent picks within session.
+**Resolution:** Drop stale-repeat fallback + greedy category interleave. Commit `1b7b54c`.
+
+### 260427-end: End-of-quiz review screen (RESOLVED 2026-04-27 via 260427-uf1)
+
+**Goal:** Per-question recap on End screen + show/hide facts toggle (feedback `116dc5a9`).
+**Resolution:** Round summary shipped. Commit `3902d79`. Toggle later landed via 260428-tao.
+
+### 260426-fct: Wire fun_fact into web quiz UI (RESOLVED 2026-04-26 via 260426-czq)
+
+**Goal:** Update RPC to return `fun_fact`, extend `LoadedQuestion` types, render on reveal.
+**Resolution:** Migration 00024 + types + reveal render. Commit `be3a90a`.
+
+### 260426-fdb: Fix 3 open question_feedback items (RESOLVED 2026-04-26)
+
+**Resolution:** All three actioned. Items 1 + 2 (question rewrites) shipped in commit `ddd6359`. Item 3 (focus-state UI bug) shipped in commit `b4ca9f0` — answer buttons switched to `focus-visible:` so mouse clicks no longer leave a ring. `question_feedback` inbox confirmed empty as of 2026-04-26.
+
+### 260426-q15: Confirm scope of 999.15 retroactive QA pass (RESOLVED 2026-04-28)
+
+**Resolution:** Refocused Phase 2.6 from full QA + fact-check to grammar+style-only pass per user direction (2026-04-28): "facts are solid; theme of poor grammar in OpenTDB questions". Cost estimate dropped from £23 to ~£10 Haiku-only. q15 closed; the broader retroactive-pass approach was then itself superseded by 999.16 manual review.

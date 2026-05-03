@@ -140,6 +140,7 @@ None yet.
 | 260428-rfe | Fix 6 open question_feedback items (260428-fdb) | 2026-04-28 | (db-only, no commit) | [260428-rfe-260428-fdb-fix-6-open-question-feedback-](./quick/260428-rfe-260428-fdb-fix-6-open-question-feedback-/) |
 | 260428-tao | Show/hide facts toggle on Play header + End Round summary (sessionStorage-persisted, default ON) | 2026-04-28 | 45cbf64 | [260428-tao-260428-end-toggle-show-hide-facts-toggle](./quick/260428-tao-260428-end-toggle-show-hide-facts-toggle/) |
 | 260503-kxb | Fix 13 open question_feedback items per ROADMAP 999.17 (7 rewrites + 6 mark-resolved) | 2026-05-03 | (db-only, no commit) | [260503-kxb-fix-13-open-question-feedback-items](./quick/260503-kxb-fix-13-open-question-feedback-items/) |
+| 260503-rmp | Restructure ROADMAP into three tracks (build path / post-launch / prototype iteration) + archive | 2026-05-03 | TBD | [260503-rmp-restructure-roadmap-three-tracks](./quick/260503-rmp-restructure-roadmap-three-tracks/) |
 
 ## Session Continuity
 
