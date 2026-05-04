@@ -221,7 +221,7 @@ Plans:
 
 Plans:
 - [x] 999.8-01 through 999.8-04 — see backlog history
-- [ ] 999.8-05-PLAN.md — Migrations 00023/00024: drop old columns, rewrite RPCs, web client rewrite, smoke-test checkpoint
+- [x] 999.8-05-PLAN.md — Migrations 00023/00024: drop old columns, rewrite RPCs, web client rewrite, smoke-test checkpoint
 
 ### Phase 2.5: OpenTDB Attribution — Provenance Column + About/Credits Screen (PROMOTED from 999.13)
 
@@ -544,7 +544,7 @@ Implications worked through during plan-phase:
 - **Backlog 999.2** feeds directly into this — observed correct rate replaces the estimate over time, same field.
 
 **Requirements:** D-01 through D-15 (locked decisions from 999.8-CONTEXT.md)
-**Plans:** 4/5 plans executed
+**Plans:** 5/5 plans complete
 
 Plans:
 - [x] 999.8-01-PLAN.md — Wave 0 test scaffolds (schema, agents, slug converter, observed-score, RPC)
