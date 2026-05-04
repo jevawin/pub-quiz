@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 999.20 in progress (batch 1/16 reviewed, 0 inserts yet)
-stopped_at: 999.20 batch 1 reviewed in chat (30 Qs), context budget hit before applying. Resume by reading ROADMAP §C2 Phase 999.20, then continue with batch 2.
-last_updated: "2026-05-04T11:00:00.000Z"
-last_activity: 2026-05-04 -- Phase 999.20 batch 1 reviewed (forward-compat strategy locked); Phase 2.4 shipped earlier today
+status: Phase 999.20 PAUSED — pivoting to chain-tagging architecture (one more discussion pass needed)
+stopped_at: 999.20 paused mid-session. Surfaced architectural pivot to chain tagging (per-level scoring). Need re-discussion before starting. See .planning/phases/999.20-recategorise-single-cat-questions/DISCUSSION-NOTE.md
+last_updated: "2026-05-04T22:00:00.000Z"
+last_activity: 2026-05-04 -- 999.20 paused; pivot sketched to 999.21 (categories cleanup) + 999.22 (chain tagging + backfill); discussion note written
 progress:
   total_phases: 31
   completed_phases: 5
@@ -21,22 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-04)
 
 **Core value:** Great questions delivered through a clean, effortless interface -- the content is the star, not the chrome around it.
-**Current focus:** Phase 999.20 — recategorise 452 single-cat published questions (next up in ROADMAP §C2)
+**Current focus:** 999.20 PAUSED. Pivoting to chain-tagging architecture (999.21 cleanup → 999.22 chain backfill). One more discussion pass before starting.
 
 ## Current Position
 
-Phase: 999.20 — recategorise 452 single-cat published questions (IN PROGRESS, batch 1/16 reviewed, 0 inserts written)
+Phase: 999.20 — PAUSED mid-session 2026-05-04. Pivot sketched but not confirmed.
 
-**Resume instructions for next session:**
-1. Read ROADMAP §C2 Phase 999.20 in full (strategy + GK rule + forward-compat row layout).
-2. Confirm with user before applying batch 1 inserts (8 changes across the first 30 Qs were drafted in the prior chat under the OLD strict rule; user then asked to switch to forward-compat — batch 1 may need re-drafting under new rule).
-3. Continue batches 2-16 (30 Qs each, ~452 total). Run via Claude Code subscription (no API spend).
-4. Helper script exists at `pipeline/src/scripts/recategorise-single-cat-questions.ts` (16 passing tests) but is NOT used for this run — API costs are off-limits per user preference.
+**Resume instructions for next session (when fresh):**
+1. Read `.planning/phases/999.20-recategorise-single-cat-questions/DISCUSSION-NOTE.md` in full.
+2. Re-discuss the pivot (any objections, missed angles).
+3. Confirm phase order: 999.21 categories cleanup → 999.22 chain tagging + backfill.
+4. If confirmed: retire 999.20, add 999.21 + 999.22 properly via `/gsd-discuss-phase`.
+5. Setup work preserved: dump script, `data/single-cat.json` (453 Qs + 139 cats), PROGRESS.md, batch 1 draft (in chat transcript only — not applied to DB).
 
 Active tracks (per ROADMAP §C):
 
 - C1 quick tasks: 260428-fact (pending — Enrichment fun_fact prompt tightening)
-- C2 sequenced library work: **999.20 (NEXT — in progress)** → 999.18 → 999.19 → 999.16
+- C2 sequenced library work: **999.20 PAUSED** → pivot to **999.21 (categories cleanup) → 999.22 (chain tagging + backfill)** → 999.18 → 999.19 → 999.16. Order TBC pending re-discussion.
 
 Build path queue (after prototype proves out):
 

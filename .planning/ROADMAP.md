@@ -411,9 +411,34 @@ Small, current-state-appropriate fixes triggered directly by recent feedback. Pu
 
 ## C2. Library quality work (sequenced)
 
-Phase-sized iterations on the question library. Run in order: **999.20 first (NEXT UP)**, then 999.18, then 999.19, then 999.16.
+Phase-sized iterations on the question library. Order TBC pending re-discussion of 999.20 pivot. Tentative: **999.21 → 999.22** (replacing/absorbing 999.20), then 999.18 → 999.19 → 999.16.
 
-### Phase 999.20: Recategorise 452 single-cat published questions (NEXT — IN PROGRESS, batch 1/16 reviewed)
+### Phase 999.21 (PROPOSED, NOT YET CONFIRMED): Categories tree cleanup
+
+**Goal:** Back-and-forth session to clean the 139-cat tree before any chain-tagging backfill. Merge dupes, prune over-niche leafs, add a few obvious gaps.
+
+**Known dup candidates:** `the-1960s`/`the-sixties`, `formula-one`/`formula-one-racing`, `classic-western-films`/`classic-westerns`, `italian-cuisine`/`italian-food`, `mexican-cuisine`/`mexican-food`.
+
+**Status:** Sketched 2026-05-04 during 999.20 pivot discussion. Needs SPEC.
+
+### Phase 999.22 (PROPOSED, NOT YET CONFIRMED): Chain tagging architecture + full backfill
+
+**Goal:** Adopt chain tagging — every Q tagged at every applicable level (root → sub → optional sub-sub). Each row scored for that tier's audience. Replaces 999.20's leaf+root+cousin shape with a cleaner per-level scoring model.
+
+**Code changes (modest):**
+- Calibrator emits row per ancestor in chain (not just leaf).
+- RPC: difficulty-band check uses the row matching the chosen pill level (not the leaf).
+- Tests for both.
+
+**Backfill:** All ~2848 published Qs (not just 453 single-cat). API-backed (Sonnet, ~$15, ~1 day) recommended over months of manual.
+
+**Absorbs 999.20.** Setup work from 999.20 (dump script, JSON, PROGRESS) preserved as input data.
+
+**Status:** Sketched 2026-05-04. See `.planning/phases/999.20-recategorise-single-cat-questions/DISCUSSION-NOTE.md`. Needs SPEC + re-discussion before starting.
+
+### Phase 999.20: Recategorise 452 single-cat published questions (PAUSED 2026-05-04 — pivot pending)
+
+**Status:** PAUSED. Pivoting to 999.21 + 999.22. See `.planning/phases/999.20-recategorise-single-cat-questions/DISCUSSION-NOTE.md` for the pivot rationale and what was preserved. Original goal/strategy below kept for reference until phase is formally retired.
 
 **Goal:** 452 of 2848 published questions have exactly one `question_categories` row at a sub-category (e.g. `video-game-franchises`, `hip-hop-and-rap`). They are reachable from the parent root pill via the RPC's recursive walk, but missing rows for: (a) `general-knowledge` where the question genuinely fits a pub-table audience (per stringent rule below); (b) the parent root, so the future per-audience aggregator rewrite has a row to land "broad gaming player" scores into; (c) cousin sub-categories where applicable. Pulls these questions up to multi-category coverage matching the new pipeline's behaviour.
 
