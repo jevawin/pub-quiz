@@ -60,9 +60,9 @@ describeIntegration('RLS integration (local supabase)', () => {
     expect(data).toEqual([]);
   });
 
-  it('random_published_questions returns N rows at requested difficulty', async () => {
+  it('random_published_questions returns N rows in the requested score range', async () => {
     const { data, error } = await client.rpc('random_published_questions', {
-      p_difficulty: 'easy', p_category_slug: 'general', p_limit: 3,
+      p_score_min: 0, p_score_max: 100, p_category_slug: 'general', p_limit: 3,
     });
     expect(error).toBeNull();
     expect((data as unknown[]).length).toBeGreaterThan(0);
