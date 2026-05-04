@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 999.8 complete
-stopped_at: Phase 2.2 prototype iteration; 260426-bkf backfill deferred
-last_updated: "2026-05-04T08:39:49.289Z"
-last_activity: 2026-05-04 -- Phase 999.8 marked complete
+status: Phase 999.20 in progress (batch 1/16 reviewed, 0 inserts yet)
+stopped_at: 999.20 batch 1 reviewed in chat (30 Qs), context budget hit before applying. Resume by reading ROADMAP §C2 Phase 999.20, then continue with batch 2.
+last_updated: "2026-05-04T11:00:00.000Z"
+last_activity: 2026-05-04 -- Phase 999.20 batch 1 reviewed (forward-compat strategy locked); Phase 2.4 shipped earlier today
 progress:
   total_phases: 31
   completed_phases: 5
@@ -21,24 +21,29 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-04)
 
 **Core value:** Great questions delivered through a clean, effortless interface -- the content is the star, not the chrome around it.
-**Current focus:** Phase 999.8 — multi-category-per-category-percentage-difficulty-backlog
+**Current focus:** Phase 999.20 — recategorise 452 single-cat published questions (next up in ROADMAP §C2)
 
 ## Current Position
 
-Phase: 999.8 — COMPLETE
-Plan: 1 of 5
-Plans: 2/9 complete
-Active tracks (per ROADMAP C-section):
+Phase: 999.20 — recategorise 452 single-cat published questions (IN PROGRESS, batch 1/16 reviewed, 0 inserts written)
 
-- C1 quick tasks: 260428-fact (pending), 260426-bkf (deferred — Phase 2.4 backfill, ~600 questions)
-- C2 sequenced library work: 999.18 → 999.19 → 999.16
+**Resume instructions for next session:**
+1. Read ROADMAP §C2 Phase 999.20 in full (strategy + GK rule + forward-compat row layout).
+2. Confirm with user before applying batch 1 inserts (8 changes across the first 30 Qs were drafted in the prior chat under the OLD strict rule; user then asked to switch to forward-compat — batch 1 may need re-drafting under new rule).
+3. Continue batches 2-16 (30 Qs each, ~452 total). Run via Claude Code subscription (no API spend).
+4. Helper script exists at `pipeline/src/scripts/recategorise-single-cat-questions.ts` (16 passing tests) but is NOT used for this run — API costs are off-limits per user preference.
+
+Active tracks (per ROADMAP §C):
+
+- C1 quick tasks: 260428-fact (pending — Enrichment fun_fact prompt tightening)
+- C2 sequenced library work: **999.20 (NEXT — in progress)** → 999.18 → 999.19 → 999.16
 
 Build path queue (after prototype proves out):
 
-- Phase 2.3 Admin Dashboard, 2.4 Multi-Category schema cleanup (blocked on 260426-bkf), 2.5 OpenTDB Attribution
+- Phase 2.3 Admin Dashboard, 2.5 OpenTDB Attribution
 - Phase 3-8: Auth, Design, Shell, Browser, Engine, Cache
 
-Last activity: 2026-05-04 -- Phase 999.8 marked complete
+Last activity: 2026-05-04 -- Phase 999.20 batch 1 reviewed; Phase 2.4 (was 999.8) shipped earlier today
 
 ## Performance Metrics
 

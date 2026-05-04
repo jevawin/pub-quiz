@@ -37,7 +37,7 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 - [x] **Phase 2.1: Question Pipeline -- QA Agent & Source Relevance** - QA Agent for question quality, Knowledge Agent source filtering (INSERTED)
 - [ ] **Phase 2.2: Web Quiz v1 & Feedback Collection** - Plain web quiz on Cloudflare Pages, collects real play + feedback data to seed calibration (INSERTED) — **active, prototype phase**
 - [ ] **Phase 2.3: Admin Dashboard v1 -- Library & Pipeline Inspection** - Internal web admin for library inspection, curation, and pipeline observability (INSERTED)
-- [ ] **Phase 2.4: Multi-Category + Per-Category Percentage Difficulty** - Finish schema cleanup migration; promoted from 999.8 (PROMOTED)
+- [x] **Phase 2.4: Multi-Category + Per-Category Percentage Difficulty** - Schema cleanup migration shipped; old columns dropped, RPCs rewritten to score-range, web client switched to `uiToScoreRange` (PROMOTED, COMPLETE 2026-05-04)
 - [ ] **Phase 2.5: OpenTDB Attribution** - Provenance column + About/Credits screen, CC BY-SA 4.0 compliance; promoted from 999.13 (PROMOTED)
 - [ ] **Phase 3: Auth & App Backend** - Anonymous-first auth, app-side Supabase client, REST-only architecture
 - [ ] **Phase 4: Design System** - Editorial design tokens, typography, primitives, light/dark mode
@@ -55,7 +55,7 @@ Note: Phases 1-2 (pipeline) and 3-4 (app foundation) can run in parallel since t
 | 2.1 Question Pipeline: QA Agent & Source Relevance | 3/3 | Shipped | - |
 | 2.2 Web Quiz v1 & Feedback Collection | 2/9 | Active — prototype phase | - |
 | 2.3 Admin Dashboard v1 | 0/0 | Not started | - |
-| 2.4 Multi-Category + % Difficulty (from 999.8) | 4/5 | Plan 05 unblocked (260426-bkf complete) | - |
+| 2.4 Multi-Category + % Difficulty (from 999.8) | 5/5 | Shipped | 2026-05-04 |
 | 2.5 OpenTDB Attribution (from 999.13) | 0/2 | Not started | - |
 | 3. Auth & App Backend | 0/2 | Not started | - |
 | 4. Design System | 0/3 | Not started | - |
@@ -411,7 +411,30 @@ Small, current-state-appropriate fixes triggered directly by recent feedback. Pu
 
 ## C2. Library quality work (sequenced)
 
-Phase-sized iterations on the question library. Run in order — 999.18 first (UI bundle, browser-verifiable), then 999.19 (whole-library audit kills bulk skew), then 999.16 (per-row sweep over what's left).
+Phase-sized iterations on the question library. Run in order: **999.20 first (NEXT UP)**, then 999.18, then 999.19, then 999.16.
+
+### Phase 999.20: Recategorise 452 single-cat published questions (NEXT — IN PROGRESS, batch 1/16 reviewed)
+
+**Goal:** 452 of 2848 published questions have exactly one `question_categories` row at a sub-category (e.g. `video-game-franchises`, `hip-hop-and-rap`). They are reachable from the parent root pill via the RPC's recursive walk, but missing rows for: (a) `general-knowledge` where the question genuinely fits a pub-table audience (per stringent rule below); (b) the parent root, so the future per-audience aggregator rewrite has a row to land "broad gaming player" scores into; (c) cousin sub-categories where applicable. Pulls these questions up to multi-category coverage matching the new pipeline's behaviour.
+
+**Strategy — forward-compatible row layout:** for each of the 452, write rows for:
+1. **Parent root** (e.g. `gaming` for `video-game-franchises` Qs), scored for the broader pill audience. Substrate for the future aggregator rewrite (per-audience scoring). One row per Q.
+2. **`general-knowledge`** ONLY when a pub table genuinely has a knowledge shot — strict rule: *"is this something the average person might have a chance of knowing?"* (proton number of hydrogen → no; "what is H in H2O" → yes). Random-guess Qs (1-in-4 luck) do NOT qualify.
+3. **0-2 cousin sub-categories** where the question fits a different audience subtree (e.g. Wonder Woman comics Q → also `movies-and-tv`; Lithuania independence → also `cold-war-history`).
+
+The 4-row trigger on `question_categories` enforces the cap (D-15).
+
+**Execution mode:** Run via Claude Code subscription (no API spend). Batches of ~30 questions per turn — fetch via service role, reason through each Q in chat, apply approved rows via service-role insert. Estimated 15-16 turns to complete.
+
+**Why now (before 999.18 UI work):** establishes the data shape so the future "expand sub-category pills" UI work is purely a UI change, not a data migration. The same recat pass that fixes today's coverage gaps also pre-creates the rows the aggregator rewrite will need.
+
+**Companion items (separate phases, not this one):**
+- New RPC `counts_by_children(p_parent_slug)` so future UI can list sub-pill counts. Small migration.
+- Aggregator rewrite — split `observed_score` per chosen category by joining `question_plays.session_id → quiz_sessions.session_id`. Schema unchanged; job logic only. Defer until there's enough play volume to matter.
+
+**State at 2026-05-04:** Inline script `pipeline/src/scripts/recategorise-single-cat-questions.ts` exists with 16 passing tests but is NOT being used for this run (API cost). Batch 1 of 30 reviewed (entries with proposed extras + scores documented in conversation transcript). 0 inserts written yet — next session continues from batch 2.
+
+**Plans:** 0 plans (executed inline as a quick-task style sequence, no formal plan files)
 
 ### Phase 999.18: UI Polish Bundle — Hover/Touch States, Loading State, Cat Picker (BACKLOG)
 
