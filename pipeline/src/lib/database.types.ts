@@ -327,7 +327,7 @@ export type Database = {
         Args: {
           p_score_min: number
           p_score_max: number
-          p_category_slug: string | null
+          p_category_slugs: string[]
           p_exclude_ids: string[]
         }
         Returns: number

@@ -151,19 +151,19 @@ describe('Setup screen', () => {
     });
   });
 
-  it('summary line shows summed pool count for selected categories', async () => {
+  it('pool count reflects deduped count_available_questions result for selected categories', async () => {
+    // Mock the RPC to return a known deduped total (47 unique Qs across science+history).
+    mockCountAvailableQuestions.mockResolvedValue(47);
+
     const user = userEvent.setup();
     renderSetup('/');
 
-    // Wait until counts load
     await screen.findByRole('button', { name: /science.*35/i });
 
-    // Deselect All, then select science + history only
     await user.click(screen.getByRole('button', { name: /^all$/i }));
     await user.click(screen.getByRole('button', { name: /science.*35/i }));
     await user.click(screen.getByRole('button', { name: /history.*12/i }));
 
-    // Mixed totals: science 35 + history 12 = 47. Two summary lines show it.
     await waitFor(() => {
       expect(screen.getAllByText(/47 in pool/i).length).toBeGreaterThan(0);
     });

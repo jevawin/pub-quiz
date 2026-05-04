@@ -116,20 +116,14 @@ export async function countAvailableQuestions(
   const slugs = allSelected ? ['general'] : categorySlugs;
   const excludeIds = excludeSeen ? getSeenIds() : [];
 
-  const counts = await Promise.all(
-    slugs.map(async (slug) => {
-      const { data, error } = await supabase.rpc('count_available_questions', {
-        p_score_min: min,
-        p_score_max: max,
-        p_category_slug: slug,
-        p_exclude_ids: excludeIds,
-      });
-      if (error) throw error;
-      return (data as number) ?? 0;
-    }),
-  );
-
-  return counts.reduce((sum, c) => sum + c, 0);
+  const { data, error } = await supabase.rpc('count_available_questions', {
+    p_score_min: min,
+    p_score_max: max,
+    p_category_slugs: slugs,
+    p_exclude_ids: excludeIds,
+  });
+  if (error) throw error;
+  return (data as number) ?? 0;
 }
 
 /** Dedupe, then prefer questions with fewest views. Within same view-count tier, shuffle. */

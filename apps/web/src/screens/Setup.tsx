@@ -143,13 +143,6 @@ export function Setup() {
     }
   };
 
-  // Sum of published-question counts across currently selected categories at the
-  // active difficulty. Null until catCounts loads; stays null if the fetch fails.
-  const selectionPoolCount = catCounts
-    ? (allSelected ? ALL_CATEGORY_SLUGS : Array.from(selectedCategories))
-        .reduce((sum, slug) => sum + (countForSlug(catCounts, slug, difficulty) ?? 0), 0)
-    : null;
-
   // Derive pool-size warning message for the current filter choices.
   let poolWarning: string | null = null;
   if (availableTotal !== null && availableUnseen !== null) {
@@ -200,8 +193,8 @@ export function Setup() {
       <Card className="mb-6">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Categories</CardTitle>
-          {selectionPoolCount !== null && (
-            <span className="text-sm font-normal text-neutral-500">{selectionPoolCount} in pool</span>
+          {availableTotal !== null && (
+            <span className="text-sm font-normal text-neutral-500">{availableTotal} in pool</span>
           )}
         </CardHeader>
         <CardContent>

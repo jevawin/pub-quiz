@@ -177,22 +177,16 @@ describe('fetchRandomQuestions — within-session dedupe', () => {
 });
 
 describe('countAvailableQuestions', () => {
-  it('calls count_available_questions per slug with the score range', async () => {
-    rpc.mockResolvedValue({ data: 7, error: null });
+  it('calls count_available_questions once with the slug array and score range', async () => {
+    rpc.mockResolvedValue({ data: 14, error: null });
 
     const total = await countAvailableQuestions('Hard', ['science', 'history'], false);
 
-    expect(rpc).toHaveBeenCalledTimes(2);
+    expect(rpc).toHaveBeenCalledTimes(1);
     expect(rpc).toHaveBeenCalledWith('count_available_questions', expect.objectContaining({
       p_score_min: 0,
       p_score_max: 33,
-      p_category_slug: 'science',
-      p_exclude_ids: [],
-    }));
-    expect(rpc).toHaveBeenCalledWith('count_available_questions', expect.objectContaining({
-      p_score_min: 0,
-      p_score_max: 33,
-      p_category_slug: 'history',
+      p_category_slugs: ['science', 'history'],
       p_exclude_ids: [],
     }));
     expect(total).toBe(14);
@@ -207,7 +201,7 @@ describe('countAvailableQuestions', () => {
     expect(rpc).toHaveBeenCalledWith('count_available_questions', expect.objectContaining({
       p_score_min: 0,
       p_score_max: 100,
-      p_category_slug: 'general',
+      p_category_slugs: ['general'],
       p_exclude_ids: ['s1', 's2'],
     }));
   });
