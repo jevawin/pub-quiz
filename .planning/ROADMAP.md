@@ -413,13 +413,13 @@ Small, current-state-appropriate fixes triggered directly by recent feedback. Pu
 
 Phase-sized iterations on the question library. Order TBC pending re-discussion of 999.20 pivot. Tentative: **999.21 → 999.22** (replacing/absorbing 999.20), then 999.18 → 999.19 → 999.16.
 
-### Phase 999.21 (PROPOSED, NOT YET CONFIRMED): Categories tree cleanup
+### Phase 999.21: Categories tree cleanup (COMPLETE 2026-05-09)
 
-**Goal:** Back-and-forth session to clean the 139-cat tree before any chain-tagging backfill. Merge dupes, prune over-niche leafs, add a few obvious gaps.
+**Goal:** Clean the 139-cat tree before chain-tagging backfill. Merge dupes, fold semantic dups, add gaps for chain-tagging vision.
 
-**Known dup candidates:** `the-1960s`/`the-sixties`, `formula-one`/`formula-one-racing`, `classic-western-films`/`classic-westerns`, `italian-cuisine`/`italian-food`, `mexican-cuisine`/`mexican-food`.
+**Outcome:** Tree 139 → 163 cats. 6 dropped (5 confirmed dup pairs + `international-cuisine` semantic dup). 30 new cats added across 3 tiers (3 new roots: `politics`, `religion-and-mythology`, `language-and-words`). `mexican-cuisine` flattened from `world-cuisine` to `food-and-drink`. Migration `00030_categories_cleanup.sql`.
 
-**Status:** Sketched 2026-05-04 during 999.20 pivot discussion. Needs SPEC.
+**Detail:** `.planning/phases/999.21-categories-cleanup/SUMMARY.md`.
 
 ### Phase 999.22 (PROPOSED, NOT YET CONFIRMED): Chain tagging architecture + full backfill
 

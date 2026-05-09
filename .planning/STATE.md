@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 999.20 PAUSED — pivoting to chain-tagging architecture (one more discussion pass needed)
-stopped_at: 999.20 paused mid-session. Surfaced architectural pivot to chain tagging (per-level scoring). Need re-discussion before starting. See .planning/phases/999.20-recategorise-single-cat-questions/DISCUSSION-NOTE.md
-last_updated: "2026-05-04T22:00:00.000Z"
-last_activity: 2026-05-04 -- 999.20 paused; pivot sketched to 999.21 (categories cleanup) + 999.22 (chain tagging + backfill); discussion note written
+status: 999.21 categories cleanup COMPLETE; 999.22 chain tagging + backfill is next
+stopped_at: 999.21 done (migration 00030 applied, tree 139→163 cats, 6 dropped, 30 added). Backup pipeline live (daily GH Action). Next: spec 999.22 chain tagging.
+last_updated: "2026-05-09T20:30:00.000Z"
+last_activity: 2026-05-09 -- 999.21 categories cleanup shipped; daily question library backup wired (GH Action, gzipped pg_dump → git)
 progress:
   total_phases: 31
   completed_phases: 5
@@ -21,23 +21,32 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-04)
 
 **Core value:** Great questions delivered through a clean, effortless interface -- the content is the star, not the chrome around it.
-**Current focus:** 999.20 PAUSED. Pivoting to chain-tagging architecture (999.21 cleanup → 999.22 chain backfill). One more discussion pass before starting.
+**Current focus:** 999.21 shipped. Next is 999.22 — Chain tagging architecture + backfill (replaces/absorbs 999.20).
 
 ## Current Position
 
-Phase: 999.20 — PAUSED mid-session 2026-05-04. Pivot sketched but not confirmed.
+Phase: 999.21 COMPLETE 2026-05-09. Ready for 999.22 spec.
 
-**Resume instructions for next session (when fresh):**
-1. Read `.planning/phases/999.20-recategorise-single-cat-questions/DISCUSSION-NOTE.md` in full.
-2. Re-discuss the pivot (any objections, missed angles).
-3. Confirm phase order: 999.21 categories cleanup → 999.22 chain tagging + backfill.
-4. If confirmed: retire 999.20, add 999.21 + 999.22 properly via `/gsd-discuss-phase`.
-5. Setup work preserved: dump script, `data/single-cat.json` (453 Qs + 139 cats), PROGRESS.md, batch 1 draft (in chat transcript only — not applied to DB).
+**999.21 outcome:**
+- Migration `00030_categories_cleanup.sql` applied to remote.
+- Tree: 139 → 163 cats (6 dropped, 30 added across all tiers, 3 new roots).
+- See `.planning/phases/999.21-categories-cleanup/SUMMARY.md`.
+
+**Backup pipeline live (separate from 999.21):**
+- Daily GH Action at 04:00 UTC dumps tier-1 tables, gzipped, commits to `supabase/backups/`.
+- Restore docs in `supabase/backups/README.md`.
+
+**Next session: spec 999.22.**
+- Calibrator emits row per ancestor in chain (~2h).
+- RPC: difficulty band uses chosen-pill row, not leaf (~1h).
+- Backfill all ~3056 published Qs with chain rows + per-tier scores.
+- Backfill mode TBD (API-backed Sonnet vs manual).
+- Setup work from 999.20 preserved as input data: `dump-single-cat-for-manual-recat.ts`, `single-cat.json`.
 
 Active tracks (per ROADMAP §C):
 
 - C1 quick tasks: 260428-fact (pending — Enrichment fun_fact prompt tightening)
-- C2 sequenced library work: **999.20 PAUSED** → pivot to **999.21 (categories cleanup) → 999.22 (chain tagging + backfill)** → 999.18 → 999.19 → 999.16. Order TBC pending re-discussion.
+- C2 sequenced library work: **999.21 DONE** → **999.22 NEXT (chain tagging + backfill, absorbs 999.20)** → 999.18 → 999.19 → 999.16.
 
 Build path queue (after prototype proves out):
 

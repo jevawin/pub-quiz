@@ -1,6 +1,6 @@
 {
-  "fetched_at": "2026-05-09T18:37:03.172Z",
-  "total": 139,
+  "fetched_at": "2026-05-09T19:38:05.629Z",
+  "total": 163,
   "categories": [
     {
       "slug": "art-and-design",
@@ -66,6 +66,13 @@
       "direct_q_count": 6
     },
     {
+      "slug": "british-cuisine",
+      "name": "British Cuisine",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 0
+    },
+    {
       "slug": "british-pub-food",
       "name": "British Pub Food",
       "parent_slug": "food-and-drink",
@@ -108,13 +115,6 @@
       "direct_q_count": 7
     },
     {
-      "slug": "international-cuisine",
-      "name": "International Cuisine",
-      "parent_slug": "food-and-drink",
-      "root_slug": "food-and-drink",
-      "direct_q_count": 28
-    },
-    {
       "slug": "italian-cuisine",
       "name": "Italian Cuisine",
       "parent_slug": "food-and-drink",
@@ -129,11 +129,11 @@
       "direct_q_count": 11
     },
     {
-      "slug": "mexican-food",
-      "name": "Mexican Food",
+      "slug": "mexican-cuisine",
+      "name": "Mexican Cuisine",
       "parent_slug": "food-and-drink",
       "root_slug": "food-and-drink",
-      "direct_q_count": 10
+      "direct_q_count": 11
     },
     {
       "slug": "wine-and-spirits",
@@ -147,21 +147,14 @@
       "name": "World Cuisine",
       "parent_slug": "food-and-drink",
       "root_slug": "food-and-drink",
-      "direct_q_count": 11
+      "direct_q_count": 36
     },
     {
-      "slug": "italian-food",
-      "name": "Italian Food",
-      "parent_slug": "international-cuisine",
+      "slug": "cocktails",
+      "name": "Cocktails",
+      "parent_slug": "wine-and-spirits",
       "root_slug": "food-and-drink",
-      "direct_q_count": 14
-    },
-    {
-      "slug": "mexican-cuisine",
-      "name": "Mexican Cuisine",
-      "parent_slug": "world-cuisine",
-      "root_slug": "food-and-drink",
-      "direct_q_count": 10
+      "direct_q_count": 0
     },
     {
       "slug": "gaming",
@@ -169,6 +162,13 @@
       "parent_slug": null,
       "root_slug": "gaming",
       "direct_q_count": 82
+    },
+    {
+      "slug": "card-games",
+      "name": "Card Games",
+      "parent_slug": "gaming",
+      "root_slug": "gaming",
+      "direct_q_count": 0
     },
     {
       "slug": "classic-arcade-games",
@@ -276,6 +276,27 @@
       "direct_q_count": 10
     },
     {
+      "slug": "north-american-geography",
+      "name": "North American Geography",
+      "parent_slug": "geography",
+      "root_slug": "geography",
+      "direct_q_count": 0
+    },
+    {
+      "slug": "oceans-and-seas",
+      "name": "Oceans and Seas",
+      "parent_slug": "geography",
+      "root_slug": "geography",
+      "direct_q_count": 0
+    },
+    {
+      "slug": "rivers-and-mountains",
+      "name": "Rivers and Mountains",
+      "parent_slug": "geography",
+      "root_slug": "geography",
+      "direct_q_count": 0
+    },
+    {
       "slug": "south-american-geography",
       "name": "South American Geography",
       "parent_slug": "geography",
@@ -309,6 +330,13 @@
       "parent_slug": "history",
       "root_slug": "history",
       "direct_q_count": 10
+    },
+    {
+      "slug": "ancient-greece-history",
+      "name": "Ancient Greece History",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 0
     },
     {
       "slug": "ancient-rome",
@@ -381,11 +409,25 @@
       "direct_q_count": 34
     },
     {
+      "slug": "industrial-revolution",
+      "name": "Industrial Revolution",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 0
+    },
+    {
       "slug": "the-1960s",
       "name": "The 1960s",
       "parent_slug": "history",
       "root_slug": "history",
-      "direct_q_count": 5
+      "direct_q_count": 10
+    },
+    {
+      "slug": "the-1970s",
+      "name": "The 1970s",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 0
     },
     {
       "slug": "the-1980s",
@@ -395,11 +437,11 @@
       "direct_q_count": 5
     },
     {
-      "slug": "the-sixties",
-      "name": "The Sixties",
+      "slug": "the-1990s",
+      "name": "The 1990s",
       "parent_slug": "history",
       "root_slug": "history",
-      "direct_q_count": 5
+      "direct_q_count": 0
     },
     {
       "slug": "the-wild-west",
@@ -435,6 +477,13 @@
       "parent_slug": "history",
       "root_slug": "history",
       "direct_q_count": 52
+    },
+    {
+      "slug": "language-and-words",
+      "name": "Language and Words",
+      "parent_slug": null,
+      "root_slug": "language-and-words",
+      "direct_q_count": 0
     },
     {
       "slug": "literature",
@@ -484,6 +533,13 @@
       "parent_slug": "literature",
       "root_slug": "literature",
       "direct_q_count": 21
+    },
+    {
+      "slug": "poetry",
+      "name": "Poetry",
+      "parent_slug": "literature",
+      "root_slug": "literature",
+      "direct_q_count": 0
     },
     {
       "slug": "shakespeare",
@@ -549,6 +605,13 @@
       "direct_q_count": 116
     },
     {
+      "slug": "british-sitcoms",
+      "name": "British Sitcoms",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 0
+    },
+    {
       "slug": "classic-disney-films",
       "name": "Classic Disney Films",
       "parent_slug": "movies-and-tv",
@@ -581,7 +644,7 @@
       "name": "Classic Western Films",
       "parent_slug": "movies-and-tv",
       "root_slug": "movies-and-tv",
-      "direct_q_count": 6
+      "direct_q_count": 14
     },
     {
       "slug": "horror-films",
@@ -619,6 +682,13 @@
       "direct_q_count": 15
     },
     {
+      "slug": "reality-tv",
+      "name": "Reality TV",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 0
+    },
+    {
       "slug": "science-fiction-films",
       "name": "Science Fiction Films",
       "parent_slug": "movies-and-tv",
@@ -638,13 +708,6 @@
       "parent_slug": "movies-and-tv",
       "root_slug": "movies-and-tv",
       "direct_q_count": 10
-    },
-    {
-      "slug": "classic-westerns",
-      "name": "Classic Westerns",
-      "parent_slug": "western-films",
-      "root_slug": "movies-and-tv",
-      "direct_q_count": 12
     },
     {
       "slug": "music",
@@ -696,6 +759,13 @@
       "direct_q_count": 109
     },
     {
+      "slug": "classical-music",
+      "name": "Classical Music",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 0
+    },
+    {
       "slug": "country-music",
       "name": "Country Music",
       "parent_slug": "music",
@@ -710,6 +780,13 @@
       "direct_q_count": 10
     },
     {
+      "slug": "eurovision",
+      "name": "Eurovision",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 0
+    },
+    {
       "slug": "hip-hop-and-rap",
       "name": "Hip Hop and Rap",
       "parent_slug": "music",
@@ -722,6 +799,13 @@
       "parent_slug": "music",
       "root_slug": "music",
       "direct_q_count": 23
+    },
+    {
+      "slug": "soundtracks-and-film-music",
+      "name": "Soundtracks and Film Music",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 0
     },
     {
       "slug": "the-beatles",
@@ -773,6 +857,13 @@
       "direct_q_count": 9
     },
     {
+      "slug": "insects",
+      "name": "Insects",
+      "parent_slug": "nature-and-animals",
+      "root_slug": "nature-and-animals",
+      "direct_q_count": 0
+    },
+    {
       "slug": "marine-life",
       "name": "Marine Life",
       "parent_slug": "nature-and-animals",
@@ -780,11 +871,39 @@
       "direct_q_count": 9
     },
     {
+      "slug": "plants-and-trees",
+      "name": "Plants and Trees",
+      "parent_slug": "nature-and-animals",
+      "root_slug": "nature-and-animals",
+      "direct_q_count": 0
+    },
+    {
+      "slug": "politics",
+      "name": "Politics",
+      "parent_slug": null,
+      "root_slug": "politics",
+      "direct_q_count": 0
+    },
+    {
+      "slug": "religion-and-mythology",
+      "name": "Religion and Mythology",
+      "parent_slug": null,
+      "root_slug": "religion-and-mythology",
+      "direct_q_count": 0
+    },
+    {
       "slug": "science",
       "name": "Science",
       "parent_slug": null,
       "root_slug": "science",
       "direct_q_count": 235
+    },
+    {
+      "slug": "chemistry",
+      "name": "Chemistry",
+      "parent_slug": "science",
+      "root_slug": "science",
+      "direct_q_count": 0
     },
     {
       "slug": "famous-scientists",
@@ -799,6 +918,20 @@
       "parent_slug": "science",
       "root_slug": "science",
       "direct_q_count": 70
+    },
+    {
+      "slug": "mathematics",
+      "name": "Mathematics",
+      "parent_slug": "science",
+      "root_slug": "science",
+      "direct_q_count": 0
+    },
+    {
+      "slug": "physics",
+      "name": "Physics",
+      "parent_slug": "science",
+      "root_slug": "science",
+      "direct_q_count": 0
     },
     {
       "slug": "space-and-astronomy",
@@ -850,6 +983,20 @@
       "direct_q_count": 21
     },
     {
+      "slug": "athletics",
+      "name": "Athletics",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 0
+    },
+    {
+      "slug": "boxing",
+      "name": "Boxing",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 0
+    },
+    {
       "slug": "cricket",
       "name": "Cricket",
       "parent_slug": "sports",
@@ -864,18 +1011,18 @@
       "direct_q_count": 31
     },
     {
-      "slug": "formula-one",
-      "name": "Formula One",
-      "parent_slug": "sports",
-      "root_slug": "sports",
-      "direct_q_count": 22
-    },
-    {
       "slug": "formula-one-racing",
       "name": "Formula One Racing",
       "parent_slug": "sports",
       "root_slug": "sports",
-      "direct_q_count": 23
+      "direct_q_count": 24
+    },
+    {
+      "slug": "golf",
+      "name": "Golf",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 0
     },
     {
       "slug": "premier-league-football",
@@ -920,6 +1067,13 @@
       "direct_q_count": 20
     },
     {
+      "slug": "winter-sports",
+      "name": "Winter Sports",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 0
+    },
+    {
       "slug": "olympic-host-cities",
       "name": "Olympic Host Cities",
       "parent_slug": "the-olympics",
@@ -934,6 +1088,13 @@
       "direct_q_count": 106
     },
     {
+      "slug": "ai-and-machine-learning",
+      "name": "AI and Machine Learning",
+      "parent_slug": "technology",
+      "root_slug": "technology",
+      "direct_q_count": 0
+    },
+    {
       "slug": "computer-basics",
       "name": "Computer Basics",
       "parent_slug": "technology",
@@ -946,6 +1107,13 @@
       "parent_slug": "technology",
       "root_slug": "technology",
       "direct_q_count": 16
+    },
+    {
+      "slug": "mobile-tech",
+      "name": "Mobile Tech",
+      "parent_slug": "technology",
+      "root_slug": "technology",
+      "direct_q_count": 0
     },
     {
       "slug": "social-media-history",
