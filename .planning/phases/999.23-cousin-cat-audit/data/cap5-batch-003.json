@@ -1,0 +1,30 @@
+{
+  "batch_id": "cap5-003",
+  "ops": [
+    { "op": "delete", "question_id": "70436013-beb9-4b3e-b283-1157d2ffd257", "slug": "animated-classics", "reason": "Cruella corrective: chain demand re-emerged for movies-and-tv (animated-films chains UP through movies-and-tv); drop animated-classics(88) — overlaps with animated-films root being kept" },
+    { "op": "insert", "question_id": "70436013-beb9-4b3e-b283-1157d2ffd257", "slug": "movies-and-tv", "estimate_score": 85, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "aba4e667-98d6-4be1-8414-5a670b0ba583", "slug": "space-technology", "reason": "Columbia corrective: leaf hierarchy still demands the-solar-system chain ancestor (space-exploration → space-and-astronomy → the-solar-system); drop space-technology to make room" },
+    { "op": "insert", "question_id": "aba4e667-98d6-4be1-8414-5a670b0ba583", "slug": "the-solar-system", "estimate_score": 20, "chain_ancestor": true },
+
+    { "op": "insert", "question_id": "7de67f33-b1f1-44d8-8036-e53ed58820c6", "slug": "the-solar-system", "estimate_score": 25, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "4c647750-e704-4f67-a95c-cb5774daa863", "slug": "space-technology", "reason": "Apollo 11 corrective: chain still demands science root; drop space-technology(92) to fit. Loss noted but space-exploration cousin retained" },
+    { "op": "insert", "question_id": "4c647750-e704-4f67-a95c-cb5774daa863", "slug": "science", "estimate_score": 70, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "ca25e9c9-0c74-44c4-8be8-a7728187657f", "slug": "space-technology", "reason": "Hubble corrective: chain demands the-solar-system; drop space-technology(75) to fit" },
+    { "op": "insert", "question_id": "ca25e9c9-0c74-44c4-8be8-a7728187657f", "slug": "the-solar-system", "estimate_score": 20, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "e74cf47f-7aad-4a1a-9433-c36cbde49b4b", "slug": "space-technology", "reason": "Voyager corrective: chain demands the-solar-system; drop space-technology(88) to fit" },
+    { "op": "insert", "question_id": "e74cf47f-7aad-4a1a-9433-c36cbde49b4b", "slug": "the-solar-system", "estimate_score": 15, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "f862b7cf-65ba-4722-97f1-17f4238fe09e", "slug": "space-technology", "reason": "Sputnik dup corrective: same as Q13/Q12 logic; chain demands the-solar-system" },
+    { "op": "insert", "question_id": "f862b7cf-65ba-4722-97f1-17f4238fe09e", "slug": "the-solar-system", "estimate_score": 25, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "392a36ec-9cb8-4d62-9439-e08985af8f04", "slug": "space-technology", "reason": "NASA corrective: chain demands science root; drop space-technology(92) to fit" },
+    { "op": "insert", "question_id": "392a36ec-9cb8-4d62-9439-e08985af8f04", "slug": "science", "estimate_score": 70, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "bb34bab9-2928-4962-9a33-e5b540a9ee32", "slug": "the-1960s", "reason": "user-confirmed Q19 corrective: chain demands history root (the-1960s leaf chains to history); drop the-1960s(90) to keep space-exploration as user requested" },
+    { "op": "insert", "question_id": "bb34bab9-2928-4962-9a33-e5b540a9ee32", "slug": "history", "estimate_score": 50, "chain_ancestor": true }
+  ]
+}

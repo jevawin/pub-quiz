@@ -1,0 +1,32 @@
+{
+  "batch_id": "cap5-002",
+  "ops": [
+    { "op": "delete", "question_id": "25b7dd32-5b69-411b-9234-e860a1d8640a", "slug": "british-history", "reason": "Shakespeare row 11: classic-literature overlaps with literature root being added; british-history is lowest non-chain non-GK" },
+    { "op": "insert", "question_id": "25b7dd32-5b69-411b-9234-e860a1d8640a", "slug": "literature", "estimate_score": 85, "chain_ancestor": true },
+    { "op": "insert", "question_id": "25b7dd32-5b69-411b-9234-e860a1d8640a", "slug": "history", "estimate_score": 70, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "aba4e667-98d6-4be1-8414-5a670b0ba583", "slug": "the-solar-system", "reason": "Columbia row 12: the-solar-system misapplied (Columbia=Earth orbit reentry, not solar-system Q); already lowest at score 40" },
+    { "op": "insert", "question_id": "aba4e667-98d6-4be1-8414-5a670b0ba583", "slug": "technology", "estimate_score": 75, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "7de67f33-b1f1-44d8-8036-e53ed58820c6", "slug": "space-and-astronomy", "reason": "Sputnik 1 row 13: drop the leaf forcing the-solar-system chain demand; Sputnik = first satellite Earth orbit, not astronomy. Per row-3/row-6 pattern: prune leaf to break unwanted chain. Net 4 rows, no chain insert needed" },
+
+    { "op": "delete", "question_id": "4c647750-e704-4f67-a95c-cb5774daa863", "slug": "science", "reason": "Apollo 11 row 14: science is lowest non-chain non-GK; technology chain insert covers the science-tech angle; the-solar-system kept (Moon=solar-system relevant)" },
+    { "op": "insert", "question_id": "4c647750-e704-4f67-a95c-cb5774daa863", "slug": "technology", "estimate_score": 80, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "ca25e9c9-0c74-44c4-8be8-a7728187657f", "slug": "the-solar-system", "reason": "Hubble row 15: Hubble is deep-space telescope; solar-system misapplied at score 40" },
+    { "op": "insert", "question_id": "ca25e9c9-0c74-44c4-8be8-a7728187657f", "slug": "technology", "estimate_score": 70, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "e74cf47f-7aad-4a1a-9433-c36cbde49b4b", "slug": "the-solar-system", "reason": "Voyager 1 row 16: Voyager 1 is INTERSTELLAR — explicitly beyond solar-system; cousin demonstrably wrong" },
+    { "op": "insert", "question_id": "e74cf47f-7aad-4a1a-9433-c36cbde49b4b", "slug": "technology", "estimate_score": 85, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "f862b7cf-65ba-4722-97f1-17f4238fe09e", "slug": "the-solar-system", "reason": "Sputnik 1 dup row 17: same as Q13 logic; near-duplicate of Q13 flagged for separate dedup quick task" },
+    { "op": "insert", "question_id": "f862b7cf-65ba-4722-97f1-17f4238fe09e", "slug": "technology", "estimate_score": 85, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "392a36ec-9cb8-4d62-9439-e08985af8f04", "slug": "science", "reason": "NASA row 18: science is lowest non-chain non-GK; the-solar-system chain insert is forced by leaf hierarchy (using low score 30 since NASA is general not solar-system specific)" },
+    { "op": "insert", "question_id": "392a36ec-9cb8-4d62-9439-e08985af8f04", "slug": "the-solar-system", "estimate_score": 30, "chain_ancestor": true },
+
+    { "op": "delete", "question_id": "bb34bab9-2928-4962-9a33-e5b540a9ee32", "slug": "history", "reason": "user override row 19: KEEP space-exploration (it's bang on); the-1960s + the chain inserts cover the era + science; history root cousin redundant since Moon landing tagged via solar-system + science chain" },
+    { "op": "insert", "question_id": "bb34bab9-2928-4962-9a33-e5b540a9ee32", "slug": "science", "estimate_score": 60, "chain_ancestor": true },
+    { "op": "insert", "question_id": "bb34bab9-2928-4962-9a33-e5b540a9ee32", "slug": "the-solar-system", "estimate_score": 25, "chain_ancestor": true, "cousin_reason": null }
+  ]
+}
