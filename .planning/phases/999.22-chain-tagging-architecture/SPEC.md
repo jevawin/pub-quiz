@@ -1,6 +1,19 @@
 # Phase 999.22 — Chain Tagging Architecture + Backfill
 
-**Status:** SPEC. Awaiting decisions before PLAN.
+**Status:** SPEC. Decisions locked 2026-05-09. Ready for PLAN.
+
+## Locked decisions
+
+1. **Trigger cap = 5.** Chain (3) + GK (1) + 1 cousin root (1) = 5. Strict cousin rule: only true crossover Qs get cousin tag (not e.g. Aladdin → literature).
+2. **Backfill mode: subagent-based.** Main loop dispatches batches of ~100 Qs to fresh-context subagents (Opus, no API spend). ~31 subagents total. Each subagent reasons through batch, applies chain rows via service-role insert, returns summary.
+3. **Skip cousins in backfill.** Cousin pass = separate Phase 999.23 (manual conversational, post-backfill).
+4. **GK row optional.** Calibrator only adds GK when avg-person rule passes ("most people would have a good chance knowing it").
+5. **Insert-only (`ON CONFLICT DO NOTHING`).** `estimate_score` IS user-facing difficulty until `observed_n >= 30` per cat. Re-scoring would change quiz behaviour. Backfill adds missing ancestor rows only; existing rows untouched.
+6. **Backfill scope: published only** (3056 Qs). `questions_staging` gets chain rows on promote via post-change calibrator.
+7. **RPC fallback.** When chosen-pill row missing for a Q (legacy, not yet chained), fall back to descendant row's score. Preserves current behaviour for unchained Qs during/after backfill.
+8. **Rubric tweak yes.** Calibrator prompt explicitly asks for per-tier scoring with anchor examples (e.g. "Dota Q: gaming=20, video-game-franchises=40, esports=70").
+
+**Companion phase:** 999.23 — Cousin / category audit (manual conversational pass). Adds cousin rows + fixes mis-categorised primary cats post-backfill.
 
 **Absorbs:** Phase 999.20 (Recategorise 453 single-cat questions). Setup work from 999.20 preserved as input data.
 
@@ -132,16 +145,9 @@ Subscription chat work. Batches of ~50 Qs per turn, propose chain rows + scores,
 
 **Recommendation: Mode A.** Cost trivial vs time saved. Quality higher. Backfill becomes a one-shot job, not a months-long manual chore. Reserve manual review for spot-checks + cousin tagging on flagged Qs.
 
-## Open questions / decisions to lock before PLAN
+## Decisions (locked — see header section)
 
-1. **Trigger cap: 4 or bump to 5/6?**
-2. **Backfill mode: A (API) or B (manual)?**
-3. **Cousin tagging: skip in backfill, or include where obvious?** Recommend skip in backfill — add manually post-hoc if surface needed.
-4. **GK row policy:** keep optional (current); only add when calibrator deems pub-table-knowable. Confirm.
-5. **Re-score existing chain rows on backfill?** Or only insert missing? Recommend: only insert missing (preserve any manual override scores). Use `ON CONFLICT DO NOTHING`.
-6. **Backfill scope: published only, or also `questions_staging`?** Recommend: published only.
-7. **RPC fallback behaviour for legacy Qs:** if chosen-pill row missing, fall back to any descendant row (current behaviour preserved). Confirm.
-8. **Scoring rubric:** does calibrator need a rule update for tier-specific scoring? e.g. "score for `gaming` audience: how would a casual gaming-pill picker fare?" vs "score for `dota-2` audience: how would a Dota player fare?". Probably a system prompt tweak.
+All 8 questions resolved. See `## Locked decisions` at top of file.
 
 ## Pitfalls
 

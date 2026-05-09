@@ -421,20 +421,37 @@ Phase-sized iterations on the question library. Order TBC pending re-discussion 
 
 **Detail:** `.planning/phases/999.21-categories-cleanup/SUMMARY.md`.
 
-### Phase 999.22 (PROPOSED, NOT YET CONFIRMED): Chain tagging architecture + full backfill
+### Phase 999.23 (NEXT after 999.22): Cousin / category audit pass
 
-**Goal:** Adopt chain tagging — every Q tagged at every applicable level (root → sub → optional sub-sub). Each row scored for that tier's audience. Replaces 999.20's leaf+root+cousin shape with a cleaner per-level scoring model.
+**Goal:** Manual conversational pass over the chain-tagged library to (a) move Qs to better primary cat where mis-categorised (e.g. Aladdin Q tagged at `literature` should be `movies-and-tv`), (b) add cousin tags where genuinely warranted, (c) reject false cousins. Strict rule: cousin only when a player picking that cat would genuinely expect this Q.
 
-**Code changes (modest):**
-- Calibrator emits row per ancestor in chain (not just leaf).
-- RPC: difficulty-band check uses the row matching the chosen pill level (not the leaf).
-- Tests for both.
+**Why post-999.22:** Backfill establishes the chain rows automatically. This pass is the human polish on top — judgment calls about cross-cutting tags + primary-cat fixes. Doing it post-backfill avoids re-work.
 
-**Backfill:** All ~2848 published Qs (not just 453 single-cat). API-backed (Sonnet, ~$15, ~1 day) recommended over months of manual.
+**Format:** Batches of ~30 Qs in chat, table format showing current cats + proposed changes. User confirms, applies via service-role.
 
-**Absorbs 999.20.** Setup work from 999.20 (dump script, JSON, PROGRESS) preserved as input data.
+**Strict cousin examples:**
+- Marvel comics Q → also `pop-culture` (added in 00031). Maybe `movies-and-tv` if MCU-relevant.
+- Disney film Q → only `movies-and-tv` chain. NOT `literature` even if source-material was a book.
+- "What's the capital of Brazil?" → only `geography` chain. NOT `general-knowledge` cousin (it's geography knowledge).
 
-**Status:** Sketched 2026-05-04. See `.planning/phases/999.20-recategorise-single-cat-questions/DISCUSSION-NOTE.md`. Needs SPEC + re-discussion before starting.
+**Pop-culture root** (added 2026-05-09 in migration 00031) populated mainly here as a cousin to MCU, Disney, Star Wars, mainstream gaming franchises.
+
+**Status:** Sketched 2026-05-09 during 999.22 decisions lock. Needs SPEC after 999.22 ships.
+
+### Phase 999.22 (PLANNED): Chain tagging architecture + full backfill
+
+**Goal:** Adopt chain tagging — every Q tagged at every applicable level (root → sub → optional sub-sub). Each row scored for that tier's audience.
+
+**Code changes:**
+- Calibrator emits row per ancestor in chain (not just leaf), with per-tier audience scores.
+- RPC: score-band check uses chosen-pill row, falls back to descendant row for legacy unchained Qs.
+- Trigger cap bumped 4 → 5 (chain 3 + GK 1 + cousin 1).
+
+**Backfill:** All ~3056 published Qs via subagent dispatch (Opus, no API spend). ~31 batches of 100 Qs. Cousin tagging skipped — handled in 999.23.
+
+**Absorbs 999.20.** Setup preserved as input data.
+
+**Status:** SPEC + PLAN ready 2026-05-09. See `.planning/phases/999.22-chain-tagging-architecture/`.
 
 ### Phase 999.20: Recategorise 452 single-cat published questions (PAUSED 2026-05-04 — pivot pending)
 
