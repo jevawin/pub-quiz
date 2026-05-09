@@ -436,7 +436,14 @@ Phase-sized iterations on the question library. Order TBC pending re-discussion 
 
 **Pop-culture root** (added 2026-05-09 in migration 00031) populated mainly here as a cousin to MCU, Disney, Star Wars, mainstream gaming franchises.
 
-**Status:** Sketched 2026-05-09 during 999.22 decisions lock. Needs SPEC after 999.22 ships.
+**Status:** PLANNED 2026-05-09. SPEC + CONTEXT locked. 5 plans, 5 waves.
+
+**Plans:** 5 plans
+- [ ] 999.23-01-PLAN.md — Build apply-cousin-changes.ts (delete/insert/set_primary, dry-run, audit log)
+- [ ] 999.23-02-PLAN.md — Seed data/mistag-worklist.json via heuristic SQL + 7 manual entries
+- [ ] 999.23-03-PLAN.md — Conversational review of 19 cap-5 Qs (2 batches × 10)
+- [ ] 999.23-04-PLAN.md — Conversational review of mistag worklist (~2 batches × 15)
+- [ ] 999.23-05-PLAN.md — Verify (8 ACs + sample audit) + write SUMMARY.md
 
 ### Phase 999.22 (COMPLETE 2026-05-09): Chain tagging architecture + full backfill
 
