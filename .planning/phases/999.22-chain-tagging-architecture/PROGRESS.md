@@ -23,9 +23,17 @@
 | 010 | ✓ done | 99 | 120 | 1 (cap-5) | (this batch) |
 | 011 | ✓ done | 99 | 106 | 1 (cap-5) | (this batch) |
 | 012 | ✓ done | 100 | 106 | 0 | (this batch) |
-| 013 | pending | — | — | — | — |
-| 014 | pending | — | — | — | — |
-| 015 | pending | — | — | — | — |
+| 013 | ✓ done | 100 | 103 | 0 | (this batch) |
+| 014 | ✓ done | 100 | 102 | 0 | (this batch) |
+| 015 | ✓ done | 60  | 61  | 0 | (this batch) |
+
+## Final tally
+
+- Initial dry-run batch + 15 backfill batches.
+- Total Qs scored: 1551 (99 + 1452)
+- Total rows inserted: 1634 (100 + 1534)
+- Total skipped (cap-5): 13
+- Subagent quality flags surfaced for 999.23: ~30 mis-tag candidates noted across batches
 
 ## Notes
 

@@ -438,7 +438,7 @@ Phase-sized iterations on the question library. Order TBC pending re-discussion 
 
 **Status:** Sketched 2026-05-09 during 999.22 decisions lock. Needs SPEC after 999.22 ships.
 
-### Phase 999.22 (PLANNED): Chain tagging architecture + full backfill
+### Phase 999.22 (COMPLETE 2026-05-09): Chain tagging architecture + full backfill
 
 **Goal:** Adopt chain tagging — every Q tagged at every applicable level (root → sub → optional sub-sub). Each row scored for that tier's audience.
 

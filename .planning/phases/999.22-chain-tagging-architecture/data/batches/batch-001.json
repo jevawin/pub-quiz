@@ -1,6 +1,6 @@
 {
   "batch_num": 1,
-  "batch_size": 100,
+  "batch_size": 19,
   "questions": [
     {
       "id": "6a535027-b95e-4734-a9be-4b9c7e5dacd3",
@@ -31,15 +31,14 @@
           "slug": "general-knowledge",
           "estimate_score": 65,
           "observed_n": 0
+        },
+        {
+          "slug": "movies-and-tv",
+          "estimate_score": 60,
+          "observed_n": 0
         }
       ],
       "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        },
         {
           "slug": "history",
           "name": "History",
@@ -49,2533 +48,168 @@
       ]
     },
     {
-      "id": "7b417d2d-e08e-48a4-98a4-e93b136ec94d",
-      "question_text": "In \"The Simpsons\", where did Homer and Marge first meet?",
-      "correct_answer": "At Summer Camp",
+      "id": "87e41adf-33dc-4cde-b4e1-e8b59e3bf0a7",
+      "question_text": "What was the name of one of the surviving palaces of Henry VIII located near Richmond, London?",
+      "correct_answer": "Hampton Court",
       "distractors": [
-        "At High School",
-        "At Church",
-        "At 742 Evergreen Terrace"
+        "St James's Palace",
+        "Buckingham Palace",
+        "Coughton Court"
       ],
       "existing_slugs": [
         {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-sitcoms",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "c5052a7b-777c-466f-ac59-0207d54bd326",
-      "question_text": "Which of these Disney shows is classified as an anime?",
-      "correct_answer": "Stitch!",
-      "distractors": [
-        "Cory in the House",
-        "The Emperor's New School",
-        "Hannah Montana"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 40,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "6c459173-64bf-42f4-932b-104163fd5aba",
-      "question_text": "What was the name of Sqiudward's bad painting in the Spongebob episode \"Artist Unknown?\"",
-      "correct_answer": "Bold and Brash",
-      "distractors": [
-        "Squidward en Repose",
-        "Rippy Bits",
-        "Tilted Perspectives"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 40,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "a79caf36-b082-4069-9ff5-c5d9a5bed221",
-      "question_text": "Which of these Bojack Horseman characters is a human?",
-      "correct_answer": "Todd Chavez",
-      "distractors": [
-        "Lennie Turtletaub",
-        "Princess Carolyn",
-        "Tom Jumbo-Grumbo"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "2fb142d2-0957-4f36-aefa-42bf24c5536d",
-      "question_text": "Which of these Nicktoons were NOT originally a short on Oh Yeah! Cartoons before becoming their own series?",
-      "correct_answer": "Danny Phantom",
-      "distractors": [
-        "ChalkZone",
-        "My Life as a Teenage Robot",
-        "The Fairly OddParents"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 40,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "3e67c490-0ab7-4d9d-bc12-521224cad921",
-      "question_text": "In the show \"Futurama\" what is Fry's full name?",
-      "correct_answer": "Philip J. Fry",
-      "distractors": [
-        "Fry J. Philip",
-        "Fry Rodríguez",
-        "Fry Philip"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "61c2374a-0494-4bbd-a547-ff4dbbaad243",
-      "question_text": "What type of cheese, loved by Wallace and Gromit, had it's sale prices rise after their successful short films?",
-      "correct_answer": "Wensleydale",
-      "distractors": [
-        "Cheddar",
-        "Moon Cheese",
-        "Edam"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
+          "slug": "british-monarchy",
           "estimate_score": 80,
           "observed_n": 0
         },
         {
-          "slug": "animated-classics",
+          "slug": "british-history",
           "estimate_score": 75,
           "observed_n": 0
         },
         {
-          "slug": "general-knowledge",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "900e49a7-29db-4b01-b922-c2e4a334a8de",
-      "question_text": "Which of these Disney classics was released in 1970?",
-      "correct_answer": "The Aristocats",
-      "distractors": [
-        "One Hundred and One Dalmatians",
-        "The Fox and the Hound",
-        "The Little Mermaid"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 68,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-disney-films",
-          "estimate_score": 78,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 28,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "b18fc18d-d254-4544-b9a3-d580a49d2099",
-      "question_text": "In Mulan (1998), who is the leader of the Huns?",
-      "correct_answer": "Shan Yu",
-      "distractors": [
-        "Chien-Po",
-        "Li Shang",
-        "Fa Zhou"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 72,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 78,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "9068448b-3778-4963-9c36-69e6df0b062f",
-      "question_text": "In Finding Nemo, what was the name of Nemo's mom?",
-      "correct_answer": "Coral",
-      "distractors": [
-        "Sandy",
-        "Pearl",
-        "Shelly"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "52571e31-693c-4e00-9423-5280d41b69a9",
-      "question_text": "Who voices the main character Blu in the 2011 animated film \"Rio\"?",
-      "correct_answer": "Jesse Eisenberg",
-      "distractors": [
-        "Michael Cera",
-        "Jonah Hill",
-        "Zach Galifianakis"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "8ae267f1-9b56-436e-b7b3-c6ace5f5718c",
-      "question_text": "In Big Hero 6, what fictional city is the Big Hero 6 from?",
-      "correct_answer": "San Fransokyo",
-      "distractors": [
-        "San Tokyo",
-        "Tokysisco",
-        "Sankyo"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
+          "slug": "famous-landmarks",
           "estimate_score": 65,
           "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "79b52cad-8943-4aca-bdff-0e8caff33274",
-      "question_text": "Who provided a majority of the songs and lyrics for \"Spirit: Stallion of the Cimarron\"?",
-      "correct_answer": "Bryan Adams",
-      "distractors": [
-        "Smash Mouth",
-        "Oasis",
-        "Air Supply"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "e5608d48-50d1-49d5-9a37-360a572a6bf7",
-      "question_text": "7-Eleven stores were temporarily converted into Kwik E-marts to promote the release of what movie?",
-      "correct_answer": "The Simpsons Movie",
-      "distractors": [
-        "Spider-Man 3",
-        "Shrek the Third",
-        "Ratatouille"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 65,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "fea1efa8-c8e0-4147-8801-f814a260ea38",
-      "question_text": "In what year was the first Transformers movie released?",
-      "correct_answer": "1986",
-      "distractors": [
-        "2007",
-        "1984",
-        "2009"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 45,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "c1e339b8-0819-463e-b8f5-40224bf1ba07",
-      "question_text": "Which movie sequel had improved box office results compared to its original film?",
-      "correct_answer": "Toy Story 2",
-      "distractors": [
-        "Sin City: A Dame to Kill For",
-        "Speed 2: Cruise Control",
-        "Son of the Mask"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 55,
-          "observed_n": 0
-        },
-        {
-          "slug": "pixar-films",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "3874abd9-2ea0-4cbd-95be-4335c9ea19fd",
-      "question_text": "Who plays the character of Po in the Kung Fu Panda movies?",
-      "correct_answer": "Jack Black",
-      "distractors": [
-        "Mirana Jonnes",
-        "McConahey Ramses",
-        "Jim Petersson"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 80,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 70,
-          "observed_n": 0
         },
         {
           "slug": "general-knowledge",
           "estimate_score": 70,
           "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "e73dcdaf-6c2c-41c9-a06d-492f47a499f7",
-      "question_text": "What is Lilo's last name from Lilo and Stitch?",
-      "correct_answer": "Pelekai",
-      "distractors": [
-        "Anoaʻi",
-        "Kealoha",
-        "Kuʻulei"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 35,
-          "observed_n": 0
         },
         {
-          "slug": "animated-classics",
-          "estimate_score": 30,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "da5b24f1-9905-4a15-a7d3-9f8e5d1eaa02",
-      "question_text": "Who is revealed to be the villain at the end of the first live action Scooby Doo movie?",
-      "correct_answer": "Scrappy Doo",
-      "distractors": [
-        "Old Man Mason",
-        "The Local News Team",
-        "Fred"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 55,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
+          "slug": "history",
           "estimate_score": 50,
           "observed_n": 0
         }
       ],
       "ancestors_to_add": [
         {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
+          "slug": "geography",
+          "name": "Geography",
           "parent_slug": null,
           "chain_depth": 0
         }
       ]
     },
     {
-      "id": "0f53dc0a-d2a6-408b-aabc-b1535dbed351",
-      "question_text": "What TV show is about a grandfather dragging his grandson around on adventures?",
-      "correct_answer": "Rick & Morty",
-      "distractors": [
-        "Family Guy",
-        "South Park",
-        "American Dad"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 90,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 80,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 75,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "03c6cb33-fac4-4ea1-8468-170ea2712c49",
-      "question_text": "In \"Spongebob Squarepants,\" what is Mr. Krabs' full name?",
-      "correct_answer": "Eugene H. Krabs",
-      "distractors": [
-        "Eugene G. Krabs",
-        "Eugene J. Krabs",
-        "Eugene D. Krabs"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "703f1217-ba16-4b65-af57-1316a5831a8f",
-      "question_text": "The 1985 Toyota Corolla \"AE86\" was the hero car for what anime? ",
-      "correct_answer": "Initial D",
-      "distractors": [
-        "Wangan Midnight",
-        "Ghost MF",
-        "Ex Driver"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "e0a6ec4d-784c-44b9-adb0-51519ff7f855",
-      "question_text": "In \"Shrek\", what comedic actor voices Donkey?",
-      "correct_answer": "Eddie Murphy",
-      "distractors": [
-        "Chris Rock",
-        "Richard Pryor",
-        "Bernie Mac"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 92,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 88,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 88,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "c70ac8aa-7249-40cb-9e1e-9487c61e52be",
-      "question_text": "Who voiced Metalbeard in \"The Lego Movie\"?",
-      "correct_answer": "Nick Offerman",
-      "distractors": [
-        "Liam Neeson",
-        "Morgan Freeman",
-        "Will Arnet"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 12,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "1f4efcfd-628b-4479-8fe0-b94879489e9e",
-      "question_text": "In the 1974 Christmas flick \"The Year Without a Santa Claus,\" what are the names of the two elves who help Mrs. Claus save Christmas?",
-      "correct_answer": "Jingle & Jangle",
-      "distractors": [
-        "Buddy & Bobby",
-        "Holly & Jolly",
-        "Snowflake & Icicle"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "20eeec8d-72e4-4884-9965-eddb3a0e6023",
-      "question_text": "In the 2012 film, \"The Lorax\", who is the antagonist?",
-      "correct_answer": "Aloysius O'Hare",
-      "distractors": [
-        "Ted Wiggins",
-        "The Once-Ler",
-        "Grammy Norma"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "8127940f-069a-47c2-8df4-328e1523fb62",
-      "question_text": "What character in the Winnie the Pooh films was added by Disney and does not appear in the original books?",
-      "correct_answer": "Gopher",
-      "distractors": [
-        "Tigger",
-        "Heffalumps",
-        "Rabbit"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 45,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-disney-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "77c5b263-3f5e-4787-b6b8-b3e77a3d02d9",
-      "question_text": "In Big Hero 6, what were Baymax's motions modeled after?",
-      "correct_answer": "Baby penguins",
-      "distractors": [
-        "Baby monkeys",
-        "Baby ostriches",
-        "Baby bears"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 45,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "c64923f2-ba77-458a-ade7-3e687f958afe",
-      "question_text": "Which movie includes a giant bunny-like spirit who has magic powers including growing trees?",
-      "correct_answer": "My Neighbor Totoro",
-      "distractors": [
-        "Hop",
-        "Rise of the Guardians",
-        "Alice in Wonderland"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
-          "estimate_score": 92,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 92,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "e706f509-0deb-49bc-9418-d819cbd8c097",
-      "question_text": "Which Batman villain is Mark Hamill known for having voiced?",
+      "id": "317a8610-9a70-4fd7-9e01-820b07818d96",
+      "question_text": "Which Batman villain was voiced by Mark Hamill in the animated series?",
       "correct_answer": "The Joker",
       "distractors": [
         "Two-Face",
-        "Bane",
-        "Hush"
+        "The Riddler",
+        "Mr. Freeze"
       ],
       "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 40,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
         {
           "slug": "cartoon-villains",
-          "estimate_score": 90,
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "superhero-comics",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-films",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "movies-and-tv",
+          "estimate_score": 40,
           "observed_n": 0
         }
       ],
       "ancestors_to_add": [
         {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
+          "slug": "literature",
+          "name": "Literature",
           "parent_slug": null,
           "chain_depth": 0
         }
       ]
     },
     {
-      "id": "ea733f3c-eb50-4d20-830d-f7a4a9876347",
-      "question_text": "The 2016 Disney animated film 'Moana' is based on which culture?",
-      "correct_answer": "Polynesian",
+      "id": "70436013-beb9-4b3e-b283-1157d2ffd257",
+      "question_text": "What's the name of the fur-obsessed villain in 101 Dalmatians?",
+      "correct_answer": "Cruella de Vil",
       "distractors": [
-        "Native American",
-        "Japanese",
-        "Nordic"
+        "Madame Medusa",
+        "Lady Tremaine",
+        "Yzma"
       ],
       "existing_slugs": [
         {
-          "slug": "general-knowledge",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
+          "slug": "cartoon-villains",
           "estimate_score": 92,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "9f15f22b-9c2c-4632-a25c-c94737bc4388",
-      "question_text": "What is the theme song of \"Neon Genesis Evangelion\"?",
-      "correct_answer": "A Cruel Angel's Thesis",
-      "distractors": [
-        "Stardust Crusaders",
-        "Requiem for a Dream",
-        "God Knows"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 65,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "132e162c-df64-4c0b-ba54-40c72dbe45ca",
-      "question_text": "In the anime, \"Fullmetal Alchemist\", who is known as the 'Flame Alchemist'?",
-      "correct_answer": "Roy Mustang",
-      "distractors": [
-        "Edward Elric",
-        "Maes Hughes",
-        "Lin Yao"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 65,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "ed2d588c-29cb-4d09-9209-3677eebefdaa",
-      "question_text": "What is the age of Ash Ketchum in Pokemon when he starts his journey?",
-      "correct_answer": "10",
-      "distractors": [
-        "11",
-        "12",
-        "9"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
-          "estimate_score": 92,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "09b43a37-f071-4879-924b-48d411e7f545",
-      "question_text": "Who wrote and directed the animated movie \"Spirited Away\" (2001)?",
-      "correct_answer": "Hayao Miyazaki",
-      "distractors": [
-        "Isao Takahata",
-        "Mamoru Hosoda",
-        "Hidetaka Miyazaki"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 88,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 80,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 80,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "5ba669b6-3cbe-489e-b2fd-46f7a729d34a",
-      "question_text": "What year did \"Attack on Titan\" Season 2 begin airing?",
-      "correct_answer": "2017",
-      "distractors": [
-        "2018",
-        "2019",
-        "2020"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 45,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "197214f5-fac4-4598-b3fb-4579c628980e",
-      "question_text": "What name is the main character Chihiro given in the 2001 movie \"Spirited Away\"?",
-      "correct_answer": "Sen (Thousand)",
-      "distractors": [
-        "Hyaku (Hundred)",
-        "Ichiman (Ten thousand)",
-        "Juu (Ten)"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "d30fd85b-20e5-4549-b7da-c5558a45decb",
-      "question_text": "Who was a voice actor for the English dubbing of HOWL'S MOVING CASTLE (2004)?",
-      "correct_answer": "Christian Bale",
-      "distractors": [
-        "Matt Damon",
-        "Joseph Gordon-Levitt",
-        "Willem Dafoe"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 12,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "20a4b56b-28bd-47d0-b981-185fca1d4d71",
-      "question_text": "What is the name of the main character of the anime \"One-Punch Man\"?",
-      "correct_answer": "Saitama",
-      "distractors": [
-        "Genos",
-        "Sonic",
-        "King"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "9407c385-1b8a-4e4f-9db2-7c99ec88b1b3",
-      "question_text": "Who is the colossal titan in \"Attack On Titan\"?",
-      "correct_answer": "Bertolt Hoover",
-      "distractors": [
-        "Reiner",
-        "Eren",
-        "Sasha"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "e0af7657-737a-4d38-be4f-e5d4052d0e9c",
-      "question_text": "In the \"Dragon Ball\" franchise, what is the name of Goku's brother?",
-      "correct_answer": "Raditz",
-      "distractors": [
-        "Gohan",
-        "Vegeta",
-        "Bardock"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 18,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
-          "estimate_score": 65,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "b0187eb6-aa52-41cb-b815-e5ef730ad91a",
-      "question_text": "Which of the following originated as a manga?",
-      "correct_answer": "Akira",
-      "distractors": [
-        "Cowboy Bebop",
-        "High School DxD",
-        "Gurren Lagann"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "30a49cc9-2cd4-4f93-ba87-2b7c125339b0",
-      "question_text": "In the anime series \"Full Metal Alchemist\", what do Alchemists consider the greatest taboo?",
-      "correct_answer": "Human Transmutation ",
-      "distractors": [
-        "Transmuting Lead Into Gold",
-        "Using Alchemy For Crime ",
-        "Preforming Without A Permit"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 65,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "e8f238ad-d460-4e58-92ac-8855e02b1014",
-      "question_text": "In the anime \"My Hero Academia\", which character is shown with the ability to manipulate gravity?",
-      "correct_answer": "Uraraka",
-      "distractors": [
-        "Bakugo",
-        "Deku",
-        "Asui "
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 8,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "204b18d8-2a19-4e08-9f8b-9c0281cbf9f2",
-      "question_text": "What year did \"Attack on Titan\" first air?",
-      "correct_answer": "2013",
-      "distractors": [
-        "2014",
-        "2012",
-        "2015"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "711eda38-d3e3-42b5-9e25-e9dd375694c5",
-      "question_text": "What colour hair does the main character of the Yu-Gi-Oh! original anime series have?",
-      "correct_answer": "Red, black and yellow",
-      "distractors": [
-        "Red, yellow and green",
-        "Red, black and green",
-        "Red, purple and blue"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "6f34d67f-d48a-4e31-850c-55546233184c",
-      "question_text": "Who was given the title \"Full Metal\" in the anime series \"Full Metal Alchemist\"?",
-      "correct_answer": "Edward Elric",
-      "distractors": [
-        "Alphonse Elric",
-        "Van Hohenheim",
-        "Izumi Curtis"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 65,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "b2379b2f-2f24-4834-b759-7fb754eac155",
-      "question_text": "Which of the following films was NOT directed by Hayao Miyazaki?",
-      "correct_answer": "Wolf Children",
-      "distractors": [
-        "Princess Mononoke",
-        "Spirited Away",
-        "Kiki's Delivery Service"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "a8352962-260a-4382-aa76-0ac08af2f812",
-      "question_text": "Who is the armored titan in \"Attack On Titan\"?",
-      "correct_answer": "Reiner Braun",
-      "distractors": [
-        "Armin Arlelt",
-        "Mikasa Ackermann",
-        "Eren Jaeger"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "95bbc490-90c8-46cb-80be-6e8c0dd2a20d",
-      "question_text": "In \"Hunter x Hunter\", what are members in Killua's family known for being?",
-      "correct_answer": "Assassins",
-      "distractors": [
-        "Bandits",
-        "Hunters",
-        "Ninjas"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "07ac9672-3a1d-4c2d-a5c8-1948d19f77b4",
-      "question_text": "Who is the author of the manga series \"Astro Boy\"?",
-      "correct_answer": "Osamu Tezuka",
-      "distractors": [
-        "Mitsuteri Yokoyama",
-        "Takao Saito",
-        "Yoshihiro Tatsumi"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "3cb875ae-af5c-492f-a487-aee9155aa951",
-      "question_text": "In Dragon Ball Z, who was the first character to go Super Saiyan 2?",
-      "correct_answer": "Gohan",
-      "distractors": [
-        "Goku",
-        "Vegeta",
-        "Trunks"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "2355bc24-8a40-4af0-adc7-128eebfb411b",
-      "question_text": "What is the relationship between Rick and Morty in the show \"Rick and Morty\"?",
-      "correct_answer": "Grandfather and Grandson",
-      "distractors": [
-        "Father and Son",
-        "Best Friends",
-        "Crimefighting Partners"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 92,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 80,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 80,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "8fa7d153-04e6-4cf3-baf3-c129e06afc97",
-      "question_text": "What is the standard frame rate for animation?",
-      "correct_answer": "24 FPS",
-      "distractors": [
-        "12 FPS",
-        "30 FPS",
-        "60 FPS"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "technology",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "60bc3283-60d3-4000-97a1-bf75d30d545f",
-      "question_text": "Bugs Bunny, Tony the Tiger, and other bipedal animal characters are known as what type of character?",
-      "correct_answer": "Anthropomorphic",
-      "distractors": [
-        "Anthropolegic ",
-        "Anthrologic",
-        "Anthrogenetic"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "7abf8585-e409-41d1-9dd8-b3ada8338948",
-      "question_text": "What is the name of Sid's dog in \"Toy Story\"?",
-      "correct_answer": "Scud",
-      "distractors": [
-        "Buster",
-        "Whiskers",
-        "Mr. Jones"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 45,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "511c4748-aa51-4717-9cbe-b9e295dc8ac0",
-      "question_text": "In \"My Little Pony: Friendship is Magic\", which of these ponies represents the quality of honesty?",
-      "correct_answer": "Applejack",
-      "distractors": [
-        "Twilight Sparkle",
-        "Pinkie Pie",
-        "Rarity"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "ad37605e-0962-4f4d-8a55-f9fd5b071041",
-      "question_text": "Townsend Coleman provided the voice for which turtle in the original 1987 series of \"Teenage Mutant Ninja Turtles\"?",
-      "correct_answer": "Michelangelo",
-      "distractors": [
-        "Leonardo",
-        "Donatello",
-        "Raphael"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "5f8b13c6-1efc-42a3-8b11-09acd162df11",
-      "question_text": "In the TV show \"Rick and Morty\", Rick uses the catchphrase \"Wubba Lubba Dub Dub\", which means what in Birdperson?",
-      "correct_answer": "I am in great pain, please help me.",
-      "distractors": [
-        "I pray that my life ends soon.",
-        "Lets get this party started!",
-        "I am suffering, please help me."
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "77832b8a-2355-40e7-981a-05cac0c93078",
-      "question_text": "In the Dreamworks animated movie \"Madagascar,\" who voices Maurice the lemur?",
-      "correct_answer": "Cedric the Entertainer",
-      "distractors": [
-        "Jack Black",
-        "Sacha Baron Cohen",
-        "Chris Rock"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "33dbe0fe-e2de-4115-bf6c-6f534059502f",
-      "question_text": "Who voiced Finn in Adventure Time?",
-      "correct_answer": "Jeremy Shada",
-      "distractors": [
-        "Nolan North",
-        "John DiMaggio",
-        "Tom Kenny"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 45,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "83c07b0a-1bd3-41e7-9630-19a36f5a9170",
-      "question_text": "In \"SpongeBob SquarePants\", what is the name of Sandy Cheek's place of residence?",
-      "correct_answer": "Sandy's Treedome",
-      "distractors": [
-        "\"The Dome\"",
-        "Sandy's Bubble",
-        "Auquatic Reseach Centre"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "1aa4b818-6feb-47ec-88e1-f4ad881f5b62",
-      "question_text": "What was Maggie Simpson's first canonical word, not including the Tracey Ullman shorts?",
-      "correct_answer": "Daddy.",
-      "distractors": [
-        "Sequel?",
-        "Ja!",
-        "Rusty!"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-sitcoms",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "a61b96c9-455d-4e52-838c-cfedbd3fc994",
-      "question_text": "Who created the Cartoon Network series \"Adventure Time\"?",
-      "correct_answer": "Pendleton Ward",
-      "distractors": [
-        "J. G. Quintel",
-        "Ben Bocquelet",
-        "Rebecca Sugar"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "e9b92e70-fa91-4152-a35f-fd05219e00f8",
-      "question_text": "In the show \"Foster's Home For Imaginary Friends\", which character had an obsession with basketball?",
-      "correct_answer": "Wilt",
-      "distractors": [
-        "Coco",
-        "Mac",
-        "Cheese"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 18,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "1b3b4756-59d6-42aa-a319-09173b92d07c",
-      "question_text": "In the 1968 Cartoon Show \"Wacky Races\" what was the name of cavemen duo who rode in The Boulder Mobile?",
-      "correct_answer": "The Slag Brothers",
-      "distractors": [
-        "The Slate Brothers",
-        "The Rock Brothers",
-        "The Stone Brothers"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 35,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 30,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "3c3df90e-1a4b-4a91-9488-3f509f65fef4",
-      "question_text": "What is the name of the city that The Flintstones is based in?",
-      "correct_answer": "Bedrock",
-      "distractors": [
-        "Stoneville",
-        "Rockhampton",
-        "Boulder City"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 80,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 88,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 78,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "3fd32c14-22d6-497e-9c57-eca5b70a997a",
-      "question_text": "What is Scooby-Doo's real name?",
-      "correct_answer": "Scoobert",
-      "distractors": [
-        "Scooter",
-        "Scrappy",
-        "Shooby"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 55,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "856c06b6-1745-4beb-a216-b9742ae45543",
-      "question_text": "Butters Stotch, Pip Pirrup, and Wendy Testaburger are all characters in which long running animated TV series?",
-      "correct_answer": "South Park",
-      "distractors": [
-        "The Simpsons",
-        "Family Guy",
-        "Bob's Burgers"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 80,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-sitcoms",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 65,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "1931c32b-0162-4cb3-84e5-6e10f89be3c0",
-      "question_text": "The stop motion comedy show \"Robot Chicken\" was created by which of the following?",
-      "correct_answer": "Seth Green",
-      "distractors": [
-        "Seth MacFarlane",
-        "Seth Rogen",
-        "Seth Rollins"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "a667a58c-6644-4b62-bfd6-e06f8d4b9095",
-      "question_text": "Which Teenage Mutant Ninja Turtle traditionally wears an orange bandana?",
-      "correct_answer": "Michelangelo",
-      "distractors": [
-        "Leonardo",
-        "Donatello",
-        "Raphael"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 80,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-sitcoms",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 70,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "b083f393-378d-4e83-bf4b-7c47c9eb8584",
-      "question_text": "Which of the following films was Don Bluth both the writer, director, and producer for?",
-      "correct_answer": "All Dogs Go To Heaven",
-      "distractors": [
-        "Titan A.E.",
-        "Anastasia",
-        "The Land Before Time"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "7618769e-215f-4fb9-8e8b-8922217daab7",
-      "question_text": "What Cartoon Network show aired its first episode on November 4th, 2013?",
-      "correct_answer": "Steven Universe",
-      "distractors": [
-        "Regular Show",
-        "Adventure Time",
-        "The Amazing World of Gumball"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 45,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "f87092fd-5bbb-4be1-842d-7d2d9ccc95af",
-      "question_text": "Which of these is NOT a Disney cartoon character?",
-      "correct_answer": "Daffy Duck",
-      "distractors": [
-        "Donald Duck",
-        "Daisy Duck",
-        "Scrooge McDuck"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
-          "estimate_score": 88,
           "observed_n": 0
         },
         {
           "slug": "classic-disney-films",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
           "estimate_score": 88,
           "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "104436f7-5f68-40e6-b7e2-1059d2388170",
-      "question_text": "Which of these cartoons had a character named Heinz Doofenshmirtz?",
-      "correct_answer": "Phineas & Ferb",
-      "distractors": [
-        "Ren & Stimpy",
-        "Ben 10",
-        "Batman: The Animated Series"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "c66febad-06e3-4f90-bd7a-ece9b99aaab0",
-      "question_text": "Who voice acted the character Hiccup in the movie \"How to Train Your Dragon\"?",
-      "correct_answer": "Jay Baruchel",
-      "distractors": [
-        "Jack Brauchel",
-        "John Powell",
-        "Gerard Butler"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 18,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "357f1afb-d9df-449d-aeab-2726612fea73",
-      "question_text": "Which Disney film features the villain Shan Yu?",
-      "correct_answer": "Mulan",
-      "distractors": [
-        "The Emperor's New Groove",
-        "Pocahontas",
-        "Atlantis: The Lost Empire"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-disney-films",
-          "estimate_score": 65,
-          "observed_n": 0
         },
         {
           "slug": "general-knowledge",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "1c527b65-0309-4707-aa03-28a078583feb",
-      "question_text": "What's the name of the rat who dreams of becoming a chef in Paris?",
-      "correct_answer": "Remy",
-      "distractors": [
-        "Linguini",
-        "Auguste",
-        "Émile"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
           "estimate_score": 92,
           "observed_n": 0
         },
         {
-          "slug": "pixar-films",
-          "estimate_score": 92,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
+          "slug": "movies-and-tv",
           "estimate_score": 80,
           "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 90,
-          "observed_n": 0
         }
       ],
       "ancestors_to_add": [
         {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
+          "slug": "animated-films",
+          "name": "Animated Films",
+          "parent_slug": "movies-and-tv",
+          "chain_depth": 1
         }
       ]
     },
     {
-      "id": "099dfc41-8db3-4c6b-a7a3-711f62b4ab86",
-      "question_text": "What animator created both The Iron Giant and The Incredibles?",
-      "correct_answer": "Brad Bird",
+      "id": "b411020b-c463-4990-b55c-bd8c7dae146d",
+      "question_text": "Which detective lived at 221B Baker Street?",
+      "correct_answer": "Sherlock Holmes",
       "distractors": [
-        "John Lasseter",
-        "Pete Docter",
-        "Andrew Stanton"
+        "Hercule Poirot",
+        "Lord Peter Wimsey",
+        "Inspector Morse"
       ],
       "existing_slugs": [
         {
-          "slug": "animated-films",
-          "estimate_score": 50,
+          "slug": "classic-tv-detectives",
+          "estimate_score": 88,
           "observed_n": 0
         },
         {
-          "slug": "animated-classics",
-          "estimate_score": 45,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "9aaceb0c-c54f-40dc-a020-3dddb60f3419",
-      "question_text": "What name does the bathhouse witch give Chihiro in Spirited Away?",
-      "correct_answer": "Sen",
-      "distractors": [
-        "Rin",
-        "Lin",
-        "Mei"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "1ae55ba0-523e-4e9d-8dab-d1d128cd7923",
-      "question_text": "What 1995 Pixar film was the first feature-length computer-animated movie?",
-      "correct_answer": "Toy Story",
-      "distractors": [
-        "Final Fantasy: The Spirits Within",
-        "A Bug's Life",
-        "Antz"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "animated-films",
+          "slug": "detective-novels",
           "estimate_score": 92,
           "observed_n": 0
         },
         {
-          "slug": "pixar-films",
-          "estimate_score": 90,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
+          "slug": "classic-literature",
           "estimate_score": 85,
           "observed_n": 0
         },
         {
           "slug": "general-knowledge",
-          "estimate_score": 88,
+          "estimate_score": 90,
           "observed_n": 0
         }
       ],
@@ -2583,66 +217,6 @@
         {
           "slug": "movies-and-tv",
           "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "b464c46b-64ee-4959-a7e0-9454582a0179",
-      "question_text": "Which of these banks are NOT authorized to issue currency notes in Hong Kong?",
-      "correct_answer": "OCBC",
-      "distractors": [
-        "HSBC",
-        "Standard Chartered",
-        "Bank of China"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "asian-geography",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "cdfbb068-8ca0-426e-8035-b1c525e957b2",
-      "question_text": "The words \"bungalow\" and \"shampoo\" originate from the languages of which country?",
-      "correct_answer": "India",
-      "distractors": [
-        "Papua New Guinea",
-        "Ethiopia",
-        "China"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "asian-geography",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-literature",
-          "estimate_score": 35,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 45,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
           "parent_slug": null,
           "chain_depth": 0
         },
@@ -2655,413 +229,127 @@
       ]
     },
     {
-      "id": "d7d806e8-67f2-4317-b265-6e5356218225",
-      "question_text": "What is the unit of currency in Laos?",
-      "correct_answer": "Kip",
+      "id": "5e2d7b5a-fe1b-45ad-96c6-3bf7f10891ce",
+      "question_text": "What Soviet space station beat America's Skylab into orbit by two years?",
+      "correct_answer": "Salyut 1",
       "distractors": [
-        "Ruble",
-        "Konra",
-        "Dollar"
+        "Mir",
+        "Soyuz 1",
+        "Kosmos 1"
       ],
       "existing_slugs": [
         {
-          "slug": "asian-geography",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "f2673c22-b784-48b4-817a-a676b25e4f7a",
-      "question_text": "Which of these Indian languages is not part of the Indo-European language family?",
-      "correct_answer": "Tamil",
-      "distractors": [
-        "Hindi",
-        "Punjabi",
-        "Urdu"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "asian-geography",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "dc7ae45f-5925-4656-900d-7a738d3171e3",
-      "question_text": "What city is the Terracotta Army located in?",
-      "correct_answer": "Xi'an",
-      "distractors": [
-        "Beijing",
-        "Shanghai",
-        "Hong Kong"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 30,
+          "slug": "cold-war-history",
+          "estimate_score": 65,
           "observed_n": 0
         },
         {
-          "slug": "asian-geography",
-          "estimate_score": 75,
+          "slug": "space-exploration",
+          "estimate_score": 72,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-technology",
+          "estimate_score": 68,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "the-solar-system",
+          "name": "The Solar System",
+          "parent_slug": "science",
+          "chain_depth": 1
+        },
+        {
+          "slug": "science",
+          "name": "Science",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "technology",
+          "name": "Technology",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0df5ea8c-b88e-4f9f-9063-19dee2c25888",
+      "question_text": "Who is the author of Jurassic Park?",
+      "correct_answer": "Michael Crichton",
+      "distractors": [
+        "Peter Benchley",
+        "Chuck Paluhniuk",
+        "Irvine Welsh"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-authors",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "science-fiction-films",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "bc36b66f-4199-42f9-9de1-d74938cd81ab",
+      "question_text": "The Burj Khalifa, world's tallest building, is in which UAE city?",
+      "correct_answer": "Dubai",
+      "distractors": [
+        "Abu Dhabi",
+        "Sharjah",
+        "Ajman"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 90,
           "observed_n": 0
         },
         {
           "slug": "famous-landmarks",
-          "estimate_score": 70,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "fd8a0abc-bfb2-4a88-9c32-cb2de3b6e508",
-      "question_text": "What colour is the circle on the Japanese flag?",
-      "correct_answer": "Red",
-      "distractors": [
-        "White",
-        "Yellow",
-        "Black"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 92,
-          "observed_n": 0
-        },
-        {
-          "slug": "asian-geography",
-          "estimate_score": 95,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "9e9f15c0-ae26-4fe6-b1bd-f19926e00e15",
-      "question_text": "A lion brandishing a sword is depicted on the national flag of which country?",
-      "correct_answer": "Sri Lanka",
-      "distractors": [
-        "Albania",
-        "Zambia",
-        "Moldova"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "asian-geography",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "317a4ea0-160b-404e-96b5-3e3ea61f45a0",
-      "question_text": "How many islands does Kuwait have?",
-      "correct_answer": "9",
-      "distractors": [
-        "3",
-        "6",
-        "2"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "asian-geography",
-          "estimate_score": 25,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "d097e644-94f5-4784-82d8-a59c99c6e2c3",
-      "question_text": "Kuala Lumpur is the capital of which country?",
-      "correct_answer": "Malaysia",
-      "distractors": [
-        "Indonesia",
-        "Singapore",
-        "Thailand"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "asian-geography",
-          "estimate_score": 90,
-          "observed_n": 0
-        },
-        {
-          "slug": "world-capitals",
-          "estimate_score": 92,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "72daf299-8ec8-4977-8854-1b1cc2c24a10",
-      "question_text": "How many countries border Kyrgyzstan?",
-      "correct_answer": "4",
-      "distractors": [
-        "3",
-        "1",
-        "6"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "asian-geography",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "813c444d-5bae-4819-9de6-71698e687bae",
-      "question_text": "What is the official language of Bhutan?",
-      "correct_answer": "Dzongkha",
-      "distractors": [
-        "Ladakhi",
-        "Karen",
-        "Groma"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "asian-geography",
-          "estimate_score": 30,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "f047a068-e251-4d48-a445-7df72d9bdb46",
-      "question_text": "What is the name of the ocean that Hawaii is located in?",
-      "correct_answer": "Pacific",
-      "distractors": [
-        "Atlantic",
-        "Indian",
-        "Arctic"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 90,
-          "observed_n": 0
-        },
-        {
-          "slug": "asian-geography",
-          "estimate_score": 90,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "d38e55de-3470-47ef-b399-6e9dc095061c",
-      "question_text": "Which of these countries is located the FURTHEST away from the South China Sea?",
-      "correct_answer": "Bangladesh",
-      "distractors": [
-        "Malaysia",
-        "Vietnam",
-        "Philippines"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 30,
-          "observed_n": 0
-        },
-        {
-          "slug": "asian-geography",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "e6e88024-4645-424a-9f74-2e75236e5fb0",
-      "question_text": "Which of the following countries has a flag featuring a yellow lion wielding a sword on a dark red background?",
-      "correct_answer": "Sri Lanka",
-      "distractors": [
-        "Kiribati",
-        "Scotland",
-        "Bhutan"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 12,
-          "observed_n": 0
-        },
-        {
-          "slug": "asian-geography",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "a602c0f0-8a35-47b3-b488-a0294b449500",
-      "question_text": "Which islands below have been claimed by both Japan and Russia?",
-      "correct_answer": "Kuril Islands",
-      "distractors": [
-        "Paracel Islands",
-        "Chagos Islands",
-        "Spratly Islands"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "asian-geography",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "fd1f57fd-40d2-43b2-9f3f-e3391c8b0b9f",
-      "question_text": "Which of the following countries does NOT recognize Armenia as an independent country?",
-      "correct_answer": "Pakistan",
-      "distractors": [
-        "Iran",
-        "Turkey",
-        "Azerbaijan"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 8,
-          "observed_n": 0
-        },
-        {
-          "slug": "asian-geography",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "d2b1667c-6b76-4d4d-953b-cfa83450830b",
-      "question_text": "What was the original name of Ho Chi Minh City?",
-      "correct_answer": "Saigon",
-      "distractors": [
-        "Hanoi",
-        "Dar Es Salaam",
-        "Angkor Wat"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 60,
+          "estimate_score": 88,
           "observed_n": 0
         },
         {
@@ -3070,12 +358,18 @@
           "observed_n": 0
         },
         {
-          "slug": "history",
-          "estimate_score": 70,
+          "slug": "general-knowledge",
+          "estimate_score": 92,
           "observed_n": 0
         }
       ],
       "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
         {
           "slug": "geography",
           "name": "Geography",
@@ -3085,25 +379,499 @@
       ]
     },
     {
-      "id": "53cdc0d0-d15f-4ae6-bd6f-9e3e84311b88",
-      "question_text": "The Japanese district Akihabara is also known by what nickname?",
-      "correct_answer": "Electric Town",
+      "id": "4e56b63d-f982-4f6b-9f41-40544418331c",
+      "question_text": "Which Italian city is home to the Leaning Tower?",
+      "correct_answer": "Pisa",
       "distractors": [
-        "Moon Walk River",
-        "Otaku Central ",
-        "Big Eyes"
+        "Venice",
+        "Florence",
+        "Siena"
       ],
       "existing_slugs": [
         {
-          "slug": "asian-geography",
+          "slug": "iconic-architecture",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "european-geography",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c1a3b79e-1652-41c8-a43b-df06d13389f1",
+      "question_text": "The Guggenheim Museum in Bilbao is clad in which metallic material?",
+      "correct_answer": "Titanium",
+      "distractors": [
+        "Stainless steel",
+        "Copper",
+        "Aluminium"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 22,
+          "observed_n": 0
+        },
+        {
+          "slug": "museums-and-galleries",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "25b7dd32-5b69-411b-9234-e860a1d8640a",
+      "question_text": "In which English town was Shakespeare born?",
+      "correct_answer": "Stratford-upon-Avon",
+      "distractors": [
+        "Bath",
+        "Oxford",
+        "Canterbury"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "shakespeare",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 88,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "aba4e667-98d6-4be1-8414-5a670b0ba583",
+      "question_text": "Which NASA Space Shuttle broke apart during atmospheric re-entry on February 1, 2003? ",
+      "correct_answer": "Columbia",
+      "distractors": [
+        "Challenger",
+        "Discovery",
+        "Endeavour"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "space-exploration",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-technology",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-solar-system",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "science",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "technology",
+          "name": "Technology",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "7de67f33-b1f1-44d8-8036-e53ed58820c6",
+      "question_text": "What was the name of the first artificial satellite launched into orbit?",
+      "correct_answer": "Sputnik 1",
+      "distractors": [
+        "Explorer 1",
+        "Vostok 1",
+        "Apollo 1"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "space-exploration",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-and-astronomy",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "science",
           "estimate_score": 50,
           "observed_n": 0
         }
       ],
       "ancestors_to_add": [
         {
-          "slug": "geography",
-          "name": "Geography",
+          "slug": "the-solar-system",
+          "name": "The Solar System",
+          "parent_slug": "science",
+          "chain_depth": 1
+        }
+      ]
+    },
+    {
+      "id": "4c647750-e704-4f67-a95c-cb5774daa863",
+      "question_text": "Which spacecraft was the first to land humans on the Moon?",
+      "correct_answer": "Apollo 11",
+      "distractors": [
+        "Apollo 13",
+        "Gemini 12",
+        "Mercury 7"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "space-technology",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-exploration",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-solar-system",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "science",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "technology",
+          "name": "Technology",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ca25e9c9-0c74-44c4-8be8-a7728187657f",
+      "question_text": "The Hubble Space Telescope launched with a flaw in which component?",
+      "correct_answer": "Primary mirror",
+      "distractors": [
+        "Solar panels",
+        "Communication antenna",
+        "Gyroscopes"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 30,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-technology",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-exploration",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-solar-system",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "science",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "technology",
+          "name": "Technology",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e74cf47f-7aad-4a1a-9433-c36cbde49b4b",
+      "question_text": "Which space probe was the first to reach interstellar space?",
+      "correct_answer": "Voyager 1",
+      "distractors": [
+        "Pioneer 10",
+        "Voyager 2",
+        "New Horizons"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-technology",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-exploration",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-solar-system",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "science",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "technology",
+          "name": "Technology",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f862b7cf-65ba-4722-97f1-17f4238fe09e",
+      "question_text": "What was the name of the first artificial satellite launched into space?",
+      "correct_answer": "Sputnik 1",
+      "distractors": [
+        "Explorer 1",
+        "Vanguard 1",
+        "Telstar 1"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-technology",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-exploration",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-solar-system",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "science",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "technology",
+          "name": "Technology",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "392a36ec-9cb8-4d62-9439-e08985af8f04",
+      "question_text": "What does the acronym NASA stand for?",
+      "correct_answer": "National Aeronautics and Space Administration",
+      "distractors": [
+        "National Aerospace and Satellite Agency",
+        "North American Space Agency",
+        "National Aviation and Space Authority"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "space-technology",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-exploration",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "technology",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "science",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "the-solar-system",
+          "name": "The Solar System",
+          "parent_slug": "science",
+          "chain_depth": 1
+        }
+      ]
+    },
+    {
+      "id": "bb34bab9-2928-4962-9a33-e5b540a9ee32",
+      "question_text": "What year did the first human walk on the moon?",
+      "correct_answer": "1969",
+      "distractors": [
+        "1968",
+        "1967",
+        "1970"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "the-1960s",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "space-exploration",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "the-solar-system",
+          "name": "The Solar System",
+          "parent_slug": "science",
+          "chain_depth": 1
+        },
+        {
+          "slug": "science",
+          "name": "Science",
           "parent_slug": null,
           "chain_depth": 0
         }

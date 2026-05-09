@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: 999.21 categories cleanup COMPLETE; 999.22 chain tagging + backfill is next
-stopped_at: 999.21 done (migration 00030 applied, tree 139→163 cats, 6 dropped, 30 added). Backup pipeline live (daily GH Action). Next: spec 999.22 chain tagging.
-last_updated: "2026-05-09T20:30:00.000Z"
-last_activity: 2026-05-09 -- 999.21 categories cleanup shipped; daily question library backup wired (GH Action, gzipped pg_dump → git)
+status: 999.22 chain tagging architecture + backfill COMPLETE; 999.23 cousin/cat audit is next
+stopped_at: 999.22 done (1540 of 1559 Qs chain-tagged, ~1620 ancestor rows added, 19 cap-5 collisions deferred to 999.23). Calibrator + RPCs + trigger updated.
+last_updated: "2026-05-09T21:35:00.000Z"
+last_activity: 2026-05-09 -- 999.22 shipped; chain tagging live for new pipeline output via calibrateQuestionWithChain; full backfill via 16 subagent runs (no API spend)
 progress:
   total_phases: 31
   completed_phases: 5
@@ -21,7 +21,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-04)
 
 **Core value:** Great questions delivered through a clean, effortless interface -- the content is the star, not the chrome around it.
-**Current focus:** 999.21 shipped. Next is 999.22 — Chain tagging architecture + backfill (replaces/absorbs 999.20).
+**Current focus:** 999.22 shipped. Next is 999.23 — Cousin / category audit (manual conversational pass).
 
 ## Current Position
 
@@ -46,7 +46,7 @@ Phase: 999.21 COMPLETE 2026-05-09. Ready for 999.22 spec.
 Active tracks (per ROADMAP §C):
 
 - C1 quick tasks: 260428-fact (pending — Enrichment fun_fact prompt tightening)
-- C2 sequenced library work: **999.21 DONE** → **999.22 NEXT (chain tagging + backfill, absorbs 999.20)** → 999.18 → 999.19 → 999.16.
+- C2 sequenced library work: **999.21 DONE** → **999.22 DONE** → **999.23 NEXT (cousin/cat audit)** → 999.18 → 999.19 → 999.16.
 
 Build path queue (after prototype proves out):
 

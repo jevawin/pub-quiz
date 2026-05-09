@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-09T21:01:34.490Z",
+  "generated_at": "2026-05-09T21:29:26.007Z",
   "total_published": 2848,
-  "total_needing_backfill": 1460,
-  "total_ancestor_rows_to_add": 1563,
+  "total_needing_backfill": 19,
+  "total_ancestor_rows_to_add": 29,
   "batch_size": 100,
-  "batch_count": 15
+  "batch_count": 1
 }
