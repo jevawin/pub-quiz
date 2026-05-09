@@ -1,0 +1,32 @@
+{
+  "batch_id": "smoke-001",
+  "_note": "Smoke payload for Phase 999.23 Wave 1 — exercises all three op types using one real Q id (V for Vendetta) from .planning/phases/999.22-chain-tagging-architecture/data/batches/batch-001.json. Run via `cat <this> | npx tsx pipeline/src/scripts/apply-cousin-changes.ts --dry-run` from repo root. Do NOT run without --dry-run; this payload is illustrative only.",
+  "ops": [
+    {
+      "op": "delete",
+      "question_id": "6a535027-b95e-4734-a9be-4b9c7e5dacd3",
+      "slug": "british-history",
+      "reason": "smoke test delete"
+    },
+    {
+      "op": "insert",
+      "question_id": "6a535027-b95e-4734-a9be-4b9c7e5dacd3",
+      "slug": "history",
+      "estimate_score": 80,
+      "chain_ancestor": true
+    },
+    {
+      "op": "insert",
+      "question_id": "6a535027-b95e-4734-a9be-4b9c7e5dacd3",
+      "slug": "pop-culture",
+      "estimate_score": 60,
+      "cousin_reason": "smoke test insert with cousin reason per D5"
+    },
+    {
+      "op": "set_primary",
+      "question_id": "6a535027-b95e-4734-a9be-4b9c7e5dacd3",
+      "new_category_slug": "history",
+      "reason": "smoke test primary move"
+    }
+  ]
+}

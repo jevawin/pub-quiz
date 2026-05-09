@@ -371,20 +371,10 @@ export async function run(): Promise<void> {
     process.exit(1);
   }
 
-  const sb = createSupabaseClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
-
-  const slugs = collectSlugs(payload.ops);
-  let slugToId: Map<string, string>;
-  try {
-    slugToId = await resolveSlugs(sb, slugs);
-  } catch (e) {
-    console.error(e instanceof Error ? e.message : String(e));
-    process.exit(1);
-  }
-
   const groups = groupByQuestion(payload.ops);
-  const counters: ApplyCounters = { deleted: 0, inserted: 0, primary_moved: 0 };
 
+  // Dry-run short-circuits BEFORE touching Supabase so it works without env vars
+  // (no client constructed, no slug resolution query, no audit log append).
   if (dryRun) {
     const plan = buildDryRunPlan(groups);
     const summary = {
@@ -401,6 +391,19 @@ export async function run(): Promise<void> {
     console.log(JSON.stringify(summary, null, 2));
     return;
   }
+
+  const sb = createSupabaseClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+
+  const slugs = collectSlugs(payload.ops);
+  let slugToId: Map<string, string>;
+  try {
+    slugToId = await resolveSlugs(sb, slugs);
+  } catch (e) {
+    console.error(e instanceof Error ? e.message : String(e));
+    process.exit(1);
+  }
+
+  const counters: ApplyCounters = { deleted: 0, inserted: 0, primary_moved: 0 };
 
   // Ensure audit-log directory exists before any DB write so a successful write
   // never lacks its trail line (T-99923-03).
