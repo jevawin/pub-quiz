@@ -54,6 +54,9 @@ const validQuestions = [
     distractors: ['150,000,000 m/s', '300,000,000 km/s', '199,792,458 m/s'],
     explanation: 'The speed of light in a vacuum is approximately 299,792,458 metres per second. This is a fundamental constant in physics.',
     difficulty: 'normal' as const,
+    // Phase 999.8: schema requires category_slugs (1-3, no GK) + category_scores
+    category_slugs: ['science'],
+    category_scores: { science: 60, general_knowledge: 30 },
   },
   {
     question_text: 'Who developed the theory of special relativity?',
@@ -61,6 +64,8 @@ const validQuestions = [
     distractors: ['Isaac Newton', 'Niels Bohr', 'Max Planck'],
     explanation: 'Albert Einstein developed the theory of special relativity, which was published in 1905.',
     difficulty: 'easy' as const,
+    category_slugs: ['science'],
+    category_scores: { science: 75, general_knowledge: 60 },
   },
 ];
 
@@ -93,7 +98,12 @@ function createMockSupabase() {
   let insertFailCount = 0;
 
   // Track what the test configures
-  const categoriesData = [{ id: 'cat-1', name: 'Science', slug: 'science' }];
+  // Phase 999.8: agent calls resolveSlugsToIds([...category_slugs, 'general-knowledge']);
+  // mock must include both science (assigned) + general-knowledge (auto-added).
+  const categoriesData = [
+    { id: 'cat-1', name: 'Science', slug: 'science' },
+    { id: 'cat-gk', name: 'General Knowledge', slug: 'general-knowledge' },
+  ];
   const sourcesData = [
     {
       id: 'src-1',
@@ -139,17 +149,29 @@ function createMockSupabase() {
     if (table === 'questions') {
       questionFromCallIndex++;
       // Insert path only — dedup reads moved to question_categories.
+      // Phase 999.8: agent does .from('questions').insert(...).select('id').single()
+      // and reads { data: { id }, error }. Mock must return a chain that resolves
+      // to a row-shaped result, not a bare promise.
       const chain = makeChain(existingQuestionsForDedup);
       chain.insert = vi.fn((data: unknown) => {
         insertCalls.push({ table, data });
-        if (insertFailOnce && insertFailCount === 0) {
-          insertFailCount++;
-          return Promise.resolve({ data: null, error: { message: 'DB error' } });
-        }
-        if (insertShouldFail) {
-          return Promise.resolve({ data: null, error: { message: 'DB error' } });
-        }
-        return Promise.resolve({ data: null, error: null });
+        const insertChain: any = {};
+        const insertRet = (() => {
+          if (insertFailOnce && insertFailCount === 0) {
+            insertFailCount++;
+            return { data: null, error: { message: 'DB error' } };
+          }
+          if (insertShouldFail) {
+            return { data: null, error: { message: 'DB error' } };
+          }
+          // Synthesise a fresh question id per insert.
+          return { data: { id: `q-${insertCalls.length}` }, error: null };
+        })();
+        insertChain.select = vi.fn(() => insertChain);
+        insertChain.single = vi.fn(() => Promise.resolve(insertRet));
+        insertChain.then = (resolve: (val: unknown) => void, reject?: (err: unknown) => void) =>
+          Promise.resolve(insertRet).then(resolve, reject);
+        return insertChain;
       });
       return chain;
     }
@@ -267,6 +289,8 @@ describe('Questions Agent', () => {
       distractors: ['Answer A', 'Answer B', 'Answer C'],
       explanation: 'Test explanation.',
       difficulty: 'easy' as const,
+      category_slugs: ['science'],
+      category_scores: { science: 50, general_knowledge: 25 },
     };
     mockClaude.messages.create.mockResolvedValueOnce(
       createMockClaudeResponse([badQuestion, validQuestions[0]])
