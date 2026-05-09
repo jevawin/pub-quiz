@@ -20,9 +20,9 @@
 | 007 | ✓ done | 100 | 100 | 0 | (this batch) |
 | 008 | ✓ done | 98 | 112 | 2 (cap-5) | (this batch) |
 | 009 | ✓ done | 99 | 104 | 1 (cap-5) | (this batch) |
-| 010 | pending | — | — | — | — |
-| 011 | pending | — | — | — | — |
-| 012 | pending | — | — | — | — |
+| 010 | ✓ done | 99 | 120 | 1 (cap-5) | (this batch) |
+| 011 | ✓ done | 99 | 106 | 1 (cap-5) | (this batch) |
+| 012 | ✓ done | 100 | 106 | 0 | (this batch) |
 | 013 | pending | — | — | — | — |
 | 014 | pending | — | — | — | — |
 | 015 | pending | — | — | — | — |
