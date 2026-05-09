@@ -14,9 +14,9 @@
 | 001 | ✓ done | 100 | 101 | 1 (cap-5: 6a535027 history) | (this batch commit) |
 | 002 | ✓ done | 100 | 106 | 3 (cap-5) | (this batch commit) |
 | 003 | ✓ done | 100 | 103 | 0 | (this batch commit) |
-| 004 | pending | — | — | — | — |
-| 005 | pending | — | — | — | — |
-| 006 | pending | — | — | — | — |
+| 004 | ✓ done | 98 | 100 | 2 (cap-5) | (this batch) |
+| 005 | ✓ done | 99 | 106 | 1 (cap-5) | (this batch) |
+| 006 | ✓ done | 100 | 104 | 0 | (this batch) |
 | 007 | pending | — | — | — | — |
 | 008 | pending | — | — | — | — |
 | 009 | pending | — | — | — | — |
