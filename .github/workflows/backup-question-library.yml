@@ -30,7 +30,10 @@ jobs:
           pg_dump --version
 
       - name: Run backup
-        run: ./pipeline/scripts/backup-questions.sh
+        run: |
+          export PATH="/usr/lib/postgresql/17/bin:$PATH"
+          pg_dump --version
+          ./pipeline/scripts/backup-questions.sh
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
 
