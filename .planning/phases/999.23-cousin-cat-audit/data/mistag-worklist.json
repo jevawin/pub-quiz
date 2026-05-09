@@ -1,0 +1,736 @@
+[
+  {
+    "question_id": "26127deb-76af-473d-9839-33c1f5fc5e8d",
+    "question_text": "What is the real name of Canadian electronic music producer deadmau5?",
+    "current_slugs": [
+      {
+        "slug": "90s-music-hits",
+        "estimate_score": 50
+      },
+      {
+        "slug": "music",
+        "estimate_score": 40
+      }
+    ],
+    "flag_reason": "tagged 90s-music-hits but Q references \"deadmau5\" (not a 90s artist/track)",
+    "suggested_action": "remove 90s-music-hits; consider electronic-music or relevant decade slug",
+    "decision": null,
+    "source": "heuristic-90s"
+  },
+  {
+    "question_id": "4a3a6e51-6e1c-4c79-8aaa-331599aeb1a1",
+    "question_text": "What is the real name of prominent electronic musician Aphex Twin?",
+    "current_slugs": [
+      {
+        "slug": "90s-music-hits",
+        "estimate_score": 50
+      },
+      {
+        "slug": "music",
+        "estimate_score": 35
+      }
+    ],
+    "flag_reason": "tagged 90s-music-hits but Q references \"Aphex Twin\" (not a 90s artist/track)",
+    "suggested_action": "remove 90s-music-hits; consider electronic-music or relevant decade slug",
+    "decision": null,
+    "source": "heuristic-90s"
+  },
+  {
+    "question_id": "7e7f5e26-8243-49a2-a856-0144477ab41f",
+    "question_text": "Which singer was featured in Jack Ü (Skrillex & Diplo)'s 2015 song 'Where Are Ü Now'?",
+    "current_slugs": [
+      {
+        "slug": "90s-music-hits",
+        "estimate_score": 50
+      },
+      {
+        "slug": "music",
+        "estimate_score": 40
+      }
+    ],
+    "flag_reason": "tagged 90s-music-hits but Q references \"Skrillex\" (not a 90s artist/track)",
+    "suggested_action": "remove 90s-music-hits; consider electronic-music or relevant decade slug",
+    "decision": null,
+    "source": "heuristic-90s"
+  },
+  {
+    "question_id": "064b013b-dfb5-47a9-921d-07c804c456b4",
+    "question_text": "Which country is the birthplace of the Caesar salad?",
+    "current_slugs": [
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 35
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 25
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "3488dea5-18a6-4389-af55-2cb6d5d5b2ac",
+    "question_text": "What is the Spanish word for \"donkey\"?",
+    "current_slugs": [
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 60
+      },
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 55
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 40
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "366c44b2-8160-4d6f-882e-8080650da0dd",
+    "question_text": "Coleslaw originated from which European country?",
+    "current_slugs": [
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 50
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 45
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "5f50680b-7059-4855-a2de-e9f8a4320aca",
+    "question_text": "What ingredient gives traditional hummus its distinctive nutty flavour?",
+    "current_slugs": [
+      {
+        "slug": "mediterranean-cuisine",
+        "estimate_score": 80
+      },
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 75
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 70
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 70
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "76872deb-c938-42a0-bc6f-3b983b15de60",
+    "question_text": "Where did the pineapple plant originate?",
+    "current_slugs": [
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 55
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 45
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 40
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "879d4cbd-a21e-48e8-9f14-9826b8eb4051",
+    "question_text": "Which country is the birthplace of the caesar salad?",
+    "current_slugs": [
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 35
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 30
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "8843ae93-a391-4c54-a264-9bcfcdd44ecb",
+    "question_text": "Which of these is the name of a Japanese system of alternative medicine, literally meaning \"finger pressure\"?",
+    "current_slugs": [
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 35
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 25
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "91d4b124-2080-4a59-bac9-4010ff1f3c81",
+    "question_text": "What are Panama hats made out of?",
+    "current_slugs": [
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 35
+      },
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 30
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "b17e8ffe-6819-4d63-810f-abb758357bc6",
+    "question_text": "Foie gras is a French delicacy typically made from what part of a duck or goose?",
+    "current_slugs": [
+      {
+        "slug": "french-cuisine",
+        "estimate_score": 92
+      },
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 82
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 80
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 65
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "c302d21b-7d12-4505-9118-455984cccd36",
+    "question_text": "What is the main ingredient in the Greek dip taramosalata?",
+    "current_slugs": [
+      {
+        "slug": "mediterranean-cuisine",
+        "estimate_score": 65
+      },
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 55
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 35
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 25
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "d0ce76aa-43e5-40cb-b230-00e3f0ad857d",
+    "question_text": "What is the famous Papa John's last name?",
+    "current_slugs": [
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 40
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 35
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "e48f52a9-00e0-4d52-a66e-2f2f199f88be",
+    "question_text": "Which of the following is not another name for the eggplant?",
+    "current_slugs": [
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 30
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 22
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "f07af701-2c03-4982-bc61-2e922ae559e9",
+    "question_text": "In what year was McDonald's founded?",
+    "current_slugs": [
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 65
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 60
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 55
+      },
+      {
+        "slug": "tech-company-founders",
+        "estimate_score": 50
+      },
+      {
+        "slug": "technology",
+        "estimate_score": 25
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "f977f6b0-70e4-41e8-963c-2f4effd4236c",
+    "question_text": "Which delicate herb completes the French 'fines herbes' blend: parsley, chives, tarragon, and...?",
+    "current_slugs": [
+      {
+        "slug": "french-cuisine",
+        "estimate_score": 70
+      },
+      {
+        "slug": "world-cuisine",
+        "estimate_score": 50
+      },
+      {
+        "slug": "food-and-drink",
+        "estimate_score": 28
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 12
+      }
+    ],
+    "flag_reason": "tagged world-cuisine but question_text contains no food / dish / drink keyword",
+    "suggested_action": "remove world-cuisine; re-tag against the actual subject of the Q",
+    "decision": null,
+    "source": "heuristic-cuisine"
+  },
+  {
+    "question_id": "311a1408-7feb-4be8-9d1f-233221b8ab38",
+    "question_text": "How many spaces are there on a standard Monopoly board?",
+    "current_slugs": [
+      {
+        "slug": "traditional-pub-games",
+        "estimate_score": 82
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 55
+      },
+      {
+        "slug": "gaming",
+        "estimate_score": 50
+      }
+    ],
+    "flag_reason": "tagged traditional-pub-games but Q references \"Monopoly\" (not a pub game)",
+    "suggested_action": "remove traditional-pub-games; add board-games / video-games / sports as appropriate",
+    "decision": null,
+    "source": "heuristic-pubgames"
+  },
+  {
+    "question_id": "54421efb-0a87-487c-bce1-adabccd43998",
+    "question_text": "On a standard Monopoly board, which square is diagonally opposite 'Go'? ",
+    "current_slugs": [
+      {
+        "slug": "traditional-pub-games",
+        "estimate_score": 70
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 55
+      },
+      {
+        "slug": "gaming",
+        "estimate_score": 45
+      }
+    ],
+    "flag_reason": "tagged traditional-pub-games but Q references \"Monopoly\" (not a pub game)",
+    "suggested_action": "remove traditional-pub-games; add board-games / video-games / sports as appropriate",
+    "decision": null,
+    "source": "heuristic-pubgames"
+  },
+  {
+    "question_id": "721d3d6a-e24b-477f-b3ad-0455db0e28f5",
+    "question_text": "The board game \"Monopoly\" is a variation of what board game?",
+    "current_slugs": [
+      {
+        "slug": "traditional-pub-games",
+        "estimate_score": 60
+      },
+      {
+        "slug": "gaming",
+        "estimate_score": 30
+      }
+    ],
+    "flag_reason": "tagged traditional-pub-games but Q references \"Monopoly\" (not a pub game)",
+    "suggested_action": "remove traditional-pub-games; add board-games / video-games / sports as appropriate",
+    "decision": null,
+    "source": "heuristic-pubgames"
+  },
+  {
+    "question_id": "b9f24e70-e01a-48b5-95fb-3a31544ec3fd",
+    "question_text": "At the start of a standard game of the Monopoly, if you throw a double six, which square would you land on?",
+    "current_slugs": [
+      {
+        "slug": "traditional-pub-games",
+        "estimate_score": 50
+      },
+      {
+        "slug": "gaming",
+        "estimate_score": 30
+      }
+    ],
+    "flag_reason": "tagged traditional-pub-games but Q references \"Monopoly\" (not a pub game)",
+    "suggested_action": "remove traditional-pub-games; add board-games / video-games / sports as appropriate",
+    "decision": null,
+    "source": "heuristic-pubgames"
+  },
+  {
+    "question_id": "d9816edf-45e1-41b6-a614-a5c41eb0453b",
+    "question_text": "In a standard game of Monopoly, what colour are the two cheapest properties?",
+    "current_slugs": [
+      {
+        "slug": "traditional-pub-games",
+        "estimate_score": 90
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 60
+      },
+      {
+        "slug": "gaming",
+        "estimate_score": 60
+      }
+    ],
+    "flag_reason": "tagged traditional-pub-games but Q references \"Monopoly\" (not a pub game)",
+    "suggested_action": "remove traditional-pub-games; add board-games / video-games / sports as appropriate",
+    "decision": null,
+    "source": "heuristic-pubgames"
+  },
+  {
+    "question_id": "f3d28b31-b34b-454e-9c86-4c2128926469",
+    "question_text": "What happens when you roll 3 doubles in a row in Monopoly?",
+    "current_slugs": [
+      {
+        "slug": "traditional-pub-games",
+        "estimate_score": 78
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 60
+      },
+      {
+        "slug": "gaming",
+        "estimate_score": 50
+      }
+    ],
+    "flag_reason": "tagged traditional-pub-games but Q references \"Monopoly\" (not a pub game)",
+    "suggested_action": "remove traditional-pub-games; add board-games / video-games / sports as appropriate",
+    "decision": null,
+    "source": "heuristic-pubgames"
+  },
+  {
+    "question_id": "4e478e37-19b6-42e9-b139-4d479f3f08ba",
+    "question_text": "When did the TV show Rick and Morty first air on Adult Swim?",
+    "current_slugs": [
+      {
+        "slug": "classic-sitcoms",
+        "estimate_score": 65
+      },
+      {
+        "slug": "animated-films",
+        "estimate_score": 60
+      },
+      {
+        "slug": "animated-classics",
+        "estimate_score": 55
+      },
+      {
+        "slug": "movies-and-tv",
+        "estimate_score": 35
+      }
+    ],
+    "flag_reason": "tagged classic-sitcoms but Q references \"Rick and Morty\" (not a sitcom)",
+    "suggested_action": "remove classic-sitcoms; add the correct genre tag (drama / animation / detective etc.)",
+    "decision": null,
+    "source": "heuristic-sitcoms"
+  },
+  {
+    "question_id": "7d7f6407-b983-4d22-8fcc-b67829c6a54f",
+    "question_text": "In the Black Mirror episode \"Bandersnatch\", PAC-MAN stands for:",
+    "current_slugs": [
+      {
+        "slug": "classic-sitcoms",
+        "estimate_score": 35
+      },
+      {
+        "slug": "movies-and-tv",
+        "estimate_score": 25
+      }
+    ],
+    "flag_reason": "tagged classic-sitcoms but Q references \"Black Mirror\" (not a sitcom)",
+    "suggested_action": "remove classic-sitcoms; add the correct genre tag (drama / animation / detective etc.)",
+    "decision": null,
+    "source": "heuristic-sitcoms"
+  },
+  {
+    "question_id": "acb86ab5-3a94-4f00-9c3f-fceeb444ebb5",
+    "question_text": "In the TV show 'M*A*S*H', what was the nickname of Corporal Walter O'Reilly?",
+    "current_slugs": [
+      {
+        "slug": "classic-sitcoms",
+        "estimate_score": 70
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 55
+      },
+      {
+        "slug": "movies-and-tv",
+        "estimate_score": 55
+      }
+    ],
+    "flag_reason": "tagged classic-sitcoms but Q references \"M*A*S*H\" (not a sitcom)",
+    "suggested_action": "remove classic-sitcoms; add the correct genre tag (drama / animation / detective etc.)",
+    "decision": null,
+    "source": "heuristic-sitcoms"
+  },
+  {
+    "question_id": "f9771be0-6a2f-4baf-9d47-38a3daa20e15",
+    "question_text": "In the television show Breaking Bad, what is the street name of Walter and Jesse's notorious product?",
+    "current_slugs": [
+      {
+        "slug": "classic-sitcoms",
+        "estimate_score": 78
+      },
+      {
+        "slug": "movies-and-tv",
+        "estimate_score": 70
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 65
+      }
+    ],
+    "flag_reason": "tagged classic-sitcoms but Q references \"Breaking Bad\" (not a sitcom)",
+    "suggested_action": "remove classic-sitcoms; add the correct genre tag (drama / animation / detective etc.)",
+    "decision": null,
+    "source": "heuristic-sitcoms"
+  },
+  {
+    "question_id": "fb68ea44-3b4c-4518-b6c5-586486f4af4e",
+    "question_text": "In Breaking Bad, the initials W.W. refer to which of the following?",
+    "current_slugs": [
+      {
+        "slug": "classic-sitcoms",
+        "estimate_score": 75
+      },
+      {
+        "slug": "movies-and-tv",
+        "estimate_score": 65
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 60
+      }
+    ],
+    "flag_reason": "tagged classic-sitcoms but Q references \"Breaking Bad\" (not a sitcom)",
+    "suggested_action": "remove classic-sitcoms; add the correct genre tag (drama / animation / detective etc.)",
+    "decision": null,
+    "source": "heuristic-sitcoms"
+  },
+  {
+    "question_id": "3ab0252a-096f-4103-8041-1312d3819eb9",
+    "question_text": "In bowling, what is the term used for getting three consecutive strikes?",
+    "current_slugs": [
+      {
+        "slug": "american-sports",
+        "estimate_score": 85
+      },
+      {
+        "slug": "sports",
+        "estimate_score": 80
+      },
+      {
+        "slug": "traditional-pub-games",
+        "estimate_score": 75
+      },
+      {
+        "slug": "general-knowledge",
+        "estimate_score": 75
+      },
+      {
+        "slug": "gaming",
+        "estimate_score": 35
+      }
+    ],
+    "flag_reason": "bowling Turkey — gaming parent feels weak (bowling closer to sports)",
+    "suggested_action": "remove gaming chain; add sports chain (bowling sits under sports)",
+    "decision": null,
+    "source": "progress-manual"
+  },
+  {
+    "question_id": "7ab8a974-7e33-4420-92cc-5047169efe45",
+    "question_text": "What is the capital of Burkina Faso?",
+    "current_slugs": [
+      {
+        "slug": "african-geography",
+        "estimate_score": 50
+      },
+      {
+        "slug": "world-capitals",
+        "estimate_score": 45
+      },
+      {
+        "slug": "geography",
+        "estimate_score": 30
+      }
+    ],
+    "flag_reason": "Ouagadougou — existing world-capitals score 45 may be too low for capitals-pill audience",
+    "suggested_action": "raise world-capitals estimate_score (60–75) to match audience expectation",
+    "decision": null,
+    "source": "progress-manual"
+  },
+  {
+    "question_id": "8257670d-7a3b-4e4d-97c9-8667b444af48",
+    "question_text": "EDM record label Monstercat is based in which country?",
+    "current_slugs": [
+      {
+        "slug": "90s-music-hits",
+        "estimate_score": 25
+      },
+      {
+        "slug": "music",
+        "estimate_score": 18
+      }
+    ],
+    "flag_reason": "tagged 90s-music-hits but Q covers Aphex Twin / Monstercat / Madeon / Sukiyaki — wrong cat",
+    "suggested_action": "remove 90s-music-hits; add electronic-music",
+    "decision": null,
+    "source": "progress-manual"
+  },
+  {
+    "question_id": "82fbbb7d-e649-47e6-afa7-30c5594d29d8",
+    "question_text": "What was the title of Sakamoto Kyu's song \"Ue o Muite Arukou\" (I Look Up As I Walk) changed to in the United States?",
+    "current_slugs": [
+      {
+        "slug": "90s-music-hits",
+        "estimate_score": 30
+      },
+      {
+        "slug": "music",
+        "estimate_score": 18
+      }
+    ],
+    "flag_reason": "tagged 90s-music-hits but Q covers Aphex Twin / Monstercat / Madeon / Sukiyaki — wrong cat",
+    "suggested_action": "remove 90s-music-hits; add electronic-music",
+    "decision": null,
+    "source": "progress-manual"
+  },
+  {
+    "question_id": "a685aa9c-e793-4b39-9278-b77b58947eb6",
+    "question_text": "What French artist/band is known for playing on the midi instrument \"Launchpad\"?",
+    "current_slugs": [
+      {
+        "slug": "90s-music-hits",
+        "estimate_score": 35
+      },
+      {
+        "slug": "music",
+        "estimate_score": 20
+      }
+    ],
+    "flag_reason": "tagged 90s-music-hits but Q covers Aphex Twin / Monstercat / Madeon / Sukiyaki — wrong cat",
+    "suggested_action": "remove 90s-music-hits; add electronic-music",
+    "decision": null,
+    "source": "progress-manual"
+  },
+  {
+    "question_id": "df69b35a-66a6-4835-8296-c3dd9e3a8f0c",
+    "question_text": "Who wrote the song \"You Know You Like It\"?",
+    "current_slugs": [
+      {
+        "slug": "90s-music-hits",
+        "estimate_score": 25
+      },
+      {
+        "slug": "music",
+        "estimate_score": 15
+      }
+    ],
+    "flag_reason": "AlunaGeorge — tagged 90s-music-hits but is 2010s",
+    "suggested_action": "remove 90s-music-hits; add electronic-music or 2010s-music",
+    "decision": null,
+    "source": "progress-manual"
+  },
+  {
+    "question_id": "ea75c41d-8633-4940-8298-19d337274383",
+    "question_text": "Which of these aliases has NOT been used by electronic musician Aphex Twin?",
+    "current_slugs": [
+      {
+        "slug": "90s-music-hits",
+        "estimate_score": 30
+      },
+      {
+        "slug": "music",
+        "estimate_score": 18
+      }
+    ],
+    "flag_reason": "tagged 90s-music-hits but Q covers Aphex Twin / Monstercat / Madeon / Sukiyaki — wrong cat",
+    "suggested_action": "remove 90s-music-hits; add electronic-music",
+    "decision": null,
+    "source": "progress-manual"
+  }
+]
