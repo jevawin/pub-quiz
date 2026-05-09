@@ -1,0 +1,2907 @@
+{
+  "batch_num": 12,
+  "batch_size": 100,
+  "questions": [
+    {
+      "id": "445d589d-78f0-48cf-a9c6-cba18b44dd5b",
+      "question_text": "How many pieces are there on the board at the start of a game of chess?",
+      "correct_answer": "32",
+      "distractors": [
+        "16",
+        "20",
+        "36"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f860ff11-9c04-4099-b171-d5b20ec058fe",
+      "question_text": "How many dice are used in the game of Yahtzee?",
+      "correct_answer": "Five",
+      "distractors": [
+        "Four",
+        "Six",
+        "Eight"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4c010cf2-8faa-4c75-bc7a-673ef7b4c407",
+      "question_text": "What is the most challenging monster in the Dungeons & Dragons 5th Edition Monster Manual?",
+      "correct_answer": "Tarrasque",
+      "distractors": [
+        "Beholder",
+        "Displacer Beast",
+        "Lich"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "311a1408-7feb-4be8-9d1f-233221b8ab38",
+      "question_text": "How many spaces are there on a standard Monopoly board?",
+      "correct_answer": "40",
+      "distractors": [
+        "28",
+        "55",
+        "36"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 82,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9d5f1908-1048-41ad-a062-65506e179752",
+      "question_text": "How many points is the Z tile worth in Scrabble?",
+      "correct_answer": "10",
+      "distractors": [
+        "8",
+        "5",
+        "6"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8f808c6b-196f-4af9-8d19-44c6ddc6df27",
+      "question_text": "When Magic: The Gathering was first solicited, which of the following was it originally titled?",
+      "correct_answer": "Mana Clash",
+      "distractors": [
+        "Magic",
+        "Magic Clash",
+        "Mana Duels"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 20,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "365f44e1-cb45-4518-ad1e-c1f8f38ca46c",
+      "question_text": "In a game of snooker, what colour ball is worth 3 points?",
+      "correct_answer": "Green",
+      "distractors": [
+        "Yellow",
+        "Brown",
+        "Blue"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "sports",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ec79c4d4-d188-4f9e-942f-d392c187ee37",
+      "question_text": "In a standard set of playing cards, which is the only king without a moustache?",
+      "correct_answer": "Hearts",
+      "distractors": [
+        "Spades",
+        "Diamonds",
+        "Clubs"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b9f24e70-e01a-48b5-95fb-3a31544ec3fd",
+      "question_text": "At the start of a standard game of the Monopoly, if you throw a double six, which square would you land on?",
+      "correct_answer": "Electric Company",
+      "distractors": [
+        "Water Works",
+        "Chance",
+        "Community Chest"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "54421efb-0a87-487c-bce1-adabccd43998",
+      "question_text": "On a standard Monopoly board, which square is diagonally opposite 'Go'? ",
+      "correct_answer": "Free Parking",
+      "distractors": [
+        "Go to Jail",
+        "Jail",
+        "The Electric Company"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f8c5ec53-d2b7-4a8e-9382-0af98104cb3f",
+      "question_text": "In what year was the card game Magic: the Gathering first introduced?",
+      "correct_answer": "1993",
+      "distractors": [
+        "1987",
+        "1998",
+        "2003"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "304d3539-5b3b-4dd0-adf0-ea8ef5c5d95a",
+      "question_text": "What is the world's oldest board game?",
+      "correct_answer": "Senet",
+      "distractors": [
+        "Chess",
+        "Checkers",
+        "Go"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "61b6741f-674f-425d-9d3c-678d5378e05a",
+      "question_text": "How many rooms are there, not including the hallways and the set of stairs, in the board game \"Clue\"?",
+      "correct_answer": "9",
+      "distractors": [
+        "1",
+        "6",
+        "10"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f3d28b31-b34b-454e-9c86-4c2128926469",
+      "question_text": "What happens when you roll 3 doubles in a row in Monopoly?",
+      "correct_answer": "Go to jail",
+      "distractors": [
+        "Get paid $200",
+        "Pay $200",
+        "Move to Free Parking"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 78,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "721d3d6a-e24b-477f-b3ad-0455db0e28f5",
+      "question_text": "The board game \"Monopoly\" is a variation of what board game?",
+      "correct_answer": "The Landlord's Game",
+      "distractors": [
+        "Territorial Dispute",
+        "Property Feud",
+        "The Monopolist's Game"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "6251883d-8e66-4684-ad14-1ea9f0d99a42",
+      "question_text": "Which board game was first released on February 6th, 1935?",
+      "correct_answer": "Monopoly",
+      "distractors": [
+        "Risk",
+        "Clue",
+        "Candy Land"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b6075a58-bb59-4fec-8757-a35f8375e915",
+      "question_text": "What is the maximum level you can have in a single class in Dungeons and Dragons (5e)?",
+      "correct_answer": "20",
+      "distractors": [
+        "30",
+        "15",
+        "25"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4dfa7e8b-c831-4628-af6a-e737f1cb5166",
+      "question_text": "Which one of these is not a real game in the Dungeons & Dragons series?",
+      "correct_answer": "Extreme Dungeons & Dragons",
+      "distractors": [
+        "Advanced Dungeons & Dragons",
+        "Dungeons & Dragons 3.5th edition",
+        "Advanced Dungeons & Dragons 2nd edition"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9df3d704-012d-4a19-9260-51212045f242",
+      "question_text": "Which of the following characters is not in the board game Clue?",
+      "correct_answer": "Mister Indigo",
+      "distractors": [
+        "Colonel Mustard",
+        "Reverend Green",
+        "Miss Scarlet"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f069eb24-6f30-48f9-a127-ae5707a47eab",
+      "question_text": "Who was world chess champion between 1894 and 1921",
+      "correct_answer": "Emanuel Lasker",
+      "distractors": [
+        "José Raúl Capablanca",
+        "Wilhelm Steinitz",
+        "Bobby Fischer"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a72e4a48-f51b-41ae-8f89-da7aa70162da",
+      "question_text": "How many cards are there in a standard deck of playing cards?",
+      "correct_answer": "52",
+      "distractors": [
+        "32",
+        "40",
+        "64"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ac683e65-7c8f-4b7b-9e84-96f43bb298f0",
+      "question_text": "On a dartboard, what number is directly opposite No. 1?",
+      "correct_answer": "19",
+      "distractors": [
+        "20",
+        "12",
+        "15"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b4f49ffc-32c0-40f9-9401-17077511e2ab",
+      "question_text": "What is the name of the poker hand containing three of a kind and a pair?",
+      "correct_answer": "Full House",
+      "distractors": [
+        "Flush",
+        "Straight",
+        "High card"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e0ad4271-87e9-42f3-9744-a90ea4efa8ee",
+      "question_text": "How many scoring zones are there on a conventional dart board?",
+      "correct_answer": "82",
+      "distractors": [
+        "62",
+        "42",
+        "102"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 18,
+          "observed_n": 0
+        },
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e1b30926-4e24-491b-9ec2-ed38809823a7",
+      "question_text": "Which darts player has won the most World Championship titles?",
+      "correct_answer": "Phil Taylor",
+      "distractors": [
+        "Michael van Gerwen",
+        "Raymond van Barneveld",
+        "Eric Bristow"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cb0cb5ca-e873-4d15-b59d-4305ff5b736f",
+      "question_text": "What is the name of the \"tool\" used to hit the white ball in snooker or billiards?",
+      "correct_answer": "Cue",
+      "distractors": [
+        "Racquet",
+        "Bat",
+        "Mallet"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 98,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d9816edf-45e1-41b6-a614-a5c41eb0453b",
+      "question_text": "In a standard game of Monopoly, what colour are the two cheapest properties?",
+      "correct_answer": "Brown",
+      "distractors": [
+        "Green",
+        "Yellow",
+        "Blue"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c7507feb-c7b5-41b3-a95a-5e59aa2d61e1",
+      "question_text": "What is the central pin called in ninepins or skittles?",
+      "correct_answer": "The kingpin",
+      "distractors": [
+        "The headpin",
+        "The center pin",
+        "The striker"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "bac952bc-796c-4f75-aa24-6e534af005e9",
+      "question_text": "In traditional English pub quoits, what are the rings thrown at?",
+      "correct_answer": "A metal spike",
+      "distractors": [
+        "A wooden post",
+        "A stone block",
+        "A clay mound"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "traditional-pub-games",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c1feb5ea-d11b-466c-adc0-692fdcb2f49d",
+      "question_text": "Donald J. Trump's Middle Name is...",
+      "correct_answer": "John",
+      "distractors": [
+        "Jeff",
+        "Jerald",
+        "Jason"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "us-presidents",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a1229549-8093-4df2-9c79-3551cd59d9ff",
+      "question_text": "Who was the President of the United States during the signing of the Gadsden Purchase?",
+      "correct_answer": "Franklin Pierce",
+      "distractors": [
+        "Andrew Johnson",
+        "Abraham Lincoln",
+        "James Polk"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "us-presidents",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a6691386-2250-4fcd-ae90-a1a3bc358cc8",
+      "question_text": "What disease crippled President Franklin D. Roosevelt and led him to help the nation find a cure? ",
+      "correct_answer": "Polio",
+      "distractors": [
+        "Cancer",
+        "Meningitis",
+        "HIV"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "us-presidents",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-human-body",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "science",
+          "name": "Science",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fc22f44d-47f2-43bb-bd00-cd7dd26a3796",
+      "question_text": "Which U.S. president took part in the Potsdam Conference, where the Allies reached a peace settlement with Germany?",
+      "correct_answer": "Harry S. Truman",
+      "distractors": [
+        "Dwight D. Eisenhower",
+        "Franklin D. Roosevelt",
+        "Herbert Hoover"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "us-presidents",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "world-war-ii",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b66eaf3b-f19f-4a33-abfa-9b5f56de8981",
+      "question_text": "Which U.S. President was famously 'attacked' by a swimming rabbit?",
+      "correct_answer": "Jimmy Carter",
+      "distractors": [
+        "Ronald Reagan",
+        "Lydon B. Johnson",
+        "Gerald Ford"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "us-presidents",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fc8cbd68-14d1-4909-8c9a-16c05a7d5727",
+      "question_text": "Whose 2016 presidential campaign slogan was \"Make America Great Again\"?",
+      "correct_answer": "Donald Trump",
+      "distractors": [
+        "Ted Cruz",
+        "Marco Rubio",
+        "Bernie Sanders"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "us-presidents",
+          "estimate_score": 98,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f35e9d45-944d-442d-bc8f-9beef8c389d6",
+      "question_text": "Which former US president was nicknamed \"Teddy\" after he refused to shoot a defenseless black bear?",
+      "correct_answer": "Theodore Roosevelt",
+      "distractors": [
+        "Woodrow Wilson",
+        "James F. Fielder",
+        "Andrew Jackson"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "us-presidents",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d47702a3-c15b-4f59-9eee-300bdc335e5f",
+      "question_text": "What year did Gerald Ford Become President?",
+      "correct_answer": "1974",
+      "distractors": [
+        "1977",
+        "1973",
+        "1969"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 30,
+          "observed_n": 0
+        },
+        {
+          "slug": "us-presidents",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "aa5b1dd3-c293-4e5a-9362-0dab91d2a530",
+      "question_text": "Who was Donald Trump's first wife?",
+      "correct_answer": "Ivana Zelníčková",
+      "distractors": [
+        "Melania Knauss",
+        "Marla Maples",
+        "Nancy Davis"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "us-presidents",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9a8102df-93f7-4b03-907b-76e9a582338c",
+      "question_text": "In past times, what would a gentleman keep in his fob pocket?",
+      "correct_answer": "Watch",
+      "distractors": [
+        "Money",
+        "Keys",
+        "Notebook"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "victorian-era",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0f0b98bd-9e90-4a5f-a776-f2729304237e",
+      "question_text": "Before the 19th Century, the \"Living Room\" was originally called the...",
+      "correct_answer": "Parlor",
+      "distractors": [
+        "Open Room",
+        "Sitting Room",
+        "Loft"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "victorian-era",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b0bbbb93-9175-41e9-b372-9ef97d3b1ed1",
+      "question_text": "Which tax was finally repealed in 1861, making literature cheaper?",
+      "correct_answer": "Paper tax",
+      "distractors": [
+        "Ink tax",
+        "Book tax",
+        "Print tax"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "victorian-era",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "aa03c20c-694c-43cd-bc4c-6560e2d52ca9",
+      "question_text": "Which monarch did Queen Victoria succeed?",
+      "correct_answer": "William IV",
+      "distractors": [
+        "George IV",
+        "George III",
+        "Edward VIII"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "victorian-era",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-monarchy",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ba2d9cdf-979a-4261-9dc8-a0bb2297dba6",
+      "question_text": "What nickname was given to the London smog during Victorian times?",
+      "correct_answer": "Pea-souper",
+      "distractors": [
+        "Black fog",
+        "Coal curtain",
+        "Iron mist"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "victorian-era",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "da7a5ca7-dd26-4966-9eb0-786d9c689547",
+      "question_text": "Which detective first appeared in A Study in Scarlet in 1887?",
+      "correct_answer": "Sherlock Holmes",
+      "distractors": [
+        "Hercule Poirot",
+        "Philip Marlowe",
+        "Auguste Dupin"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "victorian-era",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "detective-novels",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b26af7b5-f6eb-4021-bf18-2f81fff2ac20",
+      "question_text": "What was the Great Stink of 1858?",
+      "correct_answer": "A sewage crisis in London",
+      "distractors": [
+        "A cheese warehouse fire",
+        "A beached whale",
+        "A tannery explosion"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "victorian-era",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5039f595-940d-49ef-93f4-849c8a740b80",
+      "question_text": "Which actor and martial artist starred as Colonel Guile in the 1994 action film adaptation of Street Fighter?",
+      "correct_answer": "Jean-Claude Van Damme",
+      "distractors": [
+        "Chuck Norris",
+        "Steven Seagal",
+        "Scott Adkins"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-adaptations",
+          "estimate_score": 78,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "536291f3-1044-4a14-8d49-8ebc9186d8a2",
+      "question_text": "In \"Donkey Kong Country\", why does Donkey Kong want to know the secret of the crystal coconut?",
+      "correct_answer": "He's the big kahuna.",
+      "distractors": [
+        "To find out where all the bananas are.",
+        "Because Diddy Kong forced him.",
+        "He wants to punish brutes."
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-adaptations",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "072c33a3-3816-4968-88a4-580b71b009b3",
+      "question_text": "How many seasons did the TV show \"Donkey Kong Country\" last?",
+      "correct_answer": "2",
+      "distractors": [
+        "1",
+        "4",
+        "5"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-adaptations",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f677ec04-cf07-49d0-a475-ff29451dac09",
+      "question_text": "Mark Wahlberg played the titular character of which 2008 video-game adaptation?",
+      "correct_answer": "Max Payne",
+      "distractors": [
+        "Alan Wake",
+        "Hitman",
+        "God Of War"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 18,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-adaptations",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1ddf8dbf-a0ea-4287-8d4c-fc9433b9e25e",
+      "question_text": "Who directed the notorious 1993 Super Mario Bros film with Bob Hoskins?",
+      "correct_answer": "Rocky Morton and Annabel Jankel",
+      "distractors": [
+        "Robert Zemeckis",
+        "Joe Dante",
+        "Ivan Reitman"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-adaptations",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9fd6235f-6975-4879-bfab-a98e7f271dc1",
+      "question_text": "Which actor played Nathan Drake in the 2022 Uncharted film?",
+      "correct_answer": "Tom Holland",
+      "distractors": [
+        "Chris Pratt",
+        "Tom Cruise",
+        "Ryan Reynolds"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-adaptations",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "action-heroes",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "39afe6ff-c191-4727-9e58-667cedbedb44",
+      "question_text": "Which video game film holds the record for highest-grossing opening weekend?",
+      "correct_answer": "The Super Mario Bros. Movie",
+      "distractors": [
+        "Sonic the Hedgehog 2",
+        "Warcraft",
+        "Detective Pikachu"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-adaptations",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b5c35edd-c17c-40f1-b094-9de65f706240",
+      "question_text": "Which actress played Lara Croft in the 2018 Tomb Raider reboot?",
+      "correct_answer": "Alicia Vikander",
+      "distractors": [
+        "Angelina Jolie",
+        "Emily Blunt",
+        "Daisy Ridley"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-adaptations",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "85af5e72-e1c9-4646-aacd-e493ffc3beaa",
+      "question_text": "What colour is Sonic's best friend Tails in the Sonic film series?",
+      "correct_answer": "Orange",
+      "distractors": [
+        "Blue",
+        "Red",
+        "Yellow"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-adaptations",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c556c8fb-6d2d-48ba-b168-5037bb1539eb",
+      "question_text": "What type of creature is Detective Pikachu classified as?",
+      "correct_answer": "Mouse",
+      "distractors": [
+        "Rat",
+        "Hamster",
+        "Squirrel"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-adaptations",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "87d46d3f-e2ed-43ca-ad62-7ff1535966a8",
+      "question_text": "According to Ken Sugimori, which Pokémon was the first ever designed?",
+      "correct_answer": "Rhydon",
+      "distractors": [
+        "Bulbasaur",
+        "Mew",
+        "Clefairy"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "3f39d670-e660-403f-885c-5f91e8e0f641",
+      "question_text": "What character is NOT a part of the Grand Theft Auto series?",
+      "correct_answer": "Michael Cardenas",
+      "distractors": [
+        "Packie McReary",
+        "Tommy Vercetti",
+        "Lester Crest"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "48ea2de0-e9bf-4ddd-a615-9685f711a5c4",
+      "question_text": "In the \"Worms\" series of video games, which of these weapons is affected by wind?",
+      "correct_answer": "Bazooka",
+      "distractors": [
+        "Grenade",
+        "Air Strike",
+        "Mortar"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b6df4802-b479-4c91-8d22-6150d502490f",
+      "question_text": "In \"The Legend of Zelda: Ocarina of Time,\" what is the maximum amount of rupees that Link can carry?",
+      "correct_answer": "500",
+      "distractors": [
+        "999",
+        "1000",
+        "5000"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8c134d13-fce9-4ae4-9d7d-ce765aca80c1",
+      "question_text": "In Five Nights at Freddy's 1, how can you make Golden Freddy disappear?",
+      "correct_answer": "Enable cameras",
+      "distractors": [
+        "Turn on the light",
+        "Shut the door",
+        "Do nothing"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1e85d010-d87a-4107-a1bd-f84bea992a4b",
+      "question_text": "Who is able to grab the survivors with his tongue in Left 4 Dead?",
+      "correct_answer": "Smoker",
+      "distractors": [
+        "Jockey",
+        "Hunter",
+        "Boomer"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "150e4bf5-4c95-415a-8b4a-4059af28cd68",
+      "question_text": "Who stars in Brutal Legend?",
+      "correct_answer": "Jack Black",
+      "distractors": [
+        "Kanye West",
+        "Lemmy",
+        "Ozzy Osbourne"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-rock",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ec1dc721-018f-4fde-81f3-f0a21d1a6d82",
+      "question_text": "Which actor provided the voice for the main character's father in Fallout 3?",
+      "correct_answer": "Liam Neeson",
+      "distractors": [
+        "Kiefer Sutherland",
+        "Brendan Gleeson",
+        "Robbie Coltrane"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5711ab3d-47d7-4100-8b4b-63bc5e48a1e7",
+      "question_text": "What is the name of the creature that the main character befriends in \"The Last Guardian\"?",
+      "correct_answer": "Trico",
+      "distractors": [
+        "Nico",
+        "Wolf",
+        "Andazi"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8fb9e802-8d22-4359-b4d8-5f3f26056b96",
+      "question_text": "Who published the 1998 video game Half-Life?",
+      "correct_answer": "Sierra On-Line",
+      "distractors": [
+        "Valve",
+        "Blizzard",
+        "EA"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "34252973-90c7-462b-b208-a7781323f3ef",
+      "question_text": "What year did the game \"Overwatch\" enter closed beta?",
+      "correct_answer": "2015",
+      "distractors": [
+        "2013",
+        "2011",
+        "2016"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "7a478b03-1e5f-4b37-a0b5-e914ef4298c2",
+      "question_text": "In the game Dark Souls, what is the name of the region you're in for the majority of the game?",
+      "correct_answer": "Lordran",
+      "distractors": [
+        "Drangleic",
+        "Oolacile",
+        "Catarina"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ecef3050-5e6c-41c1-a87d-2cb5347ecd77",
+      "question_text": "In Portal 2, which solar system body did Wheatley end up orbiting?",
+      "correct_answer": "The moon",
+      "distractors": [
+        "Earth",
+        "Jupiter",
+        "Mars"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-solar-system",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "science",
+          "name": "Science",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "160ebff3-e2ad-4c52-9627-b279e8f9c623",
+      "question_text": "What is not a default game mode in Counter-Strike (2000)?",
+      "correct_answer": "Arms Race",
+      "distractors": [
+        "Hostage Rescue",
+        "Bomb Defusal",
+        "Assassination"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "esports-and-competitive-gaming",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f9e5d1fd-aad2-4a9a-9f03-ee6839918160",
+      "question_text": "In the co-op shooter Payday 2, which contact helps you break out Hoxton?",
+      "correct_answer": "The Dentist",
+      "distractors": [
+        "Vlad",
+        "The Elephant",
+        "The Butcher"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "da8a0f40-27f6-4193-bf1f-9ca7c5853421",
+      "question_text": "In what year was \"Super Mario Sunshine\" released?",
+      "correct_answer": "2002",
+      "distractors": [
+        "2003",
+        "2000",
+        "2004"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d1a99e1b-e832-4a92-9340-14c9366579ed",
+      "question_text": "In the Portal series of games, who was the founder of Aperture Science?",
+      "correct_answer": "Cave Johnson",
+      "distractors": [
+        "GLaDOs",
+        "Wallace Breen",
+        "Gordon Freeman"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 78,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e8063962-b7fa-4c35-ab35-16ad5a523b86",
+      "question_text": "Which of the following games was NOT included in Valve's \"The Orange Box\"?",
+      "correct_answer": "Left 4 Dead",
+      "distractors": [
+        "Half-Life 2: Episode Two",
+        "Portal",
+        "Team Fortress 2"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "242eace6-04a2-4b23-a8b3-88a5eaf679f7",
+      "question_text": "In what year was \"Metal Gear Solid\" released in North America?",
+      "correct_answer": "1998",
+      "distractors": [
+        "1987",
+        "2001",
+        "2004"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0c1cb729-6a72-4de8-9a38-f29bd304cc34",
+      "question_text": "What was the first game ever released that ran on the Source engine?",
+      "correct_answer": "Counter-Strike: Source",
+      "distractors": [
+        "Half-Life 2",
+        "Garry's Mod",
+        "Team Fortress 2"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b3d87cbc-4312-44de-839a-0337f0de9a79",
+      "question_text": "In what year was Garry's Mod released as a standalone title on Valve's Steam distribution service?",
+      "correct_answer": "2006",
+      "distractors": [
+        "2007",
+        "2004",
+        "2003"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4d474d00-7d0d-49c3-b997-55a3c3ccde36",
+      "question_text": "How many Chaos Emeralds can you collect in the first Sonic The Hedgehog?",
+      "correct_answer": "Six",
+      "distractors": [
+        "Seven",
+        "Five",
+        "Eight"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d2ce32c5-a5cf-4a31-9102-828fbe1c9343",
+      "question_text": "In Super Smash Bros. Ultimate, which of the following pair of characters are NOT considered \"Echo Fighters\"?",
+      "correct_answer": "Link & Young Link",
+      "distractors": [
+        "Marth & Lucina",
+        "Richter & Simon",
+        "Peach & Daisy"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b5a29c71-6196-4359-82fd-ac5bcf9e3027",
+      "question_text": "In the Super Smash Bros. series, which game first featured Luigi as a playable character?",
+      "correct_answer": "Super Smash Bros.",
+      "distractors": [
+        "Super Smash Bros. Melee",
+        "Super Smash Bros. Brawl",
+        "Super Smash Bros. for Wii U"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1b138b6a-db5c-4fc2-b74c-3cee68978e77",
+      "question_text": "What was the name of the canceled projected by Blizzard Entertainment that would be later become Overwatch?",
+      "correct_answer": "Titan",
+      "distractors": [
+        "Omnic",
+        "Omega",
+        "Ghost"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "esports-and-competitive-gaming",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "62b824cf-23c4-42e2-aa4a-c90b9747deb5",
+      "question_text": "Who developed the 2016 farming RPG \"Stardew Valley\"?",
+      "correct_answer": "Eric Barone",
+      "distractors": [
+        "Daisuke Amaya",
+        "Jasper Byrne",
+        "Lucas Pope"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "18ecb798-6bae-4909-bc93-b5f88effe5ad",
+      "question_text": "What video game engine does the videogame Quake 2 run in?",
+      "correct_answer": "iD Tech 2",
+      "distractors": [
+        "iD Tech 3",
+        "iD Tech 1",
+        "Unreal Engine"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "31c15c77-f9ad-4aa5-af86-3420860d9149",
+      "question_text": "In World of Warcraft, What was the original level cap?",
+      "correct_answer": "60",
+      "distractors": [
+        "70",
+        "50",
+        "100"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c28bf589-524c-4212-8cb0-3b62fff396a0",
+      "question_text": "Which of the following is NOT one of the main characters in Grand Theft Auto V’s story mode?",
+      "correct_answer": "Tommy Vercetti",
+      "distractors": [
+        "Michael de Santa",
+        "Franklin Clinton",
+        "Trevor Phillips"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "30bf580f-391b-4f57-9e82-0ad68a6379ea",
+      "question_text": "In the game \"Red Dead Redemption\", what is the name of John Marston's dog?",
+      "correct_answer": "Rufus",
+      "distractors": [
+        "Rutus",
+        "Finn",
+        "Apollo"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e3a38715-037e-4b08-a84f-f595b1d8d873",
+      "question_text": "In what year was the original Sonic the Hedgehog game released?",
+      "correct_answer": "1991",
+      "distractors": [
+        "1989",
+        "1993",
+        "1995"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "03b634e4-2d8f-4457-bb02-eeebd43d1ba0",
+      "question_text": "Which of the following is an existing family in \"The Sims\"?",
+      "correct_answer": "The Goth Family",
+      "distractors": [
+        "The Family",
+        "The Simoleon Family",
+        "The Proud Family"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8b84629f-41a7-4b49-8821-e1a31bff1d5f",
+      "question_text": "Which Greek letter represents the \"Half-Life\" logo?",
+      "correct_answer": "Lambda",
+      "distractors": [
+        "Omega",
+        "Alpha",
+        "Sigma"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "54261084-4243-4460-b337-ce596171c2fb",
+      "question_text": "In Portal 2, how did CEO of Aperture Science, Cave Johnson, presumably die?",
+      "correct_answer": "Moon Rock Poisoning",
+      "distractors": [
+        "Accidentally sending a portal to the Moon",
+        "Slipped in the shower",
+        "Asbestos Poisoning"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "eb8b10a8-3be9-49aa-92b1-9725459513b3",
+      "question_text": "What is the weight of a Gold Bar in Fallout: New Vegas?",
+      "correct_answer": "35 Pounds",
+      "distractors": [
+        "30 Pounds",
+        "40 Pounds",
+        "32.50 Pounds"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "272b99ae-0956-47a5-a723-ca543c6df6b7",
+      "question_text": "Which one of the following titles by Valve is not based on a Community Mod?",
+      "correct_answer": "Ricochet",
+      "distractors": [
+        "Day of Defeat",
+        "Counter-Strike",
+        "Alien Swarm"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e2236a0b-bff1-46e7-a637-85a45e28c245",
+      "question_text": "In the Assassin's Creed series,what was the name of Desmond Miles given by Abstergo?",
+      "correct_answer": "Subject 17",
+      "distractors": [
+        "Subject 16",
+        "Subject 18",
+        "Altaïr Ibn-La'Ahad"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1df3868f-0463-4b99-9f4a-b25e5a3826ae",
+      "question_text": "In the video-game franchise Kingdom Hearts, the main protagonist, carries a weapon with what shape?",
+      "correct_answer": "Key",
+      "distractors": [
+        "Sword",
+        "Pen",
+        "Cellphone"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cfd62028-3abc-4d5b-91b0-3dac37787597",
+      "question_text": "When was Minecraft first released to the public?",
+      "correct_answer": "May 17th, 2009",
+      "distractors": [
+        "September 17th, 2009",
+        "November 18th, 2011",
+        "October 7th, 2011"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f2c8a049-d231-4c95-b9f1-ec71350fcb07",
+      "question_text": "In \"Katamari Damacy\", you control a character known as:",
+      "correct_answer": "The Prince",
+      "distractors": [
+        "Fujio",
+        "Ichigo ",
+        "Foomin"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cb209797-d28e-4eef-9796-9e1afb8e4b9f",
+      "question_text": "Which of these \"Worms\" games featured 3D gameplay?",
+      "correct_answer": "Worms 4: Mayhem",
+      "distractors": [
+        "Worms W.M.D",
+        "Worms Reloaded",
+        "Worms: Open Warfare 2"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b9593cae-49a7-472b-b27d-186072d05e91",
+      "question_text": "Mirror's Edge Catalyst takes place in the City of...?",
+      "correct_answer": "Glass",
+      "distractors": [
+        "Mirrors",
+        "Purity",
+        "Diamonds"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9fc72b95-a1c8-4e86-b235-63fb4809bc3b",
+      "question_text": "Who created the \"Metal Gear\" Series?",
+      "correct_answer": "Hideo Kojima",
+      "distractors": [
+        "Hiroshi Yamauchi",
+        "Shigeru Miyamoto",
+        "Gunpei Yokoi"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 72,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2945ac04-07d7-4e61-a601-3a809d219c40",
+      "question_text": "In the beta version of the 1986 game \"The Legend of Zelda\", players have the choice between a sword and what other item?",
+      "correct_answer": "Boomerang ",
+      "distractors": [
+        "Spear",
+        "Slingshot",
+        "Crossbow"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 15,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 5,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "eeabf304-5391-4fa5-a8ad-be0bc37bc6a2",
+      "question_text": "In the \"Devil May Cry\" franchise, which game is chronologically first?",
+      "correct_answer": "Devil May Cry 3: Dante's Awakening ",
+      "distractors": [
+        "Devil May Cry 4",
+        "Devil May Cry",
+        "Devil May Cry 2"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2924 @@
+{
+  "batch_num": 3,
+  "batch_size": 100,
+  "questions": [
+    {
+      "id": "e0e5fa90-2da7-4cac-b2f4-095d69b015a5",
+      "question_text": "The film Mad Max: Fury Road features the Dies Irae  from which composer's requiem?",
+      "correct_answer": "Verdi",
+      "distractors": [
+        "Mozart",
+        "Berlioz",
+        "Brahms"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 8,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c0969e94-134e-4de0-9cd1-c80e3ef92a11",
+      "question_text": "What is the correct phrase for the Latin saying \"Romanes Eunt Domus\" in Monty Python's Life of Brian?",
+      "correct_answer": "Romani Ite Domum",
+      "distractors": [
+        "Romans Go Home",
+        "Roxani Ite Domum",
+        "Tomate Ite Domum"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4553ae55-2885-4ab1-a56e-0ff57cefb991",
+      "question_text": "Which of the following films was directed by Ivan Reitman, written by Gary Ross, featured Kevin Kline, and was released in 1993?",
+      "correct_answer": "Dave",
+      "distractors": [
+        "John",
+        "Will",
+        "Carl"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 15,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "6a86164c-55fc-4429-ad92-47a53bae3958",
+      "question_text": "Which one of these films are shot entirely in one-take?",
+      "correct_answer": "Russian Ark",
+      "distractors": [
+        "Good Will Hunting",
+        "Birdman",
+        "Schindler's List"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0e198bae-bfec-4061-ab8f-a4a1e6e7925c",
+      "question_text": "Which of these movies did Jeff Bridges not star in?",
+      "correct_answer": "The Hateful Eight",
+      "distractors": [
+        "Tron: Legacy",
+        "The Giver",
+        "True Grit"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "08ad8dc5-5dea-4225-86fb-8df4c2d97323",
+      "question_text": "Which one of these action movies are shot entirely in one take?",
+      "correct_answer": "Victoria",
+      "distractors": [
+        "Ip Man 2",
+        "The Bourne Legacy",
+        "Léon: The Professional"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "28b9da08-bc1f-4367-8ac1-b95545d71f5b",
+      "question_text": "Which of the following actors does not play a role in the movie \"The Usual Suspects?\"",
+      "correct_answer": "Steve Buscemi",
+      "distractors": [
+        "Kevin Spacey",
+        "Benicio Del Toro",
+        "Gabriel Byrne"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5d5428b0-b079-4d8d-a453-a8bf944a9a5c",
+      "question_text": "Which one of these actors is said to be cut from the film 'E.T. the Extra-Terrestrial'?",
+      "correct_answer": "Harrison Ford",
+      "distractors": [
+        "Michael J. Fox",
+        "Andy Kaufman",
+        "Arnold Schwarzenegger"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 18,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "91e7ccc7-acfa-4732-976e-2aa8df1d42dc",
+      "question_text": "Who voiced the character Draco in the 1996 movie 'DragonHeart'?",
+      "correct_answer": "Sean Connery",
+      "distractors": [
+        "Dennis Quaid",
+        "Pete Postlethwaite",
+        "Brian Thompson"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 58,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 28,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1ba832a5-ce59-457c-8fbe-352975d1d7d5",
+      "question_text": "About how much money did it cost for Tommy Wiseau to make his masterpiece \"The Room\" (2003)?",
+      "correct_answer": "$6 Million",
+      "distractors": [
+        "$20,000",
+        "$1 Million",
+        "$10 Million"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "6616fe36-8a02-4b8f-b6b9-13bb5ea69a2b",
+      "question_text": "Which actor plays the role of the main antagonist in the 2011 movie \"Tower Heist?\"",
+      "correct_answer": "Alan Alda",
+      "distractors": [
+        "Eddie Murphy",
+        "Alec Baldwin",
+        "Kevin Nealon"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 15,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ef7889cf-6cd1-43a4-b285-d65e68a792d6",
+      "question_text": "What was Marilyn Monroe`s character's first name in the film \"Some Like It Hot\"?",
+      "correct_answer": "Sugar",
+      "distractors": [
+        "Honey",
+        "Caramel",
+        "Candy"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 72,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2a491d68-74e5-4384-a1d3-ffd7fd254421",
+      "question_text": "What is the birth name of Michael Caine?",
+      "correct_answer": "Maurice Micklewhite",
+      "distractors": [
+        "Morris Coleman",
+        "Carl Myers",
+        "Martin Michaels"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "57f215cc-38e1-4ddb-8951-7336e0733c65",
+      "question_text": "The Queen song `A Kind Of Magic` is featured in which 1986 film?",
+      "correct_answer": "Highlander",
+      "distractors": [
+        "Flash Gordon",
+        "Labyrinth",
+        "Howard the Duck"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "27235ba9-8a02-4bed-91e1-045ffb21872a",
+      "question_text": "What was Humphrey Bogart's middle name?",
+      "correct_answer": "DeForest",
+      "distractors": [
+        "DeWinter",
+        "Steven",
+        "Bryce"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 10,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "dde908e2-1679-4235-98a2-8e77c003cd64",
+      "question_text": "What is the name of the dog that played Toto in the 1939 film \"The Wizard of Oz\"?",
+      "correct_answer": "Terry",
+      "distractors": [
+        "Tommy",
+        "Teddy",
+        "Toto"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 15,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b18b37e1-5bbf-4989-a86b-1aa14f966e0c",
+      "question_text": "Which former Star Trek actor directed Three Men and a Baby (1987)?",
+      "correct_answer": "Leonard Nimoy",
+      "distractors": [
+        "William Shatner",
+        "George Takei",
+        "James Doohan"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1e1929c8-c225-4a7e-9fc4-e33e6019739b",
+      "question_text": "Brendan Fraser starred in the following movies, except which one?",
+      "correct_answer": "Titanic",
+      "distractors": [
+        "Monkeybone",
+        "Encino Man",
+        "Mrs. Winterbourne"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "438554cc-276c-4c47-a385-5aca2ba7d289",
+      "question_text": "In the 1964 film \"Zulu\", what song does the British Army company sing before the final battle?",
+      "correct_answer": "Men of Harlech",
+      "distractors": [
+        "Scotland the Brave",
+        "Colonel Bogey March",
+        "The British Grenadiers"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 20,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a9238605-6bdf-40ec-aec5-b072c282b5ec",
+      "question_text": "Which boxer was famous for striking the gong in the introduction to J. Arthur Rank films?",
+      "correct_answer": "Bombardier Billy Wells",
+      "distractors": [
+        "Freddie Mills",
+        "Terry Spinks",
+        "Don Cockell"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "27dd5d2e-cd38-47d8-a90a-c3f2377434c5",
+      "question_text": "What were the Chilled Monkey Brains made from during Indiana Jones and the Temple of Doom?",
+      "correct_answer": "Custard and Raspberry Sauce",
+      "distractors": [
+        "Strawberry Ice Cream",
+        "Cherry Yogurt",
+        "Raspberry Sorbet"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "492d107d-dcaa-443c-a8d0-1f117d37f7f5",
+      "question_text": "In the movie Gremlins, after what time of day should you not feed Mogwai?",
+      "correct_answer": "Midnight",
+      "distractors": [
+        "Evening",
+        "Morning",
+        "Afternoon"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "horror-films",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f1e44878-de11-4054-8453-4c0b8b4d9412",
+      "question_text": "Which singer is portrayed by Bruce Campbell in the 2002 film 'Bubba Ho-Tep'?",
+      "correct_answer": "Elvis Presley",
+      "distractors": [
+        "Johnny Cash",
+        "Hank Williams, Sr.",
+        "Buddy Holly"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "3491b8bb-7957-4f1c-9c5a-412f498e2a4b",
+      "question_text": "In what year did Clint Eastwood star as Inspector Harry Callahan in the film \"Dirty Harry\"?",
+      "correct_answer": "1971",
+      "distractors": [
+        "1975",
+        "1983",
+        "1969"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "action-heroes",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c6f4be2d-dee3-41c4-a152-e0129a2b392b",
+      "question_text": "Velma Kelly and Roxie Hart are the protagonists of which Oscar winning movie?",
+      "correct_answer": "Chicago",
+      "distractors": [
+        "Dreamgirls",
+        "Cabaret",
+        "All That Jazz"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "movies-and-tv",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "broadway-musicals",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2730be5d-68ea-4aab-ae62-55b1884993c4",
+      "question_text": "Which film star has his statue in Leicester Square?",
+      "correct_answer": "Charlie Chaplin",
+      "distractors": [
+        "Paul Newman",
+        "Rowan Atkinson ",
+        "Alfred Hitchcock"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ada8695b-3d42-443e-9649-06f4774cb97e",
+      "question_text": "How old was Laurence Fishburne when Francis Ford Coppola cast him in Apocalypse Now (1979)? ",
+      "correct_answer": "14",
+      "distractors": [
+        "16",
+        "18",
+        "20"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8c7ea7dd-5c0f-4a98-a8d8-61303bdf42ba",
+      "question_text": "What was Dorothy's surname in 'The Wizard Of Oz'?",
+      "correct_answer": "Gale",
+      "distractors": [
+        "Perkins",
+        "Day",
+        "Parker"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "935f20d2-608e-46ef-8471-7cd70b62cf0f",
+      "question_text": "In the 1976 film 'Taxi Driver', how many guns did Travis buy from the salesman?",
+      "correct_answer": "4",
+      "distractors": [
+        "2",
+        "6",
+        "1"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "60b34672-b711-4e01-a7b1-5e186c9907d9",
+      "question_text": "What was the last Marx Brothers film to feature Zeppo?",
+      "correct_answer": "Duck Soup",
+      "distractors": [
+        "A Night at the Opera",
+        "A Day at the Races",
+        "Monkey Business"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5a4d0c6d-463f-4899-b7d0-30480b5c1ced",
+      "question_text": "The 1939 movie \"The Wizard of Oz\" contained a horse that changed color, what material did they use to achieve this effect?",
+      "correct_answer": "Gelatin",
+      "distractors": [
+        "Dye",
+        "Paint",
+        "CGI Effect"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b736b830-3f74-45b3-8609-93e43cf79dbf",
+      "question_text": "In the 2014 film \"Birdman\", what is the primary instrument in the score?",
+      "correct_answer": "Drums",
+      "distractors": [
+        "Saxophone",
+        "Violin",
+        "Actual Live Birds Singing"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "music",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4ab06171-2aad-47c6-8727-6fb415439cd1",
+      "question_text": "In what year was the first Indian movie submitted for an Oscar?",
+      "correct_answer": "1957",
+      "distractors": [
+        "1962",
+        "1938",
+        "1954"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b3be643b-e30c-4d60-a956-4efb5f1b8884",
+      "question_text": "What did Alfred Hitchcock use as blood in the film \"Psycho\"? ",
+      "correct_answer": "Chocolate syrup",
+      "distractors": [
+        "Ketchup",
+        "Red food coloring",
+        "Maple syrup"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "horror-films",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "70322980-19f1-4bbf-be39-3de9c9a1468c",
+      "question_text": "Which was the first of Alfred Hitchcock's movies to be filmed in colour?",
+      "correct_answer": "Rope",
+      "distractors": [
+        "Psycho",
+        "Vertigo",
+        "Rebecca"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4a8e4c59-5960-46cf-8147-18d3edfda51e",
+      "question_text": "In the 1979 British film \"Quadrophenia\" what is the name of the seaside city the mods are visiting?",
+      "correct_answer": "Brighton",
+      "distractors": [
+        "Eastbourne",
+        "Mousehole",
+        "Bridlington"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d5a4774e-c89b-4584-ac97-0920b4a011e4",
+      "question_text": "Who played Sgt. Gordon Elias in 'Platoon' (1986)?",
+      "correct_answer": "Willem Dafoe",
+      "distractors": [
+        "Charlie Sheen",
+        "Matt Damon",
+        "Johnny Depp"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e11c2440-cc0c-49bb-b06a-a12ddf1f978c",
+      "question_text": "The 1996 film 'Fargo' is primarily set in which US state?",
+      "correct_answer": "Minnesota",
+      "distractors": [
+        "North Dakota",
+        "South Dakota",
+        "Wisconsin"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fcf2d126-6355-4620-9345-a7b17cf71461",
+      "question_text": "In which 1955 film does Frank Sinatra play Nathan Detroit?",
+      "correct_answer": "Guys and Dolls",
+      "distractors": [
+        "Anchors Aweigh",
+        "From Here to Eternity",
+        "High Society"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "broadway-musicals",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a0a21dfe-5fd4-4a40-add2-61144c406ce7",
+      "question_text": "What did the first moving picture depict?",
+      "correct_answer": "A galloping horse",
+      "distractors": [
+        "A woman in a dress",
+        "A man walking",
+        "A crackling fire"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "678cfcb2-5df0-4d5e-9a1b-3b819d2797df",
+      "question_text": "Ed Koch, the Mayor of New York in 1984, played himself in which Muppets movie?",
+      "correct_answer": "The Muppets Take Manhattan",
+      "distractors": [
+        "The Great Muppet Caper",
+        "The Muppet Christmas Carol",
+        "The Muppet Movie"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ccfff580-430b-43c1-a7c4-ef2ef34d2b56",
+      "question_text": "In the 1999 movie Fight Club, which of these is not a rule of the \"fight club\"?",
+      "correct_answer": "Always wear a shirt",
+      "distractors": [
+        "You do not talk about FIGHT CLUB",
+        "Only two guys to a fight",
+        "Fights will go on as long as they have to"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8c613e2a-189e-49d5-8ca5-bec3b202fed3",
+      "question_text": "What was the first superhero film James Gunn was involved with?",
+      "correct_answer": "The Specials",
+      "distractors": [
+        "Super",
+        "Guardians of the Galaxy",
+        "Brightburn"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "edff1f89-d582-4217-9988-8adfeb5a58a0",
+      "question_text": "Which of the following movies was not based on a book?",
+      "correct_answer": "Citizen Kane",
+      "distractors": [
+        "The Godfather",
+        "Forrest Gump",
+        "Jurassic Park"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 30,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b9b13c3e-a32e-468d-a46f-6314fd43bfe5",
+      "question_text": "What was the first movie to ever use a Wilhelm Scream?",
+      "correct_answer": "Distant Drums",
+      "distractors": [
+        "Treasure of the Sierra Madre",
+        "The Charge at Feather River",
+        "Indiana Jones"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5ec69178-7f09-4f7a-a33d-0067438d5b83",
+      "question_text": "What is the name of James Dean's character in the 1955 movie \"Rebel Without a Cause\"?",
+      "correct_answer": "Jim Stark",
+      "distractors": [
+        "Ned Stark",
+        "Jim Kane",
+        "Frank Stark"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8d91e31f-6f9e-40d9-9afa-673cddb0142b",
+      "question_text": "In the 2002 film \"Kung Pow! Enter the Fist\", Master Pain changes his name to what?",
+      "correct_answer": "Betty",
+      "distractors": [
+        "Sally",
+        "Amy",
+        "Kitty"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1511bbb9-e6c6-4028-87bb-b5a731e5dfe0",
+      "question_text": "Which of these actors does NOT appear in the 1998 movie \"Saving Private Ryan\"?",
+      "correct_answer": "Ralph Fiennes",
+      "distractors": [
+        "Tom Hanks",
+        "Vin Diesel",
+        "Matt Damon"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "62497295-bed2-4c4d-a745-60ec5a84df15",
+      "question_text": "In the 1979 British film \"Quadrophenia\" what is the name of the main protagonist?",
+      "correct_answer": "Jimmy Cooper",
+      "distractors": [
+        "Pete Townshend",
+        "Franc Roddam",
+        "Archie Bunker"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fb211f23-212b-4378-91b5-5a6be9b875d0",
+      "question_text": "Actress Susan Sarandon caught pneumonia during filming of which movie?",
+      "correct_answer": "The Rocky Horror Picture Show",
+      "distractors": [
+        "Thelma and Louise",
+        "Dead Man Walking",
+        "Enchanted"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 8,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "7048dfcf-9fe5-4d84-b3cc-86e8436432d1",
+      "question_text": "By which name is Ramon Estevez better known as?",
+      "correct_answer": "Martin Sheen",
+      "distractors": [
+        "Charlie Sheen",
+        "Ramon Sheen",
+        "Emilio Estevez"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b9b7cc9b-1553-43bf-a1a0-3f6ef78c539e",
+      "question_text": "What was the name of Marilyn Monroe's first husband?",
+      "correct_answer": "James Dougherty",
+      "distractors": [
+        "Joe Dimaggio",
+        "Kirk Douglas",
+        "Arthur Miller"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5f01eac0-8b88-4c3a-9c62-fa01a0e38a02",
+      "question_text": "What was James Coburn's last film role before his death?",
+      "correct_answer": "American Gun",
+      "distractors": [
+        "Monsters Inc",
+        "Texas Rangers",
+        "Snow Dogs"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "59e31cee-ed05-4adb-bfa9-d4f6158251ec",
+      "question_text": "Named after a character he played in a 1969 film, what is the name of the ski resort in Utah that Robert Redford bought in 1968?",
+      "correct_answer": "Sundance",
+      "distractors": [
+        "Woodward",
+        "Turner",
+        "Booker"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "90422fe9-0930-41fb-972f-28da46180829",
+      "question_text": "By what name is Carlos Estévez better known?",
+      "correct_answer": "Charlie Sheen",
+      "distractors": [
+        "Ricky Martin",
+        "Bruno Mars",
+        "Joaquin Phoenix"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4a628366-7603-425b-abe1-8be0d2ad5df2",
+      "question_text": "How tall is Tom Cruise?",
+      "correct_answer": "5′ 7″",
+      "distractors": [
+        "5′ 9″",
+        "5′ 4″",
+        "5′ 5″"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5a1ee18c-027b-4f6c-b7b2-8e7847270021",
+      "question_text": "Which actress's real name was Frances Ethel Gumm?",
+      "correct_answer": "Judy Garland",
+      "distractors": [
+        "Doris Day",
+        "Julie Andrews",
+        "Marilyn Monroe"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "045132da-32a5-4b11-ad3e-78bb1822c757",
+      "question_text": "Gwyneth Paltrow has a daughter named...?",
+      "correct_answer": "Apple",
+      "distractors": [
+        "Lily",
+        "French",
+        "Dakota"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d59bc4c2-d3f3-48bf-9827-e68890546cc1",
+      "question_text": "What was the first full-length cel-animated feature film, released by Disney in 1937?",
+      "correct_answer": "Snow White and the Seven Dwarfs",
+      "distractors": [
+        "Fantasia",
+        "The Adventures of Prince Achmed",
+        "Gulliver's Travels"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c0a5c60b-017b-4189-8be1-424941703e0c",
+      "question_text": "Which classic Hollywood leading man received an Honorary Academy Award in 1970 after two Best Actor nominations but never won a competitive Oscar?",
+      "correct_answer": "Cary Grant",
+      "distractors": [
+        "James Stewart",
+        "Gregory Peck",
+        "Gary Cooper"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e36e4d05-be90-4cdb-b29b-b658e13c3678",
+      "question_text": "In Casablanca, what song does Sam reluctantly play for Ilsa?",
+      "correct_answer": "As Time Goes By",
+      "distractors": [
+        "Moonlight Serenade",
+        "We'll Meet Again",
+        "La Marseillaise"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0da8d267-bb96-42b6-89b0-ade6d6a841f4",
+      "question_text": "Who refused the Best Actor Oscar for Patton?",
+      "correct_answer": "George C. Scott",
+      "distractors": [
+        "Marlon Brando",
+        "Peter O'Toole",
+        "Paul Scofield"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cd8a3e99-fe77-4407-a82d-fa196794d322",
+      "question_text": "Who was the first Jazz Musician to win the Pulitzer Prize for Music",
+      "correct_answer": "Wynton Marsalis",
+      "distractors": [
+        "Michael Brecker",
+        "Herbie Hancock",
+        "Joe Henderson"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 12,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-jazz",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ca95532a-742c-4859-bb51-057ad3156bbb",
+      "question_text": "What is the most commonly used noun in the English language?",
+      "correct_answer": "Time",
+      "distractors": [
+        "Home",
+        "Water",
+        "Man"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-literature",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "75e2d89b-c062-4d0c-b1e6-b58501d08858",
+      "question_text": "Which classic horror character killed Elizabeth Lavenza?",
+      "correct_answer": "Frankenstein's Monster",
+      "distractors": [
+        "Count Dracula",
+        "Werewolf",
+        "The Creature from the Black Lagoon"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-literature",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "literature",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "horror-films",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1fc89d9a-95f9-4b89-8b0e-c61e50446ac2",
+      "question_text": "The lesser-known continuation of the saying \"Curiosity killed the cat...\" is:",
+      "correct_answer": "\"...but satisfaction brought it back.\"",
+      "distractors": [
+        "\"...and the silent mouse remained thereat.\"",
+        "\"...which taught it not to do that.\"",
+        "\"...but death by the truth is better than ignorance.\""
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-literature",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "aabd41ba-0922-4e83-b647-4e7c95dd57ec",
+      "question_text": "According to Bram Stoker's novel, in which British coastal town did Dracula come ashore?",
+      "correct_answer": "Whitby",
+      "distractors": [
+        "Scarborough",
+        "Brighton",
+        "Portsmouth"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-literature",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "literature",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ee6d2028-8da2-4081-80c1-43a71380337a",
+      "question_text": "According to The Hitchhiker's Guide to the Galaxy book, the answer to life, the universe and everything else is...",
+      "correct_answer": "42",
+      "distractors": [
+        "Loving everyone around you",
+        "Chocolate",
+        "Death"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-literature",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "science-fiction-films",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "literature",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f1df18d7-b497-429a-b1d9-17e61a43df21",
+      "question_text": "The title of Adolf Hitler's autobiography \"Mein Kampf\" is what when translated to English?",
+      "correct_answer": "My Struggle",
+      "distractors": [
+        "My Hatred",
+        "My Sadness",
+        "My Desire"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-literature",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c560c371-66a5-47d4-a8db-4e8ac81f026f",
+      "question_text": "Who wrote the novel \"Moby-Dick\"?",
+      "correct_answer": "Herman Melville",
+      "distractors": [
+        "William Golding",
+        "William Shakespeare",
+        "J. R. R. Tolkien"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-authors",
+          "estimate_score": 88,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "20f50188-c320-4431-a9b4-69dd01a90041",
+      "question_text": "In Michael Crichton's novel \"Jurassic Park\", John Hammond meets his demise at the claws of which dinosaur?",
+      "correct_answer": "Procompsognathus",
+      "distractors": [
+        "Dilophosaurus",
+        "Tyrannosaurus Rex",
+        "Velociraptor"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-literature",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "science-fiction-films",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e6aff919-05fd-4a74-848f-eeca6d0f83af",
+      "question_text": "What is the name of Niccolò Machiavelli's work that argued effective leaders needed to crush their opponents at all costs?",
+      "correct_answer": "The Prince",
+      "distractors": [
+        "The Rape of Lucrece",
+        "Will to Power",
+        "Love's Labours Lost"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c1863186-ae40-4b63-96cc-25ae17a2ed46",
+      "question_text": "Mary Shelley is the author of what classic horror story?",
+      "correct_answer": "Frankenstein",
+      "distractors": [
+        "Dracula",
+        "Strange Case of Dr Jekyll and Mr Hyde",
+        "The Legend of Sleepy Hollow"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 98,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-authors",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ea8273e2-0858-4168-9b0c-d4a4383aea0f",
+      "question_text": "In The Great Gatsby, what's the color of the light at Daisy's dock?",
+      "correct_answer": "Green",
+      "distractors": [
+        "Blue",
+        "Red",
+        "White"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 88,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "11da4e16-72ab-4ca4-8a4a-0ad841d6ed3a",
+      "question_text": "Which Bowie song did Nirvana cover on their MTV Unplugged album?",
+      "correct_answer": "The Man Who Sold the World",
+      "distractors": [
+        "Rebel Rebel",
+        "Suffragette City",
+        "Queen Bitch"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-rock",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "david-bowie",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c3b02553-64e2-4295-b932-c7a691ce7a22",
+      "question_text": "What backing band played with David Bowie during his Ziggy Stardust era?",
+      "correct_answer": "The Spiders from Mars",
+      "distractors": [
+        "The Hype",
+        "Tin Machine",
+        "The Lower Third"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-rock",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "david-bowie",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9c39d1db-b0b9-4c36-98ed-6621ea3b1059",
+      "question_text": "Which group performs the song \"Crash into Me\"?",
+      "correct_answer": "Dave Matthews Band",
+      "distractors": [
+        "Phish",
+        "The Grateful Dead",
+        "Destiny's Child"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-rock",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ca443c0c-3a66-47bb-80eb-a127313bc7ae",
+      "question_text": "What was the name of the cold-war singer who has a song in Grand Theft Auto IV, and a wall landmark in Moscow for his memorial?",
+      "correct_answer": "Viktor Tsoi",
+      "distractors": [
+        "Jimi Hendrix",
+        "Brian Jones",
+        "Vladimir Vysotsky"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-rock",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9de3ca5c-08d1-4238-8cf0-0ba2eb8aa4b6",
+      "question_text": "What is the first Studio Album to be released on the Internet with a \"Pay-What-You-Want\" price?",
+      "correct_answer": "In Rainbows",
+      "distractors": [
+        "The Help Album",
+        "Skrillex and Diplo Present Jack Ü",
+        "Blackstar"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-rock",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "music",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-internet-and-the-web",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "technology",
+          "name": "Technology",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "45fdf064-e432-4729-9bdc-542c994d3873",
+      "question_text": "In the metal band Slipknot, there are 9 members, which member labelled themselves number 6? ",
+      "correct_answer": "Shawn Crahan (Clown)",
+      "distractors": [
+        "Sid Wilson",
+        "Cory Taylor",
+        "Mick Thomson"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-rock",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "32f79dee-64eb-4a16-a6a9-1b6daba1b3a1",
+      "question_text": "Pete Townshend collaborated with which famous guitarist for an event at Brixton Academy in 1985?",
+      "correct_answer": "David Gilmour",
+      "distractors": [
+        "Jimmy Page",
+        "Mark Knopfler",
+        "Eric Clapton"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-rock",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fafa5718-626c-4bdf-a8d3-008a4d8e8f21",
+      "question_text": "Which song is NOT by singer Tom Jones?",
+      "correct_answer": "Never Gonna Give You Up",
+      "distractors": [
+        "It's Not Unusual",
+        "What's New Pussycat",
+        "Delilah"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-rock",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0fbc4318-1b6e-44d1-93be-9e81507f2f1d",
+      "question_text": "What was the progressive rock band Rush's first single?",
+      "correct_answer": "Not Fade Away",
+      "distractors": [
+        "Tom Sawyer",
+        "Working Man",
+        "Owner of a Lonely Heart"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-rock",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d91ae144-8616-4dee-993a-7f67e7e7e147",
+      "question_text": "Which country does the power metal band \"Sabaton\" originate from?",
+      "correct_answer": "Sweden",
+      "distractors": [
+        "Germany",
+        "United States",
+        "Finland"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 8,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-rock",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c1e38b41-6cdb-499e-99e3-7ab4fb7d8528",
+      "question_text": "What genre of music did the band Type O Negative play?",
+      "correct_answer": "Gothic Metal",
+      "distractors": [
+        "Thrash Metal",
+        "Hard Rock ",
+        "Pop Rock"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 18,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-rock",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e72c558b-4f41-4129-a64e-59f496515ff2",
+      "question_text": "What band featured Sting, Stewart Copeland and Andy Summers?",
+      "correct_answer": "The Police",
+      "distractors": [
+        "Def Leppard",
+        "The Cure",
+        "Bon Jovi"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-rock",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "rock-and-roll-legends",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c6f1b45e-884d-4868-b151-eddfbee1681f",
+      "question_text": "According to their 1974 hit, what were Brownsville Station doing \"In The Boys' Room\"?",
+      "correct_answer": "Smokin'",
+      "distractors": [
+        "Hangin'",
+        "Lovin'",
+        "Peein'"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-rock",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a9c05def-9d44-4794-8064-b4bd44ccd5ef",
+      "question_text": "Which of these is not a single by Pink Floyd guitarist, David Gilmour?",
+      "correct_answer": "Sunset Strip",
+      "distractors": [
+        "Rattle That Lock",
+        "Blue Light",
+        "Arnold Layne"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-rock",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f547386f-66fe-4abd-b37b-449cb75e791f",
+      "question_text": "Ian Anderson, frontman of Jethro Tull, is famous for playing which woodwind instrument—often while standing on one leg?",
+      "correct_answer": "Flute",
+      "distractors": [
+        "Oboe",
+        "Saxophone",
+        "Harmonica"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-rock",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d253b93a-d028-428a-a246-b602388efa3c",
+      "question_text": "What was Fleetwood Mac's only US number one single?",
+      "correct_answer": "Dreams",
+      "distractors": [
+        "Go Your Own Way",
+        "Don't Stop",
+        "Rhiannon"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-rock",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "64980351-02e8-447e-8cf0-41ebf97b661c",
+      "question_text": "In Blackadder, which character's catchphrase was 'I have a cunning plan'?",
+      "correct_answer": "Baldrick",
+      "distractors": [
+        "Lord Melchett",
+        "Lord Percy",
+        "Prince George"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-sitcom-catchphrases",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0498a732-b868-4268-8cd0-a54093390ec2",
+      "question_text": "What is Meg's full name in \"Family Guy\"?",
+      "correct_answer": "Megatron Griffin",
+      "distractors": [
+        "Who-Cares Griffin",
+        "Neil Griffin",
+        "Megan Griffin"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e3ef9fb9-3307-4a5e-b375-94ea9513a7a4",
+      "question_text": "What country is Cory in the House set in?",
+      "correct_answer": "The United States of America",
+      "distractors": [
+        "Canada",
+        "Venezuala",
+        "England"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d58ac1b4-62ae-41d5-a250-8bb55139d886",
+      "question_text": "Which actor was not a major character in TV Show Freaks and Geeks?",
+      "correct_answer": "Jonah Hill",
+      "distractors": [
+        "Jason Segel",
+        "Seth Rogen",
+        "James Franco"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2f5326dc-e3a6-4cd7-aba7-4e6875ff703b",
+      "question_text": "Which track by \"Massive Attack\" is used for the theme of \"House\"? ",
+      "correct_answer": "Teardrop",
+      "distractors": [
+        "Protection",
+        "Angel",
+        "Black Milk"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "music",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5146a289-6161-469e-94aa-87a3baa6768d",
+      "question_text": "In the TV show \"Cheers\", Sam Malone was a former relief pitcher for which baseball team?",
+      "correct_answer": "Boston Red Sox",
+      "distractors": [
+        "New York Mets",
+        "Baltimore Orioles",
+        "Milwaukee Brewers"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "american-sports",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "69c7df6b-a3e8-47d9-83b2-1ef8cba642be",
+      "question_text": "What is the name of the inspector in the series \"On the Buses\"?",
+      "correct_answer": "Blakey",
+      "distractors": [
+        "Harper",
+        "Naily",
+        "Gally"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "7bb7eb50-0136-4bbe-922c-a6a7d2433abc",
+      "question_text": "Which former Coronation Street actress was once a hostess on the British Game Show \"Double Your Money\"?",
+      "correct_answer": "Amanda Barrie",
+      "distractors": [
+        "Sue Nicholls",
+        "Violet Carson",
+        "Jean Alexander"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ccc69731-3383-4ff3-b3f3-af0b850318d7",
+      "question_text": "On the NBC show Community what was Star Burns' real name?",
+      "correct_answer": "Alex",
+      "distractors": [
+        "Todd",
+        "Neal",
+        "Grimus"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "70ce1565-5f9d-4e57-9472-8d460b7abae4",
+      "question_text": "Which of the following awards do Matt Stone and Trey Parker NOT have?",
+      "correct_answer": "Oscar",
+      "distractors": [
+        "Emmy",
+        "Tony",
+        "Grammy"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    }
+  ]
+}

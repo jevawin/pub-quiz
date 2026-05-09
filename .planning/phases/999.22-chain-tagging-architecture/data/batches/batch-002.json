@@ -1,0 +1,3195 @@
+{
+  "batch_num": 2,
+  "batch_size": 100,
+  "questions": [
+    {
+      "id": "b7991a01-9a35-475a-b6cc-ea1b7f707092",
+      "question_text": "The Maluku islands (informally known as the Spice Islands) belong to which country?",
+      "correct_answer": "Indonesia",
+      "distractors": [
+        "Chile",
+        "New Zealand",
+        "Fiji"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "asian-geography",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "729f3fc5-f55d-4950-a57c-18c328084114",
+      "question_text": "The emblem on the flag of the Republic of Tajikistan features a sunrise over mountains below what symbol?",
+      "correct_answer": "Crown",
+      "distractors": [
+        "Bird",
+        "Sickle",
+        "Tree"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "asian-geography",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e0c9b4ba-471e-40cc-9b77-1e2b51ad245c",
+      "question_text": "What is the historical name of Sri Lanka?",
+      "correct_answer": "Ceylon",
+      "distractors": [
+        "Myanmar",
+        "Colombo",
+        "Badulla"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "asian-geography",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e00a3776-d081-4a20-b81d-ba925cdd22d6",
+      "question_text": "What Southeast Asian country was formerly known as 'Lan Xang'?",
+      "correct_answer": "Laos",
+      "distractors": [
+        "Cambodia",
+        "Vietnam",
+        "Thailand"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 8,
+          "observed_n": 0
+        },
+        {
+          "slug": "asian-geography",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b44cc1fd-277b-4b08-9aaf-00145c14cf76",
+      "question_text": "Which modern country is known as \"The Graveyard of Empires\"?",
+      "correct_answer": "Afghanistan",
+      "distractors": [
+        "China",
+        "Iraq",
+        "Russia"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "asian-geography",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "848a3ed3-8c32-4426-b5f3-ee3538639015",
+      "question_text": "In June 2017, Saudi Arabia and Egypt broke off ties with which country over its supposed support for terrorism?",
+      "correct_answer": "Qatar",
+      "distractors": [
+        "Bahrain",
+        "United States of America",
+        "Russia"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "asian-geography",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d7650a25-81c7-47f6-83a3-85ada39af520",
+      "question_text": "What is Tasmania?",
+      "correct_answer": "An Australian State",
+      "distractors": [
+        "A flavor of Ben and Jerry's ice-cream",
+        "A Psychological Disorder",
+        "The Name of a Warner Brothers Cartoon Character"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "australian-animals",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "geography",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "nature-and-animals",
+          "name": "Nature and Animals",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1abd93f6-9c85-4695-82bf-6fb7bcf43908",
+      "question_text": "Which of these is NOT an Australian state or territory?",
+      "correct_answer": "Alberta",
+      "distractors": [
+        "New South Wales",
+        "Victoria",
+        "Queensland"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "australian-animals",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "geography",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "nature-and-animals",
+          "name": "Nature and Animals",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5d431014-a5ec-49c7-8c79-42ef1e36eebe",
+      "question_text": "What is the airspeed velocity of an unladen swallow?",
+      "correct_answer": "24 MPH",
+      "distractors": [
+        "15 MPH",
+        "20 MPH",
+        "200 MPH"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "birds-of-the-world",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "nature-and-animals",
+          "name": "Nature and Animals",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "59fca2c7-fb74-41c3-ae5a-f335ffecaa75",
+      "question_text": "What is the collective noun for vultures?",
+      "correct_answer": "Wake",
+      "distractors": [
+        "Ambush",
+        "Building",
+        "Gaze"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "birds-of-the-world",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "nature-and-animals",
+          "name": "Nature and Animals",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "3dfec558-812a-4d26-89f3-6325a962b3be",
+      "question_text": "What is the national bird of Bahrain?",
+      "correct_answer": "Bulbul",
+      "distractors": [
+        "Hummingbird",
+        "Falcon",
+        "Sparrow"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "birds-of-the-world",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "nature-and-animals",
+          "name": "Nature and Animals",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "df671338-c75f-4418-a761-a85c3e28b28c",
+      "question_text": "Which flightless bird is the national symbol of New Zealand?",
+      "correct_answer": "Kiwi",
+      "distractors": [
+        "Emu",
+        "Kakapo",
+        "Takahe"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "birds-of-the-world",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "nature-and-animals",
+          "name": "Nature and Animals",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "422027b3-02b7-44bb-96ee-dd653fadb069",
+      "question_text": "Where did the British Boy Band \"Bros\" come from?",
+      "correct_answer": "Camberley",
+      "distractors": [
+        "Guildford",
+        "Aldershot",
+        "Bagshot"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-bands",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "98933820-82c7-41ce-8e5d-13dee3a2ebfa",
+      "question_text": "In a standard Gregorian calendar, how many months begin with the letter 'J'?",
+      "correct_answer": "Three",
+      "distractors": [
+        "Four",
+        "Five",
+        "Two"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-history",
+          "estimate_score": 30,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9139b392-922a-478e-bb7e-50ef90d1a58e",
+      "question_text": "All Souls and Merton are constituent colleges of what university?",
+      "correct_answer": "Oxford",
+      "distractors": [
+        "Cambridge",
+        "Manchester",
+        "Leeds"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-history",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "35c1ea8d-c478-47b9-a839-0e2882f33c13",
+      "question_text": "How many furlongs are there in a mile?",
+      "correct_answer": "Eight",
+      "distractors": [
+        "Two",
+        "Four",
+        "Six"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-history",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ce1c631c-f42d-435f-82d5-f225e34f7b8e",
+      "question_text": "Which item of clothing is usually worn by a Scotsman at a wedding?",
+      "correct_answer": "Kilt",
+      "distractors": [
+        "Skirt",
+        "Dress",
+        "Rhobes"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-history",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "339dd778-9d94-43b5-8d51-ddfed2ceb36c",
+      "question_text": "What was the first ever London Underground line to be built?",
+      "correct_answer": "Metropolitan Line",
+      "distractors": [
+        "Circle Line",
+        "Bakerloo Line",
+        "Victoria Line"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-history",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "01e08d23-33d0-43fc-9a98-b15467b0389f",
+      "question_text": "What is the full title of the Prime Minister of the UK?",
+      "correct_answer": "First Lord of the Treasury",
+      "distractors": [
+        "Duke of Cambridge",
+        "Her Majesty's Loyal Opposition",
+        "Manager of the Crown Estate"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-history",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c4958b2c-0f3b-4750-88a4-d941ceb37098",
+      "question_text": "In what year did the First World War end?",
+      "correct_answer": "1918",
+      "distractors": [
+        "1914",
+        "1916",
+        "1912"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "world-war-i",
+          "estimate_score": 98,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d8769747-2e4d-42bf-a0ed-b8d5657baf37",
+      "question_text": "What is the name given to the series of confrontations between the UK and Iceland over North Atlantic fishing rights?",
+      "correct_answer": "The Cod Wars",
+      "distractors": [
+        "The Lobster Wars",
+        "The Halibut Wars",
+        "The Mackerel Wars"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e10f794d-7569-4d67-b959-8cc4cab792b5",
+      "question_text": "What is the name of the ship which was only a few miles away from the RMS Titanic when it struck an iceberg on April 14, 1912?",
+      "correct_answer": "Californian",
+      "distractors": [
+        "Carpathia",
+        "Cristol",
+        "Commerce"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 12,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4c0769df-db52-4cfa-9d7c-1a7491e30206",
+      "question_text": "Which of these facilities was not present on the Titanic?",
+      "correct_answer": "Fainting room",
+      "distractors": [
+        "Turkish bath",
+        "Kennel",
+        "Squash court"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-history",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1fa8c40d-6530-4ca6-9381-1e94bb0d5e72",
+      "question_text": "How many Sister Ships were related to the TItanic?",
+      "correct_answer": "2",
+      "distractors": [
+        "4",
+        "3",
+        "1"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-history",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "eeca439f-9c69-404c-9f6e-8c540f622419",
+      "question_text": "In 1845, a series of wars named after which indigenous people began in New Zealand?",
+      "correct_answer": "Māori",
+      "distractors": [
+        "Papuans",
+        "Aborigines",
+        "Polynesians"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1626b060-fd5d-489b-b233-f312e45a0cb9",
+      "question_text": "Who succeeded Harold Macmillan as British Prime Minister in 1963?",
+      "correct_answer": "Alec Douglas-Home",
+      "distractors": [
+        "Edward Heath",
+        "Harold Wilson",
+        "Rab Butler"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-history",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-1960s",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d919f60f-c778-4402-94ad-1a71ad6a3b98",
+      "question_text": "What age was King Henry V when he died?",
+      "correct_answer": "35",
+      "distractors": [
+        "62",
+        "87",
+        "73"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-monarchy",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "609a2379-0152-40dd-875c-8ec0b93f6ecf",
+      "question_text": "Which of the following  British Monarchs never appeared on a circulated pound sterling coin?",
+      "correct_answer": "Edward VIII",
+      "distractors": [
+        "Victoria",
+        "George VI",
+        "Charles II"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-monarchy",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "87363f39-4f25-49b9-b83c-953134af1c89",
+      "question_text": "What year was Queen Elizabeth II born?",
+      "correct_answer": "1926",
+      "distractors": [
+        "1923",
+        "1929",
+        "1930"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-monarchy",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "26d74c87-a952-4ac3-a253-645ea32bb0ee",
+      "question_text": "Who was the first wife of King Henry VIII?",
+      "correct_answer": "Catherine of Aragon",
+      "distractors": [
+        "Jane Seymour",
+        "Anne Boleyn",
+        "Anne of Cleves"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-monarchy",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c24f977a-f55f-4134-8cf4-66d546569c72",
+      "question_text": "Which of his six wives was Henry VIII married to the longest?",
+      "correct_answer": "Catherine of Aragon",
+      "distractors": [
+        "Anne Boleyn",
+        "Jane Seymour",
+        "Catherine Parr"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-monarchy",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e970897b-0246-45c9-94e5-5dfdc9d93468",
+      "question_text": "Which one of these rulers did not belong to the Habsburg dynasty?",
+      "correct_answer": "Philip V",
+      "distractors": [
+        "Charles V",
+        "Philip II",
+        "Francis Joseph"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 8,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-monarchy",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "87e41adf-33dc-4cde-b4e1-e8b59e3bf0a7",
+      "question_text": "What was the name of one of the surviving palaces of Henry VIII located near Richmond, London?",
+      "correct_answer": "Hampton Court",
+      "distractors": [
+        "St James's Palace",
+        "Buckingham Palace",
+        "Coughton Court"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-monarchy",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c5562478-d9c0-46c9-b010-a0a40c1ff59c",
+      "question_text": "What is the mnemonic device for remembering the fates of the wives of Henry VIII?",
+      "correct_answer": "Divorced, Beheaded, Died, Divorced, Beheaded, Survived",
+      "distractors": [
+        "Beheaded, Died, Divorced, Divorced, Beheaded, Survived",
+        "Died, Beheaded, Divorced, Beheaded, Survived, Divorced",
+        "Survived, Beheaded, Died, Divorced, Divorced, Beheaded"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-monarchy",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cb07fdcd-bbae-4514-8d42-b73d02bf3fdb",
+      "question_text": "Which monarch was beheaded outside the Banqueting House in 1649?",
+      "correct_answer": "Charles I",
+      "distractors": [
+        "Charles II",
+        "James I",
+        "Oliver Cromwell"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-monarchy",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ceb07e25-eb56-4b37-8cca-6dd7c2868bf0",
+      "question_text": "What relation was Queen Victoria to her husband Prince Albert?",
+      "correct_answer": "First cousins",
+      "distractors": [
+        "Second cousins",
+        "Uncle and niece",
+        "No blood relation"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-monarchy",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "7bb0c4ad-0b40-40c4-be1c-d459d6df1f1d",
+      "question_text": "According to the BBPA, what is the most common pub name in the UK?",
+      "correct_answer": "Red Lion",
+      "distractors": [
+        "Royal Oak",
+        "White Hart",
+        "King's Head"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-pub-food",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "food-and-drink",
+          "name": "Food and Drink",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "686fed45-dede-4c44-bca0-d4999105ee28",
+      "question_text": "Which TV chef wrote an autobiography titled \"Humble Pie\"?",
+      "correct_answer": "Gordon Ramsay",
+      "distractors": [
+        "Jamie Oliver",
+        "Ainsley Harriott",
+        "Antony Worrall Thompson"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "british-pub-food",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "food-and-drink",
+          "name": "Food and Drink",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f332ff2c-5eef-4823-a9e6-b9f76f945c5b",
+      "question_text": "Laverbread, a Welsh delicacy often served with breakfast, is made from what?",
+      "correct_answer": "Seaweed",
+      "distractors": [
+        "Oats",
+        "Blood sausage",
+        "Liver"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-pub-food",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "food-and-drink",
+          "name": "Food and Drink",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ebcc0e97-f55f-4a43-b9df-50049dd77adb",
+      "question_text": "Which musical's original Broadway production famously featured a helicopter landing on stage?",
+      "correct_answer": "Miss Saigon",
+      "distractors": [
+        "The Phantom of the Opera",
+        "Wicked",
+        "The Lion King"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "broadway-musicals",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "da415f33-e24e-4f02-bc11-d8095b5a8f15",
+      "question_text": "Which musical features rival gangs the Jets and the Sharks?",
+      "correct_answer": "West Side Story",
+      "distractors": [
+        "Grease",
+        "Hair",
+        "Rent"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "broadway-musicals",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ef0a2ad7-e89c-4f44-b100-53f943260818",
+      "question_text": "Which musical features the song 'Don't Cry for Me Argentina'?",
+      "correct_answer": "Evita",
+      "distractors": [
+        "Miss Saigon",
+        "Chess",
+        "The King and I"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "broadway-musicals",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "da1036e3-b75b-4e3e-9509-6214930e345e",
+      "question_text": "What is the capital city of Bermuda?",
+      "correct_answer": "Hamilton",
+      "distractors": [
+        "Santo Dominigo",
+        "San Juan",
+        "Havana"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 18,
+          "observed_n": 0
+        },
+        {
+          "slug": "caribbean-geography",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "world-capitals",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2b8c0b74-f7f0-4537-aefd-4ab74e1dda51",
+      "question_text": "Bridgetown is the capital of which island country in the Carribean?",
+      "correct_answer": "Barbados",
+      "distractors": [
+        "Cuba",
+        "Jamaica‎",
+        "Dominica"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "caribbean-geography",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "world-capitals",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4081aca1-0c60-4acd-a227-77fd5f318d4b",
+      "question_text": "Toussaint Louverture led a successful slave revolt in which country?",
+      "correct_answer": "Haiti",
+      "distractors": [
+        "France",
+        "Cuba",
+        "United States"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "caribbean-geography",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "05d51d53-d2e7-4301-846b-4de9ea798cf5",
+      "question_text": "Which Caribbean island has the world's only drive-in volcano?",
+      "correct_answer": "Saint Lucia",
+      "distractors": [
+        "Dominica",
+        "Grenada",
+        "Saint Vincent and the Grenadines"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "caribbean-geography",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f5b58195-f861-45a7-a41c-1f95519aeaad",
+      "question_text": "Baron Silas Greenback is the arch nemesis of which cartoon hero?",
+      "correct_answer": "Danger Mouse",
+      "distractors": [
+        "Bananaman",
+        "SuperTed",
+        "Captain Star"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cartoon-villains",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "animated-films",
+          "name": "Animated Films",
+          "parent_slug": "movies-and-tv",
+          "chain_depth": 1
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "317a8610-9a70-4fd7-9e01-820b07818d96",
+      "question_text": "Which Batman villain was voiced by Mark Hamill in the animated series?",
+      "correct_answer": "The Joker",
+      "distractors": [
+        "Two-Face",
+        "The Riddler",
+        "Mr. Freeze"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cartoon-villains",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "superhero-comics",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "animated-films",
+          "name": "Animated Films",
+          "parent_slug": "movies-and-tv",
+          "chain_depth": 1
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "829edb7a-6472-4e90-b7ba-02a9fbc1b7f3",
+      "question_text": "In Scooby-Doo, the villains are almost always revealed to be what?",
+      "correct_answer": "Someone in a costume",
+      "distractors": [
+        "A real monster",
+        "A hologram",
+        "A robot"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cartoon-villains",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-films",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 88,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e1a45e19-1de3-4a0a-a0e3-6a50bbbb1353",
+      "question_text": "What's the name of Inspector Gadget's arch-nemesis?",
+      "correct_answer": "Dr. Claw",
+      "distractors": [
+        "Dr. Evil",
+        "Dr. Robotnik",
+        "Dr. Drakken"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "cartoon-villains",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "animated-films",
+          "name": "Animated Films",
+          "parent_slug": "movies-and-tv",
+          "chain_depth": 1
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "dce05b6b-ddd9-4756-8776-f712c7835e80",
+      "question_text": "What is the name of Gargamel's cat in The Smurfs?",
+      "correct_answer": "Azrael",
+      "distractors": [
+        "Lucifer",
+        "Beelzebub",
+        "Mephistopheles"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "cartoon-villains",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "animated-films",
+          "name": "Animated Films",
+          "parent_slug": "movies-and-tv",
+          "chain_depth": 1
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "70436013-beb9-4b3e-b283-1157d2ffd257",
+      "question_text": "What's the name of the fur-obsessed villain in 101 Dalmatians?",
+      "correct_answer": "Cruella de Vil",
+      "distractors": [
+        "Madame Medusa",
+        "Lady Tremaine",
+        "Yzma"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cartoon-villains",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "animated-films",
+          "name": "Animated Films",
+          "parent_slug": "movies-and-tv",
+          "chain_depth": 1
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e92fc732-f0e4-4418-bda1-7ec838d3879c",
+      "question_text": "What is the real name of viral internet meme Grumpy Cat?",
+      "correct_answer": "Tardar Sauce",
+      "distractors": [
+        "Lil Bub",
+        "Maru",
+        "Colonel Meow"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cats-and-felines",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "nature-and-animals",
+          "name": "Nature and Animals",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "74acde29-23f2-4dc7-9a7c-dd348398474f",
+      "question_text": "Which of these animals are not real?",
+      "correct_answer": "Nemean Lion",
+      "distractors": [
+        "Sea Dragon",
+        "Tasmanian Devil",
+        "Giant Squid"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cats-and-felines",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "nature-and-animals",
+          "name": "Nature and Animals",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "81e92f83-f199-4d4c-96cc-0f17bb32cb20",
+      "question_text": "Which is the national animal of India?",
+      "correct_answer": "Tiger",
+      "distractors": [
+        "Lion",
+        "Horse",
+        "Camel"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cats-and-felines",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "nature-and-animals",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "asian-geography",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b8d2dba2-b763-49f7-9216-ca2ebb99653e",
+      "question_text": "What is the name of the family that the domestic cat is a member of?",
+      "correct_answer": "Felidae",
+      "distractors": [
+        "Felinae",
+        "Felis",
+        "Cat"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cats-and-felines",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "science",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "nature-and-animals",
+          "name": "Nature and Animals",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "678a49d7-be5c-45b1-93b1-288012e3f0d4",
+      "question_text": "What is Grumpy Cat's real name?",
+      "correct_answer": "Tardar Sauce",
+      "distractors": [
+        "Sauce",
+        "Minnie",
+        "Broccoli"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cats-and-felines",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "nature-and-animals",
+          "name": "Nature and Animals",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5eeb76ff-6c21-4654-ab33-fb10d5e6ec7d",
+      "question_text": "Gouda cheese is from which European country?",
+      "correct_answer": "The Netherlands",
+      "distractors": [
+        "Belgium",
+        "Germany",
+        "France"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cheese-around-the-world",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "european-geography",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "food-and-drink",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "51a24416-6f1c-4347-91b4-a6e0272e055f",
+      "question_text": "Which Italian cheese has PDO rules limiting production to five specific provinces?",
+      "correct_answer": "Parmigiano-Reggiano",
+      "distractors": [
+        "Pecorino Romano",
+        "Gorgonzola",
+        "Provolone"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cheese-around-the-world",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "italian-cuisine",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "food-and-drink",
+          "name": "Food and Drink",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a4e1997c-e53e-4774-a5e4-5d001e704ccb",
+      "question_text": "Which country produces Manchego, a cheese made from sheep's milk?",
+      "correct_answer": "Spain",
+      "distractors": [
+        "Portugal",
+        "France",
+        "Mexico"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "cheese-around-the-world",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "european-geography",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "food-and-drink",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "681f90f7-b19a-4884-aea9-0a5326d816d0",
+      "question_text": "When was Hubba Bubba first introduced?",
+      "correct_answer": "1979",
+      "distractors": [
+        "1984",
+        "1972",
+        "1980"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "chocolate-and-sweets",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "food-and-drink",
+          "name": "Food and Drink",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e7827e21-cc25-415f-baa4-4745e59efea0",
+      "question_text": "Which chocolate bar has a distinctive bubbly, aerated texture?",
+      "correct_answer": "Aero",
+      "distractors": [
+        "Kit Kat",
+        "Dairy Milk",
+        "Twirl"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "chocolate-and-sweets",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "food-and-drink",
+          "name": "Food and Drink",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "abc6fff4-24da-4a5c-a41b-54c942b6fb12",
+      "question_text": "Who was Tetris created by?",
+      "correct_answer": "Alexey Pajitnov",
+      "distractors": [
+        "Toru Iwatani",
+        "Allan Alcorn",
+        "William Higinbotham"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "efe897e7-bced-4068-931e-e9669dba1527",
+      "question_text": "How many differently shaped Tetris pieces are there?",
+      "correct_answer": "7",
+      "distractors": [
+        "5",
+        "6",
+        "8"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 78,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cb32b2de-5e89-4d4a-bbf7-59222059eb6e",
+      "question_text": "Which retro video game was released first?",
+      "correct_answer": "Space Invaders",
+      "distractors": [
+        "Galaga",
+        "Pac-Man",
+        "Asteroids"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 72,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 58,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b4045a18-57f6-4d17-9e98-b0afcc792e60",
+      "question_text": "Which puzzle game was designed by a Russian programmer, featuring Russian buildings and music?",
+      "correct_answer": "Tetris",
+      "distractors": [
+        "Jenga",
+        "Boulder Dash",
+        "Puzzled"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9a37142c-9368-4944-a5de-06bdad01aaa6",
+      "question_text": "What was the name of the hero in the 80s animated video game 'Dragon's Lair'?",
+      "correct_answer": "Dirk the Daring",
+      "distractors": [
+        "Arthur",
+        "Sir Toby Belch",
+        "Guy of Gisbourne"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 15,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ce691b25-39c9-469e-89bd-785521982c68",
+      "question_text": "How many playable characters were there in Street Fighter II: Champion Edition?",
+      "correct_answer": "12",
+      "distractors": [
+        "16",
+        "8",
+        "17"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e4949ddc-6814-418b-a3ed-9d5ab12b9915",
+      "question_text": "What was the game \"Galaga\" was a sequel to?",
+      "correct_answer": "Galaxian",
+      "distractors": [
+        "Galactica",
+        "Space Invaders",
+        "Galactic Wars"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e36f0c2d-6bef-4940-9a67-5a72aeb456f7",
+      "question_text": "What is a Tetris piece called?",
+      "correct_answer": "Tetromino",
+      "distractors": [
+        "Tetratile",
+        "Tetris",
+        "Tetripiece"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fa36db9c-2834-4b86-9ca0-e721e2ce788f",
+      "question_text": "What was the first interactive movie video game?",
+      "correct_answer": "Astron Belt",
+      "distractors": [
+        "Dragon's Lair",
+        "Cube Quest",
+        "M.A.C.H. 3"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "51450a23-f1a1-4f7a-8d4a-28e996f44e35",
+      "question_text": "When was Pong released?",
+      "correct_answer": "November 29, 1972",
+      "distractors": [
+        "March 29, 2017",
+        "November 29, 1970",
+        "December 14, 1974"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e553eace-c6f3-4f46-b17f-d6fb6cbb6f7f",
+      "question_text": "In which game did the Konami Code make its first appearance?",
+      "correct_answer": "Gradius",
+      "distractors": [
+        "Contra",
+        "Castlevania",
+        "Dance Dance Revolution"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 8,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "490c825c-4346-4ef3-9a81-7b640d311708",
+      "question_text": "In the original Donkey Kong, what was Jumpman's job?",
+      "correct_answer": "Carpenter",
+      "distractors": [
+        "Plumber",
+        "Construction worker",
+        "Builder"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "6eb3fc40-c5ab-4f28-847a-6d40df566f88",
+      "question_text": "What's the first bonus fruit in Pac-Man?",
+      "correct_answer": "Cherry",
+      "distractors": [
+        "Strawberry",
+        "Orange",
+        "Apple"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "63053f9d-50c0-49ae-828a-821e4800909d",
+      "question_text": "In Street Fighter II, which country does Chun-Li represent?",
+      "correct_answer": "China",
+      "distractors": [
+        "Japan",
+        "South Korea",
+        "Hong Kong"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c704ead3-0b3d-4e58-a330-949b9e94d503",
+      "question_text": "What year was Walt Disney born?",
+      "correct_answer": "1901",
+      "distractors": [
+        "1902",
+        "1903",
+        "1900"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5672e38d-77b3-45c7-bc0a-3c76b42cebae",
+      "question_text": "What is the oldest Disney film?",
+      "correct_answer": "Snow White and the Seven Dwarfs",
+      "distractors": [
+        "Pinocchio",
+        "Dumbo",
+        "Fantasia"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-films",
+          "estimate_score": 72,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "7766294f-3a90-4f63-a336-bb5e7c0f5669",
+      "question_text": "Which stand-up comedian voiced the talking parrot \"Iago\" in Disney's 1992 adaptation of Aladdin?",
+      "correct_answer": "Gilbert Gottfried",
+      "distractors": [
+        "Robin Williams",
+        "Pauly Shore",
+        "Jonathan Freeman"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "356dc2ab-df39-4993-ad09-f432d3df74f2",
+      "question_text": "Which town is the setting for the Disney movie The Love Bug (1968)?",
+      "correct_answer": "San Francisco",
+      "distractors": [
+        "Los Angeles",
+        "Sacramento",
+        "San Jose"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2c1ccee0-2f0a-4bf6-a524-a85a40cde9db",
+      "question_text": "Disney's Haunted Mansion is home to a trio of Hitchhiking Ghosts. Which of these is NOT one of them?",
+      "correct_answer": "Harry",
+      "distractors": [
+        "Gus",
+        "Phineas",
+        "Ezra"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "59f271c8-f239-4db6-b3b3-12e94ebfa21e",
+      "question_text": "Which Disney character sings the song \"A Dream is a Wish Your Heart Makes\"?",
+      "correct_answer": "Cinderella",
+      "distractors": [
+        "Belle",
+        "Snow White",
+        "Pocahontas"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-films",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "201fe8e8-1fb2-4297-b4e2-d84a271bdda3",
+      "question_text": "Who was the villain of ''The Lion King''?",
+      "correct_answer": "Scar",
+      "distractors": [
+        "Fred",
+        "Jafar",
+        "Vada"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-films",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "30c6c46f-a446-4a44-a93e-7086f4c3f62d",
+      "question_text": "The song 'Little April Shower' features in which Disney cartoon film?",
+      "correct_answer": "Bambi",
+      "distractors": [
+        "Cinderella",
+        "Pinocchio",
+        "The Jungle Book"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-films",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1f6f4182-0727-4da5-bc99-b5a799fe43fb",
+      "question_text": "What was the first Disney movie to use CGI?",
+      "correct_answer": "The Black Cauldron",
+      "distractors": [
+        "Tron",
+        "Toy Story",
+        "Fantasia"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-films",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b23f22f9-b503-43cc-9e40-25918d126a20",
+      "question_text": "Who is Winnie the Pooh's gloomy donkey friend?",
+      "correct_answer": "Eeyore",
+      "distractors": [
+        "Piglet",
+        "Tigger",
+        "Kanga"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 88,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "df7af8af-e5fd-483b-a325-ddfb7ad8b6e3",
+      "question_text": "What is lost in Hawaiian and is also the name of a little girl in a 2002 film which features a alien named \"Stitch\"?",
+      "correct_answer": "Lilo",
+      "distractors": [
+        "Lolo",
+        "Lucy",
+        "Lulu"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9279bd7b-ff76-41f5-968c-a9d33f150f33",
+      "question_text": "What type of animal is Disney's Bambi?",
+      "correct_answer": "Deer",
+      "distractors": [
+        "Elephant",
+        "Wolf",
+        "Mouse"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-classics",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-films",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b0f9ec37-7f2e-482a-b852-facaeea2b6f5",
+      "question_text": "What year was the Disney film \"A Goofy Movie\" released?",
+      "correct_answer": "1995",
+      "distractors": [
+        "1999",
+        "2001",
+        "1997"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-films",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "79a8245c-bcf8-4940-a82b-dca1cec55e50",
+      "question_text": "Who voiced the Genie in Disney's \"Aladdin\"?",
+      "correct_answer": "Robin Williams",
+      "distractors": [
+        "Billy Crystal",
+        "Adam Sandler",
+        "Jim Carrey"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "animated-films",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "eabf37dd-1262-48c4-ae0d-2f3434e6efcf",
+      "question_text": "Which Disney princess has the least screen time in her own film?",
+      "correct_answer": "Aurora",
+      "distractors": [
+        "Snow White",
+        "Cinderella",
+        "Ariel"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 8,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c8c9559b-f7ad-4d14-8dd2-49b00f0e1970",
+      "question_text": "What was the first Disney animated film to be nominated for Best Picture?",
+      "correct_answer": "Beauty and the Beast",
+      "distractors": [
+        "The Lion King",
+        "Aladdin",
+        "Fantasia"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-disney-films",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "aed6cc1d-e0d8-4282-9575-26bf7c31fc05",
+      "question_text": "In which Disney movie can you spot Pac-Man hidden in some scenes?",
+      "correct_answer": "Tron",
+      "distractors": [
+        "Big Hero 6",
+        "Fantasia",
+        "Monsters, Inc."
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 28,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "feee8981-aaa8-4409-aba3-9dd029651e20",
+      "question_text": "Which famous singer was portrayed by actor Kevin Spacey in the 2004 biographical film \"Beyond the Sea\"?",
+      "correct_answer": "Bobby Darin",
+      "distractors": [
+        "Louis Armstrong",
+        "Frank Sinatra",
+        "Dean Martin"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 58,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 28,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "7a8edc2f-f481-4b33-ac3d-153a82629713",
+      "question_text": "Which 1994 film did Roger Ebert famously despise, saying \"I hated hated hated hated hated this movie\".",
+      "correct_answer": "North",
+      "distractors": [
+        "3 Ninjas Kick Back",
+        "The Santa Clause",
+        "Richie Rich"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 15,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "07095da2-dbc4-484f-9849-11cb86ddc051",
+      "question_text": "Which one of these films did David Lynch direct, but not write?",
+      "correct_answer": "The Straight Story",
+      "distractors": [
+        "Inland Empire",
+        "Lost Highway",
+        "Twin Peaks Fire Walk With Me"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 38,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 18,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2e6daad3-a82c-41db-890a-a1a9678c3373",
+      "question_text": "Which 1958 movie starred Kirk Douglas and Tony Curtis as half-brothers Einar and Eric?",
+      "correct_answer": "The Vikings ",
+      "distractors": [
+        "The Long Ships",
+        "Prince Valiant",
+        "Spartacus"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c7f7d42d-210a-460c-9d79-577000bf858b",
+      "question_text": "Which of the following actors has only been in a Quentin Tarantino directed film once?",
+      "correct_answer": "John Travolta",
+      "distractors": [
+        "Christoph Waltz",
+        "Harvey Keitel",
+        "Samuel L. Jackson"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 38,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 28,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8b4abdd0-6db9-4e27-83d6-a62e30b27ce1",
+      "question_text": "When was the movie 'Con Air' released?",
+      "correct_answer": "1997",
+      "distractors": [
+        "1985",
+        "1999",
+        "1990"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "action-heroes",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fdc9aa8e-ac12-4213-be6b-a22c4ce24b26",
+      "question_text": "At the end of the 2001 film \"Rat Race\", whose concert do the contestants crash?",
+      "correct_answer": "Smash Mouth",
+      "distractors": [
+        "Bowling for Soup",
+        "Sum 41",
+        "Linkin Park"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 28,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    }
+  ]
+}

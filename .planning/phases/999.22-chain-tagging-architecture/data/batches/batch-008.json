@@ -1,0 +1,3092 @@
+{
+  "batch_num": 8,
+  "batch_size": 100,
+  "questions": [
+    {
+      "id": "f638d8be-6ac8-47b2-83bf-f27598f3b70e",
+      "question_text": "In the 2015 RPG \"Undertale\", which character do you first encounter after falling down into the underground?",
+      "correct_answer": "Flowey",
+      "distractors": [
+        "Toriel",
+        "Sans",
+        "Papyrus"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 12,
+          "observed_n": 0
+        },
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "44e8423f-f7dd-420d-91cb-ff4b78031735",
+      "question_text": "In Tomb Raider, what is Lara Croft's official job title?",
+      "correct_answer": "Archaeologist",
+      "distractors": [
+        "Treasure hunter",
+        "Explorer",
+        "Anthropologist"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ad109c91-3a67-4496-acb1-43e8804a1adb",
+      "question_text": "In The Legend of Zelda, what's the name of Link's horse?",
+      "correct_answer": "Epona",
+      "distractors": [
+        "Roach",
+        "Agro",
+        "Spirit"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8bb29109-b30b-46bb-946d-f3c4f0056120",
+      "question_text": "What colour is Pac-Man?",
+      "correct_answer": "Yellow",
+      "distractors": [
+        "Orange",
+        "White",
+        "Gold"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c8a909d0-8ab7-4503-86a3-c1287d5a39bc",
+      "question_text": "In Greek myth, what happened to King Midas's food and daughter when he touched them?",
+      "correct_answer": "They turned to gold",
+      "distractors": [
+        "They became invisible",
+        "They turned to stone",
+        "They burst into flames"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "93ed5f4b-7616-455d-b502-31e7bc4d3e6f",
+      "question_text": "Who did Hippomenes defeat in a footrace?",
+      "correct_answer": "Atalanta",
+      "distractors": [
+        "Peleus",
+        "Theseus",
+        "Jason"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "bacc9cc8-38f4-403b-9d5a-420767896cb2",
+      "question_text": "What is the name of the Greek god of blacksmiths?",
+      "correct_answer": "Hephaestus",
+      "distractors": [
+        "Dyntos",
+        "Vulcan",
+        "Artagatus"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2389fd0c-32d4-4299-843a-02e0343fa5d9",
+      "question_text": "Which greek god/goddess tossed a golden apple with the words \"for the fairest\" into the middle of the feast of the gods?",
+      "correct_answer": "Eris",
+      "distractors": [
+        "Hades",
+        "Ares",
+        "Artemis"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "644716ec-46c8-4f70-ab9b-287fc4819601",
+      "question_text": "Talos, the mythical giant bronze man, was the protector of which island?",
+      "correct_answer": "Crete",
+      "distractors": [
+        "Sardinia",
+        "Sicily",
+        "Cyprus"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "760c02a0-a7b9-470d-a844-7a9e4cbf6765",
+      "question_text": "What mytological creatures have women's faces and vultures' bodies?",
+      "correct_answer": "Harpies",
+      "distractors": [
+        "Mermaids",
+        "Nymph",
+        "Lilith"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "7bcbd9cc-914b-41ce-8614-7c9690f438d8",
+      "question_text": "This Greek mythological figure is the god/goddess of battle strategy (among other things).",
+      "correct_answer": "Athena",
+      "distractors": [
+        "Ares",
+        "Artemis",
+        "Apollo"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0a37ef17-e9dd-4333-beec-f39461832bb7",
+      "question_text": "In most traditions, who was the wife of Zeus?",
+      "correct_answer": "Hera",
+      "distractors": [
+        "Aphrodite",
+        "Athena",
+        "Hestia"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9662f069-c6cc-4290-af48-caa7a275d1ba",
+      "question_text": "Who was the only god from Greece who did not get a name change in Rome?",
+      "correct_answer": "Apollo",
+      "distractors": [
+        "Demeter",
+        "Zeus",
+        "Athena"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "160fe73d-40b3-41d6-8d8c-64a94d46d4a8",
+      "question_text": "Who was the King of Gods in Ancient Greek mythology?",
+      "correct_answer": "Zeus",
+      "distractors": [
+        "Apollo",
+        "Hermes",
+        "Poseidon"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "710f1649-780a-4d26-a6ac-b31a3c293277",
+      "question_text": "Which of the following is not one of the Greek Fates?",
+      "correct_answer": "Narcissus",
+      "distractors": [
+        "Clotho",
+        "Atropos",
+        "Lachesis"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4109c04c-b1b3-4f94-b9c6-00c2a6d3f092",
+      "question_text": "Hera is god of...",
+      "correct_answer": "Marriage",
+      "distractors": [
+        "Agriculture",
+        "Sea",
+        "War"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "3c1de70d-9498-4e82-a447-10c7ac3837ee",
+      "question_text": "How many heads does Cerberus have?",
+      "correct_answer": "3",
+      "distractors": [
+        "2",
+        "1",
+        "5"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f39579e8-1667-49b6-a4dd-c530b2b59842",
+      "question_text": "Which of these mythological creatures is said to be half-man and half-horse?",
+      "correct_answer": "Centaur",
+      "distractors": [
+        "Minotaur",
+        "Pegasus",
+        "Gorgon"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 85,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8b4316c1-adac-4698-b8b8-3b9f6b5cd255",
+      "question_text": "In Greek Mythology, who was the daughter of King Minos?",
+      "correct_answer": "Ariadne",
+      "distractors": [
+        "Athena",
+        "Ariel",
+        "Alana"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "7c0ab353-5f7b-49c4-a360-87a6c9f8d0c6",
+      "question_text": "The Hippogriff, not to be confused with the Griffon, is a magical creature with the front half of an eagle, and the back half of what?",
+      "correct_answer": "A Horse",
+      "distractors": [
+        "A Dragon",
+        "A Tiger",
+        "A Lion"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f70940d7-ffaf-4d9c-ade6-498077bde28a",
+      "question_text": "What mythology did the god \"Apollo\" come from?",
+      "correct_answer": "Greek and Roman",
+      "distractors": [
+        "Roman and Spanish",
+        "Greek and Chinese",
+        "Greek, Roman and Norse"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d7db04d7-656e-40d9-b038-ec08e12cdf03",
+      "question_text": "In Greek mythology, who is the god of wine?",
+      "correct_answer": "Dionysus",
+      "distractors": [
+        "Hephaestus",
+        "Demeter",
+        "Apollo"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "6a8d3d85-b691-4753-b925-4d1ac2dc4465",
+      "question_text": "Which Greek & Roman god was known as the god of music, truth and prophecy, healing, the sun and light, plague, poetry, and more?",
+      "correct_answer": "Apollo",
+      "distractors": [
+        "Aphrodite",
+        "Artemis",
+        "Athena"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f31b752f-ec16-442b-9334-c4f295335d90",
+      "question_text": "Who is the father of Icarus, who flew too close to the sun?",
+      "correct_answer": "Daedalus",
+      "distractors": [
+        "Minos",
+        "Perseus",
+        "Zeus"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "18e1cab2-4847-486c-bc94-f61ad9064948",
+      "question_text": "This Greek goddess's name was chosen for the dwarf planet responsible for discord on Pluto's classification amongst astronomers.",
+      "correct_answer": "Eris",
+      "distractors": [
+        "Charon",
+        "Ceres",
+        "Dysnomia"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "df6d4df3-4eae-43cf-b87e-b177d22bed8b",
+      "question_text": "In Greek mythology, Persephone must return to the underworld because she had eaten what kind of seeds?",
+      "correct_answer": "Pomegranate",
+      "distractors": [
+        "Sunflower",
+        "Orange",
+        "Fig"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "606c37e5-09fe-41ce-8bd9-2fcf279682b4",
+      "question_text": "A minotaur is half human half what?",
+      "correct_answer": "Bull",
+      "distractors": [
+        "Cow",
+        "Horse",
+        "Eagle"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a7df276e-6830-4e68-b644-5ef0a9c9a653",
+      "question_text": "Which figure from Greek mythology traveled to the underworld to return his wife Eurydice to the land of the living?",
+      "correct_answer": "Orpheus",
+      "distractors": [
+        "Hercules",
+        "Perseus",
+        "Daedalus"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "67f3f390-02df-41ff-b894-439a7bb769f1",
+      "question_text": "The greek god Poseidon was the god of what?",
+      "correct_answer": "The Sea",
+      "distractors": [
+        "War",
+        "Sun",
+        "Fire"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "75e97d26-4c38-40e4-9c21-ea1f027e020d",
+      "question_text": "What was the punishment for Sysiphus's craftiness?",
+      "correct_answer": "Cursed to roll a boulder up a hill for eternity.",
+      "distractors": [
+        "Tied to a boulder for eternity, being pecked by birds.",
+        "Standing in a lake filled with water he could not drink.",
+        "To fell a tree that regenerated after every axe swing."
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0a00f232-4fe0-4cc3-ae5f-68331b9a933a",
+      "question_text": "Who is attributed credit for recording the epic poem The Odyssey?",
+      "correct_answer": "Homer",
+      "distractors": [
+        "Aristotle",
+        "Odysseus",
+        "Socrates"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "literature",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "86bd319e-3b26-4923-bb11-d76be37c60a7",
+      "question_text": "Which Greek god was the god of the Sun?",
+      "correct_answer": "Helios",
+      "distractors": [
+        "Zeus",
+        "Hades",
+        "Poseidon"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 78,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ba6cf0b9-41c5-40fb-b45a-bd4b4fbae327",
+      "question_text": "Who was punished by having to push a boulder uphill for eternity?",
+      "correct_answer": "Sisyphus",
+      "distractors": [
+        "Tantalus",
+        "Prometheus",
+        "Ixion"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1d528da6-9168-434b-81d3-5d5ecb48ef46",
+      "question_text": "Which goddess sprang fully grown from Zeus's head?",
+      "correct_answer": "Athena",
+      "distractors": [
+        "Artemis",
+        "Aphrodite",
+        "Hera"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "02f1d200-0581-44db-a6fa-e9bcb5db9602",
+      "question_text": "Which Greek hero had to complete twelve labours as penance?",
+      "correct_answer": "Heracles",
+      "distractors": [
+        "Perseus",
+        "Theseus",
+        "Achilles"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 78,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ccbdbdd9-a8d7-4d98-af91-c19cfc7ec561",
+      "question_text": "Which Titan was condemned to hold up the heavens for eternity?",
+      "correct_answer": "Atlas",
+      "distractors": [
+        "Cronus",
+        "Prometheus",
+        "Oceanus"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "greek-mythology",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0e53fda1-90c2-44fe-a557-8f530424c17a",
+      "question_text": "What is the name of the three headed dog in Harry Potter and the Philosopher's Stone?",
+      "correct_answer": "Fluffy",
+      "distractors": [
+        "Spike",
+        "Poofy",
+        "Spot"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "harry-potter",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "88d428cc-b200-42a7-a495-cdc18b3b84dd",
+      "question_text": "What is Hermione Granger's middle name?",
+      "correct_answer": "Jean",
+      "distractors": [
+        "Jane",
+        "Emma",
+        "Jo"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ba971d7e-4e42-416c-9266-71a336b0801e",
+      "question_text": "What is the name of the town in which Lily and James Potter are buried?",
+      "correct_answer": "Godric's Hollow",
+      "distractors": [
+        "Hogsmeade",
+        "Ottery St. Catchpole",
+        "Little Hangleton"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9f8a1ba1-6811-4c65-b1b7-38b314f119ad",
+      "question_text": "What's Harry Potter's dad's name?",
+      "correct_answer": "James Potter",
+      "distractors": [
+        "Joey Potter",
+        "Frank Potter",
+        "Hairy Potter Sr."
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "harry-potter",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "36563115-c16b-408e-92e6-c5f5c8c7ec20",
+      "question_text": "In the Harry Potter universe, what is Cornelius Fudge's middle name?",
+      "correct_answer": "Oswald",
+      "distractors": [
+        "James",
+        "Harold",
+        "Christopher"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 8,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b646b0e9-578e-4afa-bf78-65c5c1e2768f",
+      "question_text": "How many Harry Potter books are there?",
+      "correct_answer": "7",
+      "distractors": [
+        "8",
+        "5",
+        "6"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d59a2d73-b5ed-4f4e-a285-a5ade8ac368e",
+      "question_text": "In the \"Harry Potter\" novels, what must a Hogwarts student do to enter the Ravenclaw Common Room?",
+      "correct_answer": "Answer a riddle",
+      "distractors": [
+        "Rhythmically tap barrels with a wand",
+        "Speak a password",
+        "Knock in sequence"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 78,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2574f986-0122-4319-9e82-5276aadf28ea",
+      "question_text": "J.K. Rowling completed \"Harry Potter and the Deathly Hallows\" in which hotel in Edinburgh, Scotland?",
+      "correct_answer": "The Balmoral",
+      "distractors": [
+        "The Dunstane Hotel",
+        "Hotel Novotel",
+        "Sheraton Grand Hotel & Spa"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b8c9318d-b7c0-45ec-8a2f-a1e54239559b",
+      "question_text": "Which is NOT a book in the Harry Potter Series?",
+      "correct_answer": "The House Elf",
+      "distractors": [
+        "The Chamber of Secrets",
+        "The Prisoner of Azkaban",
+        "The Deathly Hallows"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fa27c898-4fd1-480f-b7ae-8523cf47d746",
+      "question_text": "In the Harry Potter universe, who does Draco Malfoy end up marrying?",
+      "correct_answer": "Astoria Greengrass",
+      "distractors": [
+        "Pansy Parkinson",
+        "Millicent Bulstrode",
+        "Hermione Granger"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8a6cf15c-710a-4f45-80ed-21c4698e6815",
+      "question_text": "Who wrote \"Harry Potter\"?",
+      "correct_answer": "J.K. Rowling",
+      "distractors": [
+        "J.R.R. Tolkien",
+        "Terry Pratchett",
+        "Daniel Radcliffe"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 98,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-authors",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "75ab39c5-5e59-46e4-9163-7845a2e342be",
+      "question_text": "What position does Harry Potter play in Quidditch?",
+      "correct_answer": "Seeker",
+      "distractors": [
+        "Beater",
+        "Chaser",
+        "Keeper"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 85,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "17679c96-cdc2-4b5e-b696-a6adde9edcfa",
+      "question_text": "In what Harry Potter book was a Horcrux first encountered?",
+      "correct_answer": "The Chamber of Secrets",
+      "distractors": [
+        "The Half-Blood Prince",
+        "The Goblet of Fire",
+        "The Deathly Hallows"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "22ec1b7d-3db6-45cf-ae61-06d73dc12210",
+      "question_text": "Daniel Radcliffe became a global star in the film industry due to his performance in which film franchise?",
+      "correct_answer": "Harry Potter",
+      "distractors": [
+        "Ted",
+        "Spy Kids",
+        "Pirates of the Caribbean "
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "43f8bc39-5d98-4645-89c7-2b73ab61d567",
+      "question_text": "What is the name of the Weasley family's home?",
+      "correct_answer": "The Burrow",
+      "distractors": [
+        "The Warren",
+        "The Hollow",
+        "The Den"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 88,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cc1a5a7d-deb8-4d10-a65d-2d3a6cbfcacc",
+      "question_text": "What form does Hermione Granger's Patronus take?",
+      "correct_answer": "An otter",
+      "distractors": [
+        "A cat",
+        "A beaver",
+        "A rabbit"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "harry-potter",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2554b77c-128e-4497-a08e-e0b891d06a97",
+      "question_text": "What magical creature pulls the Hogwarts carriages?",
+      "correct_answer": "Thestrals",
+      "distractors": [
+        "Hippogriffs",
+        "Abraxans",
+        "Nightmares"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "harry-potter",
+          "estimate_score": 78,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4662722c-9ac8-4515-8469-265d9a407fb8",
+      "question_text": "\"The Genius\" is the original and secondary name of which Wu-Tang Clan member?",
+      "correct_answer": "GZA",
+      "distractors": [
+        "Ghostface Killah",
+        "Ol' Dirty Bastard",
+        "Raekwon the Chef"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "hip-hop-and-rap",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1201ab58-a1ab-4e23-8e07-7875764a4617",
+      "question_text": "Which rapper had an album that went double platinum with no features?",
+      "correct_answer": "J. Cole",
+      "distractors": [
+        "Kendrick Lamar",
+        "Drake",
+        "Big Sean"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "hip-hop-and-rap",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0a48ed6b-8eab-4e18-a79d-c83c91997ff1",
+      "question_text": "Which member of the Wu-Tang Clan had only one verse in their debut album Enter the Wu-Tang (36 Chambers)?",
+      "correct_answer": "Masta Killa",
+      "distractors": [
+        "Method Man",
+        "Inspectah Deck",
+        "GZA"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "hip-hop-and-rap",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "00b5173f-eee5-459b-99f2-49c57df65b7b",
+      "question_text": "What was Raekwon the Chefs debut solo album?",
+      "correct_answer": "Only Built 4 Cuban Linx",
+      "distractors": [
+        "Shaolin vs Wu-Tang",
+        "The Wild",
+        "The Lex Diamond Story"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "hip-hop-and-rap",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "bfae8996-2280-434a-b5b3-0f7ca9c7795c",
+      "question_text": "What was the name of the hip hop group Kanye West was a member of in the late 90s?",
+      "correct_answer": "The Go-Getters",
+      "distractors": [
+        "The Jumpers",
+        "The Kickstarters",
+        "The Beat-Busters"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "hip-hop-and-rap",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e99bd3f0-5347-47e8-98b2-3e496ba2d865",
+      "question_text": "Which of these bands was a featuring artist in Compton rapper Kendrick Lamar's 2017 album, \"DAMN.\"?",
+      "correct_answer": "U2",
+      "distractors": [
+        "Radiohead",
+        "Coldplay",
+        "Bon Jovi"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 12,
+          "observed_n": 0
+        },
+        {
+          "slug": "hip-hop-and-rap",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fddba207-d735-4f97-af0a-7475e62e8c99",
+      "question_text": "Where was Kanye West born?",
+      "correct_answer": "Atlanta, Georgia",
+      "distractors": [
+        "Chicago, Illinois",
+        "Los Angeles, California",
+        "Detroit, Michigan"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 18,
+          "observed_n": 0
+        },
+        {
+          "slug": "hip-hop-and-rap",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "music",
+          "name": "Music",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c3ed4022-1c53-430e-80b2-dd8f4ca5da0c",
+      "question_text": "Which horror movie had a sequel in the form of a video game released in August 20, 2002?",
+      "correct_answer": "The Thing",
+      "distractors": [
+        "The Evil Dead",
+        "Saw",
+        "Alien"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-adaptations",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 15,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e58c36f0-5272-4cc2-a233-d7a7827207bf",
+      "question_text": "Who played Baron Victor Frankestein in the 1957 Hammer horror film \"The Curse of Frankenstein\"?",
+      "correct_answer": "Peter Cushing",
+      "distractors": [
+        "Boris Karloff",
+        "Vincent Price",
+        "Lon Chaney Jr."
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c34f48c8-dc0d-40a9-970f-3a3d100e1938",
+      "question_text": "What was Bruce Campbell's iconic one-liner after getting a chainsaw hand in Evil Dead 2?",
+      "correct_answer": "Groovy.",
+      "distractors": [
+        "Gnarly.",
+        "Perfect.",
+        "Nice."
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "action-heroes",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2dc03d19-829b-4481-958b-241f073d7a22",
+      "question_text": "Which of the following movies was not based on a novel by Stephen King? ",
+      "correct_answer": "The Thing",
+      "distractors": [
+        "Carrie",
+        "Misery",
+        "The Green Mile"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "e9e4238a-de23-40f9-9850-998398366bef",
+      "question_text": "Johnny Depp made his big-screen acting debut in which film?",
+      "correct_answer": "A Nightmare on Elm Street",
+      "distractors": [
+        "My Bloody Valentine",
+        "Halloween",
+        "Friday the 13th"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "horror-films",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "183e12a9-0b71-4182-8bfd-2775b8d305fd",
+      "question_text": "Which actor plays the character \"Tommy Jarvis\" in \"Friday the 13th: The Final Chapter\" (1984)?",
+      "correct_answer": "Corey Feldman",
+      "distractors": [
+        "Macaulay Culkin",
+        "Mel Gibson",
+        "Mark Hamill"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "58decc24-9d13-4fc8-8a0f-fb76513e91d0",
+      "question_text": "The killer in the 1981 film 'My Bloody Valentine' wears what sort of outfit?",
+      "correct_answer": "Mining gear",
+      "distractors": [
+        "Clown costume",
+        "Santa suit",
+        "Police uniform"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ff5ab2d9-f729-4671-bb9b-25342fa4424d",
+      "question_text": "Max Schreck, a famous German silent film actor, plays a famous monster in which 1922 film?",
+      "correct_answer": "Nosferatu",
+      "distractors": [
+        "Frankenstein ",
+        "The Headless Horseman",
+        "Häxan"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "horror-films",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f37d6138-58c1-4109-b9c0-2ef816536e42",
+      "question_text": "Who played the Cenobite called \"Pinhead\" in the original Hellraiser films?",
+      "correct_answer": "Doug Bradley",
+      "distractors": [
+        "Doug Jones",
+        "Doug Savant",
+        "Doug Benson"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 12,
+          "observed_n": 0
+        },
+        {
+          "slug": "horror-films",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "3717c302-41d6-4ca8-8185-41b085063d2b",
+      "question_text": "In the movie \"Scream\" who is Ghost Face?",
+      "correct_answer": "Billy Loomis and Stu Macher",
+      "distractors": [
+        "Dewey Riley",
+        "Sidney Prescott",
+        "Archie Prescott and Philip Marv"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a4ba9d25-b361-4189-a017-c3ade09bc487",
+      "question_text": "In the 2010 Nightmare on Elm Street reboot, who played Freddy Kruger?",
+      "correct_answer": "Jackie Earle Haley",
+      "distractors": [
+        "Tyler Mane",
+        "Derek Mears",
+        "Gunnar Hansen"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "55e3059a-1118-45e4-a699-2f7946060835",
+      "question_text": "What was the name of the actor who played Leatherface in the 1974 horror film, The Texas Chainsaw Massacre?",
+      "correct_answer": "Gunnar Hansen",
+      "distractors": [
+        "Edwin Neal",
+        "John Dugan",
+        "Joe Bill Hogan"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4f4001c1-ca07-469c-a2b3-fb74e313860a",
+      "question_text": "Who Voices the Devil on Devil's Flight in Final Destination 3?",
+      "correct_answer": "Tony Todd",
+      "distractors": [
+        "Wendy Christensen",
+        "Ian McKinley",
+        "Kevin Fischer"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fedf22db-36f8-41c9-9ca1-b2324a54db70",
+      "question_text": "In the Friday The 13th series, what year did Jason drown in?",
+      "correct_answer": "1957",
+      "distractors": [
+        "1955",
+        "1953",
+        "1959"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 8,
+          "observed_n": 0
+        },
+        {
+          "slug": "horror-films",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a21421b4-afac-485b-a81c-9c37d8041706",
+      "question_text": "Which 1973 horror film made 14-year-old Linda Blair a star?",
+      "correct_answer": "The Exorcist",
+      "distractors": [
+        "Carrie",
+        "The Omen",
+        "Rosemary's Baby"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ea31620c-0a54-417f-a160-3ccc621b1406",
+      "question_text": "Where does Freddy Krueger stalk his teenage victims in Springwood, Ohio?",
+      "correct_answer": "Elm Street",
+      "distractors": [
+        "Cherry Street",
+        "Maple Avenue",
+        "Oak Lane"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "horror-films",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2f7b3be6-08cc-4647-8bfc-ab088fa196ed",
+      "question_text": "In Halloween, what type of institution does Michael Myers escape from?",
+      "correct_answer": "A psychiatric hospital",
+      "distractors": [
+        "A military prison",
+        "A boarding school",
+        "A juvenile detention centre"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9768b3d8-86db-4c7d-bf58-3fbfd01211e9",
+      "question_text": "Which 1960 film shocked audiences by showing a flushing toilet on screen for the first time in American cinema?",
+      "correct_answer": "Psycho",
+      "distractors": [
+        "Marnie",
+        "Vertigo",
+        "Breakfast at Tiffany's"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "51f872b6-cd3c-41f1-ad1b-213f78e8650c",
+      "question_text": "What's the name of the isolated Colorado hotel in Kubrick's The Shining?",
+      "correct_answer": "The Overlook Hotel",
+      "distractors": [
+        "The Stanley Hotel",
+        "The Timberline Lodge",
+        "The Ahwahnee Hotel"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "horror-films",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-hollywood",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b55f8028-87ce-43ca-9738-b7f4d1f5c4b7",
+      "question_text": "The new One World Trade Center in Manhattan, New York City was designed by which architect? ",
+      "correct_answer": "David Childs",
+      "distractors": [
+        "Bjarke Ingels",
+        "Michael Arad",
+        "Fumihiko Maki"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "88e2295d-c0ef-46c8-aa77-c63e161f3271",
+      "question_text": "Which church's interior in Vatican City was designed in 1503 by renaissance architects including Bramante, Michelangelo and Bernini?",
+      "correct_answer": "St. Peter's Basilica",
+      "distractors": [
+        "Catania Cathedral",
+        "St. Mark’s Basilica",
+        "The Duomo of Florence"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1ba892f1-2d52-4289-b539-43efc5903e0f",
+      "question_text": "How long did it take the motorized window washers of the original World Trade Center to clean the entire exterior of the building?",
+      "correct_answer": "1 Month",
+      "distractors": [
+        "3 Weeks",
+        "1 Week",
+        "2 Months"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "beeba471-e711-48f2-8c29-0476d3adc44f",
+      "question_text": "Which of the following buildings is example of a structure primarily built in the Art Deco architectural style?",
+      "correct_answer": "Niagara Mohawk Building",
+      "distractors": [
+        "Taipei 101",
+        "One Detroit Center",
+        "Westendstrasse 1"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1dd6cf11-a8c8-4e64-aa52-b525200a461c",
+      "question_text": "Out of these four buildings, which one is the tallest, with a height of 1,250 ft (381 m)?",
+      "correct_answer": "Empire State Building, United States",
+      "distractors": [
+        "Bank of China Tower, Hong Kong",
+        "Federation Tower, Russia",
+        "Gevora Hotal, United Arab Emirates"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c183cf4b-50fe-4a1a-b35d-9dda70c048de",
+      "question_text": "How tall is One World Trade Center in New York City?",
+      "correct_answer": "1,776 ft",
+      "distractors": [
+        "1,888 ft",
+        "1,225 ft",
+        "1,960 ft"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9a45ea17-57e5-4ae0-86f2-a0f70add8ba0",
+      "question_text": "The Hagia Sophia was commissioned by which emperor of the Byzantine Empire?",
+      "correct_answer": "Justinian I",
+      "distractors": [
+        "Constantine IV",
+        "Arcadius",
+        "Theodosius the Great"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "ancient-rome",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a4698e5b-86aa-4be7-9fa3-06190bfa6c95",
+      "question_text": "The crown of the Empire State Building was originally built for what purpose?",
+      "correct_answer": "Airship Dock",
+      "distractors": [
+        "Lightning Rod",
+        "Antennae",
+        "Flag Pole"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c5bb8ae9-aeb9-4065-a73b-ccf9748fad7f",
+      "question_text": "What was the major distinction between the English and French Gothic styles of architecture?",
+      "correct_answer": "Fan vaulting",
+      "distractors": [
+        "Pinnacles",
+        "Gargoyles",
+        "Hemispherical Domes"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 12,
+          "observed_n": 0
+        },
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "67d7d32b-5fb4-4e6e-8788-77ee9a884813",
+      "question_text": "Out of these four buildings, which one is the tallest, with a height of 2,717 ft (828 m)?",
+      "correct_answer": "Burj Khalifa, United Arab Emirates",
+      "distractors": [
+        "Shanghai Tower, China",
+        "Lotte World Tower, South Korea",
+        "Ping An Finance Centre, China"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 78,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "bc36b66f-4199-42f9-9de1-d74938cd81ab",
+      "question_text": "The Burj Khalifa, world's tallest building, is in which UAE city?",
+      "correct_answer": "Dubai",
+      "distractors": [
+        "Abu Dhabi",
+        "Sharjah",
+        "Ajman"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "asian-geography",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4e56b63d-f982-4f6b-9f41-40544418331c",
+      "question_text": "Which Italian city is home to the Leaning Tower?",
+      "correct_answer": "Pisa",
+      "distractors": [
+        "Venice",
+        "Florence",
+        "Siena"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "european-geography",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a48931b8-fced-4d22-909a-702c06542050",
+      "question_text": "Which London skyscraper is nicknamed 'The Walkie-Talkie'?",
+      "correct_answer": "20 Fenchurch Street",
+      "distractors": [
+        "30 St Mary Axe",
+        "122 Leadenhall Street",
+        "1 Undershaft"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "3e936d8e-737f-4e37-939b-f4408c8bbaf6",
+      "question_text": "In which European capital would you find the Brandenburg Gate?",
+      "correct_answer": "Berlin",
+      "distractors": [
+        "Vienna",
+        "Prague",
+        "Amsterdam"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 78,
+          "observed_n": 0
+        },
+        {
+          "slug": "european-geography",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ba1d0b33-436e-4e47-966b-658232df3f77",
+      "question_text": "Which ancient wonder is the only one still standing today?",
+      "correct_answer": "Great Pyramid of Giza",
+      "distractors": [
+        "Colossus of Rhodes",
+        "Hanging Gardens of Babylon",
+        "Lighthouse of Alexandria"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-architecture",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "ancient-egypt",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 88,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f8beb196-4b9c-49b1-ac1a-52fd7f5372b7",
+      "question_text": "\"A3\", \"B1\", and \"Legal\" are typical names of sizes for what object?",
+      "correct_answer": "Paper",
+      "distractors": [
+        "Airplanes",
+        "Law books",
+        "Phone screens"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-gadgets",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "technology",
+          "name": "Technology",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9b3b3157-15b6-4818-8417-e80875c4e344",
+      "question_text": "What year was the RoboSapien toy robot released?",
+      "correct_answer": "2004",
+      "distractors": [
+        "2000",
+        "2001",
+        "2006"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-gadgets",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "technology",
+          "name": "Technology",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a3860901-a43c-48c1-8e0a-a01a0530d359",
+      "question_text": "What is the name of the popular animatronic singing fish prop, singing such hits such as \"Don't Worry, Be Happy\"?",
+      "correct_answer": "Big Mouth Billy Bass",
+      "distractors": [
+        "Big Billy Bass",
+        "Singing Fish",
+        "Sardeen"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-gadgets",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "technology",
+          "name": "Technology",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ad613d1c-e34f-4a13-9dd3-9b7f5419d352",
+      "question_text": "What colour was the reset button on the original NES console?",
+      "correct_answer": "Red",
+      "distractors": [
+        "Grey",
+        "Black",
+        "Blue"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-gadgets",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "console-history",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "technology",
+          "name": "Technology",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "001eecad-006b-4bac-9e59-dba1ac46f13a",
+      "question_text": "Which band performed the Friends theme song 'I'll Be There for You'?",
+      "correct_answer": "The Rembrandts",
+      "distractors": [
+        "The Wallflowers",
+        "Hootie & the Blowfish",
+        "Gin Blossoms"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-tv-theme-songs",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "433fab6d-2da7-43dd-bd1b-c4559a19aceb",
+      "question_text": "Who composed the distinctive X-Files theme tune?",
+      "correct_answer": "Mark Snow",
+      "distractors": [
+        "Danny Elfman",
+        "Hans Zimmer",
+        "Bear McCreary"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "iconic-tv-theme-songs",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "music",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    }
+  ]
+}

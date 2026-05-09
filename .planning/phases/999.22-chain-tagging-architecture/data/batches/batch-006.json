@@ -1,0 +1,3110 @@
+{
+  "batch_num": 6,
+  "batch_size": 100,
+  "questions": [
+    {
+      "id": "1c188d7c-077d-4ed7-9d1f-d9f9e4cf68a4",
+      "question_text": "John Moses Browning, the designer of the M1918 BAR (Browning Automatic Rifle) was a part of which religion?",
+      "correct_answer": "Mormon",
+      "distractors": [
+        "Catholic",
+        "Jewish",
+        "Atheist"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-inventors",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b5e7897f-55d2-45bd-8dd0-bb3e98f5a4a6",
+      "question_text": "Where and when was the first cardboard box made for industrial use?",
+      "correct_answer": "England, 1817",
+      "distractors": [
+        "United States, 1817",
+        "England, 1917",
+        "United States, 1917"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-inventors",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "6c9a1ba3-7645-4e1b-8a10-21af8068e042",
+      "question_text": "Who discovered Penicillin?",
+      "correct_answer": "Alexander Flemming",
+      "distractors": [
+        "Marie Curie",
+        "Alfred Nobel",
+        "Louis Pasteur"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-inventors",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "science",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-human-body",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 88,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cb42d4fc-9775-407d-a6d8-aae86d55a42d",
+      "question_text": "What does a milliner make and sell?",
+      "correct_answer": "Hats",
+      "distractors": [
+        "Shoes",
+        "Belts",
+        "Shirts"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-inventors",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b47643ab-4710-4ca1-9bc0-f383744dd390",
+      "question_text": "The World Wide Web was invented in 1989 while its creator was working at which research facility?",
+      "correct_answer": "CERN",
+      "distractors": [
+        "MIT",
+        "Bell Labs",
+        "Stanford Research Institute"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-inventors",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-internet-and-the-web",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "technology",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9b562f97-2d56-49d0-93e5-137aa9fedec7",
+      "question_text": "Which inventor famously said 'Genius is one percent inspiration and ninety-nine percent perspiration'?",
+      "correct_answer": "Thomas Edison",
+      "distractors": [
+        "Nikola Tesla",
+        "Alexander Graham Bell",
+        "Benjamin Franklin"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-inventors",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "science",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cc23cba5-d331-4224-92fd-7d8032214447",
+      "question_text": "What direction does the Statue of Liberty face?",
+      "correct_answer": "Southeast",
+      "distractors": [
+        "Southwest",
+        "Northwest",
+        "Northeast"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "84707767-44cc-4bad-8ab2-a06e8921800e",
+      "question_text": "What geometric shape is generally used for stop signs?",
+      "correct_answer": "Octagon",
+      "distractors": [
+        "Hexagon",
+        "Circle",
+        "Triangle"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 82,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d77d2723-1f61-4b46-b752-5644a5132bdd",
+      "question_text": "Which one of these Swedish companies was founded in 1943?",
+      "correct_answer": "IKEA",
+      "distractors": [
+        "H & M",
+        "Lindex",
+        "Clas Ohlson"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "94a2dc30-b6a8-4430-bb6e-06fbab2b9bd6",
+      "question_text": "What is a dead mall?",
+      "correct_answer": "A mall with high vacancy rates or low consumer foot traffic",
+      "distractors": [
+        "A mall with no stores",
+        "A mall that has been condemed",
+        "A mall after business hours"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "59e3073b-3dbb-4b7c-a82c-f019ed677bb2",
+      "question_text": "Which of the following landmarks is not located in New York City?",
+      "correct_answer": "Lincoln Memorial",
+      "distractors": [
+        "Empire State Building",
+        "Times Square",
+        "Central Park"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "55461968-86fa-4f4e-b897-2472fbbfeafb",
+      "question_text": "Located in Chile, El Teniente is the world's largest underground mine for what metal?",
+      "correct_answer": "Copper",
+      "distractors": [
+        "Iron",
+        "Nickel",
+        "Silver"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "142a9507-827f-4bf0-87f1-4b9715c19cfd",
+      "question_text": "What type of animal was Harambe, who was shot after a child fell into it's enclosure at the Cincinnati Zoo?",
+      "correct_answer": "Gorilla",
+      "distractors": [
+        "Tiger",
+        "Panda",
+        "Crocodile"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 30,
+          "observed_n": 0
+        },
+        {
+          "slug": "nature-and-animals",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "05d2d482-9b07-4a06-8de6-ef14c604a07d",
+      "question_text": "What is the longest bridge in the world?",
+      "correct_answer": "Danyang–Kunshan Grand Bridge, China",
+      "distractors": [
+        "Lake Pontchartrain Causeway, United States",
+        "King Fahd Causeway Bridge I, Saudi Arabia",
+        "Sultan Abdul Halim Muadzam Shah Bridge, Malaysia"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f59f39a5-6c0e-42cd-9c86-759a2a3d287d",
+      "question_text": "What is the nickname for the US state Delaware?",
+      "correct_answer": "The First State",
+      "distractors": [
+        "The Fiftieth State",
+        "The Second State",
+        "The Sixteenth State"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f54e7254-4ca2-4788-b6ed-8688c714e681",
+      "question_text": " What Texas city is nicknamed \"The Yellow Rose of Texas\"?",
+      "correct_answer": "Amarillo",
+      "distractors": [
+        "Corpus Christi",
+        "Frisco",
+        "Houston"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 12,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9f0c340b-0f54-4bf1-99e5-16c25e07dda8",
+      "question_text": "Where are the Nazca Lines located?",
+      "correct_answer": "Peru",
+      "distractors": [
+        "Brazil",
+        "Colombia",
+        "Ecuador"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "south-american-geography",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "eb04a193-564b-43ab-ada4-8b4c0734e3c7",
+      "question_text": "In which English county is Stonehenge?",
+      "correct_answer": "Wiltshire",
+      "distractors": [
+        "Somerset",
+        "Cumbria",
+        "Herefordshire"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4d52426f-bceb-48fc-817f-c9c6e7a13ad6",
+      "question_text": "Where is Hadrian's Wall located?",
+      "correct_answer": "Carlisle, England",
+      "distractors": [
+        "Rome, Italy",
+        "Alexandria, Egypt",
+        "Dublin, Ireland"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "ancient-rome",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "90ee5141-7da1-46bc-8b66-e0b80eb99ae7",
+      "question_text": "In which city is the Big Nickel located in Canada?",
+      "correct_answer": "Sudbury, Ontario",
+      "distractors": [
+        "Calgary, Alberta",
+        "Halifax, Nova Scotia ",
+        "Victoria, British Columbia"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cbf2d3b0-b378-4b79-a978-8cdb51763127",
+      "question_text": "Lake Titicaca is located between which two nations?",
+      "correct_answer": "Peru and Bolivia",
+      "distractors": [
+        "Kenya and Uganda",
+        "Mexico and the United States",
+        "India and Bangladesh"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "south-american-geography",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b48df9b9-d1e8-4642-8553-07649ee95e06",
+      "question_text": "Where is the ancient city of Petra located?",
+      "correct_answer": "Jordan",
+      "distractors": [
+        "Egypt",
+        "Israel",
+        "Italy"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "asian-geography",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "64db2985-60f4-4aa2-84b3-ad9fecb959d8",
+      "question_text": "Which of the following is a castle?",
+      "correct_answer": "Elizabeth Castle",
+      "distractors": [
+        "Frank Castle",
+        "Richard Castle",
+        "Olivia Castle"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a80537db-770e-4abd-91eb-f8ee536af0cc",
+      "question_text": "What city is known as the Rose Capital of the World?",
+      "correct_answer": "Tyler, Texas",
+      "distractors": [
+        "San Diego, California",
+        "Miami, Florida",
+        "Anaheim, California"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 25,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ffa6eb3a-3b5c-41af-b0da-188e03907279",
+      "question_text": "The Space Needle is located in which city?",
+      "correct_answer": "Seattle",
+      "distractors": [
+        "Los Angles",
+        "Toronto",
+        "Vancouver"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "600699d8-66e8-4b85-9854-b2384cce9454",
+      "question_text": "Which river was dammed to create Gatun Lake and the Panama Canal?",
+      "correct_answer": "Chagres River",
+      "distractors": [
+        "Tuira River",
+        "Chucunaque River",
+        "Chepo River "
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0ae58f08-ed30-4743-bc35-8aae86b44dc8",
+      "question_text": "Where would you find the \"Spanish Steps\"?",
+      "correct_answer": "Rome, Italy",
+      "distractors": [
+        "Barcelona, Spain",
+        "Berlin, Germany",
+        "London, England"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "european-geography",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b323080d-1c54-4d06-8197-d9949a3d74ff",
+      "question_text": "What is the northernmost human settlement with year round inhabitants?",
+      "correct_answer": "Alert, Canada",
+      "distractors": [
+        "Nagurskoye, Russia",
+        "McMurdo Station, Antarctica ",
+        "Honningsvåg, Norway"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "bacdda61-c17f-42a2-b8f5-b3256c857a79",
+      "question_text": "In which country is the city of Rio de Janeiro?",
+      "correct_answer": "Brazil",
+      "distractors": [
+        "Peru",
+        "Chile",
+        "Venezuela"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "south-american-geography",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2b43589e-3dce-4b2f-aff1-57c5b36c0079",
+      "question_text": "The ancient city of Chichén Itzá was built by which civilization?",
+      "correct_answer": "Mayans",
+      "distractors": [
+        "Aztecs",
+        "Incas",
+        "Toltecs"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5c0e03cf-e952-427d-804b-ea76ab1889a0",
+      "question_text": "When did construction of the Suez Canal finish?",
+      "correct_answer": "1869",
+      "distractors": [
+        "1859",
+        "1860",
+        "1850"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "1947d38b-bf1d-4d5e-b679-eaf6e684957a",
+      "question_text": "Who was the main developer of the Suez Canal?",
+      "correct_answer": "Ferdinand de Lesseps",
+      "distractors": [
+        "Louis-Eugène Cavaignac",
+        "John Milton",
+        "Johann Lukas von Hildebrandt"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "7e95ac46-4d87-45e5-b749-dd4ec025d81f",
+      "question_text": "Which country gifted the Statue of Liberty to the United States of America?",
+      "correct_answer": "France",
+      "distractors": [
+        "Spain",
+        "England",
+        "Germany"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8aad938e-5e60-4c40-baa2-9f772863bf16",
+      "question_text": "In which country was the Statue of Liberty built and exported to the United States of America?",
+      "correct_answer": "France",
+      "distractors": [
+        "Germany",
+        "Spain",
+        "England"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "65eb9891-c915-4465-96ab-7a15dab8f9c4",
+      "question_text": "In the Seven Wonders of the World, which wonder is the only that has survived to this day?",
+      "correct_answer": "Great Pyramid of Giza",
+      "distractors": [
+        "Colossus of Rhodes",
+        "Lighthouse of Alexandria",
+        "Statue of Zeus at Olympia"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "ancient-egypt",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "history",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 85,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4480b8a4-29fc-46a6-8a1c-361d38daf268",
+      "question_text": "Big Ben is technically the name of what part of the Palace of Westminster?",
+      "correct_answer": "The bell",
+      "distractors": [
+        "The clock face",
+        "The tower",
+        "The clock mechanism"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "british-history",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f42fe2c4-0e4d-4d82-8010-a2b95f32772e",
+      "question_text": "The Alhambra palace in Granada was built by what Muslim dynasty?",
+      "correct_answer": "Nasrid",
+      "distractors": [
+        "Umayyad",
+        "Almohad",
+        "Almoravid"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 12,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-landmarks",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "geography",
+          "name": "Geography",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cebfc0e2-2381-4671-8d04-a6d0c01c0ff6",
+      "question_text": "What year did Albrecht Dürer create the painting \"The Young Hare\"?",
+      "correct_answer": "1502",
+      "distractors": [
+        "1702",
+        "1402",
+        "1602"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 12,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-paintings",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-artists",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8cfd910b-1242-4760-ad48-172884d480f9",
+      "question_text": "Which one of these paintings is not by Caspar David Friedrich?",
+      "correct_answer": "The Black Sea",
+      "distractors": [
+        "The Sea of Ice",
+        "Wanderer above the Sea of Fog",
+        "The Monk by the Sea"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-paintings",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "77c39428-beeb-4f1e-ba54-4195616fe4a6",
+      "question_text": "Who is considered the \"Father of Modern Philosophy\"?",
+      "correct_answer": "René Descartes",
+      "distractors": [
+        "Plato",
+        "Albert Einstein",
+        "Antoine Lavoiser"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-scientists",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "science",
+          "name": "Science",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "837dc342-02d1-4981-880a-bed3a51278f4",
+      "question_text": "Who famously coined the phrase \"I think, therefore I am\"?",
+      "correct_answer": "Descartes",
+      "distractors": [
+        "Plato",
+        "Aristotle",
+        "Shakespeare"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-scientists",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "science",
+          "name": "Science",
+          "parent_slug": null,
+          "chain_depth": 0
+        },
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ff022049-ed40-4b39-a141-4490ed123a91",
+      "question_text": "Which of these theoretical phycisists first predicted the existence of antimatter?",
+      "correct_answer": "Paul Dirac",
+      "distractors": [
+        "Niels Bohr",
+        "Albert Einstein",
+        "Werner Heisenberg"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 18,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-scientists",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "science",
+          "name": "Science",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "837d8350-b196-4bc5-a186-1095b30cd8dd",
+      "question_text": "The eccentric natural philosopher Tycho Brahe kept what as a pet?",
+      "correct_answer": "Moose",
+      "distractors": [
+        "Dog",
+        "Bear",
+        "Goat"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-scientists",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "science",
+          "name": "Science",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9afee35b-2d2e-4ca6-9197-1b3ca86be31d",
+      "question_text": "Which naturalist sailed on HMS Beagle to the Galápagos Islands?",
+      "correct_answer": "Charles Darwin",
+      "distractors": [
+        "Alfred Russel Wallace",
+        "Thomas Huxley",
+        "Joseph Hooker"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-scientists",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "science",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-explorers",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 88,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "history",
+          "name": "History",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d86d7716-e7dc-4b2c-91a7-7574c42b57fa",
+      "question_text": "Which character in the US Office said 'That's what she said'?",
+      "correct_answer": "Michael Scott",
+      "distractors": [
+        "Jim Halpert",
+        "Dwight Schrute",
+        "Andy Bernard"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-sitcom-catchphrases",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "85e8b86b-8e3d-4c54-b9b4-ce5b7f8bf0e3",
+      "question_text": "Which sitcom character famously said 'How you doin'?'",
+      "correct_answer": "Joey Tribbiani",
+      "distractors": [
+        "Chandler Bing",
+        "Barney Stinson",
+        "Sam Malone"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "famous-sitcom-catchphrases",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-sitcoms",
+          "estimate_score": 90,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 88,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "movies-and-tv",
+          "name": "Movies and TV",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d86fd40c-4fa5-469c-a763-06f60633553f",
+      "question_text": "Which Dutch master painted The Night Watch?",
+      "correct_answer": "Rembrandt",
+      "distractors": [
+        "Johannes Vermeer",
+        "Frans Hals",
+        "Jan Steen"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-works-of-art",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-artists",
+          "estimate_score": 90,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fab3f212-024f-42bd-b8d4-ea0440b9363a",
+      "question_text": "What fruit appears in René Magritte's The Son of Man?",
+      "correct_answer": "Apple",
+      "distractors": [
+        "Pear",
+        "Orange",
+        "Peach"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-works-of-art",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-paintings",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f2b54ce1-ad59-4a45-845a-fa0d2f8caa93",
+      "question_text": "In which city's gallery would you find The Birth of Venus?",
+      "correct_answer": "Florence",
+      "distractors": [
+        "Rome",
+        "Venice",
+        "Milan"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-works-of-art",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-paintings",
+          "estimate_score": 78,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d493acc6-780b-4d69-9b72-d7005c70c8a8",
+      "question_text": "Which artist painted The Starry Night?",
+      "correct_answer": "Vincent van Gogh",
+      "distractors": [
+        "Claude Monet",
+        "Paul Cézanne",
+        "Edvard Munch"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-works-of-art",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-artists",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "art-and-design",
+          "name": "Art and Design",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "07c2b8f9-86fb-4d00-9da9-16f72f43ce03",
+      "question_text": "In Terry Pratchett's Discworld novel 'Wyrd Sisters', which of these are not one of the three main witches?",
+      "correct_answer": "Winny Hathersham",
+      "distractors": [
+        "Granny Weatherwax",
+        "Nanny Ogg",
+        "Magrat Garlick"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d41adc30-4566-4e16-b0ff-77a6b1c32e2a",
+      "question_text": "In \"The Lord of the Rings,\" who is the owner of Asfaloth, the horse which brings Frodo to Rivendell?",
+      "correct_answer": "Glorfindel",
+      "distractors": [
+        "Arwen",
+        "Aragorn",
+        "Haldir"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8daa3038-e6a6-4b9e-b1e2-bc2b207db974",
+      "question_text": "What is the name of the fourth book in Stephen King's The Dark Tower series?",
+      "correct_answer": "Wizard and Glass",
+      "distractors": [
+        "Wolves of the Calla",
+        "Hearts in Atlantis",
+        "The Dark Half"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c250691b-9b8e-4e11-b201-d52a268de885",
+      "question_text": "In Game of Thrones, what continent lies across the Narrow Sea from Westeros?",
+      "correct_answer": "Essos",
+      "distractors": [
+        "Easteros",
+        "Westereast",
+        "Esuntos"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f70d722b-9076-4b40-892c-228bb56cfd21",
+      "question_text": "The HBO series \"Game of Thrones\" is based on which series of books?",
+      "correct_answer": "A Song of Ice and Fire",
+      "distractors": [
+        "The Wheel of Time",
+        "Harry Potter",
+        "The Notebook"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "6a8384ef-e8c7-4580-b16c-bc69b4e7dc1f",
+      "question_text": "In Game of Thrones what is the name of Jon Snow's sword?",
+      "correct_answer": "Longclaw",
+      "distractors": [
+        "Oathkeeper",
+        "Widow's Wail",
+        "Needle"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 78,
+          "observed_n": 0
+        },
+        {
+          "slug": "movies-and-tv",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "330987b2-3c9d-49d2-86ca-d5e97a2e2f75",
+      "question_text": "What's the second book in George R. R. Martin's 'A Song of Ice and Fire' series?",
+      "correct_answer": "A Clash of Kings",
+      "distractors": [
+        "A Dance with Dragons",
+        "A Storm of Swords",
+        "A Feast for Crows"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ec8863e8-aa5a-4452-af5b-321de3f3d2c5",
+      "question_text": "In the Lord of the Rings, who is the father of the dwarf Gimli?",
+      "correct_answer": "Gloin",
+      "distractors": [
+        "Thorin Oakenshield",
+        "Bombur",
+        "Dwalin"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "495f4bda-e977-4985-91cb-f1211463aebe",
+      "question_text": "What is the name of Eragon's dragon in \"Eragon\"?",
+      "correct_answer": "Saphira",
+      "distractors": [
+        "Glaedr",
+        "Thorn",
+        "Arya"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "913d5db2-73ce-46ea-9a15-69ad70dbd906",
+      "question_text": "In the \"The Hobbit\", who kills Smaug?",
+      "correct_answer": "Bard",
+      "distractors": [
+        "Bilbo Baggins",
+        "Gandalf the Grey",
+        "Frodo"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "517cf05c-5c5e-4866-a4ae-62a5738c1093",
+      "question_text": "Who wrote the \"A Song of Ice And Fire\" fantasy novel series?",
+      "correct_answer": "George R. R. Martin",
+      "distractors": [
+        "George Lucas",
+        "George Orwell",
+        "George Eliot"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 92,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-authors",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "6a4e9702-e036-480f-88ef-9e51b82f06b8",
+      "question_text": "In the Lord of the Rings: The Two Towers, where are the party of orcs taking the hobbits?",
+      "correct_answer": "Isengard",
+      "distractors": [
+        "Rivendell",
+        "Mordor",
+        "Moria"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "66f0fa20-cff8-44d8-8e99-e6b4961161b2",
+      "question_text": "In The Lord of the Rings: The Fellowship of the Ring, which one of the following characters from the book was left out of the film?",
+      "correct_answer": "Tom Bombadil",
+      "distractors": [
+        "Strider",
+        "Barliman Butterbur",
+        "Celeborn"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b73806e7-44a3-455f-b6b2-9d9222d55f92",
+      "question_text": "In \"The Hobbit,\" who was head of the White Council? ",
+      "correct_answer": "Saruman",
+      "distractors": [
+        "Lady Galadriel ",
+        "Gandalf",
+        "Elrond"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c2247c0a-f7c3-4eaf-89be-0374861bb677",
+      "question_text": "Who is the creator of the manga series \"One Piece\"?",
+      "correct_answer": "Eiichiro Oda",
+      "distractors": [
+        "Yoshihiro Togashi",
+        "Hayao Miyazaki",
+        "Masashi Kishimoto"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 30,
+          "observed_n": 0
+        },
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5dda62ac-d6c4-4e78-ae45-2af1258465ed",
+      "question_text": "What book series published by Jim Butcher follows a wizard in modern day Chicago?",
+      "correct_answer": "The Dresden Files",
+      "distractors": [
+        "A Hat in Time",
+        "The Cinder Spires",
+        "My Life as a Teenage Wizard"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 45,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-authors",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "31568c75-71f4-4c97-ae19-37dec013d2b8",
+      "question_text": "In The Lord of the Rings, what is the name of Gandalf's horse?",
+      "correct_answer": "Shadowfax",
+      "distractors": [
+        "Brego",
+        "Asfaloth",
+        "Hasufel"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "567305d2-dca4-4590-8687-3ccc4abc1222",
+      "question_text": "In Philip Pullman's His Dark Materials, what are the animal companions called?",
+      "correct_answer": "Daemons",
+      "distractors": [
+        "Familiars",
+        "Patronuses",
+        "Sprites"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-literature",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d1fbcfca-3253-45cd-8df9-92eba11c510a",
+      "question_text": "Which author created the Discworld series?",
+      "correct_answer": "Terry Pratchett",
+      "distractors": [
+        "Neil Gaiman",
+        "Douglas Adams",
+        "Jasper Fforde"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 95,
+          "observed_n": 0
+        },
+        {
+          "slug": "famous-authors",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fd766d57-a6c1-4093-99d8-a98d1bb78f0d",
+      "question_text": "In the Harry Potter series, what creatures guard Azkaban prison?",
+      "correct_answer": "Dementors",
+      "distractors": [
+        "Inferi",
+        "Lethifolds",
+        "Grindylows"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "fantasy-novels",
+          "estimate_score": 88,
+          "observed_n": 0
+        },
+        {
+          "slug": "harry-potter",
+          "estimate_score": 99,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "literature",
+          "name": "Literature",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "90148ea4-d1f3-43ed-b309-cebca88ff98e",
+      "question_text": "Which legendary circuit is known as 'The Temple of Speed'?",
+      "correct_answer": "Monza",
+      "distractors": [
+        "Spa-Francorchamps",
+        "Silverstone",
+        "Monaco"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "6b957902-1c0d-4171-aa72-d75598d065be",
+      "question_text": "Which Formula 1 driver switched teams in the middle of the 2017 season?",
+      "correct_answer": "Carlos Sainz Jr.",
+      "distractors": [
+        "Daniil Kvyat",
+        "Jolyon Palmer",
+        "Rio Haryanto"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9fbfc98f-1527-49f3-97a6-6bdd8f34e7a3",
+      "question_text": "Who won the 2018 Monaco Grand Prix?",
+      "correct_answer": "Daniel Ricciardo",
+      "distractors": [
+        "Sebastian Vettel",
+        "Kimi Raikkonen",
+        "Lewis Hamilton"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ce43086c-4959-4f7f-b401-a0448fe866df",
+      "question_text": "Who won the 2017 Formula One World Drivers' Championship?",
+      "correct_answer": "Lewis Hamilton",
+      "distractors": [
+        "Sebastian Vettel",
+        "Nico Rosberg",
+        "Max Verstappen"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "80212533-85a8-44bc-9760-152117fca634",
+      "question_text": "In Formula 1, the Virtual Safety Car was introduced following the fatal crash of which driver?",
+      "correct_answer": "Jules Bianchi",
+      "distractors": [
+        "Ayrton Senna",
+        "Ronald Ratzenberger",
+        "Gilles Villeneuve"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "a9a067e3-a1fe-4d39-a0b0-7cc84969f08a",
+      "question_text": "Which year did Jenson Button won his first ever Formula One World Drivers' Championship?",
+      "correct_answer": "2009",
+      "distractors": [
+        "2010",
+        "2007",
+        "2006"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "be5d2d1b-8051-4440-ab34-eb93244f9d02",
+      "question_text": "At which race was the 2018 F1 Drivers Championship won?",
+      "correct_answer": "Mexico",
+      "distractors": [
+        "United States",
+        "Belgium",
+        "Abu Dhabi"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "dffc3589-445a-4db6-9584-4c605a79eac3",
+      "question_text": "Who won the 2015 Formula 1 World Championship?",
+      "correct_answer": "Lewis Hamilton",
+      "distractors": [
+        "Nico Rosberg",
+        "Sebastian Vettel",
+        "Jenson Button"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 50,
+          "observed_n": 0
+        },
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "c30b9893-7936-48f2-9961-cc2d4d44ef87",
+      "question_text": "The F1 season of 1994 is remembered for what tragic event?",
+      "correct_answer": "Death of Ayrton Senna (San Marino)",
+      "distractors": [
+        "The Showdown (Australia)",
+        "Verstappen on Fire (Germany)",
+        "Schumacher's Ban (Britain)"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4b66ccc9-d2f0-41e7-b060-9aec582dc7b0",
+      "question_text": "With which team did Michael Schumacher make his Formula One debut at the 1991 Belgian Grand Prix?",
+      "correct_answer": "Jordan",
+      "distractors": [
+        "Benetton",
+        "Ferrari",
+        "Mercedes"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d0faa3d4-a4f6-450f-8ee8-fb921f230bc0",
+      "question_text": "Enzo Ferrari was originally an auto racer for what manufacturer before founding his own car company?",
+      "correct_answer": "Alfa Romeo",
+      "distractors": [
+        "Auto Union",
+        "Mercedes Benz",
+        "Bentley"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 18,
+          "observed_n": 0
+        },
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "46506e70-302f-4373-9be4-13a6d1050de4",
+      "question_text": "Which animal features on the logo for Abarth, the motorsport division of Fiat?",
+      "correct_answer": "Scorpion",
+      "distractors": [
+        "Snake",
+        "Bull",
+        "Horse"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 35,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "10fc7782-caa4-40fb-9e66-c8f3447fe56d",
+      "question_text": "Who is the only driver to win a World Championship posthumously?",
+      "correct_answer": "Jochen Rindt",
+      "distractors": [
+        "Ayrton Senna",
+        "Ronnie Peterson",
+        "Gilles Villeneuve"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 60,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "cc216e4c-8faf-4f77-b273-c890c8d0743f",
+      "question_text": "Which driver won their first world championship in 2009 driving for Brawn GP?",
+      "correct_answer": "Jenson Button",
+      "distractors": [
+        "Rubens Barrichello",
+        "Sebastian Vettel",
+        "Kimi Räikkönen"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 25,
+          "observed_n": 0
+        },
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 92,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "f97f8b06-5d79-4f6f-a3fb-41c0740bc20e",
+      "question_text": "At which circuit did Ayrton Senna tragically lose his life in 1994?",
+      "correct_answer": "Imola",
+      "distractors": [
+        "Monza",
+        "Spa-Francorchamps",
+        "Interlagos"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 35,
+          "observed_n": 0
+        },
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 95,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "af7ccd87-8e87-4a80-800c-1c38a8d21c74",
+      "question_text": "Which team did Michael Schumacher drive for when he won his first title in 1994?",
+      "correct_answer": "Benetton",
+      "distractors": [
+        "Jordan",
+        "Williams",
+        "Ligier"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "5dd275fe-ec68-4045-be50-5b68f48324a7",
+      "question_text": "What flag colour immediately halts an F1 session?",
+      "correct_answer": "Red",
+      "distractors": [
+        "Black",
+        "Yellow",
+        "Blue"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 78,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "bce3aea3-89ee-421c-80a5-f73fc5e07fd2",
+      "question_text": "Who won the 2008 F1 title by overtaking Glock on the final lap in Brazil?",
+      "correct_answer": "Lewis Hamilton",
+      "distractors": [
+        "Felipe Massa",
+        "Kimi Räikkönen",
+        "Fernando Alonso"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "formula-one-racing",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "sports",
+          "name": "Sports",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "fc3ba496-65b0-43eb-91ff-b0405190f2fc",
+      "question_text": "What does cooking au gratin involve?",
+      "correct_answer": "A browned crust, often with cheese or breadcrumbs",
+      "distractors": [
+        "Cooking in a paper parcel",
+        "Flambéing with brandy",
+        "Marinating in wine"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "french-cuisine",
+          "estimate_score": 75,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "food-and-drink",
+          "name": "Food and Drink",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "d175e208-7c5f-4d0d-8c34-82750f13edbb",
+      "question_text": "Which chef wrote the 'Guide Culinaire', published in 1903?",
+      "correct_answer": "Auguste Escoffier",
+      "distractors": [
+        "Marie-Antoine Carême",
+        "Paul Bocuse",
+        "Fernand Point"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 18,
+          "observed_n": 0
+        },
+        {
+          "slug": "french-cuisine",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "food-and-drink",
+          "name": "Food and Drink",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "b426a2f7-423d-43fe-a977-2c880ab31713",
+      "question_text": "In the game Overwatch, which hero out of the following 4 is from Brazil?",
+      "correct_answer": "Lúcio",
+      "distractors": [
+        "Sombra",
+        "McCree",
+        "Symmetra"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 65,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "73476e93-2e68-403f-abed-f831ffd8e849",
+      "question_text": "In the Half-Life series, Gordon Freeman's signature weapon is a:",
+      "correct_answer": "Crowbar",
+      "distractors": [
+        "Sledgehammer",
+        "Fiber Wire",
+        "Katana"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 85,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 80,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "0927b6e9-5622-4edd-993b-b026c85c18df",
+      "question_text": "What is the name of the talking cat in Persona 5?",
+      "correct_answer": "Morgana",
+      "distractors": [
+        "Teddie",
+        "Marie",
+        "Ryuji"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "4bf929e1-3098-4302-903d-1747d9cd0011",
+      "question_text": "Which one of these is NOT a character in the video game Overwatch",
+      "correct_answer": "Garen",
+      "distractors": [
+        "Reaper",
+        "Hana Song",
+        "Tracer"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 50,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "ffefddb8-de2a-4390-b828-e57efe11c963",
+      "question_text": "Which of the following is not a character in the Street Fighter series?",
+      "correct_answer": "Mai Shiranui",
+      "distractors": [
+        "Laura Matsuda",
+        "Sakura Kasugano",
+        "Ibuki"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 40,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 30,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "8c419651-00bb-4a88-a431-dfa4c247361b",
+      "question_text": "Who is the protagonist in the game \"The Walking Dead: Season One\"?",
+      "correct_answer": "Lee Everett",
+      "distractors": [
+        "Clementine",
+        "Kenny",
+        "Rick Grimes"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 55,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 45,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "37bbe7e2-39b0-4175-81dd-4a97289a0771",
+      "question_text": "Who was the first female protagonist in a video game?",
+      "correct_answer": "Samus Aran",
+      "distractors": [
+        "Lara Croft",
+        "Alis Landale",
+        "Chell"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 70,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "2867efd4-248a-4258-9da5-7ecbd065200c",
+      "question_text": "In which game did the character \"Mario\" make his first appearance?",
+      "correct_answer": "Donkey Kong",
+      "distractors": [
+        "Super Mario Bros.",
+        "Super Mario Land",
+        "Mario Bros."
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 75,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 80,
+          "observed_n": 0
+        },
+        {
+          "slug": "classic-arcade-games",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "general-knowledge",
+          "estimate_score": 40,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "7f05b48f-6af3-4559-8509-749f6ef8d87b",
+      "question_text": "Which is the protagonist of Bioshock Infinite?",
+      "correct_answer": "Booker DeWitt",
+      "distractors": [
+        "Zachary Comstock",
+        "Arthas Menethil",
+        "Herbie Hancock"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 70,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 72,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    },
+    {
+      "id": "9045eafe-6817-4927-96e6-e301e9b2a9c2",
+      "question_text": "Who is the main protagonist in the game Life is Strange: Before The Storm?",
+      "correct_answer": "Chloe Price ",
+      "distractors": [
+        "Max Caulfield",
+        "Rachel Amber",
+        "Frank Bowers"
+      ],
+      "existing_slugs": [
+        {
+          "slug": "gaming-characters",
+          "estimate_score": 65,
+          "observed_n": 0
+        },
+        {
+          "slug": "video-game-franchises",
+          "estimate_score": 55,
+          "observed_n": 0
+        }
+      ],
+      "ancestors_to_add": [
+        {
+          "slug": "gaming",
+          "name": "Gaming",
+          "parent_slug": null,
+          "chain_depth": 0
+        }
+      ]
+    }
+  ]
+}
