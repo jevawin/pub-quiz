@@ -1,0 +1,50 @@
+name: backup-question-library
+on:
+  schedule:
+    - cron: '0 4 * * *'  # 04:00 UTC daily, offset from observed-score-refresh (03:00) and pipeline (08:00)
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to commit the backup file
+    concurrency:
+      group: backup-question-library
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      - name: Install postgresql-client-17 (matches/exceeds Supabase server version)
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+            -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client-17
+          pg_dump --version
+
+      - name: Run backup
+        run: ./pipeline/scripts/backup-questions.sh
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+
+      - name: Rotate old backups
+        run: ./pipeline/scripts/rotate-backups.sh
+
+      - name: Commit + push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add supabase/backups/
+          if git diff --cached --quiet; then
+            echo "No backup changes to commit"
+            exit 0
+          fi
+          git commit -m "chore(backup): question library $(date -u +%F)"
+          git push

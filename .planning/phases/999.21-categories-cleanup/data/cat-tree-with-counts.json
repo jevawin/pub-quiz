@@ -1,0 +1,979 @@
+{
+  "fetched_at": "2026-05-09T18:37:03.172Z",
+  "total": 139,
+  "categories": [
+    {
+      "slug": "art-and-design",
+      "name": "Art and Design",
+      "parent_slug": null,
+      "root_slug": "art-and-design",
+      "direct_q_count": 50
+    },
+    {
+      "slug": "design-icons",
+      "name": "Design Icons",
+      "parent_slug": "art-and-design",
+      "root_slug": "art-and-design",
+      "direct_q_count": 8
+    },
+    {
+      "slug": "famous-artists",
+      "name": "Famous Artists",
+      "parent_slug": "art-and-design",
+      "root_slug": "art-and-design",
+      "direct_q_count": 27
+    },
+    {
+      "slug": "famous-paintings",
+      "name": "Famous Paintings",
+      "parent_slug": "art-and-design",
+      "root_slug": "art-and-design",
+      "direct_q_count": 34
+    },
+    {
+      "slug": "famous-works-of-art",
+      "name": "Famous Works of Art",
+      "parent_slug": "art-and-design",
+      "root_slug": "art-and-design",
+      "direct_q_count": 11
+    },
+    {
+      "slug": "iconic-architecture",
+      "name": "Iconic Architecture",
+      "parent_slug": "art-and-design",
+      "root_slug": "art-and-design",
+      "direct_q_count": 22
+    },
+    {
+      "slug": "museums-and-galleries",
+      "name": "Museums and Galleries",
+      "parent_slug": "art-and-design",
+      "root_slug": "art-and-design",
+      "direct_q_count": 5
+    },
+    {
+      "slug": "food-and-drink",
+      "name": "Food and Drink",
+      "parent_slug": null,
+      "root_slug": "food-and-drink",
+      "direct_q_count": 75
+    },
+    {
+      "slug": "beer-and-brewing",
+      "name": "Beer and Brewing",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 6
+    },
+    {
+      "slug": "british-pub-food",
+      "name": "British Pub Food",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 8
+    },
+    {
+      "slug": "cheese-around-the-world",
+      "name": "Cheese Around the World",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 7
+    },
+    {
+      "slug": "chocolate-and-sweets",
+      "name": "Chocolate and Sweets",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 8
+    },
+    {
+      "slug": "desserts-and-baking",
+      "name": "Desserts and Baking",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 7
+    },
+    {
+      "slug": "french-cuisine",
+      "name": "French Cuisine",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 9
+    },
+    {
+      "slug": "indian-cuisine",
+      "name": "Indian Cuisine",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 7
+    },
+    {
+      "slug": "international-cuisine",
+      "name": "International Cuisine",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 28
+    },
+    {
+      "slug": "italian-cuisine",
+      "name": "Italian Cuisine",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 17
+    },
+    {
+      "slug": "mediterranean-cuisine",
+      "name": "Mediterranean Cuisine",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 11
+    },
+    {
+      "slug": "mexican-food",
+      "name": "Mexican Food",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 10
+    },
+    {
+      "slug": "wine-and-spirits",
+      "name": "Wine and Spirits",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 8
+    },
+    {
+      "slug": "world-cuisine",
+      "name": "World Cuisine",
+      "parent_slug": "food-and-drink",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 11
+    },
+    {
+      "slug": "italian-food",
+      "name": "Italian Food",
+      "parent_slug": "international-cuisine",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 14
+    },
+    {
+      "slug": "mexican-cuisine",
+      "name": "Mexican Cuisine",
+      "parent_slug": "world-cuisine",
+      "root_slug": "food-and-drink",
+      "direct_q_count": 10
+    },
+    {
+      "slug": "gaming",
+      "name": "Gaming",
+      "parent_slug": null,
+      "root_slug": "gaming",
+      "direct_q_count": 82
+    },
+    {
+      "slug": "classic-arcade-games",
+      "name": "Classic Arcade Games",
+      "parent_slug": "gaming",
+      "root_slug": "gaming",
+      "direct_q_count": 21
+    },
+    {
+      "slug": "console-history",
+      "name": "Console History",
+      "parent_slug": "gaming",
+      "root_slug": "gaming",
+      "direct_q_count": 30
+    },
+    {
+      "slug": "esports-and-competitive-gaming",
+      "name": "Esports and Competitive Gaming",
+      "parent_slug": "gaming",
+      "root_slug": "gaming",
+      "direct_q_count": 21
+    },
+    {
+      "slug": "gaming-characters",
+      "name": "Gaming Characters",
+      "parent_slug": "gaming",
+      "root_slug": "gaming",
+      "direct_q_count": 199
+    },
+    {
+      "slug": "traditional-pub-games",
+      "name": "Traditional Pub Games",
+      "parent_slug": "gaming",
+      "root_slug": "gaming",
+      "direct_q_count": 31
+    },
+    {
+      "slug": "video-game-adaptations",
+      "name": "Video Game Adaptations",
+      "parent_slug": "gaming",
+      "root_slug": "gaming",
+      "direct_q_count": 11
+    },
+    {
+      "slug": "video-game-franchises",
+      "name": "Video Game Franchises",
+      "parent_slug": "gaming",
+      "root_slug": "gaming",
+      "direct_q_count": 457
+    },
+    {
+      "slug": "general-knowledge",
+      "name": "General Knowledge",
+      "parent_slug": null,
+      "root_slug": "general-knowledge",
+      "direct_q_count": 1491
+    },
+    {
+      "slug": "geography",
+      "name": "Geography",
+      "parent_slug": null,
+      "root_slug": "geography",
+      "direct_q_count": 192
+    },
+    {
+      "slug": "african-geography",
+      "name": "African Geography",
+      "parent_slug": "geography",
+      "root_slug": "geography",
+      "direct_q_count": 37
+    },
+    {
+      "slug": "asian-geography",
+      "name": "Asian Geography",
+      "parent_slug": "geography",
+      "root_slug": "geography",
+      "direct_q_count": 61
+    },
+    {
+      "slug": "caribbean-geography",
+      "name": "Caribbean Geography",
+      "parent_slug": "geography",
+      "root_slug": "geography",
+      "direct_q_count": 12
+    },
+    {
+      "slug": "european-geography",
+      "name": "European Geography",
+      "parent_slug": "geography",
+      "root_slug": "geography",
+      "direct_q_count": 146
+    },
+    {
+      "slug": "famous-landmarks",
+      "name": "Famous Landmarks",
+      "parent_slug": "geography",
+      "root_slug": "geography",
+      "direct_q_count": 71
+    },
+    {
+      "slug": "national-parks",
+      "name": "National Parks",
+      "parent_slug": "geography",
+      "root_slug": "geography",
+      "direct_q_count": 10
+    },
+    {
+      "slug": "south-american-geography",
+      "name": "South American Geography",
+      "parent_slug": "geography",
+      "root_slug": "geography",
+      "direct_q_count": 18
+    },
+    {
+      "slug": "world-capitals",
+      "name": "World Capitals",
+      "parent_slug": "geography",
+      "root_slug": "geography",
+      "direct_q_count": 59
+    },
+    {
+      "slug": "history",
+      "name": "History",
+      "parent_slug": null,
+      "root_slug": "history",
+      "direct_q_count": 233
+    },
+    {
+      "slug": "the-roman-empire",
+      "name": "The Roman Empire",
+      "parent_slug": "ancient-rome",
+      "root_slug": "history",
+      "direct_q_count": 9
+    },
+    {
+      "slug": "ancient-egypt",
+      "name": "Ancient Egypt",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 10
+    },
+    {
+      "slug": "ancient-rome",
+      "name": "Ancient Rome",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 32
+    },
+    {
+      "slug": "british-history",
+      "name": "British History",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 76
+    },
+    {
+      "slug": "british-monarchy",
+      "name": "British Monarchy",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 17
+    },
+    {
+      "slug": "cold-war-history",
+      "name": "Cold War History",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 33
+    },
+    {
+      "slug": "famous-dictators",
+      "name": "Famous Dictators",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 10
+    },
+    {
+      "slug": "famous-explorers",
+      "name": "Famous Explorers",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 23
+    },
+    {
+      "slug": "famous-heists",
+      "name": "Famous Heists",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 3
+    },
+    {
+      "slug": "famous-inventors",
+      "name": "Famous Inventors",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 20
+    },
+    {
+      "slug": "famous-speeches",
+      "name": "Famous Speeches",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 3
+    },
+    {
+      "slug": "greek-mythology",
+      "name": "Greek Mythology",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 34
+    },
+    {
+      "slug": "the-1960s",
+      "name": "The 1960s",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 5
+    },
+    {
+      "slug": "the-1980s",
+      "name": "The 1980s",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 5
+    },
+    {
+      "slug": "the-sixties",
+      "name": "The Sixties",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 5
+    },
+    {
+      "slug": "the-wild-west",
+      "name": "The Wild West",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 7
+    },
+    {
+      "slug": "us-presidents",
+      "name": "US Presidents",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 40
+    },
+    {
+      "slug": "victorian-era",
+      "name": "Victorian Era",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 7
+    },
+    {
+      "slug": "world-war-i",
+      "name": "World War I",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 7
+    },
+    {
+      "slug": "world-war-ii",
+      "name": "World War II",
+      "parent_slug": "history",
+      "root_slug": "history",
+      "direct_q_count": 52
+    },
+    {
+      "slug": "literature",
+      "name": "Literature",
+      "parent_slug": null,
+      "root_slug": "literature",
+      "direct_q_count": 61
+    },
+    {
+      "slug": "quidditch-rules",
+      "name": "Quidditch Rules",
+      "parent_slug": "harry-potter",
+      "root_slug": "literature",
+      "direct_q_count": 3
+    },
+    {
+      "slug": "classic-literature",
+      "name": "Classic Literature",
+      "parent_slug": "literature",
+      "root_slug": "literature",
+      "direct_q_count": 113
+    },
+    {
+      "slug": "detective-novels",
+      "name": "Detective Novels",
+      "parent_slug": "literature",
+      "root_slug": "literature",
+      "direct_q_count": 10
+    },
+    {
+      "slug": "famous-authors",
+      "name": "Famous Authors",
+      "parent_slug": "literature",
+      "root_slug": "literature",
+      "direct_q_count": 42
+    },
+    {
+      "slug": "fantasy-novels",
+      "name": "Fantasy Novels",
+      "parent_slug": "literature",
+      "root_slug": "literature",
+      "direct_q_count": 22
+    },
+    {
+      "slug": "harry-potter",
+      "name": "Harry Potter",
+      "parent_slug": "literature",
+      "root_slug": "literature",
+      "direct_q_count": 21
+    },
+    {
+      "slug": "shakespeare",
+      "name": "Shakespeare",
+      "parent_slug": "literature",
+      "root_slug": "literature",
+      "direct_q_count": 10
+    },
+    {
+      "slug": "superhero-comics",
+      "name": "Superhero Comics",
+      "parent_slug": "literature",
+      "root_slug": "literature",
+      "direct_q_count": 36
+    },
+    {
+      "slug": "movies-and-tv",
+      "name": "Movies and TV",
+      "parent_slug": null,
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 84
+    },
+    {
+      "slug": "cartoon-villains",
+      "name": "Cartoon Villains",
+      "parent_slug": "animated-films",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 7
+    },
+    {
+      "slug": "famous-sitcom-catchphrases",
+      "name": "Famous Sitcom Catchphrases",
+      "parent_slug": "classic-sitcoms",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 3
+    },
+    {
+      "slug": "bond-villains",
+      "name": "Bond Villains",
+      "parent_slug": "james-bond-films",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 2
+    },
+    {
+      "slug": "action-heroes",
+      "name": "Action Heroes",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 41
+    },
+    {
+      "slug": "animated-classics",
+      "name": "Animated Classics",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 105
+    },
+    {
+      "slug": "animated-films",
+      "name": "Animated Films",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 116
+    },
+    {
+      "slug": "classic-disney-films",
+      "name": "Classic Disney Films",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 26
+    },
+    {
+      "slug": "classic-hollywood",
+      "name": "Classic Hollywood",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 159
+    },
+    {
+      "slug": "classic-sitcoms",
+      "name": "Classic Sitcoms",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 55
+    },
+    {
+      "slug": "classic-tv-detectives",
+      "name": "Classic TV Detectives",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 5
+    },
+    {
+      "slug": "classic-western-films",
+      "name": "Classic Western Films",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 6
+    },
+    {
+      "slug": "horror-films",
+      "name": "Horror Films",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 32
+    },
+    {
+      "slug": "iconic-tv-theme-songs",
+      "name": "Iconic TV Theme Songs",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 3
+    },
+    {
+      "slug": "james-bond-films",
+      "name": "James Bond Films",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 15
+    },
+    {
+      "slug": "marvel-cinematic-universe",
+      "name": "Marvel Cinematic Universe",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 18
+    },
+    {
+      "slug": "pixar-films",
+      "name": "Pixar Films",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 15
+    },
+    {
+      "slug": "science-fiction-films",
+      "name": "Science Fiction Films",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 64
+    },
+    {
+      "slug": "star-wars-films",
+      "name": "Star Wars Films",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 17
+    },
+    {
+      "slug": "western-films",
+      "name": "Western Films",
+      "parent_slug": "movies-and-tv",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 10
+    },
+    {
+      "slug": "classic-westerns",
+      "name": "Classic Westerns",
+      "parent_slug": "western-films",
+      "root_slug": "movies-and-tv",
+      "direct_q_count": 12
+    },
+    {
+      "slug": "music",
+      "name": "Music",
+      "parent_slug": null,
+      "root_slug": "music",
+      "direct_q_count": 221
+    },
+    {
+      "slug": "80s-pop-music",
+      "name": "80s Pop Music",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 23
+    },
+    {
+      "slug": "90s-music-hits",
+      "name": "90s Music Hits",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 30
+    },
+    {
+      "slug": "british-bands",
+      "name": "British Bands",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 27
+    },
+    {
+      "slug": "broadway-musicals",
+      "name": "Broadway Musicals",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 9
+    },
+    {
+      "slug": "classic-jazz",
+      "name": "Classic Jazz",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 7
+    },
+    {
+      "slug": "classic-rock",
+      "name": "Classic Rock",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 109
+    },
+    {
+      "slug": "country-music",
+      "name": "Country Music",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 6
+    },
+    {
+      "slug": "david-bowie",
+      "name": "David Bowie",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 10
+    },
+    {
+      "slug": "hip-hop-and-rap",
+      "name": "Hip Hop and Rap",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 33
+    },
+    {
+      "slug": "rock-and-roll-legends",
+      "name": "Rock and Roll Legends",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 23
+    },
+    {
+      "slug": "the-beatles",
+      "name": "The Beatles",
+      "parent_slug": "music",
+      "root_slug": "music",
+      "direct_q_count": 24
+    },
+    {
+      "slug": "nature-and-animals",
+      "name": "Nature and Animals",
+      "parent_slug": null,
+      "root_slug": "nature-and-animals",
+      "direct_q_count": 39
+    },
+    {
+      "slug": "australian-animals",
+      "name": "Australian Animals",
+      "parent_slug": "nature-and-animals",
+      "root_slug": "nature-and-animals",
+      "direct_q_count": 10
+    },
+    {
+      "slug": "birds-of-the-world",
+      "name": "Birds of the World",
+      "parent_slug": "nature-and-animals",
+      "root_slug": "nature-and-animals",
+      "direct_q_count": 15
+    },
+    {
+      "slug": "cats-and-felines",
+      "name": "Cats and Felines",
+      "parent_slug": "nature-and-animals",
+      "root_slug": "nature-and-animals",
+      "direct_q_count": 12
+    },
+    {
+      "slug": "dinosaurs",
+      "name": "Dinosaurs",
+      "parent_slug": "nature-and-animals",
+      "root_slug": "nature-and-animals",
+      "direct_q_count": 7
+    },
+    {
+      "slug": "dog-breeds",
+      "name": "Dog Breeds",
+      "parent_slug": "nature-and-animals",
+      "root_slug": "nature-and-animals",
+      "direct_q_count": 9
+    },
+    {
+      "slug": "marine-life",
+      "name": "Marine Life",
+      "parent_slug": "nature-and-animals",
+      "root_slug": "nature-and-animals",
+      "direct_q_count": 9
+    },
+    {
+      "slug": "science",
+      "name": "Science",
+      "parent_slug": null,
+      "root_slug": "science",
+      "direct_q_count": 235
+    },
+    {
+      "slug": "famous-scientists",
+      "name": "Famous Scientists",
+      "parent_slug": "science",
+      "root_slug": "science",
+      "direct_q_count": 43
+    },
+    {
+      "slug": "inventions-and-discoveries",
+      "name": "Inventions and Discoveries",
+      "parent_slug": "science",
+      "root_slug": "science",
+      "direct_q_count": 70
+    },
+    {
+      "slug": "space-and-astronomy",
+      "name": "Space and Astronomy",
+      "parent_slug": "science",
+      "root_slug": "science",
+      "direct_q_count": 54
+    },
+    {
+      "slug": "the-human-body",
+      "name": "The Human Body",
+      "parent_slug": "science",
+      "root_slug": "science",
+      "direct_q_count": 74
+    },
+    {
+      "slug": "the-solar-system",
+      "name": "The Solar System",
+      "parent_slug": "science",
+      "root_slug": "science",
+      "direct_q_count": 28
+    },
+    {
+      "slug": "weather-and-natural-phenomena",
+      "name": "Weather and Natural Phenomena",
+      "parent_slug": "science",
+      "root_slug": "science",
+      "direct_q_count": 16
+    },
+    {
+      "slug": "space-exploration",
+      "name": "Space Exploration",
+      "parent_slug": "the-solar-system",
+      "root_slug": "science",
+      "direct_q_count": 31
+    },
+    {
+      "slug": "sports",
+      "name": "Sports",
+      "parent_slug": null,
+      "root_slug": "sports",
+      "direct_q_count": 60
+    },
+    {
+      "slug": "american-sports",
+      "name": "American Sports",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 21
+    },
+    {
+      "slug": "cricket",
+      "name": "Cricket",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 6
+    },
+    {
+      "slug": "european-football-leagues",
+      "name": "European Football Leagues",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 31
+    },
+    {
+      "slug": "formula-one",
+      "name": "Formula One",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 22
+    },
+    {
+      "slug": "formula-one-racing",
+      "name": "Formula One Racing",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 23
+    },
+    {
+      "slug": "premier-league-football",
+      "name": "Premier League Football",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 31
+    },
+    {
+      "slug": "rugby-union",
+      "name": "Rugby Union",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 4
+    },
+    {
+      "slug": "soccer-world-cup",
+      "name": "Soccer World Cup",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 28
+    },
+    {
+      "slug": "tennis",
+      "name": "Tennis",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 15
+    },
+    {
+      "slug": "tennis-grand-slams",
+      "name": "Tennis Grand Slams",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 13
+    },
+    {
+      "slug": "the-olympics",
+      "name": "The Olympics",
+      "parent_slug": "sports",
+      "root_slug": "sports",
+      "direct_q_count": 20
+    },
+    {
+      "slug": "olympic-host-cities",
+      "name": "Olympic Host Cities",
+      "parent_slug": "the-olympics",
+      "root_slug": "sports",
+      "direct_q_count": 13
+    },
+    {
+      "slug": "technology",
+      "name": "Technology",
+      "parent_slug": null,
+      "root_slug": "technology",
+      "direct_q_count": 106
+    },
+    {
+      "slug": "computer-basics",
+      "name": "Computer Basics",
+      "parent_slug": "technology",
+      "root_slug": "technology",
+      "direct_q_count": 56
+    },
+    {
+      "slug": "iconic-gadgets",
+      "name": "Iconic Gadgets",
+      "parent_slug": "technology",
+      "root_slug": "technology",
+      "direct_q_count": 16
+    },
+    {
+      "slug": "social-media-history",
+      "name": "Social Media History",
+      "parent_slug": "technology",
+      "root_slug": "technology",
+      "direct_q_count": 9
+    },
+    {
+      "slug": "space-technology",
+      "name": "Space Technology",
+      "parent_slug": "technology",
+      "root_slug": "technology",
+      "direct_q_count": 8
+    },
+    {
+      "slug": "tech-company-founders",
+      "name": "Tech Company Founders",
+      "parent_slug": "technology",
+      "root_slug": "technology",
+      "direct_q_count": 32
+    },
+    {
+      "slug": "the-internet-and-the-web",
+      "name": "The Internet and the Web",
+      "parent_slug": "technology",
+      "root_slug": "technology",
+      "direct_q_count": 32
+    }
+  ]
+}
