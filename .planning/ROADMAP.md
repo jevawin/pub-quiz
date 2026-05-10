@@ -418,8 +418,21 @@ Small, current-state-appropriate fixes triggered directly by recent feedback. Pu
 
 ### 260510-fas-altmed: Add fashion-and-clothing + alternative-medicine when library justifies (BACKLOG)
 
-**Goal:** Create slugs once question count crosses ≥5 each. Today: 1 alt-medicine Q (Japanese shiatsu), 2 fashion Qs (Inditex/Zara HQ; Scotsman/kilt). Decide parents at create time — both are orphan domains today (no `health-and-medicine` or `lifestyle` root). Either (a) create `health-and-medicine` and `fashion-and-clothing` as new roots with single leaf each, or (b) attach to closest existing root (science / art-and-design) — pick when scope justifies it.
+**Goal:** Create slugs once parked-Q count crosses ≥5 each. Today: 1 alt-medicine Q (Japanese shiatsu), 2 fashion Qs (Inditex/Zara HQ; Scotsman/kilt) — all parked via 260510-prk. Decide parents at create time — both are orphan domains today (no `health-and-medicine` or `lifestyle` root). Either (a) create `health-and-medicine` and `fashion-and-clothing` as new roots with single leaf each, or (b) attach to closest existing root (science / art-and-design) — pick when scope justifies it.
+**Promotion (when triggered):** `UPDATE questions SET status='published', parked_reason=NULL WHERE parked_reason LIKE 'awaiting category: %';` + INSERT matching `question_categories` rows. Convention established by 260510-prk.
 **Why deferred:** Cat creation has overhead (migration, taxonomy decision, downstream tagging). Not worth it for 1-2 Qs.
+
+### 260510-prk: Parking lane for orphan-category questions (PENDING)
+
+**Goal:** Add a parking status + audit column to `questions` so outlier Qs (no fitting category yet) drop out of live quizzes without being deleted. Park the 3 outliers identified by 260510-slg scoping pass.
+**Schema change:** `ALTER TABLE questions ADD COLUMN parked_reason text;` Plus convention `status='parked'` (status is plain `text`, no enum bump needed).
+**Park targets (3 Qs):**
+- `8843ae93-a391-4c54-a264-9bcfcdd44ecb` (Japanese shiatsu) — `parked_reason='awaiting category: alternative-medicine'`
+- `a56a93d2-634c-48f9-bb48-829cc3011f97` (Inditex/Zara HQ) — `parked_reason='awaiting category: fashion-and-clothing'`
+- `ce1c631c-f42d-435f-82d5-f225e34f7b8e` (Scotsman/kilt) — `parked_reason='awaiting category: fashion-and-clothing'`
+**Filter audit:** Confirm all live-Q queries filter `WHERE status='published'` (RPCs `count_available_questions`, `get_quiz_questions`, etc.). Already convention — verify, don't refactor.
+**Why now:** Reusable lane for any future orphan Qs (rare-leaf candidates from 999.16/999.19 audits). Cheap to build (1 col + 3 UPDATEs + 1 audit query).
+**Migration:** `00036_add_parked_reason.sql` (single ALTER + comment).
 
 ### 260510-dpd: Fix depth column drift on the-1970s + the-1990s (PENDING)
 
