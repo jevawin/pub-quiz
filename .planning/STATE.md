@@ -134,7 +134,11 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+Quick tasks queued in ROADMAP §C1 (deferred from 999.23):
+- **260510-oua**: Ouagadougou `world-capitals` score 45 → 70 (one-line SQL via Supabase MCP)
+- **260510-dup**: Sputnik 1 near-dup pair (`7de67f33` / `f862b7cf`) — pick one, retire other
+- **260510-slg**: Migration 00035 — add 6 missing leaves (board-games, electronic-music, 2010s-music, pizza, alternative-medicine, fashion-and-clothing)
+- **260510-cou**: Bulk cousin sweep across full library (validate approach on one leaf first, e.g. Marvel → pop-culture)
 
 ### Blockers/Concerns
 

@@ -399,6 +399,27 @@ Current-state work. The web prototype (Phase 2.2) is the testbed; this section i
 
 Small, current-state-appropriate fixes triggered directly by recent feedback. Pure prompt edits or single-file tweaks. Execute with `/gsd-quick`.
 
+### 260510-oua: Ouagadougou world-capitals score raise (PENDING)
+
+**Goal:** Raise `estimate_score` on `question_categories` row for Q `7ab8a974-7e33-4420-92cc-5047169efe45` (Burkina Faso capital) at slug `world-capitals` from 45 → ~70. Flagged in 999.22 PROGRESS.md as too low for capitals-pill audience. Deferred from 999.23 because `apply-cousin-changes.ts` only supports delete/insert/set_primary, not score updates.
+**Why now:** One-line SQL via Supabase MCP or service-role client. Either run inline or extend the apply script with a `set_score` op for future use.
+**SQL:** `UPDATE question_categories SET estimate_score = 70 WHERE question_id = '7ab8a974-7e33-4420-92cc-5047169efe45' AND category_id = (SELECT id FROM categories WHERE slug = 'world-capitals');`
+
+### 260510-dup: Sputnik 1 near-duplicate Q dedup (PENDING)
+
+**Goal:** Two Qs both ask "first artificial satellite" with answer "Sputnik 1": `7de67f33-b1f1-44d8-8036-e53ed58820c6` and `f862b7cf-65ba-4722-97f1-17f4238fe09e`. Pick the better-worded one, mark the other unpublished or delete. Flagged during 999.22 backfill + confirmed in 999.23 cap-5 review.
+**Why now:** Quick win for library quality. Investigate whether other near-dup pairs exist via similarity search on `question_text` while we're at it.
+
+### 260510-slg: Slug-tree extension for missing categories (PENDING)
+
+**Goal:** Add 6 leaves surfaced as gaps during 999.23 mistag review where the heuristic could only remove a wrong tag (no good replacement existed): `board-games`, `electronic-music`, `2010s-music`, `pizza`, `alternative-medicine`, `fashion-and-clothing`. Decide parent slugs per chain hierarchy, write migration `00035_categories_extension.sql` mirroring `00030`/`00031` shape.
+**Why now:** Without these slugs, future mistag passes can only delete the wrong tag — they can't re-tag to the right one. Several Qs in 999.23 mistag-001 lost a category instead of being re-categorised cleanly.
+
+### 260510-cou: Bulk cousin sweep across full library (PENDING)
+
+**Goal:** 999.23 only touched 19 cap-5 + 35 flagged Qs. The other 2700+ Qs may have similar cousin mis-tags or missed cousin opportunities (especially `pop-culture` per migration 00031 intent). Either: (a) automated Sonnet-based cousin suggester running per-leaf, or (b) extend the heuristic-SQL approach with more patterns and review as one large worklist.
+**Why now:** Cost vs benefit unclear pre-experiment — start with one leaf (e.g. all Marvel Qs → check for missing pop-culture cousin) to validate the approach before running across the library.
+
 ### 260428-fact: Tighten Enrichment Agent fun_fact prompt (PENDING)
 
 **Goal:** Three "badly worded fun fact" reports in two days (`f2285df6`, `d8e55749`, plus eggplant grammar `09f0fd8b`). Pattern is bigger than per-question rewrites — Enrichment Agent prompt needs tightening. Investigate the prompt in `pipeline/src/agents/enrichment.ts` (or wherever fun_fact generation lives), tighten constraints: complete sentences, grammatical agreement, no "is/are" mismatches, must add new info beyond the question, max 1 sentence or 2 short ones. Sample-test against 20 questions before merging.
@@ -421,29 +442,19 @@ Phase-sized iterations on the question library. Order TBC pending re-discussion 
 
 **Detail:** `.planning/phases/999.21-categories-cleanup/SUMMARY.md`.
 
-### Phase 999.23 (NEXT after 999.22): Cousin / category audit pass
+### Phase 999.23: Cousin / category audit pass (COMPLETE 2026-05-10)
 
-**Goal:** Manual conversational pass over the chain-tagged library to (a) move Qs to better primary cat where mis-categorised (e.g. Aladdin Q tagged at `literature` should be `movies-and-tv`), (b) add cousin tags where genuinely warranted, (c) reject false cousins. Strict rule: cousin only when a player picking that cat would genuinely expect this Q.
+**Goal:** Resolve 19 cap-5 collision Qs from 999.22 + review ~30 mis-tag candidates flagged by backfill subagents. Strict cousin rule: cousin only when a player picking that cat would genuinely expect this Q.
 
-**Why post-999.22:** Backfill establishes the chain rows automatically. This pass is the human polish on top — judgment calls about cross-cutting tags + primary-cat fixes. Doing it post-backfill avoids re-work.
+**Outcome:** All 19 cap-5 Qs resolved (build-chain-backfill-worklist now reports 0). 35 mistag worklist entries decided: 23 fix / 11 keep (heuristic false positives) / 1 defer. Built `apply-cousin-changes.ts` service-role script with delete/insert/set_primary ops + JSONL audit log. 88 audit lines committed across 4 batches (cap5-001/002/003 + mistag-001). Cap-5 invariant intact (0 violations across 8373 rows / 2868 Qs). All 8 SPEC acceptance criteria PASS.
 
-**Format:** Batches of ~30 Qs in chat, table format showing current cats + proposed changes. User confirms, applies via service-role.
+**Detail:** `.planning/phases/999.23-cousin-cat-audit/SUMMARY.md`.
 
-**Strict cousin examples:**
-- Marvel comics Q → also `pop-culture` (added in 00031). Maybe `movies-and-tv` if MCU-relevant.
-- Disney film Q → only `movies-and-tv` chain. NOT `literature` even if source-material was a book.
-- "What's the capital of Brazil?" → only `geography` chain. NOT `general-knowledge` cousin (it's geography knowledge).
-
-**Pop-culture root** (added 2026-05-09 in migration 00031) populated mainly here as a cousin to MCU, Disney, Star Wars, mainstream gaming franchises.
-
-**Status:** PLANNED 2026-05-09. SPEC + CONTEXT locked. 5 plans, 5 waves.
-
-**Plans:** 5 plans
-- [ ] 999.23-01-PLAN.md — Build apply-cousin-changes.ts (delete/insert/set_primary, dry-run, audit log)
-- [ ] 999.23-02-PLAN.md — Seed data/mistag-worklist.json via heuristic SQL + 7 manual entries
-- [ ] 999.23-03-PLAN.md — Conversational review of 19 cap-5 Qs (2 batches × 10)
-- [ ] 999.23-04-PLAN.md — Conversational review of mistag worklist (~2 batches × 15)
-- [ ] 999.23-05-PLAN.md — Verify (8 ACs + sample audit) + write SUMMARY.md
+**Deferred follow-ups (see C1 quick tasks 260510-oua, 260510-dup, 260510-slg, 260510-cou below):**
+- Ouagadougou `world-capitals` score raise (needs SQL one-liner; apply-script lacks score-update op)
+- Sputnik 1 near-duplicate Q dedup (`7de67f33` / `f862b7cf`)
+- Slug-tree extension: board-games, electronic-music, 2010s-music, pizza, alternative-medicine, fashion-and-clothing
+- Bulk cousin sweep across full 2848-Q library (not just 999.22-flagged subset)
 
 ### Phase 999.22 (COMPLETE 2026-05-09): Chain tagging architecture + full backfill
 
