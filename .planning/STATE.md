@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: 999.22 chain tagging architecture + backfill COMPLETE; 999.23 cousin/cat audit is next
-stopped_at: 999.22 done (1540 of 1559 Qs chain-tagged, ~1620 ancestor rows added, 19 cap-5 collisions deferred to 999.23). Calibrator + RPCs + trigger updated.
-last_updated: "2026-05-09T21:35:00.000Z"
-last_activity: 2026-05-09 -- 999.22 shipped; chain tagging live for new pipeline output via calibrateQuestionWithChain; full backfill via 16 subagent runs (no API spend)
+status: 999.23 cousin/cat audit COMPLETE; next is 999.18
+stopped_at: 999.23 done (19/19 cap-5 collisions resolved across cap5-001/002/003; 35 mistag candidates decided 23 fix / 11 keep / 1 defer; cap-5 invariant intact at 0 violations across 8373 rows / 2868 Qs; AC1-AC8 all PASS; 88-line audit log)
+last_updated: "2026-05-10T08:45:00.000Z"
+last_activity: 2026-05-10 -- 999.23 shipped; cousin/cat audit COMPLETE — 19 cap-5 + 23 mistag fixes via apply-cousin-changes service-role script; no protected files touched
 progress:
   total_phases: 31
-  completed_phases: 5
-  total_plans: 23
-  completed_plans: 23
+  completed_phases: 6
+  total_plans: 28
+  completed_plans: 28
   percent: 100
 ---
 
@@ -21,11 +21,24 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-04)
 
 **Core value:** Great questions delivered through a clean, effortless interface -- the content is the star, not the chrome around it.
-**Current focus:** 999.22 shipped. Next is 999.23 — Cousin / category audit (manual conversational pass).
+**Current focus:** 999.23 cousin/cat audit COMPLETE 2026-05-10. Next is 999.18.
 
 ## Current Position
 
-Phase: 999.21 COMPLETE 2026-05-09. Ready for 999.22 spec.
+Phase: 999.23 COMPLETE 2026-05-10. Ready for 999.18 spec.
+
+**999.23 outcome:**
+- 19 cap-5 collision Qs resolved (cap5-001/002/003 batches; build-chain-backfill-worklist now reports 0).
+- 35 mistag candidates decided: 23 fix / 11 keep / 1 defer.
+- Cap-5 invariant holds project-wide (0 violations across 8373 rows / 2868 Qs).
+- All 8 SPEC ACs PASS; see `.planning/phases/999.23-cousin-cat-audit/999.23-VERIFICATION.md`.
+- New scripts: `apply-cousin-changes.ts`, `seed-mistag-worklist.ts`. Audit trail at `data/audit-changes.jsonl` (88 lines).
+- Zero diffs to `supabase/migrations/`, `calibrator.ts`, `category-chain.ts`.
+
+**999.21 outcome:**
+- Migration `00030_categories_cleanup.sql` applied to remote.
+- Tree: 139 → 163 cats (6 dropped, 30 added across all tiers, 3 new roots).
+- See `.planning/phases/999.21-categories-cleanup/SUMMARY.md`.
 
 **999.21 outcome:**
 - Migration `00030_categories_cleanup.sql` applied to remote.
@@ -46,7 +59,7 @@ Phase: 999.21 COMPLETE 2026-05-09. Ready for 999.22 spec.
 Active tracks (per ROADMAP §C):
 
 - C1 quick tasks: 260428-fact (pending — Enrichment fun_fact prompt tightening)
-- C2 sequenced library work: **999.21 DONE** → **999.22 DONE** → **999.23 NEXT (cousin/cat audit)** → 999.18 → 999.19 → 999.16.
+- C2 sequenced library work: **999.21 DONE** → **999.22 DONE** → **999.23 DONE** → **999.18 NEXT** → 999.19 → 999.16.
 
 Build path queue (after prototype proves out):
 
@@ -154,9 +167,9 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-03
-Stopped at: Phase 2.2 prototype iteration; 260426-bkf backfill deferred
-Last activity: 2026-05-03 - Completed quick task 260427-prm: Questions Agent prompt nudges (British English + acronym expansion + year-of-release cap)
+Last session: 2026-05-10
+Stopped at: 999.23 cousin/cat audit COMPLETE; next is 999.18
+Last activity: 2026-05-10 - Closed 999.23 — 19 cap-5 + 23 mistag fixes; AC1-AC8 all PASS
 Prior activity:
 
 - 2026-05-03 - Restructured ROADMAP into 3 tracks (260503-rmp); fixed 13 question_feedback items (260503-kxb)

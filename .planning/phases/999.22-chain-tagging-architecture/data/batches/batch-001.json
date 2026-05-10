@@ -1,142 +1,7 @@
 {
   "batch_num": 1,
-  "batch_size": 19,
+  "batch_size": 9,
   "questions": [
-    {
-      "id": "6a535027-b95e-4734-a9be-4b9c7e5dacd3",
-      "question_text": "In the movie \"V for Vendetta,\" what is the date that masked vigilante \"V\" urges people to remember?",
-      "correct_answer": "November 5th",
-      "distractors": [
-        "November 6th",
-        "November 4th",
-        "September 5th"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "action-heroes",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-hollywood",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "british-history",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "movies-and-tv",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "history",
-          "name": "History",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "87e41adf-33dc-4cde-b4e1-e8b59e3bf0a7",
-      "question_text": "What was the name of one of the surviving palaces of Henry VIII located near Richmond, London?",
-      "correct_answer": "Hampton Court",
-      "distractors": [
-        "St James's Palace",
-        "Buckingham Palace",
-        "Coughton Court"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "british-monarchy",
-          "estimate_score": 80,
-          "observed_n": 0
-        },
-        {
-          "slug": "british-history",
-          "estimate_score": 75,
-          "observed_n": 0
-        },
-        {
-          "slug": "famous-landmarks",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "history",
-          "estimate_score": 50,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "317a8610-9a70-4fd7-9e01-820b07818d96",
-      "question_text": "Which Batman villain was voiced by Mark Hamill in the animated series?",
-      "correct_answer": "The Joker",
-      "distractors": [
-        "Two-Face",
-        "The Riddler",
-        "Mr. Freeze"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "cartoon-villains",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-classics",
-          "estimate_score": 55,
-          "observed_n": 0
-        },
-        {
-          "slug": "superhero-comics",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "animated-films",
-          "estimate_score": 50,
-          "observed_n": 0
-        },
-        {
-          "slug": "movies-and-tv",
-          "estimate_score": 40,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "literature",
-          "name": "Literature",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
     {
       "id": "70436013-beb9-4b3e-b283-1157d2ffd257",
       "question_text": "What's the name of the fur-obsessed villain in 101 Dalmatians?",
@@ -168,48 +33,8 @@
           "observed_n": 0
         },
         {
-          "slug": "movies-and-tv",
-          "estimate_score": 80,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
           "slug": "animated-films",
-          "name": "Animated Films",
-          "parent_slug": "movies-and-tv",
-          "chain_depth": 1
-        }
-      ]
-    },
-    {
-      "id": "b411020b-c463-4990-b55c-bd8c7dae146d",
-      "question_text": "Which detective lived at 221B Baker Street?",
-      "correct_answer": "Sherlock Holmes",
-      "distractors": [
-        "Hercule Poirot",
-        "Lord Peter Wimsey",
-        "Inspector Morse"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "classic-tv-detectives",
-          "estimate_score": 88,
-          "observed_n": 0
-        },
-        {
-          "slug": "detective-novels",
-          "estimate_score": 92,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-literature",
-          "estimate_score": 85,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 90,
+          "estimate_score": 80,
           "observed_n": 0
         }
       ],
@@ -217,300 +42,6 @@
         {
           "slug": "movies-and-tv",
           "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        },
-        {
-          "slug": "literature",
-          "name": "Literature",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "5e2d7b5a-fe1b-45ad-96c6-3bf7f10891ce",
-      "question_text": "What Soviet space station beat America's Skylab into orbit by two years?",
-      "correct_answer": "Salyut 1",
-      "distractors": [
-        "Mir",
-        "Soyuz 1",
-        "Kosmos 1"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "cold-war-history",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "space-exploration",
-          "estimate_score": 72,
-          "observed_n": 0
-        },
-        {
-          "slug": "space-technology",
-          "estimate_score": 68,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 35,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "history",
-          "name": "History",
-          "parent_slug": null,
-          "chain_depth": 0
-        },
-        {
-          "slug": "the-solar-system",
-          "name": "The Solar System",
-          "parent_slug": "science",
-          "chain_depth": 1
-        },
-        {
-          "slug": "science",
-          "name": "Science",
-          "parent_slug": null,
-          "chain_depth": 0
-        },
-        {
-          "slug": "technology",
-          "name": "Technology",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "0df5ea8c-b88e-4f9f-9063-19dee2c25888",
-      "question_text": "Who is the author of Jurassic Park?",
-      "correct_answer": "Michael Crichton",
-      "distractors": [
-        "Peter Benchley",
-        "Chuck Paluhniuk",
-        "Irvine Welsh"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "famous-authors",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-literature",
-          "estimate_score": 60,
-          "observed_n": 0
-        },
-        {
-          "slug": "science-fiction-films",
-          "estimate_score": 55,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 60,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "literature",
-          "name": "Literature",
-          "parent_slug": null,
-          "chain_depth": 0
-        },
-        {
-          "slug": "movies-and-tv",
-          "name": "Movies and TV",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "bc36b66f-4199-42f9-9de1-d74938cd81ab",
-      "question_text": "The Burj Khalifa, world's tallest building, is in which UAE city?",
-      "correct_answer": "Dubai",
-      "distractors": [
-        "Abu Dhabi",
-        "Sharjah",
-        "Ajman"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "iconic-architecture",
-          "estimate_score": 90,
-          "observed_n": 0
-        },
-        {
-          "slug": "famous-landmarks",
-          "estimate_score": 88,
-          "observed_n": 0
-        },
-        {
-          "slug": "asian-geography",
-          "estimate_score": 80,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 92,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "art-and-design",
-          "name": "Art and Design",
-          "parent_slug": null,
-          "chain_depth": 0
-        },
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "4e56b63d-f982-4f6b-9f41-40544418331c",
-      "question_text": "Which Italian city is home to the Leaning Tower?",
-      "correct_answer": "Pisa",
-      "distractors": [
-        "Venice",
-        "Florence",
-        "Siena"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "iconic-architecture",
-          "estimate_score": 92,
-          "observed_n": 0
-        },
-        {
-          "slug": "famous-landmarks",
-          "estimate_score": 95,
-          "observed_n": 0
-        },
-        {
-          "slug": "european-geography",
-          "estimate_score": 88,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 95,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "art-and-design",
-          "name": "Art and Design",
-          "parent_slug": null,
-          "chain_depth": 0
-        },
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "c1a3b79e-1652-41c8-a43b-df06d13389f1",
-      "question_text": "The Guggenheim Museum in Bilbao is clad in which metallic material?",
-      "correct_answer": "Titanium",
-      "distractors": [
-        "Stainless steel",
-        "Copper",
-        "Aluminium"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 22,
-          "observed_n": 0
-        },
-        {
-          "slug": "museums-and-galleries",
-          "estimate_score": 70,
-          "observed_n": 0
-        },
-        {
-          "slug": "iconic-architecture",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "famous-landmarks",
-          "estimate_score": 55,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "art-and-design",
-          "name": "Art and Design",
-          "parent_slug": null,
-          "chain_depth": 0
-        },
-        {
-          "slug": "geography",
-          "name": "Geography",
-          "parent_slug": null,
-          "chain_depth": 0
-        }
-      ]
-    },
-    {
-      "id": "25b7dd32-5b69-411b-9234-e860a1d8640a",
-      "question_text": "In which English town was Shakespeare born?",
-      "correct_answer": "Stratford-upon-Avon",
-      "distractors": [
-        "Bath",
-        "Oxford",
-        "Canterbury"
-      ],
-      "existing_slugs": [
-        {
-          "slug": "shakespeare",
-          "estimate_score": 90,
-          "observed_n": 0
-        },
-        {
-          "slug": "classic-literature",
-          "estimate_score": 80,
-          "observed_n": 0
-        },
-        {
-          "slug": "british-history",
-          "estimate_score": 65,
-          "observed_n": 0
-        },
-        {
-          "slug": "general-knowledge",
-          "estimate_score": 88,
-          "observed_n": 0
-        }
-      ],
-      "ancestors_to_add": [
-        {
-          "slug": "literature",
-          "name": "Literature",
-          "parent_slug": null,
-          "chain_depth": 0
-        },
-        {
-          "slug": "history",
-          "name": "History",
           "parent_slug": null,
           "chain_depth": 0
         }
@@ -542,22 +73,22 @@
           "observed_n": 0
         },
         {
-          "slug": "the-solar-system",
+          "slug": "science",
           "estimate_score": 40,
           "observed_n": 0
         },
         {
-          "slug": "science",
-          "estimate_score": 40,
+          "slug": "technology",
+          "estimate_score": 75,
           "observed_n": 0
         }
       ],
       "ancestors_to_add": [
         {
-          "slug": "technology",
-          "name": "Technology",
-          "parent_slug": null,
-          "chain_depth": 0
+          "slug": "the-solar-system",
+          "name": "The Solar System",
+          "parent_slug": "science",
+          "chain_depth": 1
         }
       ]
     },
@@ -574,11 +105,6 @@
         {
           "slug": "space-exploration",
           "estimate_score": 88,
-          "observed_n": 0
-        },
-        {
-          "slug": "space-and-astronomy",
-          "estimate_score": 80,
           "observed_n": 0
         },
         {
@@ -637,15 +163,15 @@
           "observed_n": 0
         },
         {
-          "slug": "science",
-          "estimate_score": 65,
+          "slug": "technology",
+          "estimate_score": 80,
           "observed_n": 0
         }
       ],
       "ancestors_to_add": [
         {
-          "slug": "technology",
-          "name": "Technology",
+          "slug": "science",
+          "name": "Science",
           "parent_slug": null,
           "chain_depth": 0
         }
@@ -677,22 +203,22 @@
           "observed_n": 0
         },
         {
-          "slug": "the-solar-system",
+          "slug": "science",
           "estimate_score": 40,
           "observed_n": 0
         },
         {
-          "slug": "science",
-          "estimate_score": 40,
+          "slug": "technology",
+          "estimate_score": 70,
           "observed_n": 0
         }
       ],
       "ancestors_to_add": [
         {
-          "slug": "technology",
-          "name": "Technology",
-          "parent_slug": null,
-          "chain_depth": 0
+          "slug": "the-solar-system",
+          "name": "The Solar System",
+          "parent_slug": "science",
+          "chain_depth": 1
         }
       ]
     },
@@ -722,22 +248,22 @@
           "observed_n": 0
         },
         {
-          "slug": "the-solar-system",
-          "estimate_score": 50,
+          "slug": "science",
+          "estimate_score": 45,
           "observed_n": 0
         },
         {
-          "slug": "science",
-          "estimate_score": 45,
+          "slug": "technology",
+          "estimate_score": 85,
           "observed_n": 0
         }
       ],
       "ancestors_to_add": [
         {
-          "slug": "technology",
-          "name": "Technology",
-          "parent_slug": null,
-          "chain_depth": 0
+          "slug": "the-solar-system",
+          "name": "The Solar System",
+          "parent_slug": "science",
+          "chain_depth": 1
         }
       ]
     },
@@ -767,22 +293,22 @@
           "observed_n": 0
         },
         {
-          "slug": "the-solar-system",
+          "slug": "science",
           "estimate_score": 50,
           "observed_n": 0
         },
         {
-          "slug": "science",
-          "estimate_score": 50,
+          "slug": "technology",
+          "estimate_score": 85,
           "observed_n": 0
         }
       ],
       "ancestors_to_add": [
         {
-          "slug": "technology",
-          "name": "Technology",
-          "parent_slug": null,
-          "chain_depth": 0
+          "slug": "the-solar-system",
+          "name": "The Solar System",
+          "parent_slug": "science",
+          "chain_depth": 1
         }
       ]
     },
@@ -817,17 +343,17 @@
           "observed_n": 0
         },
         {
-          "slug": "science",
-          "estimate_score": 75,
+          "slug": "the-solar-system",
+          "estimate_score": 30,
           "observed_n": 0
         }
       ],
       "ancestors_to_add": [
         {
-          "slug": "the-solar-system",
-          "name": "The Solar System",
-          "parent_slug": "science",
-          "chain_depth": 1
+          "slug": "science",
+          "name": "Science",
+          "parent_slug": null,
+          "chain_depth": 0
         }
       ]
     },
@@ -852,26 +378,25 @@
           "observed_n": 0
         },
         {
-          "slug": "history",
-          "estimate_score": 90,
+          "slug": "general-knowledge",
+          "estimate_score": 95,
           "observed_n": 0
         },
         {
-          "slug": "general-knowledge",
-          "estimate_score": 95,
+          "slug": "science",
+          "estimate_score": 60,
+          "observed_n": 0
+        },
+        {
+          "slug": "the-solar-system",
+          "estimate_score": 25,
           "observed_n": 0
         }
       ],
       "ancestors_to_add": [
         {
-          "slug": "the-solar-system",
-          "name": "The Solar System",
-          "parent_slug": "science",
-          "chain_depth": 1
-        },
-        {
-          "slug": "science",
-          "name": "Science",
+          "slug": "history",
+          "name": "History",
           "parent_slug": null,
           "chain_depth": 0
         }
