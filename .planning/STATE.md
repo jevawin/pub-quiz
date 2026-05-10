@@ -135,7 +135,6 @@ Recent decisions affecting current work:
 ### Pending Todos
 
 Quick tasks queued in ROADMAP §C1 (deferred from 999.23):
-- **260510-oua**: Ouagadougou `world-capitals` score 45 → 70 (one-line SQL via Supabase MCP)
 - **260510-dup**: Sputnik 1 near-dup pair (`7de67f33` / `f862b7cf`) — pick one, retire other
 - **260510-slg**: Migration 00035 — add 6 missing leaves (board-games, electronic-music, 2010s-music, pizza, alternative-medicine, fashion-and-clothing)
 - **260510-cou**: Bulk cousin sweep across full library (validate approach on one leaf first, e.g. Marvel → pop-culture)
@@ -168,12 +167,13 @@ Quick tasks queued in ROADMAP §C1 (deferred from 999.23):
 | 260503-kxb | Fix 13 open question_feedback items per ROADMAP 999.17 (7 rewrites + 6 mark-resolved) | 2026-05-03 | (db-only, no commit) | [260503-kxb-fix-13-open-question-feedback-items](./quick/260503-kxb-fix-13-open-question-feedback-items/) |
 | 260503-rmp | Restructure ROADMAP into three tracks (build path / post-launch / prototype iteration) + archive | 2026-05-03 | TBD | [260503-rmp-restructure-roadmap-three-tracks](./quick/260503-rmp-restructure-roadmap-three-tracks/) |
 | 260427-prm | Questions Agent prompt nudges — British English, acronym expansion, year-of-release cap | 2026-05-03 | 3167422 | [260427-prm-questions-agent-prompt-nudges](./quick/260427-prm-questions-agent-prompt-nudges/) |
+| 260510-oua | Ouagadougou world-capitals score 45 → 70 (single-row UPDATE + audit row) | 2026-05-10 | b5f950d | [260510-j5k-260510-oua-ouagadougou-world-capitals-sc](./quick/260510-j5k-260510-oua-ouagadougou-world-capitals-sc/) |
 
 ## Session Continuity
 
 Last session: 2026-05-10
 Stopped at: 999.23 cousin/cat audit COMPLETE; next is 999.18
-Last activity: 2026-05-10 - Closed 999.23 — 19 cap-5 + 23 mistag fixes; AC1-AC8 all PASS
+Last activity: 2026-05-10 - Completed quick task 260510-oua: Ouagadougou world-capitals score bump (45→70)
 Prior activity:
 
 - 2026-05-03 - Restructured ROADMAP into 3 tracks (260503-rmp); fixed 13 question_feedback items (260503-kxb)
