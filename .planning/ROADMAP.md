@@ -434,19 +434,20 @@ Small, current-state-appropriate fixes triggered directly by recent feedback. Pu
 **Why now:** Reusable lane for any future orphan Qs (rare-leaf candidates from 999.16/999.19 audits). Cheap to build (1 col + 3 UPDATEs + 1 audit query).
 **Migration:** `00036_add_parked_reason.sql` (single ALTER + comment).
 
-### 260510-dpd: Fix depth column drift on the-1970s + the-1990s (PENDING)
+### 260510-dtg: Auto-compute depth on categories INSERT/UPDATE (PENDING)
 
-**Goal:** Two cats have `parent_id=history` but `depth=0` (should be 1): `the-1970s` (`e22140df-fb14-4a53-99fa-1701173c9538`) and `the-1990s` (`c6c030fc-1b06-4d2e-8eb0-7d640eec39b9`). Compare with sibling decades `the-1960s` and `the-1980s` which correctly show depth=1. Likely missed by 999.21 backfill or a pre-cleanup vestige. Sister rows `the-roman-empire` (depth=2 under industrial-revolution? — verify) and any other drift should be audited at the same time.
-**Why now:** Depth column is denormalised — used by RPCs and chain-tagging logic. Drift = subtle mis-classification in tier-aware queries. Cheap one-line UPDATE per row plus a sweep query to catch any other drift across all 156 cats.
-**SQL skeleton:**
+**Goal:** Add `BEFORE INSERT OR UPDATE OF parent_id ON categories` trigger that sets `NEW.depth = COALESCE((SELECT depth+1 FROM categories WHERE id=NEW.parent_id), 0)`. Prevents future depth drift (260510-dpd discovered 31-row drift from manual INSERTs over time, including 4 rows just shipped in migration 00037 because no trigger maintains depth).
+**Why now:** Without this, every category-insertion migration must manually set depth — error-prone (already failed twice). Trigger is the right invariant enforcement layer.
+**Scope:** Single migration `00039_categories_depth_trigger.sql` (or whatever next free number). Trigger function + trigger. Includes one UPDATE pass after creation to be idempotent on existing rows. Test by inserting a depth-2 grandchild — should auto-set depth=2.
+
+### 260510-dpd: Fix depth column drift on the-1970s + the-1990s (PENDING — scope expanded)
+
+**Goal (revised after audit):** 31 cats have `parent_id IS NOT NULL` but `depth=0` (should be 1). Originally thought to be just `the-1970s` + `the-1990s` — full audit on 2026-05-10 found 27 more (chemistry, golf, mathematics, poetry, winter-sports, soundtracks-and-film-music, etc.) plus the 4 leaves from migration 00037 (depth not set on INSERT). Cleanup migration `00038_fix_depth_drift.sql` will land a single guarded UPDATE to fix all 31 rows.
+**Why now:** Depth is denormalised — used by RPCs and chain-tagging logic. Drift = subtle mis-classification in tier-aware queries. Future drift prevention tracked in 260510-dtg (trigger).
+**SQL:**
 ```sql
--- Audit first
-SELECT c.slug, c.depth AS stored, COUNT(*) FILTER (WHERE p.id IS NOT NULL) AS has_parent
-FROM categories c LEFT JOIN categories p ON c.parent_id=p.id
-WHERE (c.parent_id IS NULL AND c.depth!=0) OR (c.parent_id IS NOT NULL AND c.depth=0)
-GROUP BY c.slug, c.depth;
--- Fix (after audit confirms scope)
-UPDATE categories SET depth=1 WHERE slug IN ('the-1970s','the-1990s');
+UPDATE categories SET depth=1 WHERE parent_id IS NOT NULL AND depth=0;
+-- Verify: SELECT count(*) FROM categories WHERE parent_id IS NOT NULL AND depth=0; -- expect 0
 ```
 
 ### 260510-cou: Bulk cousin sweep across full library (PENDING)

@@ -169,12 +169,13 @@ Quick tasks queued in ROADMAP §C1 (deferred from 999.23):
 | 260510-oua | Ouagadougou world-capitals score 45 → 70 (single-row UPDATE + audit row) | 2026-05-10 | b5f950d | [260510-j5k-260510-oua-ouagadougou-world-capitals-sc](./quick/260510-j5k-260510-oua-ouagadougou-world-capitals-sc/) |
 | 260510-dup | Sputnik 1 near-dup retired (f862b7cf→rejected); canonical 7de67f33 cats backfilled (space-exploration 88→90, +technology 85, -the-solar-system; 5-cap respected) | 2026-05-10 | aecc72e | [260510-jsh-260510-dup-sputnik-1-near-dup-pair-7de67](./quick/260510-jsh-260510-dup-sputnik-1-near-dup-pair-7de67/) |
 | 260510-prk+slg | Parking lane (migration 00036: parked_reason col + status CHECK widened to allow 'parked') + 3 outlier Qs parked (shiatsu, Inditex, kilt) + 4 new leaf cats (migration 00037: board-games→gaming, electronic-music→music, 2010s-music→music, pizza→food-and-drink) | 2026-05-10 | fd02fe4 | [260510-orn-260510-prk-slg-combined-add-parked-statu](./quick/260510-orn-260510-prk-slg-combined-add-parked-statu/) |
+| 260510-dpd | Depth column drift fix (migration 00038): backfilled depth=1 on 31 child cats (27 pre-existing + 4 from 00037). Post-state: 0 drift rows. Distribution 17/143/8 across depths 0/1/2. | 2026-05-10 | bce472e | (inline, no quick dir) |
 
 ## Session Continuity
 
 Last session: 2026-05-10
 Stopped at: 999.23 cousin/cat audit COMPLETE; next is 999.18
-Last activity: 2026-05-10 - Completed combined quick task 260510-prk+slg: parking lane infra + 4 leaf cats + 3 outliers parked
+Last activity: 2026-05-10 - Completed quick task 260510-dpd: depth-drift backfill (31 cats); spun out 260510-dtg trigger task
 Prior activity:
 
 - 2026-05-03 - Restructured ROADMAP into 3 tracks (260503-rmp); fixed 13 question_feedback items (260503-kxb)
