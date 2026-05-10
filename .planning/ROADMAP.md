@@ -410,10 +410,31 @@ Small, current-state-appropriate fixes triggered directly by recent feedback. Pu
 **Goal:** Two Qs both ask "first artificial satellite" with answer "Sputnik 1": `7de67f33-b1f1-44d8-8036-e53ed58820c6` and `f862b7cf-65ba-4722-97f1-17f4238fe09e`. Pick the better-worded one, mark the other unpublished or delete. Flagged during 999.22 backfill + confirmed in 999.23 cap-5 review.
 **Why now:** Quick win for library quality. Investigate whether other near-dup pairs exist via similarity search on `question_text` while we're at it.
 
-### 260510-slg: Slug-tree extension for missing categories (PENDING)
+### 260510-slg: Slug-tree extension for missing categories (PENDING — scope reduced)
 
-**Goal:** Add 6 leaves surfaced as gaps during 999.23 mistag review where the heuristic could only remove a wrong tag (no good replacement existed): `board-games`, `electronic-music`, `2010s-music`, `pizza`, `alternative-medicine`, `fashion-and-clothing`. Decide parent slugs per chain hierarchy, write migration `00035_categories_extension.sql` mirroring `00030`/`00031` shape.
+**Goal:** Add 4 leaves surfaced as gaps during 999.23 mistag review (parent in brackets): `board-games` (gaming), `electronic-music` (music), `2010s-music` (music), `pizza` (food-and-drink). Migration `00035_categories_extension.sql` mirroring `00030`/`00031` shape (single-parent tree, depth=1).
+**Scope reduction (2026-05-10 pre-execution):** Originally 6 leaves. `alternative-medicine` (1 matching Q) and `fashion-and-clothing` (2 matching Qs) deferred to **260510-fas-altmed** (below) — too few existing Qs to justify dedicated leaves; revisit when ≥5 Qs exist per theme.
 **Why now:** Without these slugs, future mistag passes can only delete the wrong tag — they can't re-tag to the right one. Several Qs in 999.23 mistag-001 lost a category instead of being re-categorised cleanly.
+
+### 260510-fas-altmed: Add fashion-and-clothing + alternative-medicine when library justifies (BACKLOG)
+
+**Goal:** Create slugs once question count crosses ≥5 each. Today: 1 alt-medicine Q (Japanese shiatsu), 2 fashion Qs (Inditex/Zara HQ; Scotsman/kilt). Decide parents at create time — both are orphan domains today (no `health-and-medicine` or `lifestyle` root). Either (a) create `health-and-medicine` and `fashion-and-clothing` as new roots with single leaf each, or (b) attach to closest existing root (science / art-and-design) — pick when scope justifies it.
+**Why deferred:** Cat creation has overhead (migration, taxonomy decision, downstream tagging). Not worth it for 1-2 Qs.
+
+### 260510-dpd: Fix depth column drift on the-1970s + the-1990s (PENDING)
+
+**Goal:** Two cats have `parent_id=history` but `depth=0` (should be 1): `the-1970s` (`e22140df-fb14-4a53-99fa-1701173c9538`) and `the-1990s` (`c6c030fc-1b06-4d2e-8eb0-7d640eec39b9`). Compare with sibling decades `the-1960s` and `the-1980s` which correctly show depth=1. Likely missed by 999.21 backfill or a pre-cleanup vestige. Sister rows `the-roman-empire` (depth=2 under industrial-revolution? — verify) and any other drift should be audited at the same time.
+**Why now:** Depth column is denormalised — used by RPCs and chain-tagging logic. Drift = subtle mis-classification in tier-aware queries. Cheap one-line UPDATE per row plus a sweep query to catch any other drift across all 156 cats.
+**SQL skeleton:**
+```sql
+-- Audit first
+SELECT c.slug, c.depth AS stored, COUNT(*) FILTER (WHERE p.id IS NOT NULL) AS has_parent
+FROM categories c LEFT JOIN categories p ON c.parent_id=p.id
+WHERE (c.parent_id IS NULL AND c.depth!=0) OR (c.parent_id IS NOT NULL AND c.depth=0)
+GROUP BY c.slug, c.depth;
+-- Fix (after audit confirms scope)
+UPDATE categories SET depth=1 WHERE slug IN ('the-1970s','the-1990s');
+```
 
 ### 260510-cou: Bulk cousin sweep across full library (PENDING)
 
