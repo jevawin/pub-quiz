@@ -1,0 +1,34 @@
+{
+  "batch_id": "mistag-001",
+  "ops": [
+    { "op": "delete", "question_id": "26127deb-76af-473d-9839-33c1f5fc5e8d", "slug": "90s-music-hits", "reason": "Group A: deadmau5 is 2000s electronic, not 90s; remove mis-tag" },
+    { "op": "delete", "question_id": "4a3a6e51-6e1c-4c79-8aaa-331599aeb1a1", "slug": "90s-music-hits", "reason": "Group A: Aphex Twin Q tagged wrong (electronic-music artist, not 90s-hits artist)" },
+    { "op": "delete", "question_id": "7e7f5e26-8243-49a2-a856-0144477ab41f", "slug": "90s-music-hits", "reason": "Group A: Skrillex 2015 song; not 90s" },
+    { "op": "delete", "question_id": "8257670d-7a3b-4e4d-97c9-8667b444af48", "slug": "90s-music-hits", "reason": "Group A: Monstercat is a 2010s EDM label; not 90s" },
+    { "op": "delete", "question_id": "82fbbb7d-e649-47e6-afa7-30c5594d29d8", "slug": "90s-music-hits", "reason": "Group A: Sukiyaki is 1963 — not a 90s hit" },
+    { "op": "delete", "question_id": "a685aa9c-e793-4b39-9278-b77b58947eb6", "slug": "90s-music-hits", "reason": "Group A: Madeon Launchpad Q is 2010s electronic" },
+    { "op": "delete", "question_id": "df69b35a-66a6-4835-8296-c3dd9e3a8f0c", "slug": "90s-music-hits", "reason": "Group A: AlunaGeorge is 2010s" },
+    { "op": "delete", "question_id": "ea75c41d-8633-4940-8298-19d337274383", "slug": "90s-music-hits", "reason": "Group A: Aphex Twin aliases Q same as 4a3a6e51" },
+
+    { "op": "delete", "question_id": "3488dea5-18a6-4389-af55-2cb6d5d5b2ac", "slug": "world-cuisine", "reason": "Group B: Spanish word for donkey is a language Q not cuisine" },
+    { "op": "insert", "question_id": "3488dea5-18a6-4389-af55-2cb6d5d5b2ac", "slug": "language-and-words", "estimate_score": 70, "cousin_reason": "Q is about Spanish vocabulary; language-and-words is the right primary domain" },
+    { "op": "delete", "question_id": "8843ae93-a391-4c54-a264-9bcfcdd44ecb", "slug": "world-cuisine", "reason": "Group B: Shiatsu is alternative medicine not food/cuisine" },
+    { "op": "delete", "question_id": "91d4b124-2080-4a59-bac9-4010ff1f3c81", "slug": "world-cuisine", "reason": "Group B: Panama hats are clothing/material not cuisine" },
+
+    { "op": "delete", "question_id": "311a1408-7feb-4be8-9d1f-233221b8ab38", "slug": "traditional-pub-games", "reason": "Group C: Monopoly is a board game, not a pub game" },
+    { "op": "delete", "question_id": "54421efb-0a87-487c-bce1-adabccd43998", "slug": "traditional-pub-games", "reason": "Group C: Monopoly is a board game, not a pub game" },
+    { "op": "delete", "question_id": "721d3d6a-e24b-477f-b3ad-0455db0e28f5", "slug": "traditional-pub-games", "reason": "Group C: Monopoly is a board game, not a pub game" },
+    { "op": "delete", "question_id": "b9f24e70-e01a-48b5-95fb-3a31544ec3fd", "slug": "traditional-pub-games", "reason": "Group C: Monopoly is a board game, not a pub game" },
+    { "op": "delete", "question_id": "d9816edf-45e1-41b6-a614-a5c41eb0453b", "slug": "traditional-pub-games", "reason": "Group C: Monopoly is a board game, not a pub game" },
+    { "op": "delete", "question_id": "f3d28b31-b34b-454e-9c86-4c2128926469", "slug": "traditional-pub-games", "reason": "Group C: Monopoly is a board game, not a pub game" },
+
+    { "op": "delete", "question_id": "4e478e37-19b6-42e9-b139-4d479f3f08ba", "slug": "classic-sitcoms", "reason": "Group D: Rick and Morty is animated sci-fi, not a sitcom" },
+    { "op": "delete", "question_id": "7d7f6407-b983-4d22-8fcc-b67829c6a54f", "slug": "classic-sitcoms", "reason": "Group D: Black Mirror is sci-fi anthology, not a sitcom" },
+    { "op": "delete", "question_id": "acb86ab5-3a94-4f00-9c3f-fceeb444ebb5", "slug": "classic-sitcoms", "reason": "Group D: M*A*S*H is a war drama-comedy, not a classic sitcom" },
+    { "op": "delete", "question_id": "f9771be0-6a2f-4baf-9d47-38a3daa20e15", "slug": "classic-sitcoms", "reason": "Group D: Breaking Bad is crime drama, not a sitcom" },
+    { "op": "delete", "question_id": "fb68ea44-3b4c-4518-b6c5-586486f4af4e", "slug": "classic-sitcoms", "reason": "Group D: Breaking Bad is crime drama, not a sitcom" },
+
+    { "op": "delete", "question_id": "3ab0252a-096f-4103-8041-1312d3819eb9", "slug": "traditional-pub-games", "reason": "Group E: bowling 3-strikes Q is a sport not a pub game; sports + american-sports already present" },
+    { "op": "delete", "question_id": "3ab0252a-096f-4103-8041-1312d3819eb9", "slug": "gaming", "reason": "Group E: bowling 3-strikes belongs under sports not gaming (gaming = video games in this taxonomy)" }
+  ]
+}
