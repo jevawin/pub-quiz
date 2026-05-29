@@ -19,17 +19,41 @@ export async function runPipeline(): Promise<void> {
   // 2. Create Supabase client
   const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
 
-  // 3. Concurrent run guard
+  // 3. Concurrent run guard.
+  // A run that crashes or hits the GitHub job timeout (30 min) never marks
+  // itself failed, leaving a permanent 'running' row that blocks every future
+  // run. Treat 'running' rows older than this threshold as dead, reclaim them,
+  // and only let a genuinely live run block us.
+  const STALE_RUN_MS = 40 * 60 * 1000; // 40 min > 30-min job timeout
+  const staleCutoffMs = Date.now() - STALE_RUN_MS;
+
   const { data: running } = await supabase
     .from('pipeline_runs')
     .select('id, started_at')
-    .eq('status', 'running')
-    .limit(1);
+    .eq('status', 'running');
 
-  if (running && running.length > 0) {
+  const runningRows = running ?? [];
+  const live = runningRows.filter((r) => Date.parse(r.started_at) >= staleCutoffMs);
+  const stale = runningRows.filter((r) => Date.parse(r.started_at) < staleCutoffMs);
+
+  if (stale.length > 0) {
+    const staleIds = stale.map((r) => r.id);
+    log('warn', 'Reclaiming stale pipeline run(s)', { staleIds });
+    await supabase
+      .from('pipeline_runs')
+      .update({
+        status: 'failed',
+        completed_at: new Date().toISOString(),
+        error_message:
+          'Reclaimed stale lock: run exceeded staleness threshold without completing',
+      })
+      .in('id', staleIds);
+  }
+
+  if (live.length > 0) {
     log('warn', 'Another pipeline run is already in progress, skipping this run', {
-      existing_run_id: running[0].id,
-      started_at: running[0].started_at,
+      existing_run_id: live[0].id,
+      started_at: live[0].started_at,
     });
     process.exit(0);
     return; // unreachable, but helps TS understand control flow
