@@ -32,12 +32,46 @@ Diagnosed why questions stopped growing and GitHub showed daily failures.
 - `vitest` observed-score job: 4/4 passed.
 - Prod: zero `running` rows remain.
 
+## Recovery confirmed live
+
+Triggered the Seed Pipeline on main after merge (run 26665598734). With the
+lock cleared it ran for real (~10 min, all 6 agents) instead of the 0.4s
+no-op — log shows bulk "Question published" / "recalibrated" lines. The
+`verification_score >= 3` count (the seed-threshold metric) went 594 -> 612.
+Zero `running` rows remain afterward. Lock fix proven end-to-end.
+
+DB after run (verified counts): total ~3076 | score>=3 612 | published 2869 |
+verified 45 | rejected 159 | pending 0 | parked 3.
+
+## Count mismatch resolved (not a bug)
+
+seed-threshold-check.ts counts `verification_score >= 3` (= 612). The "52"
+seen during triage was a `status=eq.verified` query — a different filter. Most
+high-score rows are `status=published`, not `verified`. Two filters, no
+discrepancy. (Aside: 2869 published vs 612 score>=3 means many published rows
+carry score<3 — pre-existing, unrelated to this task.)
+
+## The run still exited 1 — two causes, both pre-existing, NOT the lock
+
+1. **Budget cap.** Final log: `Budget exceeded: $1.0033 spent, budget is
+   $1.00`. The pipeline stops-and-reports at the $1 cap via the catch path and
+   exits 1, tripping the failure notifier. This (re)opened rolling issue #3
+   "Seed Pipeline failing".
+2. **Schema drift.** Repeated `Could not find the 'difficulty' column of
+   'questions' in the schema cache` from the calibrator/QA agents. The
+   `difficulty` column was dropped (see deferred 260426-bkf legacy-column
+   cleanup) but those agents still UPDATE it, so their writes silently fail.
+
+Note: on the budget-failure path the pipeline_runs row keeps
+questions_generated=0 even though agents did publish — stats are only written
+on the success path.
+
 ## Follow-ups (not done)
 
-- No unit test added for the new staleness branch (quick mode; logic verified
-  by typecheck + reasoning). Worth a test mocking the supabase chain later.
-- The seed-threshold log reported 594 verified questions while a REST count of
-  `status=eq.verified` returned 52 — definitions differ (likely published vs
-  verified, or a view). Confirm the threshold check counts the intended set.
-- Both pipeline workflows still warn on Node 20 action deprecation
-  (checkout@v4 / setup-node@v4) — bump to v5 when convenient.
+- Budget: $1/run cap is hit mid-run. Either raise it, or treat a budget stop as
+  a clean exit 0 (stop-and-report, not "failure") so it stops flagging red.
+- Fix calibrator/QA agents writing the dropped `difficulty` column (260426-bkf).
+- Close issue #3 once the pipeline runs green (or after the budget-exit fix).
+- Seed still generating (612/1000); no action needed for growth right now.
+- No unit test for the new staleness branch (verified by typecheck + live run).
+- Node 20 action deprecation warnings (checkout@v4 / setup-node@v4) — bump v5.
