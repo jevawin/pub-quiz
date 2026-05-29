@@ -170,6 +170,7 @@ Quick tasks queued in ROADMAP §C1 (deferred from 999.23):
 | 260510-dup | Sputnik 1 near-dup retired (f862b7cf→rejected); canonical 7de67f33 cats backfilled (space-exploration 88→90, +technology 85, -the-solar-system; 5-cap respected) | 2026-05-10 | aecc72e | [260510-jsh-260510-dup-sputnik-1-near-dup-pair-7de67](./quick/260510-jsh-260510-dup-sputnik-1-near-dup-pair-7de67/) |
 | 260510-prk+slg | Parking lane (migration 00036: parked_reason col + status CHECK widened to allow 'parked') + 3 outlier Qs parked (shiatsu, Inditex, kilt) + 4 new leaf cats (migration 00037: board-games→gaming, electronic-music→music, 2010s-music→music, pizza→food-and-drink) | 2026-05-10 | fd02fe4 | [260510-orn-260510-prk-slg-combined-add-parked-statu](./quick/260510-orn-260510-prk-slg-combined-add-parked-statu/) |
 | 260510-dpd | Depth column drift fix (migration 00038): backfilled depth=1 on 31 child cats (27 pre-existing + 4 from 00037). Post-state: 0 drift rows. Distribution 17/143/8 across depths 0/1/2. | 2026-05-10 | bce472e | (inline, no quick dir) |
+| 260529-slk | Fix pipeline stale-lock (40-min reclaim in run-pipeline.ts; cleared 28-day stuck May-01 run blocking all seed runs) + observed-score-refresh ANTHROPIC_API_KEY | 2026-05-29 | 285b6c5+53f552a | [260529-slk-pipeline-stale-lock](./quick/260529-slk-pipeline-stale-lock/) |
 
 ## Session Continuity
 
