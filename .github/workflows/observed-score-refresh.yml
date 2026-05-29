@@ -22,5 +22,7 @@ jobs:
       - run: npm run refresh:observed-scores
         working-directory: pipeline
         env:
+          # loadConfig() requires this even though the score refresh never calls Claude.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
