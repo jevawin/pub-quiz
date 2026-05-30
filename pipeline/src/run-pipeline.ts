@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import { loadConfig } from './lib/config.js';
 import { createSupabaseClient } from './lib/supabase.js';
-import { createTokenAccumulator } from './lib/claude.js';
+import { createTokenAccumulator, BudgetExceededError } from './lib/claude.js';
+import { getMonthToDateSpendUsd } from './lib/budget.js';
 import { log } from './lib/logger.js';
 import { runCategoryAgent } from './agents/category.js';
 import { runKnowledgeAgent } from './agents/knowledge.js';
@@ -59,10 +60,37 @@ export async function runPipeline(): Promise<void> {
     return; // unreachable, but helps TS understand control flow
   }
 
-  // 4. Create shared token accumulator
+  // 4. Monthly budget gate.
+  // Sum spend across all runs this UTC calendar month. If the monthly pool is
+  // gone, stop cleanly (exit 0) — no generation until the 1st. Otherwise the
+  // effective per-run cap is the smaller of the per-run ceiling and what's left
+  // in the month, so a run can never push month-to-date spend past the cap.
+  const spentThisMonth = await getMonthToDateSpendUsd(supabase);
+  const monthlyRemaining = config.monthlyBudgetUsd - spentThisMonth;
+  log('info', 'Monthly budget status', {
+    spentThisMonth: Number(spentThisMonth.toFixed(4)),
+    monthlyBudgetUsd: config.monthlyBudgetUsd,
+    monthlyRemaining: Number(monthlyRemaining.toFixed(4)),
+  });
+
+  if (monthlyRemaining <= 0) {
+    log('warn', 'Monthly budget reached; skipping generation until next month', {
+      spentThisMonth: Number(spentThisMonth.toFixed(4)),
+      monthlyBudgetUsd: config.monthlyBudgetUsd,
+    });
+    process.exit(0);
+    return; // unreachable, but helps TS understand control flow
+  }
+
+  const effectiveRunCap = Math.min(config.budgetCapUsd, monthlyRemaining);
+  // Agents read config.budgetCapUsd for their per-call budget check, so hand
+  // them the effective cap for this run.
+  const runConfig = { ...config, budgetCapUsd: effectiveRunCap };
+
+  // 5. Create shared token accumulator
   const tokenAccumulator = createTokenAccumulator();
 
-  // 5. Create pipeline_runs record
+  // 6. Create pipeline_runs record
   const { data: run, error: insertError } = await supabase
     .from('pipeline_runs')
     .insert({
@@ -74,7 +102,9 @@ export async function runPipeline(): Promise<void> {
         claudeModelGeneration: config.claudeModelGeneration,
         claudeModelVerification: config.claudeModelVerification,
         claudeModelAudit: config.claudeModelAudit,
-        budgetCapUsd: config.budgetCapUsd,
+        budgetCapUsd: effectiveRunCap,
+        monthlyBudgetUsd: config.monthlyBudgetUsd,
+        spentThisMonthAtStart: Number(spentThisMonth.toFixed(4)),
       },
     })
     .select('id')
@@ -93,7 +123,7 @@ export async function runPipeline(): Promise<void> {
   // 6. Run agents sequentially
   try {
     log('info', 'Starting Category Agent');
-    const categoryResult = await runCategoryAgent(config, tokenAccumulator);
+    const categoryResult = await runCategoryAgent(runConfig, tokenAccumulator);
     log('info', 'Category Agent complete', {
       processed: categoryResult.processed,
       failed: categoryResult.failed,
@@ -103,21 +133,21 @@ export async function runPipeline(): Promise<void> {
     // Wikipedia is used for fact-checking and enrichment only.
 
     log('info', 'Starting Questions Agent');
-    const questionsResult = await runQuestionsAgent(config, tokenAccumulator);
+    const questionsResult = await runQuestionsAgent(runConfig, tokenAccumulator);
     log('info', 'Questions Agent complete', {
       processed: questionsResult.processed,
       failed: questionsResult.failed,
     });
 
     log('info', 'Starting Fact-Check Agent');
-    const factCheckResult = await runFactCheckAgent(config, tokenAccumulator);
+    const factCheckResult = await runFactCheckAgent(runConfig, tokenAccumulator);
     log('info', 'Fact-Check Agent complete', {
       processed: factCheckResult.processed,
       failed: factCheckResult.failed,
     });
 
     log('info', 'Starting QA Agent');
-    const qaResult = await runQaAgent(config, tokenAccumulator);
+    const qaResult = await runQaAgent(runConfig, tokenAccumulator);
     log('info', 'QA Agent complete', {
       processed: qaResult.processed,
       failed: qaResult.failed,
@@ -125,7 +155,7 @@ export async function runPipeline(): Promise<void> {
     });
 
     log('info', 'Starting Enrichment Agent');
-    const enrichmentResult = await runEnrichmentAgent(config, tokenAccumulator);
+    const enrichmentResult = await runEnrichmentAgent(runConfig, tokenAccumulator);
     log('info', 'Enrichment Agent complete', {
       enriched: enrichmentResult.enriched,
       skipped: enrichmentResult.skipped,
@@ -133,7 +163,7 @@ export async function runPipeline(): Promise<void> {
     });
 
     log('info', 'Starting Calibrator Agent');
-    const calibratorResult = await runCalibratorAgent(config, tokenAccumulator);
+    const calibratorResult = await runCalibratorAgent(runConfig, tokenAccumulator);
     log('info', 'Calibrator Agent complete', {
       processed: calibratorResult.processed,
       recalibrated: calibratorResult.recalibrated,
@@ -170,6 +200,29 @@ export async function runPipeline(): Promise<void> {
       cost_usd: tokenAccumulator.estimated_cost_usd.toFixed(4),
     });
   } catch (error) {
+    // A budget stop is expected, not a failure: the run did real work up to the
+    // cap and stopped cleanly. Record it as success (with a note) and exit 0 so
+    // the workflow stays green and the failure notifier doesn't fire.
+    if (error instanceof BudgetExceededError) {
+      await supabase
+        .from('pipeline_runs')
+        .update({
+          status: 'success',
+          completed_at: new Date().toISOString(),
+          error_message: `Stopped at budget cap (partial run): ${error.message}`,
+          total_input_tokens: tokenAccumulator.input_tokens,
+          total_output_tokens: tokenAccumulator.output_tokens,
+          estimated_cost_usd: tokenAccumulator.estimated_cost_usd,
+        })
+        .eq('id', run.id);
+
+      log('info', 'Pipeline stopped at budget cap (clean stop)', {
+        cost_usd: tokenAccumulator.estimated_cost_usd.toFixed(4),
+      });
+      process.exit(0);
+      return; // unreachable, but helps TS understand control flow
+    }
+
     // Per D-07: stop and report, partial work is kept
     await supabase
       .from('pipeline_runs')

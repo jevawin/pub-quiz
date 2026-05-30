@@ -17,6 +17,7 @@ export interface PipelineConfig {
   supabaseUrl: string;
   supabaseServiceRoleKey: string;
   budgetCapUsd: number;
+  monthlyBudgetUsd: number;
   categoryBatchSize: number;
   knowledgeBatchSize: number;
   questionsBatchSize: number;
@@ -51,7 +52,11 @@ export function loadConfig(): PipelineConfig {
     anthropicApiKey: requireEnv('ANTHROPIC_API_KEY'),
     supabaseUrl: requireEnv('SUPABASE_URL'),
     supabaseServiceRoleKey: requireEnv('SUPABASE_SERVICE_ROLE_KEY'),
-    budgetCapUsd: envNumber('PIPELINE_BUDGET_USD', 1.00),
+    // Per-run safety ceiling: caps any single run so one bad run can't drain the
+    // whole month. The effective cap is min(this, monthly budget remaining).
+    budgetCapUsd: envNumber('PIPELINE_BUDGET_USD', 5.00),
+    // Month-to-date spend cap across all runs in the current UTC calendar month.
+    monthlyBudgetUsd: envNumber('PIPELINE_MONTHLY_BUDGET_USD', 20.00),
     categoryBatchSize: envNumber('CATEGORY_BATCH_SIZE', 5),
     knowledgeBatchSize: envNumber('KNOWLEDGE_BATCH_SIZE', 10),
     questionsBatchSize: envNumber('QUESTIONS_BATCH_SIZE', 20),
