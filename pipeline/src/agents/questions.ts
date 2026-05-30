@@ -29,7 +29,7 @@ When in doubt, lean British or global rather than American.
 
 Use British spellings and vocabulary throughout. Where a UK and US term differ, always prefer the UK one.
 
-- Vocabulary: football (not soccer), lift (not elevator), aubergine (not eggplant), lorry (not truck), pavement (not sidewalk), petrol (not gasoline), biscuit (not cookie), trainers (not sneakers), holiday (not vacation), autumn (not fall), maths (not math).
+- Vocabulary: football (not soccer), lift (not elevator), aubergine (not eggplant), lorry (not truck), pavement (not sidewalk), petrol (not gasoline), biscuit (not cookie), trainers (not sneakers), holiday (not vacation), autumn (not fall), maths (not math), mother (not mom), sweets (not candy), liquorice (not licorice).
 - Spellings: -ise / -isation (not -ize / -ization), -our (colour, favour, honour), -re (centre, theatre), -ogue (catalogue, dialogue), travelled (not traveled), grey (not gray).
 - This applies to question text, distractors, and explanations alike.
 
