@@ -108,6 +108,7 @@ const baseConfig = {
   supabaseUrl: 'http://localhost',
   supabaseServiceRoleKey: 'svc',
   budgetCapUsd: 5,
+  monthlyBudgetUsd: 20,
   categoryBatchSize: 5,
   knowledgeBatchSize: 10,
   questionsBatchSize: 20,
