@@ -84,7 +84,7 @@ Resolve with a note, no edit:
 
 ## App bug — route out of this roadmap
 
-- **FB21** `00356aeb` — binary question. "Repeat question, we need to check the question memory logic." This is a **within-session dedup regression** in `apps/web`, not content. Prior work: quick task `260426-pxh` (session dedup). File a separate debug task; resolve this row pointing at it.
+- **FB21** `00356aeb` — binary question. "Repeat question, we need to check the question memory logic." This is a **within-session dedup regression** in `apps/web`, not content. Prior work: quick task `260426-pxh` (session dedup). **RESOLVED 2026-05-30** via `/gsd:debug` → `.planning/debug/resolved/fb21-within-session-repeat-recurrence.md`. Root cause was upstream of both prior dedup passes: `seen-store.save()` had no try/catch (Safari private/ITP/quota write failure silently dropped the seen ID) + views recorded only on Lock-In. Fixed on branch `fix/fb21-seen-store-repeat`.
 
 ---
 

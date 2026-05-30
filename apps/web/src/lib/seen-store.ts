@@ -12,7 +12,13 @@ function load(): SeenMap {
 }
 
 function save(map: SeenMap): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+  } catch {
+    // Storage full or unavailable (Safari private mode, ITP, quota) —
+    // silently ignore. A failed write must not throw into the caller and
+    // corrupt the seen set, which would let the question repeat.
+  }
 }
 
 /** Record a view for a question. */

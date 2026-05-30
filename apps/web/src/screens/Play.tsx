@@ -80,6 +80,17 @@ export function Play() {
     }
   }, [state.phase === 'playing' ? (state.phase === 'playing' ? state.index : -1) : -1]);
 
+  // Record a view as soon as a question is shown — not only on Lock-In —
+  // so a shown-then-abandoned question is still excluded from future quizzes.
+  // recordView is idempotent (increments a count), so re-firing on restore is safe.
+  useEffect(() => {
+    if (state.phase === 'playing') {
+      const q = state.questions[state.index];
+      if (q) recordView(q.id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.phase === 'playing' ? state.index : -1]);
+
   // Persist quiz state to sessionStorage on every change (survives refresh)
   const configRef = useRef(locationState?.config);
   if (locationState?.config) configRef.current = locationState.config;
@@ -131,8 +142,7 @@ export function Play() {
       const elapsedMs = timerRef.current?.elapsedMs() ?? 0;
       timerRef.current?.pause();
       dispatch({ type: 'ANSWER', chosenIndex: state.selectedIndex, elapsedMs });
-      const q = state.questions[state.index];
-      if (q) recordView(q.id);
+      // View is recorded on question-shown (see effect above), not here.
     },
     [state],
   );
