@@ -66,12 +66,28 @@ Note: on the budget-failure path the pipeline_runs row keeps
 questions_generated=0 even though agents did publish — stats are only written
 on the success path.
 
-## Follow-ups (not done)
+## Budget — DONE (commits ee9a96a, 72cf093)
 
-- Budget: $1/run cap is hit mid-run. Either raise it, or treat a budget stop as
-  a clean exit 0 (stop-and-report, not "failure") so it stops flagging red.
-- Fix calibrator/QA agents writing the dropped `difficulty` column (260426-bkf).
-- Close issue #3 once the pipeline runs green (or after the budget-exit fix).
+Replaced the per-run-only $1 cap with month-to-date budgeting ($20/mo, clean
+hard-stop), per user request "$15-20/mo".
+
+- New `lib/budget.ts` sums `estimated_cost_usd` across all pipeline_runs in the
+  current UTC calendar month (no cumulative tracking existed before).
+- `PIPELINE_MONTHLY_BUDGET_USD` = $20 (env-overridable). Per-run ceiling
+  `PIPELINE_BUDGET_USD` raised $1 → $5 so one run can't drain the month;
+  effective cap = min(per-run ceiling, monthly remaining).
+- run-pipeline gates at start: month exhausted → exit 0 clean (no work until
+  the 1st). Mid-run BudgetExceededError → record run success-with-note + exit 0
+  instead of failed/exit 1, so the cap no longer trips the failure notifier.
+- 9 unit tests for the helper; full suite 201 passed.
+- State at ship (2026-05-30): May spend $1.00, ~$19 of $20 remaining. Next
+  scheduled run passes the gate and, being a clean exit 0, auto-closes the
+  rolling failure issue #3 via the workflow's success step.
+
+## Follow-ups (still not done)
+
+- Fix calibrator/QA agents writing the dropped `difficulty` column (260426-bkf)
+  — logged as per-question ERROR, non-fatal (doesn't throw), but writes fail.
 - Seed still generating (612/1000); no action needed for growth right now.
-- No unit test for the new staleness branch (verified by typecheck + live run).
+- No unit test for the staleness branch (verified by typecheck + live run).
 - Node 20 action deprecation warnings (checkout@v4 / setup-node@v4) — bump v5.
