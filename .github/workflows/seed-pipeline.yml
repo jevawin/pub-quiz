@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       budget_usd:
-        description: 'Budget cap in USD for this seed run'
+        description: 'Per-run safety ceiling in USD (effective cap is min of this and monthly budget remaining)'
         required: false
-        default: '1.00'
+        default: '5.00'
       category_batch_size:
         description: 'Number of new categories to propose'
         required: false
@@ -77,7 +77,8 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          PIPELINE_BUDGET_USD: ${{ inputs.budget_usd || '1.00' }}
+          PIPELINE_BUDGET_USD: ${{ inputs.budget_usd || '5.00' }}
+          PIPELINE_MONTHLY_BUDGET_USD: '20.00'
           CATEGORY_BATCH_SIZE: ${{ inputs.category_batch_size || '3' }}
           KNOWLEDGE_BATCH_SIZE: ${{ inputs.knowledge_batch_size || '5' }}
           QUESTIONS_BATCH_SIZE: ${{ inputs.questions_batch_size || '20' }}
