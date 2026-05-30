@@ -3,6 +3,12 @@
 // - Added createClaudeClient export to the claude.js mock so calibrator's transitive dependency
 //   resolves cleanly (previously Test 3/Test 10 failed because the pipeline threw on missing mock export,
 //   short-circuiting the success path and the "Pipeline complete" log).
+// Update 260529-slk:
+// - Concurrent-run guard no longer uses .limit(1); the mock's select().eq() now resolves directly.
+// - Pipeline now runs a month-to-date spend query: select('estimated_cost_usd').gte('started_at', since).
+//   The mock's select().gte() resolves to monthSpendRows.
+// - A mid-run BudgetExceededError is now a CLEAN stop (status=success, exit 0), not a failure.
+// - Stale 'running' rows (older than the staleness threshold) are reclaimed and the run proceeds.
 import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 
 // Mock process.exit before any imports
@@ -90,58 +96,90 @@ function makeConfig(): PipelineConfig {
     supabaseUrl: 'https://test.supabase.co',
     supabaseServiceRoleKey: 'test-service-key',
     budgetCapUsd: 10.0,
+    monthlyBudgetUsd: 20.0,
     categoryBatchSize: 5,
     knowledgeBatchSize: 10,
     questionsBatchSize: 20,
     claudeModelGeneration: 'claude-sonnet-4-5-20250514',
     claudeModelVerification: 'claude-haiku-4-5-20250514',
+    claudeModelAudit: 'claude-opus-4-6',
     wikipediaUserAgent: 'TestAgent/1.0',
     wikipediaMaxContentLength: 3000,
     relevanceThreshold: 0.6,
   };
 }
 
-// Helper to set up Supabase mock chains
-function setupSupabaseMock(options: {
-  runningPipelines?: unknown[];
+interface PipelineRunsMockOptions {
+  // Rows returned by the concurrent-run guard query (status=running).
+  runningRows?: Array<{ id: string; started_at: string }>;
+  // Rows returned by the month-to-date spend query (estimated_cost_usd).
+  monthSpendRows?: Array<{ estimated_cost_usd: number | null }>;
   insertedRun?: { id: string };
   updateError?: boolean;
-}) {
+}
+
+interface PipelineRunsMock {
+  table: {
+    select: Mock;
+    insert: Mock;
+    update: Mock;
+  };
+  insert: Mock;
+  update: Mock;
+}
+
+// Builds a mock of the pipeline_runs table that supports BOTH reads the
+// pipeline performs:
+//   - guard:  select('id, started_at').eq('status','running')   -> awaited directly
+//   - budget: select('estimated_cost_usd').gte('started_at', s)  -> awaited directly
+function makePipelineRunsMock(options: PipelineRunsMockOptions = {}): PipelineRunsMock {
   const {
-    runningPipelines = [],
+    runningRows = [],
+    monthSpendRows = [],
     insertedRun = { id: 'run-123' },
     updateError = false,
   } = options;
 
-  mockSupabaseFrom.mockImplementation((table: string) => {
-    if (table === 'pipeline_runs') {
-      return {
-        select: vi.fn().mockReturnValue({
-          eq: vi.fn().mockReturnValue({
-            limit: vi.fn().mockResolvedValue({
-              data: runningPipelines,
-              error: null,
-            }),
-          }),
-        }),
-        insert: vi.fn().mockReturnValue({
-          select: vi.fn().mockReturnValue({
-            single: vi.fn().mockResolvedValue({
-              data: insertedRun,
-              error: null,
-            }),
-          }),
-        }),
-        update: vi.fn().mockReturnValue({
-          eq: vi.fn().mockResolvedValue({
-            data: null,
-            error: updateError ? { message: 'Update failed' } : null,
-          }),
-        }),
-      };
-    }
-    return {};
+  const insert = vi.fn().mockReturnValue({
+    select: vi.fn().mockReturnValue({
+      single: vi.fn().mockResolvedValue({ data: insertedRun, error: null }),
+    }),
   });
+
+  // update() is chained two ways:
+  //   .update({...}).eq('id', id)        — normal status writes
+  //   .update({...}).in('id', staleIds)  — stale-lock reclaim
+  const update = vi.fn().mockReturnValue({
+    eq: vi.fn().mockResolvedValue({
+      data: null,
+      error: updateError ? { message: 'Update failed' } : null,
+    }),
+    in: vi.fn().mockResolvedValue({
+      data: null,
+      error: updateError ? { message: 'Update failed' } : null,
+    }),
+  });
+
+  const select = vi.fn(() => ({
+    eq: vi.fn().mockResolvedValue({ data: runningRows, error: null }),
+    gte: vi.fn().mockResolvedValue({ data: monthSpendRows, error: null }),
+  }));
+
+  const table = { select, insert, update };
+  return { table, insert, update };
+}
+
+function installPipelineRunsMock(options: PipelineRunsMockOptions = {}): PipelineRunsMock {
+  const mock = makePipelineRunsMock(options);
+  mockSupabaseFrom.mockImplementation((table: string) =>
+    table === 'pipeline_runs' ? mock.table : {},
+  );
+  return mock;
+}
+
+// A 'running' row recent enough to count as live (well within the staleness window).
+function recentIso(): string {
+  return new Date(Date.now() - 60_000).toISOString(); // 1 min ago
 }
 
 describe('runPipeline', () => {
@@ -159,7 +197,7 @@ describe('runPipeline', () => {
   });
 
   it('Test 1: calls agents in order: category -> questions -> fact-check -> qa -> enrichment', async () => {
-    setupSupabaseMock({});
+    installPipelineRunsMock({});
     const callOrder: string[] = [];
 
     (runCategoryAgent as Mock).mockImplementation(async () => {
@@ -190,71 +228,23 @@ describe('runPipeline', () => {
   });
 
   it('Test 2: creates a pipeline_runs record with status=running at start', async () => {
-    const mockInsert = vi.fn().mockReturnValue({
-      select: vi.fn().mockReturnValue({
-        single: vi.fn().mockResolvedValue({
-          data: { id: 'run-123' },
-          error: null,
-        }),
-      }),
-    });
-
-    mockSupabaseFrom.mockImplementation((table: string) => {
-      if (table === 'pipeline_runs') {
-        return {
-          select: vi.fn().mockReturnValue({
-            eq: vi.fn().mockReturnValue({
-              limit: vi.fn().mockResolvedValue({
-                data: [],
-                error: null,
-              }),
-            }),
-          }),
-          insert: mockInsert,
-          update: vi.fn().mockReturnValue({
-            eq: vi.fn().mockResolvedValue({ data: null, error: null }),
-          }),
-        };
-      }
-      return {};
-    });
+    const { insert } = installPipelineRunsMock({});
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    expect(mockInsert).toHaveBeenCalledWith(
+    expect(insert).toHaveBeenCalledWith(
       expect.objectContaining({ status: 'running' }),
     );
   });
 
   it('Test 3: on success, updates pipeline_runs with status=success, metrics, token totals', async () => {
-    const mockUpdate = vi.fn().mockReturnValue({
-      eq: vi.fn().mockResolvedValue({ data: null, error: null }),
-    });
-
-    mockSupabaseFrom.mockImplementation((table: string) => {
-      if (table === 'pipeline_runs') {
-        return {
-          select: vi.fn().mockReturnValue({
-            eq: vi.fn().mockReturnValue({
-              limit: vi.fn().mockResolvedValue({ data: [], error: null }),
-            }),
-          }),
-          insert: vi.fn().mockReturnValue({
-            select: vi.fn().mockReturnValue({
-              single: vi.fn().mockResolvedValue({ data: { id: 'run-123' }, error: null }),
-            }),
-          }),
-          update: mockUpdate,
-        };
-      }
-      return {};
-    });
+    const { update } = installPipelineRunsMock({});
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    expect(mockUpdate).toHaveBeenCalledWith(
+    expect(update).toHaveBeenCalledWith(
       expect.objectContaining({
         status: 'success',
         categories_processed: 5,
@@ -275,34 +265,12 @@ describe('runPipeline', () => {
 
   it('Test 4: on agent failure, pipeline stops and updates with status=failed and error_message', async () => {
     (runQuestionsAgent as Mock).mockRejectedValue(new Error('Questions generation failed'));
-
-    const mockUpdate = vi.fn().mockReturnValue({
-      eq: vi.fn().mockResolvedValue({ data: null, error: null }),
-    });
-
-    mockSupabaseFrom.mockImplementation((table: string) => {
-      if (table === 'pipeline_runs') {
-        return {
-          select: vi.fn().mockReturnValue({
-            eq: vi.fn().mockReturnValue({
-              limit: vi.fn().mockResolvedValue({ data: [], error: null }),
-            }),
-          }),
-          insert: vi.fn().mockReturnValue({
-            select: vi.fn().mockReturnValue({
-              single: vi.fn().mockResolvedValue({ data: { id: 'run-123' }, error: null }),
-            }),
-          }),
-          update: mockUpdate,
-        };
-      }
-      return {};
-    });
+    const { update } = installPipelineRunsMock({});
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    expect(mockUpdate).toHaveBeenCalledWith(
+    expect(update).toHaveBeenCalledWith(
       expect.objectContaining({
         status: 'failed',
         error_message: 'Questions generation failed',
@@ -311,55 +279,32 @@ describe('runPipeline', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
 
-  it('Test 5: BudgetExceededError is caught and recorded as failure', async () => {
-    (runQuestionsAgent as Mock).mockRejectedValue(
-      new BudgetExceededError(5.0, 1.0),
-    );
-
-    const mockUpdate = vi.fn().mockReturnValue({
-      eq: vi.fn().mockResolvedValue({ data: null, error: null }),
-    });
-
-    mockSupabaseFrom.mockImplementation((table: string) => {
-      if (table === 'pipeline_runs') {
-        return {
-          select: vi.fn().mockReturnValue({
-            eq: vi.fn().mockReturnValue({
-              limit: vi.fn().mockResolvedValue({ data: [], error: null }),
-            }),
-          }),
-          insert: vi.fn().mockReturnValue({
-            select: vi.fn().mockReturnValue({
-              single: vi.fn().mockResolvedValue({ data: { id: 'run-123' }, error: null }),
-            }),
-          }),
-          update: mockUpdate,
-        };
-      }
-      return {};
-    });
+  it('Test 5: BudgetExceededError is a clean stop (status=success, exit 0)', async () => {
+    (runQuestionsAgent as Mock).mockRejectedValue(new BudgetExceededError(5.0, 1.0));
+    const { update } = installPipelineRunsMock({});
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    expect(mockUpdate).toHaveBeenCalledWith(
+    // Recorded as success with a note, not a failure.
+    expect(update).toHaveBeenCalledWith(
       expect.objectContaining({
-        status: 'failed',
-        error_message: expect.stringContaining('Budget exceeded'),
+        status: 'success',
+        error_message: expect.stringContaining('budget cap'),
       }),
     );
-    expect(mockExit).toHaveBeenCalledWith(1);
+    expect(mockExit).toHaveBeenCalledWith(0);
+    // Later agents should not run after the budget stop.
+    expect(runFactCheckAgent).not.toHaveBeenCalled();
   });
 
   it('Test 6: partial work from earlier agents is preserved (later agents not called on failure)', async () => {
     (runQuestionsAgent as Mock).mockRejectedValue(new Error('Questions failed'));
-
-    setupSupabaseMock({});
+    installPipelineRunsMock({});
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    // Category ran, questions threw, fact-check, QA, and enrichment should NOT be called
     expect(runCategoryAgent).toHaveBeenCalled();
     expect(runQuestionsAgent).toHaveBeenCalled();
     expect(runFactCheckAgent).not.toHaveBeenCalled();
@@ -368,39 +313,20 @@ describe('runPipeline', () => {
   });
 
   it('Test 7: config snapshot is saved in pipeline_runs.config', async () => {
-    const mockInsert = vi.fn().mockReturnValue({
-      select: vi.fn().mockReturnValue({
-        single: vi.fn().mockResolvedValue({ data: { id: 'run-123' }, error: null }),
-      }),
-    });
-
-    mockSupabaseFrom.mockImplementation((table: string) => {
-      if (table === 'pipeline_runs') {
-        return {
-          select: vi.fn().mockReturnValue({
-            eq: vi.fn().mockReturnValue({
-              limit: vi.fn().mockResolvedValue({ data: [], error: null }),
-            }),
-          }),
-          insert: mockInsert,
-          update: vi.fn().mockReturnValue({
-            eq: vi.fn().mockResolvedValue({ data: null, error: null }),
-          }),
-        };
-      }
-      return {};
-    });
+    const { insert } = installPipelineRunsMock({});
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    expect(mockInsert).toHaveBeenCalledWith(
+    expect(insert).toHaveBeenCalledWith(
       expect.objectContaining({
         config: expect.objectContaining({
           categoryBatchSize: 5,
           knowledgeBatchSize: 10,
           questionsBatchSize: 20,
+          // Effective per-run cap = min(per-run ceiling 10, monthly remaining 20).
           budgetCapUsd: 10.0,
+          monthlyBudgetUsd: 20.0,
         }),
       }),
     );
@@ -408,7 +334,7 @@ describe('runPipeline', () => {
 
   it('Test 8: process.exit(1) is called on failure', async () => {
     (runCategoryAgent as Mock).mockRejectedValue(new Error('Category failed'));
-    setupSupabaseMock({});
+    installPipelineRunsMock({});
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
@@ -416,9 +342,9 @@ describe('runPipeline', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
 
-  it('Test 9: if a running pipeline exists, logs warning and exits with code 0', async () => {
-    setupSupabaseMock({
-      runningPipelines: [{ id: 'existing-run-456', started_at: '2026-04-04T10:00:00Z' }],
+  it('Test 9: if a LIVE running pipeline exists, logs warning and exits with code 0', async () => {
+    installPipelineRunsMock({
+      runningRows: [{ id: 'existing-run-456', started_at: recentIso() }],
     });
 
     const { runPipeline } = await import('../src/run-pipeline.js');
@@ -438,14 +364,12 @@ describe('runPipeline', () => {
   });
 
   it('Test 10: uses log() from logger.ts for all output', async () => {
-    setupSupabaseMock({});
+    installPipelineRunsMock({});
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    // Verify log was called for each agent start/complete
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Category Agent'), expect.anything());
-    expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Questions Agent'), expect.anything());
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Questions Agent'), expect.anything());
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('Fact-Check Agent'), expect.anything());
     expect(log).toHaveBeenCalledWith('info', expect.stringContaining('QA Agent'), expect.anything());
@@ -454,39 +378,56 @@ describe('runPipeline', () => {
 
   it('Test 11: QA Agent failure is handled like other agent failures', async () => {
     (runQaAgent as Mock).mockRejectedValue(new Error('QA processing failed'));
-
-    const mockUpdate = vi.fn().mockReturnValue({
-      eq: vi.fn().mockResolvedValue({ data: null, error: null }),
-    });
-
-    mockSupabaseFrom.mockImplementation((table: string) => {
-      if (table === 'pipeline_runs') {
-        return {
-          select: vi.fn().mockReturnValue({
-            eq: vi.fn().mockReturnValue({
-              limit: vi.fn().mockResolvedValue({ data: [], error: null }),
-            }),
-          }),
-          insert: vi.fn().mockReturnValue({
-            select: vi.fn().mockReturnValue({
-              single: vi.fn().mockResolvedValue({ data: { id: 'run-123' }, error: null }),
-            }),
-          }),
-          update: mockUpdate,
-        };
-      }
-      return {};
-    });
+    const { update } = installPipelineRunsMock({});
 
     const { runPipeline } = await import('../src/run-pipeline.js');
     await runPipeline();
 
-    expect(mockUpdate).toHaveBeenCalledWith(
+    expect(update).toHaveBeenCalledWith(
       expect.objectContaining({
         status: 'failed',
         error_message: 'QA processing failed',
       }),
     );
     expect(mockExit).toHaveBeenCalledWith(1);
+  });
+
+  it('Test 12: stops cleanly (exit 0) when the monthly budget is exhausted', async () => {
+    installPipelineRunsMock({
+      runningRows: [],
+      // $20 spent this month against a $20 cap -> nothing left.
+      monthSpendRows: [{ estimated_cost_usd: 20.0 }],
+    });
+
+    const { runPipeline } = await import('../src/run-pipeline.js');
+    await runPipeline();
+
+    expect(mockExit).toHaveBeenCalledWith(0);
+    expect(runCategoryAgent).not.toHaveBeenCalled();
+    expect(log).toHaveBeenCalledWith(
+      'warn',
+      expect.stringContaining('Monthly budget reached'),
+      expect.anything(),
+    );
+  });
+
+  it('Test 13: a stale running row is reclaimed and the run proceeds', async () => {
+    const staleStart = new Date(Date.now() - 60 * 60 * 1000).toISOString(); // 1h ago > 40min
+    const { update } = installPipelineRunsMock({
+      runningRows: [{ id: 'stale-run-999', started_at: staleStart }],
+    });
+
+    const { runPipeline } = await import('../src/run-pipeline.js');
+    await runPipeline();
+
+    // The stale row is marked failed via an update...
+    expect(update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: 'failed',
+        error_message: expect.stringContaining('stale'),
+      }),
+    );
+    // ...and the pipeline proceeds rather than exiting.
+    expect(runCategoryAgent).toHaveBeenCalled();
   });
 });
