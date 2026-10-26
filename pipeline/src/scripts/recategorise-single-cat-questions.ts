@@ -16,30 +16,19 @@ dotenvConfig({ override: true });
  *      score each. The calibrator then upserts qc rows (general-knowledge always
  *      included). The 4-row trigger on `question_categories` enforces the cap.
  *
- * Cost estimate at 453 questions × 2 calls each:
- *   - Proposer (Haiku): ~$0.01 (small constrained slug-pick task)
- *   - Calibrator (Sonnet, claudeModelVerification): ~$0.50-$1.50
- *   Total expected: $0.50-$2.00
+ * Calls go straight to `claude -p` (no usage governor — this is a manual tool), so the
+ * run is bounded by `--max-calls` (default 200): ~2 calls per question (proposer + calibrator).
  *
  * CLI:
  *   npx tsx pipeline/src/scripts/recategorise-single-cat-questions.ts --dry-run --limit 10
  *   npx tsx pipeline/src/scripts/recategorise-single-cat-questions.ts --limit 50
- *   npx tsx pipeline/src/scripts/recategorise-single-cat-questions.ts --budget-cap-usd 3
+ *   npx tsx pipeline/src/scripts/recategorise-single-cat-questions.ts --max-calls 100
  *   npx tsx pipeline/src/scripts/recategorise-single-cat-questions.ts                # full run
  */
 import { createSupabaseClient } from '../lib/supabase.js';
-import {
-  createClaudeClient,
-  createTokenAccumulator,
-  trackUsage,
-  checkBudget,
-  extractJson,
-  HAIKU_INPUT,
-  HAIKU_OUTPUT,
-  BudgetExceededError,
-} from '../lib/claude.js';
-import type { TokenAccumulator } from '../lib/claude.js';
-import type Anthropic from '@anthropic-ai/sdk';
+import { createTokenAccumulator, directCaller, extractJson } from '../lib/claude.js';
+import type { ClaudeCaller } from '../lib/claude.js';
+import { UsageStopError } from '../lib/usage.js';
 import { calibrateQuestion } from '../agents/calibrator.js';
 import { loadConfig } from '../lib/config.js';
 import type { PipelineConfig } from '../lib/config.js';
@@ -48,7 +37,8 @@ import { GENERAL_KNOWLEDGE_SLUG } from '../lib/general-knowledge-guard.js';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '../lib/database.types.js';
 
-const PROPOSER_MODEL = 'claude-haiku-4-5-20251001';
+const PROPOSER_MODEL = 'haiku';
+const DEFAULT_MAX_CALLS = 200;
 const PROPOSER_SYSTEM_PROMPT = `You are a pub quiz categoriser. Given a question, the correct answer, and the existing category tree, propose 1-3 additional category slugs (kebab-case) that a player choosing that category would expect to see this question under.
 
 Rules:
@@ -79,7 +69,7 @@ export interface RecategoriseResult {
 export interface RecategoriseOptions {
   limit?: number;
   dryRun?: boolean;
-  budgetCapUsd?: number;
+  maxCalls?: number;
 }
 
 /**
@@ -158,11 +148,9 @@ export async function fetchAvailableSlugs(
 }
 
 export async function proposeExtraCategories(
-  claude: Anthropic,
-  tokenAcc: TokenAccumulator,
+  call: ClaudeCaller,
   question: QuestionRow,
   availableSlugs: string[],
-  budgetCapUsd: number,
 ): Promise<{ slugs: string[]; reasoning?: string; error?: string }> {
   const userPrompt = `Question: ${question.question_text}
 
@@ -176,29 +164,21 @@ ${availableSlugs.join(', ')}
 
 Return the JSON object with category_slugs and reasoning.`;
 
-  let response;
+  let claudeResult;
   try {
-    response = await claude.messages.create({
+    claudeResult = await call({
       model: PROPOSER_MODEL,
-      max_tokens: 256,
       system: PROPOSER_SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: userPrompt }],
+      prompt: userPrompt,
     });
   } catch (err) {
+    if (err instanceof UsageStopError) throw err;
     return { slugs: [], error: err instanceof Error ? err.message : String(err) };
-  }
-
-  trackUsage(response, tokenAcc, HAIKU_INPUT, HAIKU_OUTPUT);
-  checkBudget(tokenAcc, budgetCapUsd);
-
-  const textContent = response.content.find((c) => c.type === 'text');
-  if (!textContent || textContent.type !== 'text') {
-    return { slugs: [], error: 'No text content in proposer response' };
   }
 
   let parsed: { category_slugs?: unknown; reasoning?: unknown };
   try {
-    parsed = JSON.parse(extractJson(textContent.text));
+    parsed = JSON.parse(extractJson(claudeResult.text));
   } catch (err) {
     return { slugs: [], error: `Proposer JSON parse failed: ${err instanceof Error ? err.message : String(err)}` };
   }
@@ -246,20 +226,13 @@ Return the JSON object with category_slugs and reasoning.`;
  */
 export async function recategoriseOne(
   supabase: SupabaseClient<Database>,
-  claude: Anthropic,
-  tokenAcc: TokenAccumulator,
+  call: ClaudeCaller,
   question: QuestionRow,
   availableSlugs: string[],
   config: PipelineConfig,
-  opts: { dryRun: boolean; budgetCapUsd: number },
+  opts: { dryRun: boolean },
 ): Promise<{ status: 'processed' | 'skipped_no_extras' | 'failed'; slugs?: string[]; error?: string }> {
-  const proposal = await proposeExtraCategories(
-    claude,
-    tokenAcc,
-    question,
-    availableSlugs,
-    opts.budgetCapUsd,
-  );
+  const proposal = await proposeExtraCategories(call, question, availableSlugs);
 
   if (proposal.error) {
     return { status: 'failed', error: `proposer: ${proposal.error}` };
@@ -284,7 +257,6 @@ export async function recategoriseOne(
   // reject inserts that exceed the cap; treat that as a failure.
   const calibResult = await calibrateQuestion(
     supabase,
-    tokenAcc,
     {
       id: question.id,
       question_text: question.question_text,
@@ -292,8 +264,8 @@ export async function recategoriseOne(
       distractors: question.distractors,
       assigned_slugs: proposal.slugs,
     },
-    claude,
-    { claudeModelVerification: config.claudeModelVerification, budgetCapUsd: opts.budgetCapUsd },
+    call,
+    { claudeModelVerification: config.claudeModelVerification },
   );
 
   if (!calibResult.success) {
@@ -309,12 +281,12 @@ export async function runRecategorise(
   options: RecategoriseOptions = {},
 ): Promise<RecategoriseResult> {
   const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
-  const claude = createClaudeClient(config.anthropicApiKey);
   const tokenAcc = createTokenAccumulator();
-  const budgetCapUsd = options.budgetCapUsd ?? config.budgetCapUsd;
+  const maxCalls = options.maxCalls ?? DEFAULT_MAX_CALLS;
+  const call = directCaller(tokenAcc, maxCalls);
   const dryRun = options.dryRun ?? false;
 
-  log('info', 'Recategorise starting', { limit: options.limit ?? 'all', dryRun, budgetCapUsd });
+  log('info', 'Recategorise starting', { limit: options.limit ?? 'all', dryRun, maxCalls });
 
   const questions = await fetchSingleCatQuestions(supabase, options.limit);
   log('info', `Found ${questions.length} single-cat published questions to process`);
@@ -332,20 +304,7 @@ export async function runRecategorise(
 
   for (const q of questions) {
     try {
-      checkBudget(tokenAcc, budgetCapUsd);
-    } catch (err) {
-      log('error', 'Budget cap reached, halting', {
-        cost_usd: tokenAcc.estimated_cost_usd,
-        budget: budgetCapUsd,
-      });
-      throw err;
-    }
-
-    try {
-      const r = await recategoriseOne(supabase, claude, tokenAcc, q, availableSlugs, config, {
-        dryRun,
-        budgetCapUsd,
-      });
+      const r = await recategoriseOne(supabase, call, q, availableSlugs, config, { dryRun });
       if (r.status === 'processed') processed++;
       else if (r.status === 'skipped_no_extras') skipped_no_extras++;
       else {
@@ -353,7 +312,10 @@ export async function runRecategorise(
         log('warn', 'Question failed', { qid: q.id, error: r.error });
       }
     } catch (err) {
-      if (err instanceof BudgetExceededError) throw err;
+      if (err instanceof UsageStopError) {
+        log('error', 'Max calls reached, halting', { calls: call.calls(), maxCalls });
+        throw err;
+      }
       failed++;
       log('warn', 'recategoriseOne threw', {
         qid: q.id,
@@ -387,12 +349,12 @@ function parseArgs(argv: string[]): RecategoriseOptions {
       const n = Number(argv[++i]);
       if (Number.isNaN(n) || n <= 0) throw new Error('--limit requires a positive integer');
       opts.limit = n;
-    } else if (a === '--budget-cap-usd') {
+    } else if (a === '--max-calls') {
       const n = Number(argv[++i]);
-      if (Number.isNaN(n) || n <= 0) throw new Error('--budget-cap-usd requires a positive number');
-      opts.budgetCapUsd = n;
+      if (!Number.isInteger(n) || n <= 0) throw new Error('--max-calls requires a positive integer');
+      opts.maxCalls = n;
     } else if (a === '--help' || a === '-h') {
-      console.log('Usage: recategorise-single-cat-questions [--dry-run] [--limit N] [--budget-cap-usd N]');
+      console.log('Usage: recategorise-single-cat-questions [--dry-run] [--limit N] [--max-calls N]');
       process.exit(0);
     } else {
       throw new Error(`Unknown arg: ${a}`);
@@ -409,7 +371,7 @@ export async function main(): Promise<void> {
     console.log(JSON.stringify(result, null, 2));
     process.exit(result.failed > 0 ? 1 : 0);
   } catch (err) {
-    if (err instanceof BudgetExceededError) {
+    if (err instanceof UsageStopError) {
       console.error(err.message);
       process.exit(2);
     }

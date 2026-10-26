@@ -1,5 +1,7 @@
 import { PipelineConfig } from '../lib/config.js';
-import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, HAIKU_INPUT, HAIKU_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import { callGoverned, extractJson } from '../lib/claude.js';
+import type { TokenAccumulator } from '../lib/claude.js';
+import { UsageStopError, type UsageGovernor } from '../lib/usage.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { searchArticles, getArticleText } from '../lib/wikipedia.js';
 import { log } from '../lib/logger.js';
@@ -38,9 +40,9 @@ Return JSON: {"fun_fact": "your fact here"} or {"fun_fact": null} if nothing goo
 export async function runEnrichmentAgent(
   config: PipelineConfig,
   tokenAccumulator: TokenAccumulator,
+  gov: UsageGovernor,
 ): Promise<EnrichmentResult> {
   const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
-  const claude = createClaudeClient(config.anthropicApiKey);
 
   let enriched = 0;
   let skipped = 0;
@@ -99,26 +101,15 @@ ${articleText}
 
 Write a fun fact about the correct answer that would make someone say "oh really?" after answering this question. Remember: don't restate the answer, don't explain why it's right — add something new and surprising.`;
 
-      const response = await claude.messages.create({
-        model: config.claudeModelVerification,
-        max_tokens: 256,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: userPrompt }],
-      });
-
-      trackUsage(response, tokenAccumulator, HAIKU_INPUT, HAIKU_OUTPUT);
-      checkBudget(tokenAccumulator, config.budgetCapUsd);
-
-      const textContent = response.content.find(c => c.type === 'text');
-      if (!textContent || textContent.type !== 'text') {
-        log('warn', 'No text content in enrichment response', { questionId: question.id });
-        failed++;
-        continue;
-      }
+      const claudeResult = await callGoverned(
+        { model: config.claudeModelVerification, system: SYSTEM_PROMPT, prompt: userPrompt },
+        tokenAccumulator,
+        gov,
+      );
 
       let funFact: string;
       try {
-        const jsonStr = extractJson(textContent.text);
+        const jsonStr = extractJson(claudeResult.text);
         const parsed = JSON.parse(jsonStr);
         funFact = parsed.fun_fact;
         if (!funFact || typeof funFact !== 'string' || funFact.length < 10) {
@@ -145,7 +136,7 @@ Write a fun fact about the correct answer that would make someone say "oh really
       log('info', 'Question enriched', { questionId: question.id, funFact: funFact.slice(0, 60) + '...' });
       enriched++;
     } catch (err) {
-      if (err instanceof BudgetExceededError) throw err;
+      if (err instanceof UsageStopError) throw err;
       log('error', 'Enrichment error', {
         questionId: question.id,
         error: err instanceof Error ? err.message : String(err),

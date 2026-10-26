@@ -13,6 +13,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 // Stub: import surface that Wave 1 must export.
 // Test will fail at import time until Wave 1 adds the export.
 import { calibrateQuestionWithChain, GK_THRESHOLD } from '../calibrator';
+import { UsageStopError } from '../../lib/usage.js';
 
 // Minimal types reused — actual types live in calibrator.ts.
 type SbResult = { error: { message: string } | null };
@@ -52,22 +53,13 @@ function makeFakeSupabase() {
 }
 
 function makeFakeClaude(scores: Record<string, number>) {
-  return {
-    messages: {
-      create: vi.fn().mockResolvedValue({
-        content: [
-          {
-            type: 'text',
-            text: JSON.stringify({
-              scores,
-              reasoning: 'test',
-            }),
-          },
-        ],
-        usage: { input_tokens: 100, output_tokens: 50 },
-      }),
-    },
-  };
+  return vi.fn().mockResolvedValue({
+    text: JSON.stringify({ scores, reasoning: 'test' }),
+    rateLimit: null,
+    inputTokens: 100,
+    outputTokens: 50,
+    costUsd: 0,
+  });
 }
 
 beforeEach(() => {
@@ -82,12 +74,10 @@ describe('calibrateQuestionWithChain — chain row emission', () => {
       video_game_franchises: 55,
       general_knowledge: 5, // below threshold → omitted
     });
-    const tokenAcc = { input_tokens: 0, output_tokens: 0, estimated_cost_usd: 0 };
 
     const out = await calibrateQuestionWithChain(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       supabase as any,
-      tokenAcc,
       {
         id: 'q-1',
         question_text: 'Test',
@@ -97,7 +87,7 @@ describe('calibrateQuestionWithChain — chain row emission', () => {
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       claude as any,
-      { claudeModelVerification: 'claude-haiku-4-5-20251001', budgetCapUsd: 10 },
+      { claudeModelVerification: 'sonnet' },
     );
 
     expect(out.success).toBe(true);
@@ -114,12 +104,10 @@ describe('calibrateQuestionWithChain — chain row emission', () => {
       video_game_franchises: 55,
       general_knowledge: 3, // below GK_THRESHOLD
     });
-    const tokenAcc = { input_tokens: 0, output_tokens: 0, estimated_cost_usd: 0 };
 
     await calibrateQuestionWithChain(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       supabase as any,
-      tokenAcc,
       {
         id: 'q-1',
         question_text: 'Test',
@@ -129,7 +117,7 @@ describe('calibrateQuestionWithChain — chain row emission', () => {
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       claude as any,
-      { claudeModelVerification: 'claude-haiku-4-5-20251001', budgetCapUsd: 10 },
+      { claudeModelVerification: 'sonnet' },
     );
 
     const inserted = upsertCalls.flatMap((c) => c.rows as Array<{ category_id: string }>);
@@ -143,12 +131,10 @@ describe('calibrateQuestionWithChain — chain row emission', () => {
       video_game_franchises: 55,
       general_knowledge: 50, // above threshold
     });
-    const tokenAcc = { input_tokens: 0, output_tokens: 0, estimated_cost_usd: 0 };
 
     await calibrateQuestionWithChain(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       supabase as any,
-      tokenAcc,
       {
         id: 'q-1',
         question_text: 'Test',
@@ -158,7 +144,7 @@ describe('calibrateQuestionWithChain — chain row emission', () => {
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       claude as any,
-      { claudeModelVerification: 'claude-haiku-4-5-20251001', budgetCapUsd: 10 },
+      { claudeModelVerification: 'sonnet' },
     );
 
     const inserted = upsertCalls.flatMap((c) => c.rows as Array<{ category_id: string }>);
@@ -173,17 +159,11 @@ describe('calibrateQuestionWithChain — chain row emission', () => {
 
   it('returns success=false on Claude error', async () => {
     const supabase = makeFakeSupabase();
-    const claude = {
-      messages: {
-        create: vi.fn().mockRejectedValue(new Error('rate limit')),
-      },
-    };
-    const tokenAcc = { input_tokens: 0, output_tokens: 0, estimated_cost_usd: 0 };
+    const claude = vi.fn().mockRejectedValue(new Error('rate limit'));
 
     const out = await calibrateQuestionWithChain(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       supabase as any,
-      tokenAcc,
       {
         id: 'q-1',
         question_text: 'Test',
@@ -193,11 +173,34 @@ describe('calibrateQuestionWithChain — chain row emission', () => {
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       claude as any,
-      { claudeModelVerification: 'claude-haiku-4-5-20251001', budgetCapUsd: 10 },
+      { claudeModelVerification: 'sonnet' },
     );
 
     expect(out.success).toBe(false);
     expect(out.error).toContain('rate limit');
+    expect(upsertCalls.length).toBe(0);
+  });
+
+  it('rethrows UsageStopError instead of reporting success=false', async () => {
+    const supabase = makeFakeSupabase();
+    const claude = vi.fn().mockRejectedValue(new UsageStopError('budget'));
+
+    await expect(
+      calibrateQuestionWithChain(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        supabase as any,
+        {
+          id: 'q-1',
+          question_text: 'Test',
+          correct_answer: 'A',
+          distractors: ['B', 'C', 'D'],
+          assigned_slugs: ['video-game-franchises'],
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        claude as any,
+        { claudeModelVerification: 'sonnet' },
+      ),
+    ).rejects.toBeInstanceOf(UsageStopError);
     expect(upsertCalls.length).toBe(0);
   });
 });

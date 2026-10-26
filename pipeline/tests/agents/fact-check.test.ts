@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { PipelineConfig } from '../../src/lib/config.js';
 import type { TokenAccumulator } from '../../src/lib/claude.js';
+import { bridgeClaude } from '../helpers/claude-bridge.js';
+
+const mockGov = {} as never;
 
 vi.mock('../../src/lib/supabase.js', () => ({
   createSupabaseClient: vi.fn(),
@@ -10,9 +13,7 @@ vi.mock('../../src/lib/claude.js', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../src/lib/claude.js')>();
   return {
     ...actual,
-    createClaudeClient: vi.fn(),
-    trackUsage: vi.fn(),
-    checkBudget: vi.fn(),
+    callGoverned: vi.fn(),
   };
 });
 
@@ -27,10 +28,8 @@ vi.mock('../../src/lib/wikipedia.js', () => ({
 
 function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
   return {
-    anthropicApiKey: 'test-key',
     supabaseUrl: 'https://test.supabase.co',
     supabaseServiceRoleKey: 'test-service-key',
-    budgetCapUsd: 10,
     categoryBatchSize: 5,
     knowledgeBatchSize: 10,
     questionsBatchSize: 20,
@@ -165,7 +164,7 @@ function createMockSupabase() {
 
 describe('Fact-Check Agent', () => {
   let mockSupabase: ReturnType<typeof createMockSupabase>;
-  let mockClaude: { messages: { create: ReturnType<typeof vi.fn> } };
+  let mockClaude: { respond: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
     vi.resetAllMocks();
@@ -180,23 +179,21 @@ describe('Fact-Check Agent', () => {
 
     // Default: both questions verified correctly with score 3
     mockClaude = {
-      messages: {
-        create: vi.fn().mockResolvedValue(createMockClaudeResponse([
+      respond: vi.fn().mockResolvedValue(createMockClaudeResponse([
           { question_id: Q1_ID, is_correct: true, verification_score: 3, reasoning: 'Explicitly stated in the text.' },
           { question_id: Q2_ID, is_correct: true, verification_score: 3, reasoning: 'Einstein is explicitly mentioned.' },
         ])),
-      },
     };
 
     const { createSupabaseClient } = await import('../../src/lib/supabase.js');
-    const { createClaudeClient } = await import('../../src/lib/claude.js');
+    const { callGoverned } = await import('../../src/lib/claude.js');
     vi.mocked(createSupabaseClient).mockReturnValue(mockSupabase as any);
-    vi.mocked(createClaudeClient).mockReturnValue(mockClaude as any);
+    vi.mocked(callGoverned).mockImplementation(bridgeClaude(mockClaude as any));
   });
 
   it('returns AgentResult with processed and failed counts', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
-    const result = await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result).toHaveProperty('processed');
     expect(result).toHaveProperty('failed');
     expect(typeof result.processed).toBe('number');
@@ -204,7 +201,7 @@ describe('Fact-Check Agent', () => {
 
   it('selects questions with status=pending and verification_score=0', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
-    await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
+    await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(mockSupabase.from).toHaveBeenCalledWith('questions');
   });
 
@@ -214,40 +211,40 @@ describe('Fact-Check Agent', () => {
     // Mock Wikipedia to return results so source 1 fires
     vi.mocked(wikipedia.searchArticles).mockResolvedValue(['Speed of light']);
     vi.mocked(wikipedia.getArticleText).mockResolvedValue('The speed of light is 299,792,458 m/s.');
-    await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
+    await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(wikipedia.searchArticles).toHaveBeenCalled();
   });
 
   it('falls back to own-knowledge when Wikipedia has no results', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
     // Wikipedia returns nothing (default mock), so own-knowledge fires
-    await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
+    await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     // Should have called Claude at least twice (one per question for own-knowledge)
-    expect(mockClaude.messages.create).toHaveBeenCalledTimes(2);
+    expect(mockClaude.respond).toHaveBeenCalledTimes(2);
   });
 
   it('handles invalid Claude response gracefully', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
     // Both own-knowledge calls return invalid data
-    mockClaude.messages.create.mockResolvedValueOnce(
+    mockClaude.respond.mockResolvedValueOnce(
       createMockClaudeResponse([{ invalid: true }])
     );
-    mockClaude.messages.create.mockResolvedValueOnce(
+    mockClaude.respond.mockResolvedValueOnce(
       createMockClaudeResponse([{ invalid: true }])
     );
     // Should handle gracefully — both rejected, no crash
-    const result = await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result.processed).toBe(0);
     expect(result.failed).toBe(2);
   });
 
   it('updates verified questions with score 1-2 to status=verified (NOT published)', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
-    mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
+    mockClaude.respond.mockResolvedValueOnce(createMockClaudeResponse([
       { question_id: Q1_ID, is_correct: true, verification_score: 2, reasoning: 'Clearly supported.' },
       { question_id: Q2_ID, is_correct: true, verification_score: 1, reasoning: 'Weakly supported.' },
     ]));
-    await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
+    await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     // Both should be updated
     expect(mockSupabase.updateCalls.length).toBe(2);
     for (const call of mockSupabase.updateCalls) {
@@ -259,7 +256,7 @@ describe('Fact-Check Agent', () => {
 
   it('verifies questions with score >= 3 (no auto-publish per D-03)', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
-    await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
+    await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(mockSupabase.updateCalls.length).toBe(2);
     for (const call of mockSupabase.updateCalls) {
       const data = call.data as any;
@@ -271,19 +268,19 @@ describe('Fact-Check Agent', () => {
   it('rejects incorrect answers with status=rejected and score=0', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
     // Source 1: initial check rejects both
-    mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
+    mockClaude.respond.mockResolvedValueOnce(createMockClaudeResponse([
       { question_id: Q1_ID, is_correct: false, verification_score: 0, reasoning: 'Answer contradicts the text.' },
       { question_id: Q2_ID, is_correct: false, verification_score: 0, reasoning: 'Not supported by text.' },
     ]));
     // Source 2: Wikipedia returns [] (mocked), so no Claude call
     // Source 3: own-knowledge also rejects both (one call per question)
-    mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
+    mockClaude.respond.mockResolvedValueOnce(createMockClaudeResponse([
       { question_id: Q1_ID, is_correct: false, verification_score: 0, reasoning: 'Cannot confirm.' },
     ]));
-    mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
+    mockClaude.respond.mockResolvedValueOnce(createMockClaudeResponse([
       { question_id: Q2_ID, is_correct: false, verification_score: 0, reasoning: 'Cannot confirm.' },
     ]));
-    await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
+    await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(mockSupabase.updateCalls.length).toBe(2);
     for (const call of mockSupabase.updateCalls) {
       const data = call.data as any;
@@ -292,25 +289,42 @@ describe('Fact-Check Agent', () => {
     }
   });
 
-  // Drift repair 260419-oxa: fact-check was upgraded from Haiku to Opus (commit 14edd7f).
-  // Agent now calls trackUsage with OPUS_INPUT/OPUS_OUTPUT. Test name kept for continuity
-  // but assertion updated to match current cost rates.
-  it('tracks tokens with Opus cost rates', async () => {
+  it('verifies with the audit (Opus) model through callGoverned', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
-    const { trackUsage, OPUS_INPUT, OPUS_OUTPUT } = await import('../../src/lib/claude.js');
-    await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
-    expect(trackUsage).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.anything(),
-      OPUS_INPUT,
-      OPUS_OUTPUT,
-    );
+    const { callGoverned } = await import('../../src/lib/claude.js');
+    const acc = makeTokenAccumulator();
+    await runFactCheckAgent(makeConfig({ claudeModelAudit: 'opus' }), acc, mockGov);
+    expect(callGoverned).toHaveBeenCalled();
+    const [opts, passedAcc, gov] = vi.mocked(callGoverned).mock.calls[0];
+    expect(opts.model).toBe('opus');
+    expect(passedAcc).toBe(acc);
+    expect(gov).toBe(mockGov);
+  });
+
+  it('UsageStopError propagates out of the own-knowledge per-item catch', async () => {
+    const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
+    // resetModules in beforeEach: import the class from the same module graph as the agent
+    const { UsageStopError } = await import('../../src/lib/usage.js');
+    mockClaude.respond.mockRejectedValue(new UsageStopError('budget'));
+    await expect(runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov)).rejects.toBeInstanceOf(UsageStopError);
+  });
+
+  it('UsageStopError propagates out of the Wikipedia per-item catch', async () => {
+    const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
+    const wikipedia = await import('../../src/lib/wikipedia.js');
+    vi.mocked(wikipedia.searchArticles).mockResolvedValue(['Albert Einstein']);
+    vi.mocked(wikipedia.getArticleText).mockResolvedValue('Einstein was born in 1879 in Ulm.');
+    // resetModules in beforeEach: import the class from the same module graph as the agent
+    const { UsageStopError } = await import('../../src/lib/usage.js');
+    mockClaude.respond.mockRejectedValue(new UsageStopError('budget'));
+    await expect(runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov)).rejects.toBeInstanceOf(UsageStopError);
+    expect(mockClaude.respond).toHaveBeenCalledTimes(1);
   });
 
   it('per-item update failure does not crash the agent', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
     mockSupabase.setUpdateShouldFail(true);
-    const result = await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     // Agent should not crash even when all updates fail
     expect(result).toBeDefined();
   });
@@ -318,8 +332,8 @@ describe('Fact-Check Agent', () => {
   it('own-knowledge prompt instructs strict verification', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
     // Wikipedia returns nothing, so own-knowledge fires
-    await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
-    const callArgs = mockClaude.messages.create.mock.calls[0][0];
+    await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
+    const callArgs = mockClaude.respond.mock.calls[0][0];
     const systemContent = typeof callArgs.system === 'string'
       ? callArgs.system
       : Array.isArray(callArgs.system)
@@ -331,16 +345,16 @@ describe('Fact-Check Agent', () => {
   it('uses log() from logger.ts for output', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
     const { log } = await import('../../src/lib/logger.js');
-    await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
+    await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(log).toHaveBeenCalled();
   });
 
   it('score 2 questions get status=verified (same as all verified)', async () => {
     const { runFactCheckAgent } = await import('../../src/agents/fact-check.js');
-    mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
+    mockClaude.respond.mockResolvedValueOnce(createMockClaudeResponse([
       { question_id: Q1_ID, is_correct: true, verification_score: 2, reasoning: 'Clearly supported.' },
     ]));
-    await runFactCheckAgent(makeConfig(), makeTokenAccumulator());
+    await runFactCheckAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);
     expect(q1Update).toBeDefined();
     const data = q1Update!.data as any;

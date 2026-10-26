@@ -1,7 +1,8 @@
 import { createHash } from 'node:crypto';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { searchArticles, getArticleText } from '../lib/wikipedia.js';
-import { createClaudeClient, trackUsage, checkBudget, extractJson, HAIKU_INPUT, HAIKU_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import { callGoverned, extractJson } from '../lib/claude.js';
+import { UsageStopError, type UsageGovernor } from '../lib/usage.js';
 import type { TokenAccumulator } from '../lib/claude.js';
 import type { PipelineConfig } from '../lib/config.js';
 import type { Database } from '../lib/database.types.js';
@@ -20,9 +21,8 @@ interface CategoryRow {
   slug: string;
 }
 
-export async function runKnowledgeAgent(config: PipelineConfig, tokenAccumulator: TokenAccumulator): Promise<AgentResult> {
+export async function runKnowledgeAgent(config: PipelineConfig, tokenAccumulator: TokenAccumulator, gov: UsageGovernor): Promise<AgentResult> {
   const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
-  const claude = createClaudeClient(config.anthropicApiKey);
 
   // 1. Fetch all categories
   log('info', 'Fetching categories for knowledge sourcing');
@@ -147,25 +147,19 @@ Rate the relevance of this article to the category on a scale of 0.0 to 1.0.
 
 Return JSON: {"relevance": <number>, "reasoning": "<brief explanation>"}`;
 
-          const relevanceResponse = await claude.messages.create({
-            model: config.claudeModelVerification,
-            max_tokens: 256,
-            messages: [{ role: 'user', content: relevancePrompt }],
-          });
+          const relevanceResult = await callGoverned(
+            { model: config.claudeModelVerification, prompt: relevancePrompt },
+            tokenAccumulator,
+            gov,
+          );
 
-          trackUsage(relevanceResponse, tokenAccumulator, HAIKU_INPUT, HAIKU_OUTPUT);
-          checkBudget(tokenAccumulator, config.budgetCapUsd);
-
-          const relevanceText = relevanceResponse.content.find((c: { type: string }) => c.type === 'text');
           let relevanceScore = 0;
-          if (relevanceText && relevanceText.type === 'text') {
-            try {
-              const relevanceJson = JSON.parse(extractJson((relevanceText as { type: 'text'; text: string }).text));
-              relevanceScore = typeof relevanceJson.relevance === 'number' ? relevanceJson.relevance : 0;
-            } catch {
-              log('warn', 'Failed to parse relevance score, skipping article', { title });
-              continue;
-            }
+          try {
+            const relevanceJson = JSON.parse(extractJson(relevanceResult.text));
+            relevanceScore = typeof relevanceJson.relevance === 'number' ? relevanceJson.relevance : 0;
+          } catch {
+            log('warn', 'Failed to parse relevance score, skipping article', { title });
+            continue;
           }
 
           if (relevanceScore < config.relevanceThreshold) {
@@ -213,14 +207,14 @@ Return JSON: {"relevance": <number>, "reasoning": "<brief explanation>"}`;
           log('info', 'Inserted source', { title, category: category.name });
           processed++;
         } catch (err) {
-          if (err instanceof BudgetExceededError) throw err;
+          if (err instanceof UsageStopError) throw err;
           const errorMessage = err instanceof Error ? err.message : String(err);
           log('error', 'Failed to process article', { title, category: category.name, error: errorMessage });
           failed++;
         }
       }
     } catch (err) {
-      if (err instanceof BudgetExceededError) throw err;
+      if (err instanceof UsageStopError) throw err;
       const errorMessage = err instanceof Error ? err.message : String(err);
       log('error', 'Failed to process category', { category: category.name, error: errorMessage });
       failed++;

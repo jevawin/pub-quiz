@@ -1,25 +1,21 @@
 #!/usr/bin/env node
 import { createSupabaseClient } from '../lib/supabase.js';
-import {
-  createClaudeClient,
-  createTokenAccumulator,
-  checkBudget,
-  BudgetExceededError,
-} from '../lib/claude.js';
-import type { TokenAccumulator } from '../lib/claude.js';
+import { createTokenAccumulator, directCaller } from '../lib/claude.js';
+import type { ClaudeCaller } from '../lib/claude.js';
+import { UsageStopError } from '../lib/usage.js';
 import { calibrateQuestion } from '../agents/calibrator.js';
 import { loadConfig } from '../lib/config.js';
 import { log } from '../lib/logger.js';
 
 const BATCH_SIZE = 50;
+const DEFAULT_MAX_CALLS = 200;
 
 export async function backfillBatch(
   supabase: ReturnType<typeof createSupabaseClient>,
-  tokenAcc: TokenAccumulator,
+  call: ClaudeCaller,
   batchLimit: number,
 ): Promise<{ processed: number; failed: number }> {
   const config = loadConfig();
-  const claude = createClaudeClient(config.anthropicApiKey);
 
   // Fetch question IDs that already have question_categories rows
   const { data: existingIds } = await supabase
@@ -59,7 +55,6 @@ export async function backfillBatch(
     try {
       const result = await calibrateQuestion(
         supabase,
-        tokenAcc,
         {
           id: q.id,
           question_text: q.question_text,
@@ -67,7 +62,7 @@ export async function backfillBatch(
           distractors: q.distractors as string[],
           assigned_slugs,
         },
-        claude,
+        call,
         config,
       );
       if (result.success) {
@@ -77,7 +72,7 @@ export async function backfillBatch(
         failed++;
       }
     } catch (err) {
-      if (err instanceof BudgetExceededError) throw err;
+      if (err instanceof UsageStopError) throw err;
       log('warn', 'calibrate threw', { qid: q.id, err: String(err) });
       failed++;
     }
@@ -86,22 +81,34 @@ export async function backfillBatch(
   return { processed, failed };
 }
 
+export function parseMaxCalls(argv: string[]): number {
+  const i = argv.indexOf('--max-calls');
+  if (i === -1) return DEFAULT_MAX_CALLS;
+  const n = Number(argv[i + 1]);
+  if (!Number.isInteger(n) || n <= 0) throw new Error('--max-calls requires a positive integer');
+  return n;
+}
+
 export async function main(): Promise<void> {
   const config = loadConfig();
   const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
   const tokenAcc = createTokenAccumulator();
+  const maxCalls = parseMaxCalls(process.argv.slice(2));
+  const call = directCaller(tokenAcc, maxCalls);
   let totalProcessed = 0,
     totalFailed = 0;
 
   while (true) {
+    let res;
     try {
-      checkBudget(tokenAcc, config.budgetCapUsd);
+      res = await backfillBatch(supabase, call, BATCH_SIZE);
     } catch (err) {
-      log('error', 'Budget exceeded, halting', { cost_usd: tokenAcc.estimated_cost_usd });
-      process.exit(2);
+      if (err instanceof UsageStopError) {
+        log('error', 'Max calls reached, halting', { calls: call.calls(), maxCalls });
+        process.exit(2);
+      }
+      throw err;
     }
-
-    const res = await backfillBatch(supabase, tokenAcc, BATCH_SIZE);
     totalProcessed += res.processed;
     totalFailed += res.failed;
 

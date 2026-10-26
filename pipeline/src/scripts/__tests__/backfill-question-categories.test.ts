@@ -15,20 +15,11 @@ vi.mock('../../lib/supabase.js', () => ({
   createSupabaseClient: vi.fn(() => mockSupabase),
 }));
 
-vi.mock('../../lib/claude.js', () => ({
-  createClaudeClient: vi.fn(() => ({})),
-  createTokenAccumulator: vi.fn(() => ({ input_tokens: 0, output_tokens: 0, estimated_cost_usd: 0 })),
-  BudgetExceededError: class BudgetExceededError extends Error {},
-  checkBudget: vi.fn(),
-}));
-
 vi.mock('../../lib/config.js', () => ({
   loadConfig: vi.fn(() => ({
-    anthropicApiKey: 'test-key',
     supabaseUrl: 'http://localhost',
     supabaseServiceRoleKey: 'test-svc-key',
-    budgetCapUsd: 10,
-    claudeModelVerification: 'claude-haiku',
+    claudeModelVerification: 'sonnet',
   })),
 }));
 
@@ -64,7 +55,10 @@ function makeMockSupabase(opts: {
   };
 }
 
-import { backfillBatch } from '../backfill-question-categories.js';
+import { backfillBatch, parseMaxCalls } from '../backfill-question-categories.js';
+import { UsageStopError } from '../../lib/usage.js';
+
+const fakeCall = vi.fn() as never;
 
 describe('backfillBatch', () => {
   beforeEach(() => {
@@ -81,7 +75,7 @@ describe('backfillBatch', () => {
       ],
     });
 
-    const result = await backfillBatch(mockSupabase as never, { input_tokens: 0, output_tokens: 0, estimated_cost_usd: 0 }, 10);
+    const result = await backfillBatch(mockSupabase as never, fakeCall, 10);
 
     expect(result.processed).toBe(2);
     expect(result.failed).toBe(0);
@@ -101,7 +95,7 @@ describe('backfillBatch', () => {
       ],
     });
 
-    const result = await backfillBatch(mockSupabase as never, { input_tokens: 0, output_tokens: 0, estimated_cost_usd: 0 }, 10);
+    const result = await backfillBatch(mockSupabase as never, fakeCall, 10);
 
     expect(result.processed).toBe(1);
     expect(result.failed).toBe(1);
@@ -117,18 +111,37 @@ describe('backfillBatch', () => {
       ],
     });
 
-    const result = await backfillBatch(mockSupabase as never, { input_tokens: 0, output_tokens: 0, estimated_cost_usd: 0 }, 10);
+    const result = await backfillBatch(mockSupabase as never, fakeCall, 10);
 
     // Only q2 should be processed — q1 is already done
     expect(mockCalibrateQuestion).toHaveBeenCalledTimes(1);
     expect(mockCalibrateQuestion).toHaveBeenCalledWith(
       expect.anything(),
-      expect.anything(),
       expect.objectContaining({ id: 'q2' }),
-      expect.anything(),
+      fakeCall,
       expect.anything(),
     );
     expect(result.processed).toBe(1);
     expect(result.failed).toBe(0);
+  });
+
+  it('propagates UsageStopError (max calls reached) instead of counting it as a failure', async () => {
+    mockCalibrateQuestion.mockRejectedValueOnce(new UsageStopError('max calls (1) reached'));
+    mockSupabase = makeMockSupabase({
+      existingIds: [],
+      questions: [
+        { id: 'q1', question_text: 'Q1?', correct_answer: 'A1', distractors: ['B', 'C', 'D'], category_id: 'cat-1' },
+      ],
+    });
+    await expect(backfillBatch(mockSupabase as never, fakeCall, 10)).rejects.toBeInstanceOf(UsageStopError);
+  });
+});
+
+describe('parseMaxCalls', () => {
+  it('defaults to 200, reads --max-calls, rejects junk', () => {
+    expect(parseMaxCalls([])).toBe(200);
+    expect(parseMaxCalls(['--max-calls', '7'])).toBe(7);
+    expect(() => parseMaxCalls(['--max-calls', 'x'])).toThrow();
+    expect(() => parseMaxCalls(['--max-calls', '0'])).toThrow();
   });
 });

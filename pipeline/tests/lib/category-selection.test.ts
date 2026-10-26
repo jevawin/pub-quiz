@@ -108,36 +108,39 @@ describe('Category Selection', () => {
     expect(result[1].name).toBe('History');
   });
 
-  it('excludes categories with >= MIN_QUESTIONS_THRESHOLD questions', async () => {
+  it('a category with 500 questions is still returned, after emptier ones', async () => {
     const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
     const mockSupabase = createMockSupabase({
       categories: [
         { id: 'cat-a', name: 'History', slug: 'history', depth: 1 },
         { id: 'cat-b', name: 'Science', slug: 'science', depth: 1 },
       ],
-      questionCounts: { 'cat-a': 15, 'cat-b': 3 },
+      questionCounts: { 'cat-a': 500, 'cat-b': 3 },
       sourceCounts: { 'cat-a': 2, 'cat-b': 2 },
     });
 
-    const result = await getEligibleCategoriesOrdered(mockSupabase as any, 10, 10);
+    const result = await getEligibleCategoriesOrdered(mockSupabase as any, 10);
 
-    expect(result.length).toBe(1);
-    expect(result[0].name).toBe('Science');
+    expect(result.map(c => c.name)).toEqual(['Science', 'History']);
+    expect(result[1].questionCount).toBe(500);
   });
 
-  it('returns empty array when no eligible categories exist', async () => {
+  it('categories are returned fewest-first', async () => {
     const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
     const mockSupabase = createMockSupabase({
       categories: [
-        { id: 'cat-a', name: 'History', slug: 'history', depth: 1 },
+        { id: 'cat-a', name: 'A', slug: 'a', depth: 1 },
+        { id: 'cat-b', name: 'B', slug: 'b', depth: 2 },
+        { id: 'cat-c', name: 'C', slug: 'c', depth: 1 },
+        { id: 'cat-d', name: 'D', slug: 'd', depth: 0 },
       ],
-      questionCounts: { 'cat-a': 20 },
-      sourceCounts: { 'cat-a': 5 },
+      questionCounts: { 'cat-a': 40, 'cat-b': 7, 'cat-c': 120, 'cat-d': 0 },
+      sourceCounts: {},
     });
 
-    const result = await getEligibleCategoriesOrdered(mockSupabase as any, 10, 10);
+    const result = await getEligibleCategoriesOrdered(mockSupabase as any, 10);
 
-    expect(result).toEqual([]);
+    expect(result.map(c => c.name)).toEqual(['B', 'A', 'C']);
   });
 
   it('respects the batch size limit parameter', async () => {

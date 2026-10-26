@@ -1,14 +1,17 @@
 // Drift repair 260419-oxa:
 // - QA split (commit 991ed2f) moved rewrites out of Haiku's response into a second Sonnet call
 //   (rewriteWithSonnet in qa.ts). Tests that exercise the rewrite path now mock two
-//   claude.messages.create responses: first the Haiku QA diagnosis, then the Sonnet rewrite.
-// - Fact-check/QA Opus upgrade (14edd7f) changed trackUsage cost args from HAIKU to OPUS.
+//   Claude responses: first the Haiku QA diagnosis, then the Sonnet rewrite.
+// - Fact-check/QA Opus upgrade (14edd7f) changed the audit model from Haiku to Opus.
 // - qa_rewritten remains a user-visible contract (calibrator.ts reads it as a proxy for
 //   published questions that went through QA), so agent-side behaviour preserved; tests
 //   update to the new two-call rewrite flow.
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { PipelineConfig } from '../../src/lib/config.js';
 import type { TokenAccumulator } from '../../src/lib/claude.js';
+import { bridgeClaude } from '../helpers/claude-bridge.js';
+
+const mockGov = {} as never;
 
 vi.mock('../../src/lib/supabase.js', () => ({
   createSupabaseClient: vi.fn(),
@@ -18,9 +21,7 @@ vi.mock('../../src/lib/claude.js', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../src/lib/claude.js')>();
   return {
     ...actual,
-    createClaudeClient: vi.fn(),
-    trackUsage: vi.fn(),
-    checkBudget: vi.fn(),
+    callGoverned: vi.fn(),
   };
 });
 
@@ -30,10 +31,8 @@ vi.mock('../../src/lib/logger.js', () => ({
 
 function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
   return {
-    anthropicApiKey: 'test-key',
     supabaseUrl: 'https://test.supabase.co',
     supabaseServiceRoleKey: 'test-service-key',
-    budgetCapUsd: 10,
     categoryBatchSize: 5,
     knowledgeBatchSize: 10,
     questionsBatchSize: 20,
@@ -217,7 +216,7 @@ function createMockSupabase(questionsOverride?: unknown[]) {
 
 describe('QA Agent', () => {
   let mockSupabase: ReturnType<typeof createMockSupabase>;
-  let mockClaude: { messages: { create: ReturnType<typeof vi.fn> } };
+  let mockClaude: { respond: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
     vi.resetAllMocks();
@@ -226,8 +225,7 @@ describe('QA Agent', () => {
 
     // Default: all questions pass QA
     mockClaude = {
-      messages: {
-        create: vi.fn().mockResolvedValue(createMockClaudeResponse([
+      respond: vi.fn().mockResolvedValue(createMockClaudeResponse([
           {
             question_id: Q1_ID,
             passed: true,
@@ -259,26 +257,25 @@ describe('QA Agent', () => {
             reasoning: 'Excellent question.',
           },
         ])),
-      },
     };
 
     const { createSupabaseClient } = await import('../../src/lib/supabase.js');
-    const { createClaudeClient } = await import('../../src/lib/claude.js');
+    const { callGoverned } = await import('../../src/lib/claude.js');
     vi.mocked(createSupabaseClient).mockReturnValue(mockSupabase as any);
-    vi.mocked(createClaudeClient).mockReturnValue(mockClaude as any);
+    vi.mocked(callGoverned).mockImplementation(bridgeClaude(mockClaude as any));
   });
 
   it('fetches all verified questions with score >= 1', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    await runQaAgent(makeConfig(), makeTokenAccumulator());
+    await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(mockSupabase.from).toHaveBeenCalledWith('questions');
   });
 
   it('runs 4 quality checks per question via Claude prompt', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    await runQaAgent(makeConfig(), makeTokenAccumulator());
-    expect(mockClaude.messages.create).toHaveBeenCalled();
-    const callArgs = mockClaude.messages.create.mock.calls[0][0];
+    await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
+    expect(mockClaude.respond).toHaveBeenCalled();
+    const callArgs = mockClaude.respond.mock.calls[0][0];
     const systemContent = typeof callArgs.system === 'string'
       ? callArgs.system
       : '';
@@ -290,7 +287,7 @@ describe('QA Agent', () => {
 
   it('rewrites fixable questions and updates DB with qa_rewritten=true', async () => {
     // Drift repair 260419-oxa: Haiku now only flags; second call goes to Sonnet for the rewrite.
-    mockClaude.messages.create
+    mockClaude.respond
       .mockResolvedValueOnce(createMockClaudeResponse([
         {
           question_id: Q1_ID,
@@ -331,7 +328,7 @@ describe('QA Agent', () => {
       }));
 
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    const result = await runQaAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     // Q1 was rewritten -- should have qa_rewritten: true and updated text
     const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);
@@ -347,7 +344,7 @@ describe('QA Agent', () => {
   });
 
   it('rejects truly broken questions with status=rejected', async () => {
-    mockClaude.messages.create.mockResolvedValueOnce(createMockClaudeResponse([
+    mockClaude.respond.mockResolvedValueOnce(createMockClaudeResponse([
       {
         question_id: Q1_ID,
         passed: false,
@@ -381,7 +378,7 @@ describe('QA Agent', () => {
     ]));
 
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    const result = await runQaAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);
     expect(q1Update).toBeDefined();
@@ -392,7 +389,7 @@ describe('QA Agent', () => {
 
   it('publishes score >= 3 questions that pass QA', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    await runQaAgent(makeConfig(), makeTokenAccumulator());
+    await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     // Q1 has verification_score 3 and action=pass => should be published
     const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);
@@ -411,7 +408,7 @@ describe('QA Agent', () => {
 
   it('leaves score 1-2 questions as verified after QA pass (stamps qa_passed_at, no publish)', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    await runQaAgent(makeConfig(), makeTokenAccumulator());
+    await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     // Q2 has verification_score 2 and action=pass => stamped qa_passed_at but NOT published
     const q2Update = mockSupabase.updateCalls.find((c) => c.questionId === Q2_ID);
@@ -426,7 +423,7 @@ describe('QA Agent', () => {
     // (qa.ts line 404). When Sonnet returns 2 distractors, rewriteWithSonnet returns null,
     // the question is marked 'rejected', and the agent resolves with processed=2 (Q2, Q3
     // pass) and failed=1 (Q1 rejected). The old "whole batch throws" behaviour is gone.
-    mockClaude.messages.create
+    mockClaude.respond
       .mockResolvedValueOnce(createMockClaudeResponse([
         {
           question_id: Q1_ID,
@@ -470,7 +467,7 @@ describe('QA Agent', () => {
       }));
 
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    const result = await runQaAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result.rewritten).toBe(0);
     expect(result.failed).toBe(1);
     // Q1 was rejected (status='rejected') because Sonnet rewrite was invalid.
@@ -481,7 +478,7 @@ describe('QA Agent', () => {
 
   it('returns QaAgentResult with processed, failed, and rewritten counts', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    const result = await runQaAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result).toHaveProperty('processed');
     expect(result).toHaveProperty('failed');
     expect(result).toHaveProperty('rewritten');
@@ -492,42 +489,52 @@ describe('QA Agent', () => {
 
   it('processes questions in batches without requiring source content', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    await runQaAgent(makeConfig(), makeTokenAccumulator());
+    await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     // Should NOT fetch sources — QA checks quality, not factual accuracy
     const sourcesCalls = mockSupabase.from.mock.calls.filter((c: any[]) => c[0] === 'sources');
     expect(sourcesCalls.length).toBe(0);
   });
 
-  // Drift repair 260419-oxa: QA audit was upgraded from Haiku to Opus (commit 14edd7f).
-  // Agent now calls trackUsage with OPUS_INPUT/OPUS_OUTPUT on the audit call. Test renamed
-  // and assertion updated to match current cost rates.
-  it('tracks tokens with Opus cost rates', async () => {
+  it('audits with the audit (Opus) model through callGoverned', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    const { trackUsage, OPUS_INPUT, OPUS_OUTPUT } = await import('../../src/lib/claude.js');
-    await runQaAgent(makeConfig(), makeTokenAccumulator());
-    expect(trackUsage).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.anything(),
-      OPUS_INPUT,
-      OPUS_OUTPUT,
-    );
+    const { callGoverned } = await import('../../src/lib/claude.js');
+    const acc = makeTokenAccumulator();
+    await runQaAgent(makeConfig({ claudeModelAudit: 'opus' }), acc, mockGov);
+    const [opts, passedAcc, gov] = vi.mocked(callGoverned).mock.calls[0];
+    expect(opts.model).toBe('opus');
+    expect(passedAcc).toBe(acc);
+    expect(gov).toBe(mockGov);
   });
 
-  it('re-throws BudgetExceededError', async () => {
-    const { BudgetExceededError } = await import('../../src/lib/claude.js');
-    const { checkBudget } = await import('../../src/lib/claude.js');
-    vi.mocked(checkBudget).mockImplementation(() => {
-      throw new BudgetExceededError(15, 10);
-    });
+  it('re-throws UsageStopError from the audit call', async () => {
+    // resetModules in beforeEach: import the class from the same module graph as the agent
+    const { UsageStopError } = await import('../../src/lib/usage.js');
+    mockClaude.respond.mockRejectedValue(new UsageStopError('budget'));
 
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    await expect(runQaAgent(makeConfig(), makeTokenAccumulator())).rejects.toThrow(BudgetExceededError);
+    await expect(runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov)).rejects.toThrow(UsageStopError);
+  });
+
+  it('re-throws UsageStopError from the rewrite call (per-item catch)', async () => {
+    const { UsageStopError } = await import('../../src/lib/usage.js');
+    mockClaude.respond
+      .mockResolvedValueOnce(createMockClaudeResponse([
+        {
+          question_id: Q1_ID, passed: false, action: 'rewrite',
+          natural_language_score: 4, category_fit_score: 9, difficulty_calibration_score: 7,
+          distractor_quality_score: 8, reasoning: 'Needed polish.',
+        },
+      ]))
+      .mockRejectedValueOnce(new UsageStopError('budget'));
+
+    const { runQaAgent } = await import('../../src/agents/qa.js');
+    await expect(runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov)).rejects.toThrow(UsageStopError);
   });
 
   it('rewritten question with score >= 3 gets published', async () => {
     // Drift repair 260419-oxa: add Sonnet rewrite mock so rewriteWithSonnet succeeds.
     // Without it, rewriteWithSonnet returns null and qa.ts rejects the question.
-    mockClaude.messages.create
+    mockClaude.respond
       .mockResolvedValueOnce(createMockClaudeResponse([
         {
           question_id: Q1_ID, // verification_score: 3
@@ -568,7 +575,7 @@ describe('QA Agent', () => {
       }));
 
     const { runQaAgent } = await import('../../src/agents/qa.js');
-    await runQaAgent(makeConfig(), makeTokenAccumulator());
+    await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     // Q1 rewritten with score 3 => should be published
     const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);

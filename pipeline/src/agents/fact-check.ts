@@ -1,5 +1,7 @@
 import { PipelineConfig } from '../lib/config.js';
-import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, OPUS_INPUT, OPUS_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import { callGoverned, extractJson } from '../lib/claude.js';
+import type { TokenAccumulator } from '../lib/claude.js';
+import { UsageStopError, type UsageGovernor } from '../lib/usage.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { FactCheckBatchSchema } from '../lib/schemas.js';
 import { searchArticles, getArticleText } from '../lib/wikipedia.js';
@@ -41,9 +43,9 @@ ${VERIFICATION_GUIDANCE}`;
 export async function runFactCheckAgent(
   config: PipelineConfig,
   tokenAccumulator: TokenAccumulator,
+  gov: UsageGovernor,
 ): Promise<AgentResult> {
   const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
-  const claude = createClaudeClient(config.anthropicApiKey);
 
   let processed = 0;
   let failed = 0;
@@ -129,25 +131,15 @@ Question: ${question.question_text}
 Correct Answer: ${question.correct_answer}
 Distractors: ${(question.distractors as string[]).join(', ')}`;
 
-      const response = await claude.messages.create({
-        model: config.claudeModelAudit,
-        max_tokens: 1024,
-        system: WIKIPEDIA_PROMPT,
-        messages: [{ role: 'user', content: userPrompt }],
-      });
-
-      trackUsage(response, tokenAccumulator, OPUS_INPUT, OPUS_OUTPUT);
-      checkBudget(tokenAccumulator, config.budgetCapUsd);
-
-      const textContent = response.content.find(c => c.type === 'text');
-      if (!textContent || textContent.type !== 'text') {
-        needsOwnKnowledge.push(question);
-        continue;
-      }
+      const claudeResult = await callGoverned(
+        { model: config.claudeModelAudit, system: WIKIPEDIA_PROMPT, prompt: userPrompt },
+        tokenAccumulator,
+        gov,
+      );
 
       let parsedBatch;
       try {
-        parsedBatch = FactCheckBatchSchema.parse(JSON.parse(extractJson(textContent.text)));
+        parsedBatch = FactCheckBatchSchema.parse(JSON.parse(extractJson(claudeResult.text)));
       } catch {
         needsOwnKnowledge.push(question);
         continue;
@@ -174,7 +166,7 @@ Distractors: ${(question.distractors as string[]).join(', ')}`;
         });
       }
     } catch (err) {
-      if (err instanceof BudgetExceededError) throw err;
+      if (err instanceof UsageStopError) throw err;
       log('error', 'Wikipedia verification error', {
         questionId: question.id,
         error: err instanceof Error ? err.message : String(err),
@@ -203,27 +195,15 @@ Question: ${question.question_text}
 Correct Answer: ${question.correct_answer}
 Distractors: ${(question.distractors as string[]).join(', ')}`;
 
-        const response = await claude.messages.create({
-          model: config.claudeModelAudit,
-          max_tokens: 512,
-          system: OWN_KNOWLEDGE_PROMPT,
-          messages: [{ role: 'user', content: userPrompt }],
-        });
-
-        trackUsage(response, tokenAccumulator, OPUS_INPUT, OPUS_OUTPUT);
-        checkBudget(tokenAccumulator, config.budgetCapUsd);
-
-        const textContent = response.content.find(c => c.type === 'text');
-        if (!textContent || textContent.type !== 'text') {
-          await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
-            .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
-          failed++;
-          continue;
-        }
+        const claudeResult = await callGoverned(
+          { model: config.claudeModelAudit, system: OWN_KNOWLEDGE_PROMPT, prompt: userPrompt },
+          tokenAccumulator,
+          gov,
+        );
 
         let parsedBatch;
         try {
-          parsedBatch = FactCheckBatchSchema.parse(JSON.parse(extractJson(textContent.text)));
+          parsedBatch = FactCheckBatchSchema.parse(JSON.parse(extractJson(claudeResult.text)));
         } catch {
           await (supabase.from('questions').update({ verification_score: 0, status: 'rejected' as const } as never)
             .eq('id', question.id) as unknown as Promise<{ error: { message: string } | null }>);
@@ -253,7 +233,7 @@ Distractors: ${(question.distractors as string[]).join(', ')}`;
           failed++;
         }
       } catch (err) {
-        if (err instanceof BudgetExceededError) throw err;
+        if (err instanceof UsageStopError) throw err;
         log('error', 'Own-knowledge verification error', {
           questionId: question.id,
           error: err instanceof Error ? err.message : String(err),

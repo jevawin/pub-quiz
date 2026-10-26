@@ -13,6 +13,12 @@ import { spawnSync } from 'node:child_process';
 import { createClient } from '@supabase/supabase-js';
 import 'dotenv/config';
 
+if (process.env.ALLOW_UNISOLATED_CLAUDE !== '1') {
+  throw new Error(
+    'process.ts runs claude without tool isolation; do not run on a host with sudo. Port it to lib/claude-cli.ts first.',
+  );
+}
+
 type Filtered = {
   external_id: string;
   category: string;              // OpenTDB category label

@@ -13,9 +13,7 @@ vi.mock('../../src/lib/claude.js', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../src/lib/claude.js')>();
   return {
     ...actual,
-    createClaudeClient: vi.fn(),
-    trackUsage: vi.fn(),
-    checkBudget: vi.fn(),
+    callGoverned: vi.fn(),
   };
 });
 
@@ -35,7 +33,9 @@ vi.mock('../../src/lib/logger.js', () => ({
 }));
 
 import { searchArticles, getArticleText } from '../../src/lib/wikipedia.js';
-import { createClaudeClient, trackUsage, checkBudget } from '../../src/lib/claude.js';
+import { callGoverned } from '../../src/lib/claude.js';
+import { UsageStopError } from '../../src/lib/usage.js';
+import { bridgeClaude } from '../helpers/claude-bridge.js';
 
 const getSupabaseMock = async () => {
   const mod = await import('@supabase/supabase-js');
@@ -44,10 +44,8 @@ const getSupabaseMock = async () => {
 
 function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
   return {
-    anthropicApiKey: 'test-key',
     supabaseUrl: 'https://test.supabase.co',
     supabaseServiceRoleKey: 'test-service-key',
-    budgetCapUsd: 10.0,
     categoryBatchSize: 5,
     knowledgeBatchSize: 2,
     questionsBatchSize: 20,
@@ -66,17 +64,14 @@ function makeTokenAccumulator(): TokenAccumulator {
 
 const mockSearchArticles = searchArticles as ReturnType<typeof vi.fn>;
 const mockGetArticleText = getArticleText as ReturnType<typeof vi.fn>;
-const mockCreateClaudeClient = createClaudeClient as ReturnType<typeof vi.fn>;
-const mockTrackUsage = trackUsage as ReturnType<typeof vi.fn>;
+const mockGov = {} as never;
 
 function makeMockClaudeClient(relevanceScore: number = 0.8) {
   return {
-    messages: {
-      create: vi.fn().mockResolvedValue({
-        content: [{ type: 'text', text: JSON.stringify({ relevance: relevanceScore, reasoning: 'Test reasoning' }) }],
-        usage: { input_tokens: 100, output_tokens: 50 },
-      }),
-    },
+    respond: vi.fn().mockResolvedValue({
+      content: [{ type: 'text', text: JSON.stringify({ relevance: relevanceScore, reasoning: 'Test reasoning' }) }],
+      usage: { input_tokens: 100, output_tokens: 50 },
+    }),
   };
 }
 
@@ -90,7 +85,7 @@ describe('Knowledge Agent', () => {
 
     mockFrom = await getSupabaseMock();
     mockClaude = makeMockClaudeClient(0.8);
-    mockCreateClaudeClient.mockReturnValue(mockClaude);
+    vi.mocked(callGoverned).mockImplementation(bridgeClaude(mockClaude as never));
 
     // Default mocks
     mockSearchArticles.mockResolvedValue(['Science Wikipedia', 'Science Overview']);
@@ -204,24 +199,24 @@ describe('Knowledge Agent', () => {
   }
 
   it('returns AgentResult with sources_fetched count', async () => {
-    const result = await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result).toHaveProperty('processed');
     expect(result).toHaveProperty('failed');
     expect(typeof result.processed).toBe('number');
   });
 
   it('queries categories that need sources', async () => {
-    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(mockFrom).toHaveBeenCalledWith('categories');
   });
 
   it('searches Wikipedia for each category', async () => {
-    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(mockSearchArticles).toHaveBeenCalled();
   });
 
   it('fetches full article text using getArticleText', async () => {
-    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(mockGetArticleText).toHaveBeenCalled();
   });
 
@@ -296,7 +291,7 @@ describe('Knowledge Agent', () => {
     mockSearchArticles.mockResolvedValue(['Duplicate Article']);
     mockGetArticleText.mockResolvedValue('hello');
 
-    const result = await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     // The article should be skipped due to duplicate hash
     expect(result.processed).toBe(0);
   });
@@ -357,7 +352,7 @@ describe('Knowledge Agent', () => {
     mockSearchArticles.mockResolvedValue(['Test Article']);
     mockGetArticleText.mockResolvedValue('Article content here');
 
-    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     expect(insertMock).toHaveBeenCalled();
     const insertedData = insertMock.mock.calls[0][0];
@@ -430,7 +425,7 @@ describe('Knowledge Agent', () => {
     });
 
     // Should not throw
-    const result = await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result.failed).toBeGreaterThanOrEqual(1);
     expect(result.processed).toBeGreaterThanOrEqual(0);
   });
@@ -486,7 +481,7 @@ describe('Knowledge Agent', () => {
       return { select: vi.fn().mockResolvedValue({ data: [], error: null }) };
     });
 
-    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     // No inserts since article text was null
     expect(insertMock).not.toHaveBeenCalled();
   });
@@ -563,7 +558,7 @@ describe('Knowledge Agent', () => {
     mockSearchArticles.mockResolvedValue(['Quidditch in Harry Potter']);
     mockGetArticleText.mockResolvedValue('Quidditch is a fictional sport in the Harry Potter universe.');
 
-    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     // searchArticles should be called with a query containing both "Quidditch" and "Harry Potter"
     expect(mockSearchArticles).toHaveBeenCalled();
@@ -639,7 +634,7 @@ describe('Knowledge Agent', () => {
     mockSearchArticles.mockResolvedValue(['Science Article 1', 'Science Article 2']);
     mockGetArticleText.mockResolvedValue('Content about science.');
 
-    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     expect(mockSearchArticles).toHaveBeenCalled();
     const searchQuery = mockSearchArticles.mock.calls[0][0];
@@ -659,7 +654,7 @@ describe('Knowledge Agent', () => {
         content: [{ type: 'text', text: JSON.stringify({ relevance: 0.8, reasoning: 'Directly relevant' }) }],
         usage: { input_tokens: 100, output_tokens: 50 },
       });
-    mockClaude.messages.create = claudeCreateMock;
+    mockClaude.respond = claudeCreateMock;
 
     const insertMock = vi.fn().mockReturnValue({
       select: vi.fn().mockReturnValue({
@@ -717,7 +712,7 @@ describe('Knowledge Agent', () => {
     mockSearchArticles.mockResolvedValue(['Irrelevant Article', 'Relevant Article']);
     mockGetArticleText.mockResolvedValue('Some article content here.');
 
-    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     // Only the relevant article (0.8) should be inserted, not the irrelevant one (0.2)
     expect(claudeCreateMock).toHaveBeenCalledTimes(2);
@@ -798,7 +793,7 @@ describe('Knowledge Agent', () => {
       .mockResolvedValueOnce(['Fallback Result 1', 'Fallback Result 2']);
     mockGetArticleText.mockResolvedValue('Content about quantum physics.');
 
-    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     // searchArticles should be called twice (initial + fallback)
     expect(mockSearchArticles).toHaveBeenCalledTimes(2);
@@ -807,17 +802,25 @@ describe('Knowledge Agent', () => {
     expect(fallbackQuery).toBe('Science');
   });
 
-  it('accepts TokenAccumulator parameter and tracks Haiku usage', async () => {
+  it('makes its relevance calls through callGoverned with the verification model, the accumulator and the governor', async () => {
     const accumulator = makeTokenAccumulator();
 
-    await runKnowledgeAgent(makeConfig(), accumulator);
+    await runKnowledgeAgent(makeConfig(), accumulator, mockGov);
 
-    // trackUsage should be called for each relevance check
-    expect(mockTrackUsage).toHaveBeenCalled();
-    // Should be called with HAIKU_INPUT and HAIKU_OUTPUT rates
-    const trackCall = mockTrackUsage.mock.calls[0];
-    expect(trackCall[2]).toBe(1); // HAIKU_INPUT
-    expect(trackCall[3]).toBe(5); // HAIKU_OUTPUT
+    expect(callGoverned).toHaveBeenCalled();
+    const [opts, acc, gov] = vi.mocked(callGoverned).mock.calls[0];
+    expect(opts.model).toBe('claude-haiku-4-5-20250514');
+    expect(opts.system).toBeUndefined();
+    expect(acc).toBe(accumulator);
+    expect(gov).toBe(mockGov);
+  });
+
+  it('UsageStopError propagates out of the per-article and per-category catches', async () => {
+    mockClaude.respond = vi.fn().mockRejectedValue(new UsageStopError('budget'));
+
+    await expect(
+      runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov),
+    ).rejects.toBeInstanceOf(UsageStopError);
   });
 
   it('handles null parent gracefully for top-level categories (D-07)', async () => {
@@ -880,7 +883,7 @@ describe('Knowledge Agent', () => {
     mockGetArticleText.mockResolvedValue('Content about science.');
 
     // Should not throw
-    const result = await runKnowledgeAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runKnowledgeAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result).toHaveProperty('processed');
     expect(result).toHaveProperty('failed');
 

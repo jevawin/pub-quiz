@@ -1,5 +1,7 @@
 import { PipelineConfig } from '../lib/config.js';
-import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, HAIKU_INPUT, HAIKU_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import { callGoverned, extractJson } from '../lib/claude.js';
+import type { ClaudeCaller, TokenAccumulator } from '../lib/claude.js';
+import { UsageStopError, type UsageGovernor } from '../lib/usage.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { CalibratorScoreSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
@@ -50,10 +52,9 @@ Keys use snake_case. Values are integers 0-100. Include exactly one score per as
 
 export async function calibrateQuestion(
   supabase: SupabaseClient<Database>,
-  tokenAcc: TokenAccumulator,
   input: CalibrateInput,
-  claude: ReturnType<typeof createClaudeClient>,
-  config: Pick<PipelineConfig, 'claudeModelVerification' | 'budgetCapUsd'>,
+  call: ClaudeCaller,
+  config: Pick<PipelineConfig, 'claudeModelVerification'>,
 ): Promise<CalibrateOutput> {
   const allSlugs = [...input.assigned_slugs, GENERAL_KNOWLEDGE_SLUG];
 
@@ -69,29 +70,22 @@ ${categoriesList}
 
 Return the JSON scores object.`;
 
-  let response;
+  let claudeResult;
   try {
-    response = await claude.messages.create({
+    claudeResult = await call({
       model: config.claudeModelVerification,
-      max_tokens: 512,
       system: SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: userPrompt }],
+      prompt: userPrompt,
     });
   } catch (err) {
+    // A usage stop must end the run, not be reported as one more failed question.
+    if (err instanceof UsageStopError) throw err;
     return { success: false, error: err instanceof Error ? err.message : String(err) };
-  }
-
-  trackUsage(response, tokenAcc, HAIKU_INPUT, HAIKU_OUTPUT);
-  checkBudget(tokenAcc, config.budgetCapUsd);
-
-  const textContent = response.content.find(c => c.type === 'text');
-  if (!textContent || textContent.type !== 'text') {
-    return { success: false, error: 'No text content in calibrator response' };
   }
 
   let parsed;
   try {
-    parsed = CalibratorScoreSchema.parse(JSON.parse(extractJson(textContent.text)));
+    parsed = CalibratorScoreSchema.parse(JSON.parse(extractJson(claudeResult.text)));
   } catch (parseError) {
     return {
       success: false,
@@ -185,10 +179,9 @@ export interface CalibrateChainOutput extends CalibrateOutput {
 
 export async function calibrateQuestionWithChain(
   supabase: SupabaseClient<Database>,
-  tokenAcc: TokenAccumulator,
   input: CalibrateInput,
-  claude: ReturnType<typeof createClaudeClient>,
-  config: Pick<PipelineConfig, 'claudeModelVerification' | 'budgetCapUsd'>,
+  call: ClaudeCaller,
+  config: Pick<PipelineConfig, 'claudeModelVerification'>,
 ): Promise<CalibrateChainOutput> {
   // Fetch categories tree once per call. Tiny table (<200 rows); negligible cost.
   // For batch runs the caller can wrap to cache, but keep self-contained for tests.
@@ -230,29 +223,22 @@ ${categoriesList}
 
 Return the JSON scores object.`;
 
-  let response;
+  let claudeResult;
   try {
-    response = await claude.messages.create({
+    claudeResult = await call({
       model: config.claudeModelVerification,
-      max_tokens: 512,
       system: CHAIN_SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: userPrompt }],
+      prompt: userPrompt,
     });
   } catch (err) {
+    // A usage stop must end the run, not be reported as one more failed question.
+    if (err instanceof UsageStopError) throw err;
     return { success: false, error: err instanceof Error ? err.message : String(err) };
-  }
-
-  trackUsage(response, tokenAcc, HAIKU_INPUT, HAIKU_OUTPUT);
-  checkBudget(tokenAcc, config.budgetCapUsd);
-
-  const textContent = response.content.find((c) => c.type === 'text');
-  if (!textContent || textContent.type !== 'text') {
-    return { success: false, error: 'No text content in calibrator response' };
   }
 
   let parsed;
   try {
-    parsed = CalibratorScoreSchema.parse(JSON.parse(extractJson(textContent.text)));
+    parsed = CalibratorScoreSchema.parse(JSON.parse(extractJson(claudeResult.text)));
   } catch (parseErr) {
     return {
       success: false,
@@ -328,9 +314,10 @@ Return the JSON scores object.`;
 export async function runCalibratorAgent(
   config: PipelineConfig,
   tokenAccumulator: TokenAccumulator,
+  gov: UsageGovernor,
 ): Promise<CalibratorResult> {
   const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
-  const claude = createClaudeClient(config.anthropicApiKey);
+  const call: ClaudeCaller = (opts) => callGoverned(opts, tokenAccumulator, gov);
 
   let processed = 0;
   let recalibrated = 0;
@@ -397,7 +384,6 @@ export async function runCalibratorAgent(
 
       const result = await calibrateQuestion(
         supabase,
-        tokenAccumulator,
         {
           id: question.id,
           question_text: question.question_text,
@@ -405,7 +391,7 @@ export async function runCalibratorAgent(
           distractors: question.distractors as string[],
           assigned_slugs: existingSlugs,
         },
-        claude,
+        call,
         config,
       );
 
@@ -426,7 +412,7 @@ export async function runCalibratorAgent(
         scores: result.scores,
       });
     } catch (err) {
-      if (err instanceof BudgetExceededError) throw err;
+      if (err instanceof UsageStopError) throw err;
       log('error', 'Calibrator error', {
         questionId: question.id,
         error: err instanceof Error ? err.message : String(err),

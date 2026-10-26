@@ -13,11 +13,8 @@ export function scoreToBand(score: number): DifficultyBand {
 }
 
 export interface PipelineConfig {
-  anthropicApiKey: string;
   supabaseUrl: string;
   supabaseServiceRoleKey: string;
-  budgetCapUsd: number;
-  monthlyBudgetUsd: number;
   categoryBatchSize: number;
   knowledgeBatchSize: number;
   questionsBatchSize: number;
@@ -27,6 +24,9 @@ export interface PipelineConfig {
   wikipediaUserAgent: string;
   wikipediaMaxContentLength: number;
   relevanceThreshold: number;
+  enableCategoryAgent: boolean;
+  /** A pipeline run still 'running' after this long is considered stale. */
+  staleRunMs: number;
 }
 
 function requireEnv(name: string): string {
@@ -49,22 +49,18 @@ function envNumber(name: string, defaultValue: number): number {
 
 export function loadConfig(): PipelineConfig {
   return {
-    anthropicApiKey: requireEnv('ANTHROPIC_API_KEY'),
     supabaseUrl: requireEnv('SUPABASE_URL'),
     supabaseServiceRoleKey: requireEnv('SUPABASE_SERVICE_ROLE_KEY'),
-    // Per-run safety ceiling: caps any single run so one bad run can't drain the
-    // whole month. The effective cap is min(this, monthly budget remaining).
-    budgetCapUsd: envNumber('PIPELINE_BUDGET_USD', 5.00),
-    // Month-to-date spend cap across all runs in the current UTC calendar month.
-    monthlyBudgetUsd: envNumber('PIPELINE_MONTHLY_BUDGET_USD', 20.00),
     categoryBatchSize: envNumber('CATEGORY_BATCH_SIZE', 5),
     knowledgeBatchSize: envNumber('KNOWLEDGE_BATCH_SIZE', 10),
     questionsBatchSize: envNumber('QUESTIONS_BATCH_SIZE', 20),
-    claudeModelGeneration: 'claude-sonnet-4-5-20250929',
-    claudeModelVerification: 'claude-sonnet-4-5-20250929',
-    claudeModelAudit: 'claude-opus-4-6',
+    claudeModelGeneration: 'sonnet',
+    claudeModelVerification: 'sonnet',
+    claudeModelAudit: 'opus',
     wikipediaUserAgent: 'PubQuizPipeline/1.0 (https://github.com/pub-quiz)',
     wikipediaMaxContentLength: 3000,
     relevanceThreshold: envNumber('RELEVANCE_THRESHOLD', 0.6),
+    enableCategoryAgent: ['1', 'true'].includes((process.env.ENABLE_CATEGORY_AGENT ?? '').toLowerCase()),
+    staleRunMs: envNumber('STALE_RUN_MS', 7 * 3600 * 1000),
   };
 }

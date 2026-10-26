@@ -1,5 +1,7 @@
 import { PipelineConfig } from '../lib/config.js';
-import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, OPUS_INPUT, OPUS_OUTPUT, SONNET_INPUT, SONNET_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import { callGoverned, extractJson } from '../lib/claude.js';
+import type { TokenAccumulator } from '../lib/claude.js';
+import { UsageStopError, type UsageGovernor } from '../lib/usage.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { QaBatchSchema, SonnetRewriteSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
@@ -86,9 +88,9 @@ Return JSON with these fields:
 export async function runQaAgent(
   config: PipelineConfig,
   tokenAccumulator: TokenAccumulator,
+  gov: UsageGovernor,
 ): Promise<QaAgentResult> {
   const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
-  const claude = createClaudeClient(config.anthropicApiKey);
 
   let processed = 0;
   let failed = 0;
@@ -151,29 +153,16 @@ ${questionsSection}`;
       // Step 4: Call Claude Haiku
       log('info', 'Calling Claude Haiku for QA batch', { questionCount: questions.length });
 
-      const response = await claude.messages.create({
-        model: config.claudeModelAudit,
-        max_tokens: 4096,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: userPrompt }],
-      });
-
-      // Track tokens with Haiku rates
-      trackUsage(response, tokenAccumulator, OPUS_INPUT, OPUS_OUTPUT);
-      checkBudget(tokenAccumulator, config.budgetCapUsd);
+      const claudeResult = await callGoverned(
+        { model: config.claudeModelAudit, system: SYSTEM_PROMPT, prompt: userPrompt },
+        tokenAccumulator,
+        gov,
+      );
 
       // Step 5: Parse response
-      const textContent = response.content.find((c) => c.type === 'text');
-      if (!textContent || textContent.type !== 'text') {
-        log('warn', 'No text content in Claude response', { batchSize: questions.length });
-        failed += questions.length;
-        errors += questions.length;
-        continue;
-      }
-
       let parsedBatch;
       try {
-        const jsonStr = extractJson(textContent.text);
+        const jsonStr = extractJson(claudeResult.text);
         const parsed = JSON.parse(jsonStr);
         parsedBatch = QaBatchSchema.parse(parsed);
       } catch (parseError) {
@@ -228,7 +217,7 @@ ${questionsSection}`;
             // Haiku flagged this for rewrite — send to Sonnet for the fix
             try {
               const rewriteResult = await rewriteWithSonnet(
-                claude, config, tokenAccumulator, originalQuestion, result.reasoning,
+                config, tokenAccumulator, gov, originalQuestion, result.reasoning,
               );
 
               if (!rewriteResult) {
@@ -283,7 +272,7 @@ ${questionsSection}`;
               processed++;
               rewritten++;
             } catch (rewriteError) {
-              if (rewriteError instanceof BudgetExceededError) throw rewriteError;
+              if (rewriteError instanceof UsageStopError) throw rewriteError;
               log('error', 'Sonnet rewrite error', {
                 questionId: result.question_id,
                 error: rewriteError instanceof Error ? rewriteError.message : String(rewriteError),
@@ -336,6 +325,8 @@ ${questionsSection}`;
             processed++;
           }
         } catch (itemError) {
+          // A usage stop raised by the rewrite call must not be swallowed by this per-item catch.
+          if (itemError instanceof UsageStopError) throw itemError;
           log('error', 'Per-item error processing QA result', {
             questionId: result.question_id,
             error: itemError instanceof Error ? itemError.message : String(itemError),
@@ -345,7 +336,7 @@ ${questionsSection}`;
         }
       }
     } catch (groupError) {
-      if (groupError instanceof BudgetExceededError) {
+      if (groupError instanceof UsageStopError) {
         throw groupError;
       }
       log('error', 'Error processing QA batch', {
@@ -378,9 +369,9 @@ interface SonnetRewriteResult {
 }
 
 async function rewriteWithSonnet(
-  claude: ReturnType<typeof createClaudeClient>,
   config: PipelineConfig,
   tokenAccumulator: TokenAccumulator,
+  gov: UsageGovernor,
   question: QuestionWithCategory,
   qaReasoning: string,
 ): Promise<SonnetRewriteResult | null> {
@@ -398,21 +389,14 @@ async function rewriteWithSonnet(
 
 Fix the issue and return the complete corrected question as JSON.`;
 
-  const response = await claude.messages.create({
-    model: config.claudeModelGeneration,
-    max_tokens: 1024,
-    system: SONNET_REWRITE_PROMPT,
-    messages: [{ role: 'user', content: userPrompt }],
-  });
-
-  trackUsage(response, tokenAccumulator, SONNET_INPUT, SONNET_OUTPUT);
-  checkBudget(tokenAccumulator, config.budgetCapUsd);
-
-  const textContent = response.content.find((c) => c.type === 'text');
-  if (!textContent || textContent.type !== 'text') return null;
+  const claudeResult = await callGoverned(
+    { model: config.claudeModelGeneration, system: SONNET_REWRITE_PROMPT, prompt: userPrompt },
+    tokenAccumulator,
+    gov,
+  );
 
   try {
-    const jsonStr = extractJson(textContent.text);
+    const jsonStr = extractJson(claudeResult.text);
     const parsed = JSON.parse(jsonStr);
     const result = SonnetRewriteSchema.parse(parsed);
 

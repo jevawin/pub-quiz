@@ -1,33 +1,11 @@
-import Anthropic from '@anthropic-ai/sdk';
-
-// Cost constants: dollars per million tokens
-export const SONNET_INPUT = 3;
-export const SONNET_OUTPUT = 15;
-export const HAIKU_INPUT = 1;
-export const HAIKU_OUTPUT = 5;
-export const OPUS_INPUT = 5;
-export const OPUS_OUTPUT = 25;
+import { callClaude, ClaudeCallError, type ClaudeCallOptions, type ClaudeCallResult } from './claude-cli.js';
+import { log } from './logger.js';
+import { UsageStopError, type UsageGovernor } from './usage.js';
 
 export interface TokenAccumulator {
   input_tokens: number;
   output_tokens: number;
   estimated_cost_usd: number;
-}
-
-export class BudgetExceededError extends Error {
-  constructor(
-    public readonly accumulated: number,
-    public readonly budget: number,
-  ) {
-    super(
-      `Budget exceeded: $${accumulated.toFixed(4)} spent, budget is $${budget.toFixed(2)}`,
-    );
-    this.name = 'BudgetExceededError';
-  }
-}
-
-export function createClaudeClient(apiKey: string): Anthropic {
-  return new Anthropic({ apiKey });
 }
 
 export function createTokenAccumulator(): TokenAccumulator {
@@ -38,30 +16,72 @@ export function createTokenAccumulator(): TokenAccumulator {
   };
 }
 
-export function trackUsage(
-  response: Anthropic.Message,
-  accumulator: TokenAccumulator,
-  inputCostPerMTok: number,
-  outputCostPerMTok: number,
-): void {
-  const { input_tokens, output_tokens } = response.usage;
-  accumulator.input_tokens += input_tokens;
-  accumulator.output_tokens += output_tokens;
-  accumulator.estimated_cost_usd +=
-    (input_tokens / 1_000_000) * inputCostPerMTok +
-    (output_tokens / 1_000_000) * outputCostPerMTok;
-}
-
 export function extractJson(text: string): string {
   const fenced = text.match(/```(?:json)?\s*\n?([\s\S]*?)```/);
   return fenced ? fenced[1].trim() : text.trim();
 }
 
-export function checkBudget(
-  accumulator: TokenAccumulator,
-  budgetCapUsd: number,
-): void {
-  if (accumulator.estimated_cost_usd > budgetCapUsd) {
-    throw new BudgetExceededError(accumulator.estimated_cost_usd, budgetCapUsd);
+/**
+ * The governed way to call Claude: asks the governor for permission, makes the call,
+ * records tokens/cost, and feeds the rate-limit reading back. A stop condition seen AFTER
+ * a successful call does not throw (the result was paid for); the next beforeCall() stops.
+ */
+export async function callGoverned(
+  opts: ClaudeCallOptions,
+  acc: TokenAccumulator,
+  gov: UsageGovernor,
+): Promise<ClaudeCallResult> {
+  try {
+    await gov.beforeCall();
+  } catch (err) {
+    if (err instanceof UsageStopError) log('info', 'Usage stop before call', { reason: err.reason });
+    throw err;
   }
+  let result: ClaudeCallResult;
+  try {
+    result = await callClaude(opts);
+  } catch (err) {
+    if (err instanceof ClaudeCallError && err.rateLimit) {
+      gov.observe(err.rateLimit);
+      const reason = gov.stopReason();
+      if (reason) throw new UsageStopError(reason);
+    }
+    throw err;
+  }
+  acc.input_tokens += result.inputTokens;
+  acc.output_tokens += result.outputTokens;
+  acc.estimated_cost_usd += result.costUsd;
+  gov.noteCost(result.costUsd);
+  gov.observe(result.rateLimit);
+  const pct = (u: number | undefined): number | null => (u === undefined ? null : Math.round(u * 100 * 100) / 100);
+  log('info', 'Claude call', {
+    model: opts.model,
+    sevenDay: pct(result.rateLimit?.weekly.seven_day?.utilization),
+    fiveHour: pct(result.rateLimit?.fiveHour?.utilization),
+    consumedPoints: gov.consumedPoints,
+    budgetPoints: gov.budgetPoints,
+    notionalCostUsd: acc.estimated_cost_usd,
+  });
+  return result;
+}
+
+export type ClaudeCaller = (opts: ClaudeCallOptions) => Promise<ClaudeCallResult>;
+
+/**
+ * For the manual scripts (no governor): calls claude -p directly, accumulates tokens/cost, and
+ * stops with UsageStopError once `maxCalls` calls have been made. Reusing UsageStopError means
+ * the rethrow guards in the shared agents treat it as a clean stop.
+ */
+export function directCaller(acc: TokenAccumulator, maxCalls: number): ClaudeCaller & { calls: () => number } {
+  let calls = 0;
+  const fn = async (opts: ClaudeCallOptions): Promise<ClaudeCallResult> => {
+    if (calls >= maxCalls) throw new UsageStopError(`max calls (${maxCalls}) reached`);
+    calls++;
+    const result = await callClaude(opts);
+    acc.input_tokens += result.inputTokens;
+    acc.output_tokens += result.outputTokens;
+    acc.estimated_cost_usd += result.costUsd;
+    return result;
+  };
+  return Object.assign(fn, { calls: () => calls });
 }

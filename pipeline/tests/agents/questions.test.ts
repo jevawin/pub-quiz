@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { PipelineConfig } from '../../src/lib/config.js';
 import type { TokenAccumulator } from '../../src/lib/claude.js';
+import { bridgeClaude } from '../helpers/claude-bridge.js';
+
+const mockGov = {} as never;
 
 // Mock modules before importing the agent
 vi.mock('../../src/lib/supabase.js', () => ({
@@ -11,9 +14,7 @@ vi.mock('../../src/lib/claude.js', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../src/lib/claude.js')>();
   return {
     ...actual,
-    createClaudeClient: vi.fn(),
-    trackUsage: vi.fn(),
-    checkBudget: vi.fn(),
+    callGoverned: vi.fn(),
   };
 });
 
@@ -27,10 +28,8 @@ vi.mock('../../src/lib/category-selection.js', () => ({
 
 function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
   return {
-    anthropicApiKey: 'test-key',
     supabaseUrl: 'https://test.supabase.co',
     supabaseServiceRoleKey: 'test-service-key',
-    budgetCapUsd: 10,
     categoryBatchSize: 5,
     knowledgeBatchSize: 10,
     questionsBatchSize: 20,
@@ -209,23 +208,21 @@ function createMockSupabase() {
 
 describe('Questions Agent', () => {
   let mockSupabase: ReturnType<typeof createMockSupabase>;
-  let mockClaude: { messages: { create: ReturnType<typeof vi.fn> } };
+  let mockClaude: { respond: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
     vi.resetAllMocks();
     vi.resetModules();
     mockSupabase = createMockSupabase();
     mockClaude = {
-      messages: {
-        create: vi.fn().mockResolvedValue(createMockClaudeResponse(validQuestions)),
-      },
+      respond: vi.fn().mockResolvedValue(createMockClaudeResponse(validQuestions)),
     };
 
     const { createSupabaseClient } = await import('../../src/lib/supabase.js');
-    const { createClaudeClient } = await import('../../src/lib/claude.js');
+    const { callGoverned } = await import('../../src/lib/claude.js');
     const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
     vi.mocked(createSupabaseClient).mockReturnValue(mockSupabase as any);
-    vi.mocked(createClaudeClient).mockReturnValue(mockClaude as any);
+    vi.mocked(callGoverned).mockImplementation(bridgeClaude(mockClaude as any));
     // Default: return one eligible category (matching previous inline logic behavior)
     vi.mocked(getEligibleCategoriesOrdered).mockResolvedValue([
       { id: 'cat-1', name: 'Science', slug: 'science', questionCount: 1 },
@@ -234,7 +231,7 @@ describe('Questions Agent', () => {
 
   it('returns AgentResult with processed and failed counts', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
-    const result = await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result).toHaveProperty('processed');
     expect(result).toHaveProperty('failed');
     expect(typeof result.processed).toBe('number');
@@ -244,17 +241,16 @@ describe('Questions Agent', () => {
   it('selects categories using getEligibleCategoriesOrdered', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
     const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
-    await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
+    await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(getEligibleCategoriesOrdered).toHaveBeenCalledWith(
       expect.anything(),
       20, // questionsBatchSize from makeConfig
-      10, // MIN_QUESTIONS_THRESHOLD
     );
   });
 
   it('generates questions from Claude knowledge (no source fetch)', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
-    await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
+    await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     // Should NOT fetch sources — questions come from Claude's knowledge
     const sourcesCalls = mockSupabase.from.mock.calls.filter((c: any[]) => c[0] === 'sources');
     expect(sourcesCalls.length).toBe(0);
@@ -262,9 +258,9 @@ describe('Questions Agent', () => {
 
   it('calls Claude with category name and dedup context', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
-    await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
-    expect(mockClaude.messages.create).toHaveBeenCalled();
-    const callArgs = mockClaude.messages.create.mock.calls[0][0];
+    await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
+    expect(mockClaude.respond).toHaveBeenCalled();
+    const callArgs = mockClaude.respond.mock.calls[0][0];
     const userMsg = callArgs.messages.find((m: any) => m.role === 'user');
     // Category name should be in the prompt
     expect(userMsg.content).toContain('Science');
@@ -274,11 +270,11 @@ describe('Questions Agent', () => {
 
   it('handles invalid Claude response gracefully', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
-    mockClaude.messages.create.mockResolvedValueOnce(
+    mockClaude.respond.mockResolvedValueOnce(
       createMockClaudeResponse([{ invalid: true }])
     );
     // Should throw because all items fail
-    await expect(runQuestionsAgent(makeConfig(), makeTokenAccumulator())).rejects.toThrow();
+    await expect(runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov)).rejects.toThrow();
   });
 
   it('validates that no distractor matches the correct answer', async () => {
@@ -292,17 +288,17 @@ describe('Questions Agent', () => {
       category_slugs: ['science'],
       category_scores: { science: 50, general_knowledge: 25 },
     };
-    mockClaude.messages.create.mockResolvedValueOnce(
+    mockClaude.respond.mockResolvedValueOnce(
       createMockClaudeResponse([badQuestion, validQuestions[0]])
     );
-    const result = await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result.failed).toBeGreaterThanOrEqual(1);
     expect(result.processed).toBeGreaterThanOrEqual(1);
   });
 
   it('inserts questions with status=pending and verification_score=0', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
-    await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
+    await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(mockSupabase.insertCalls.length).toBeGreaterThan(0);
     for (const call of mockSupabase.insertCalls) {
       const data = call.data as any;
@@ -313,7 +309,7 @@ describe('Questions Agent', () => {
 
   it('inserts questions with source_id null (generated from knowledge)', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
-    await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
+    await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(mockSupabase.insertCalls.length).toBeGreaterThan(0);
     for (const call of mockSupabase.insertCalls) {
       const data = call.data as any;
@@ -321,17 +317,29 @@ describe('Questions Agent', () => {
     }
   });
 
-  it('tracks tokens and respects budget cap', async () => {
+  it('generates through callGoverned with the generation model, the accumulator and the governor', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
-    const { trackUsage, checkBudget } = await import('../../src/lib/claude.js');
-    await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
-    expect(trackUsage).toHaveBeenCalled();
-    expect(checkBudget).toHaveBeenCalled();
+    const { callGoverned } = await import('../../src/lib/claude.js');
+    const acc = makeTokenAccumulator();
+    await runQuestionsAgent(makeConfig(), acc, mockGov);
+    expect(callGoverned).toHaveBeenCalled();
+    const [opts, passedAcc, gov] = vi.mocked(callGoverned).mock.calls[0];
+    expect(opts.model).toBe('claude-sonnet-4-5-20250514');
+    expect(passedAcc).toBe(acc);
+    expect(gov).toBe(mockGov);
+  });
+
+  it('UsageStopError propagates out of the per-category catch', async () => {
+    // resetModules in beforeEach: import the class from the same module graph as the agent
+    const { UsageStopError } = await import('../../src/lib/usage.js');
+    mockClaude.respond.mockRejectedValue(new UsageStopError('budget'));
+    const { runQuestionsAgent } = await import('../../src/agents/questions.js');
+    await expect(runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov)).rejects.toBeInstanceOf(UsageStopError);
   });
 
   it('caps dedup context to 20 most recent questions per category', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
-    await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
+    await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     // Verify the questions table query uses order and limit
     const questionsCalls = mockSupabase.from.mock.calls.filter(
       (c: any[]) => c[0] === 'questions'
@@ -343,9 +351,9 @@ describe('Questions Agent', () => {
 
   it('system prompt requires answers verifiable from reference material', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
-    await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
-    expect(mockClaude.messages.create).toHaveBeenCalled();
-    const callArgs = mockClaude.messages.create.mock.calls[0][0];
+    await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
+    expect(mockClaude.respond).toHaveBeenCalled();
+    const callArgs = mockClaude.respond.mock.calls[0][0];
     const systemContent = typeof callArgs.system === 'string'
       ? callArgs.system
       : Array.isArray(callArgs.system)
@@ -357,7 +365,7 @@ describe('Questions Agent', () => {
   it('per-item insert failure does not crash the agent', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
     mockSupabase.setInsertFailOnce(true);
-    const result = await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result).toBeDefined();
     expect(result.failed).toBeGreaterThanOrEqual(1);
     expect(result.processed).toBeGreaterThanOrEqual(1);
@@ -366,7 +374,7 @@ describe('Questions Agent', () => {
   it('uses log() from logger.ts for output', async () => {
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
     const { log } = await import('../../src/lib/logger.js');
-    await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
+    await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(log).toHaveBeenCalled();
   });
 
@@ -379,18 +387,18 @@ describe('Questions Agent', () => {
     ]);
 
     const { runQuestionsAgent } = await import('../../src/agents/questions.js');
-    await runQuestionsAgent(makeConfig(), makeTokenAccumulator());
+    await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     // Both categories should be processed (Claude called twice)
-    expect(mockClaude.messages.create).toHaveBeenCalledTimes(2);
+    expect(mockClaude.respond).toHaveBeenCalledTimes(2);
 
     // First call should be for Music (least covered)
-    const firstCall = mockClaude.messages.create.mock.calls[0][0];
+    const firstCall = mockClaude.respond.mock.calls[0][0];
     const firstUserMsg = firstCall.messages.find((m: any) => m.role === 'user');
     expect(firstUserMsg.content).toContain('Music');
 
     // Second call should be for Science
-    const secondCall = mockClaude.messages.create.mock.calls[1][0];
+    const secondCall = mockClaude.respond.mock.calls[1][0];
     const secondUserMsg = secondCall.messages.find((m: any) => m.role === 'user');
     expect(secondUserMsg.content).toContain('Science');
   });

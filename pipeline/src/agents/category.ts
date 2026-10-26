@@ -1,4 +1,5 @@
-import { createClaudeClient, trackUsage, checkBudget, extractJson, SONNET_INPUT, SONNET_OUTPUT } from '../lib/claude.js';
+import { callGoverned, extractJson } from '../lib/claude.js';
+import type { UsageGovernor } from '../lib/usage.js';
 import type { TokenAccumulator } from '../lib/claude.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { CategoryBatchSchema } from '../lib/schemas.js';
@@ -80,9 +81,9 @@ function appendChildren(parentId: string, categories: CategoryRow[], lines: stri
 export async function runCategoryAgent(
   config: PipelineConfig,
   tokenAccumulator: TokenAccumulator,
+  gov: UsageGovernor,
 ): Promise<AgentResult> {
   const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
-  const claude = createClaudeClient(config.anthropicApiKey);
 
   // 1. Fetch all existing categories
   log('info', 'Fetching existing categories');
@@ -159,31 +160,18 @@ Depth determines strictness. Users only ever play categories they explicitly pic
 
   log('info', 'Calling Claude for category proposals', { model: config.claudeModelGeneration, batchSize: config.categoryBatchSize });
 
-  const response = await claude.messages.create({
-    model: config.claudeModelGeneration,
-    max_tokens: 2048,
-    system: systemPrompt,
-    messages: [{ role: 'user', content: userPrompt }],
-  });
+  const claudeResult = await callGoverned(
+    { model: config.claudeModelGeneration, system: systemPrompt, prompt: userPrompt },
+    tokenAccumulator,
+    gov,
+  );
 
-  // 4. Track tokens
-  trackUsage(response, tokenAccumulator, SONNET_INPUT, SONNET_OUTPUT);
   log('info', 'Token usage tracked', {
-    input_tokens: response.usage.input_tokens,
-    output_tokens: response.usage.output_tokens,
     cost_so_far: tokenAccumulator.estimated_cost_usd,
   });
 
-  // 5. Check budget
-  checkBudget(tokenAccumulator, config.budgetCapUsd);
-
-  // 6. Parse and validate response
-  const textContent = response.content.find((block) => block.type === 'text');
-  if (!textContent || textContent.type !== 'text') {
-    throw new Error('Claude response did not contain text content');
-  }
-
-  const parsed = JSON.parse(extractJson(textContent.text));
+  // 4. Parse and validate response
+  const parsed = JSON.parse(extractJson(claudeResult.text));
   const batch = CategoryBatchSchema.parse(parsed);
 
   log('info', 'Parsed category proposals', { count: batch.categories.length });

@@ -1,5 +1,7 @@
 import { PipelineConfig } from '../lib/config.js';
-import { createClaudeClient, TokenAccumulator, trackUsage, checkBudget, extractJson, SONNET_INPUT, SONNET_OUTPUT, BudgetExceededError } from '../lib/claude.js';
+import { callGoverned, extractJson } from '../lib/claude.js';
+import type { TokenAccumulator } from '../lib/claude.js';
+import { UsageStopError, type UsageGovernor } from '../lib/usage.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { QuestionBatchSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
@@ -103,14 +105,13 @@ HARD (general_knowledge 0-33) — one enthusiast at the table might know:
 
 const DEDUP_CAP = 20;
 const QUESTIONS_PER_CATEGORY = 5;
-const MIN_QUESTIONS_THRESHOLD = 10;
 
 export async function runQuestionsAgent(
   config: PipelineConfig,
   tokenAccumulator: TokenAccumulator,
+  gov: UsageGovernor,
 ): Promise<AgentResult> {
   const supabase = createSupabaseClient(config.supabaseUrl, config.supabaseServiceRoleKey);
-  const claude = createClaudeClient(config.anthropicApiKey);
 
   let processed = 0;
   let failed = 0;
@@ -121,11 +122,10 @@ export async function runQuestionsAgent(
   const eligibleCategories = await getEligibleCategoriesOrdered(
     supabase,
     config.questionsBatchSize,
-    MIN_QUESTIONS_THRESHOLD,
   );
 
   if (eligibleCategories.length === 0) {
-    log('info', 'No eligible categories found (all have sufficient questions)');
+    log('info', 'No eligible categories found');
     return { processed: 0, failed: 0 };
   }
 
@@ -208,26 +208,16 @@ Example question object:
       // Step 3: Call Claude
       log('info', `Calling Claude for category: ${category.name}`, { questionsToGenerate });
 
-      const response = await claude.messages.create({
-        model: config.claudeModelGeneration,
-        max_tokens: 4096,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: userPrompt }],
-      });
-
-      trackUsage(response, tokenAccumulator, SONNET_INPUT, SONNET_OUTPUT);
-      checkBudget(tokenAccumulator, config.budgetCapUsd);
+      const claudeResult = await callGoverned(
+        { model: config.claudeModelGeneration, system: SYSTEM_PROMPT, prompt: userPrompt },
+        tokenAccumulator,
+        gov,
+      );
 
       // Step 4: Parse response
-      const textContent = response.content.find((c) => c.type === 'text');
-      if (!textContent || textContent.type !== 'text') {
-        log('warn', 'No text content in Claude response', { category: category.name });
-        continue;
-      }
-
       let parsedBatch;
       try {
-        const jsonStr = extractJson(textContent.text);
+        const jsonStr = extractJson(claudeResult.text);
         const parsed = JSON.parse(jsonStr);
         parsedBatch = QuestionBatchSchema.parse(parsed);
       } catch (parseError) {
@@ -421,7 +411,7 @@ Example question object:
         }
       }
     } catch (categoryError) {
-      if (categoryError instanceof BudgetExceededError) {
+      if (categoryError instanceof UsageStopError) {
         throw categoryError;
       }
       log('error', 'Error processing category', {

@@ -1,14 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-// Mock the Anthropic SDK
-vi.mock('@anthropic-ai/sdk', () => {
-  const mockCreate = vi.fn();
-  return {
-    default: vi.fn().mockImplementation(() => ({
-      messages: { create: mockCreate },
-    })),
-    __mockCreate: mockCreate,
-  };
+// Mock the claude -p adapter; the real callGoverned runs on top of it
+vi.mock('../../src/lib/claude-cli.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../src/lib/claude-cli.js')>();
+  return { ...actual, callClaude: vi.fn() };
 });
 
 // Mock supabase
@@ -25,11 +20,18 @@ vi.mock('@supabase/supabase-js', () => {
 import type { PipelineConfig } from '../../src/lib/config.js';
 import type { TokenAccumulator } from '../../src/lib/claude.js';
 
-// We'll dynamically import to get mock handles
-const getAnthropicMock = async () => {
-  const mod = await import('@anthropic-ai/sdk');
-  return (mod as unknown as { __mockCreate: ReturnType<typeof vi.fn> }).__mockCreate;
-};
+import { callClaude } from '../../src/lib/claude-cli.js';
+import { UsageStopError } from '../../src/lib/usage.js';
+import { bridgeClaude } from '../helpers/claude-bridge.js';
+
+const mockGov = {
+  beforeCall: vi.fn(async () => {}),
+  observe: vi.fn(),
+  noteCost: vi.fn(),
+  consumedPoints: 0,
+  budgetPoints: 10,
+  stopReason: vi.fn(() => null),
+} as never;
 
 const getSupabaseMock = async () => {
   const mod = await import('@supabase/supabase-js');
@@ -38,10 +40,8 @@ const getSupabaseMock = async () => {
 
 function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineConfig {
   return {
-    anthropicApiKey: 'test-key',
     supabaseUrl: 'https://test.supabase.co',
     supabaseServiceRoleKey: 'test-service-key',
-    budgetCapUsd: 10.0,
     categoryBatchSize: 3,
     knowledgeBatchSize: 10,
     questionsBatchSize: 20,
@@ -87,7 +87,8 @@ describe('Category Agent', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
 
-    mockCreate = await getAnthropicMock();
+    mockCreate = vi.fn();
+    vi.mocked(callClaude).mockImplementation(bridgeClaude({ respond: (a) => mockCreate(a) }));
     mockFrom = await getSupabaseMock();
 
     // Default: return existing categories on select
@@ -110,19 +111,19 @@ describe('Category Agent', () => {
   });
 
   it('returns an AgentResult with processed count', async () => {
-    const result = await runCategoryAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result).toHaveProperty('processed');
     expect(result).toHaveProperty('failed');
     expect(typeof result.processed).toBe('number');
   });
 
   it('queries existing categories from Supabase to build context', async () => {
-    await runCategoryAgent(makeConfig(), makeTokenAccumulator());
+    await runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(mockFrom).toHaveBeenCalledWith('categories');
   });
 
   it('calls Claude with system prompt describing the task', async () => {
-    await runCategoryAgent(makeConfig(), makeTokenAccumulator());
+    await runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(mockCreate).toHaveBeenCalledTimes(1);
     const callArgs = mockCreate.mock.calls[0][0];
     expect(callArgs.model).toBe('claude-sonnet-4-5-20250514');
@@ -139,7 +140,7 @@ describe('Category Agent', () => {
     });
 
     // Should throw because schema validation fails (missing required fields)
-    await expect(runCategoryAgent(makeConfig(), makeTokenAccumulator())).rejects.toThrow();
+    await expect(runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov)).rejects.toThrow();
   });
 
   it('inserts valid categories into Supabase with correct parent_id and depth', async () => {
@@ -163,7 +164,7 @@ describe('Category Agent', () => {
       return { select: vi.fn().mockResolvedValue({ data: [], error: null }) };
     });
 
-    await runCategoryAgent(makeConfig(), makeTokenAccumulator());
+    await runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     // Should have inserted categories with parent_id and depth
     expect(insertMock).toHaveBeenCalled();
@@ -206,7 +207,7 @@ describe('Category Agent', () => {
     });
 
     // All-duplicates is benign: no throw, returns zeros
-    const result = await runCategoryAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result.processed).toBe(0);
     expect(result.failed).toBe(0);
     expect(insertMock).not.toHaveBeenCalled();
@@ -251,7 +252,7 @@ describe('Category Agent', () => {
       usage: { input_tokens: 100, output_tokens: 50 },
     });
 
-    await runCategoryAgent(makeConfig(), makeTokenAccumulator());
+    await runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     const callArgs = mockCreate.mock.calls[0][0];
     const userMessage: string = callArgs.messages[0].content;
@@ -299,20 +300,26 @@ describe('Category Agent', () => {
     });
 
     // All items fail -> agent throws
-    await expect(runCategoryAgent(makeConfig(), makeTokenAccumulator())).rejects.toThrow('all 1 categories failed');
+    await expect(runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov)).rejects.toThrow('all 1 categories failed');
     expect(insertMock).not.toHaveBeenCalled();
   });
 
-  it('tracks tokens via trackUsage and respects budget', async () => {
+  it('accumulates tokens and cost from the call result', async () => {
     const acc = makeTokenAccumulator();
-    await runCategoryAgent(makeConfig(), acc);
+    await runCategoryAgent(makeConfig(), acc, mockGov);
     expect(acc.input_tokens).toBeGreaterThan(0);
     expect(acc.output_tokens).toBeGreaterThan(0);
     expect(acc.estimated_cost_usd).toBeGreaterThan(0);
   });
 
+  it('UsageStopError from the governor propagates out of the agent', async () => {
+    vi.mocked(mockGov.beforeCall).mockRejectedValueOnce(new UsageStopError('budget'));
+    await expect(runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov)).rejects.toBeInstanceOf(UsageStopError);
+    expect(mockCreate).not.toHaveBeenCalled();
+  });
+
   it('returns count of processed and failed categories', async () => {
-    const result = await runCategoryAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     expect(result.processed).toBe(3);
     expect(result.failed).toBe(0);
   });
@@ -360,7 +367,7 @@ describe('Category Agent', () => {
       usage: { input_tokens: 100, output_tokens: 50 },
     });
 
-    await runCategoryAgent(makeConfig(), makeTokenAccumulator());
+    await runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     // Verify the prompt sent to Claude doesn't include all 60 categories verbatim
     const callArgs = mockCreate.mock.calls[0][0];
@@ -397,7 +404,7 @@ describe('Category Agent', () => {
       return { select: vi.fn().mockResolvedValue({ data: [], error: null }) };
     });
 
-    const result = await runCategoryAgent(makeConfig(), makeTokenAccumulator());
+    const result = await runCategoryAgent(makeConfig(), makeTokenAccumulator(), mockGov);
     // Should not throw, should have 1 failed and 2 processed
     expect(result.failed).toBe(1);
     expect(result.processed).toBe(2);

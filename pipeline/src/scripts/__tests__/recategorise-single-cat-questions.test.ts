@@ -9,12 +9,10 @@ vi.mock('../../agents/calibrator.js', () => ({
   calibrateQuestion: mockCalibrateQuestion,
 }));
 
-vi.mock('../../lib/claude.js', async () => {
-  const actual = await vi.importActual<typeof import('../../lib/claude.js')>('../../lib/claude.js');
-  return {
-    ...actual,
-    createClaudeClient: vi.fn(() => ({ messages: { create: mockClaudeCreate } })),
-  };
+// The adapter is the only thing mocked; the real directCaller runs on top of it.
+vi.mock('../../lib/claude-cli.js', async () => {
+  const actual = await vi.importActual<typeof import('../../lib/claude-cli.js')>('../../lib/claude-cli.js');
+  return { ...actual, callClaude: mockClaudeCreate };
 });
 
 vi.mock('../../lib/supabase.js', () => ({
@@ -104,11 +102,8 @@ function makeMockSupabase(opts: {
 }
 
 const baseConfig = {
-  anthropicApiKey: 'test',
   supabaseUrl: 'http://localhost',
   supabaseServiceRoleKey: 'svc',
-  budgetCapUsd: 5,
-  monthlyBudgetUsd: 20,
   categoryBatchSize: 5,
   knowledgeBatchSize: 10,
   questionsBatchSize: 20,
@@ -118,6 +113,8 @@ const baseConfig = {
   wikipediaUserAgent: 'test',
   wikipediaMaxContentLength: 1000,
   relevanceThreshold: 0.6,
+  enableCategoryAgent: false,
+  staleRunMs: 1,
 };
 
 import {
@@ -127,14 +124,14 @@ import {
   recategoriseOne,
   runRecategorise,
 } from '../recategorise-single-cat-questions.js';
-import { BudgetExceededError, createTokenAccumulator } from '../../lib/claude.js';
+import { createTokenAccumulator, directCaller } from '../../lib/claude.js';
+import { UsageStopError } from '../../lib/usage.js';
 
 function claudeResponse(text: string, inputTokens = 100, outputTokens = 50) {
-  return {
-    content: [{ type: 'text', text }],
-    usage: { input_tokens: inputTokens, output_tokens: outputTokens },
-  };
+  return { text, rateLimit: null, inputTokens, outputTokens, costUsd: 0.001 };
 }
+
+const newCall = () => directCaller(createTokenAccumulator(), 200);
 
 describe('fetchSingleCatQuestions', () => {
   beforeEach(() => {
@@ -204,10 +201,8 @@ describe('proposeExtraCategories', () => {
     mockClaudeCreate.mockResolvedValueOnce(
       claudeResponse(JSON.stringify({ category_slugs: ['science', 'technology'], reasoning: 'tech topic' })),
     );
-    const tokenAcc = createTokenAccumulator();
     const result = await proposeExtraCategories(
-      { messages: { create: mockClaudeCreate } } as never,
-      tokenAcc,
+      newCall(),
       {
         id: 'q1',
         question_text: 'What is HTTP?',
@@ -216,7 +211,6 @@ describe('proposeExtraCategories', () => {
         existing_slugs: ['general-knowledge'],
       },
       ['science', 'history', 'technology'],
-      5,
     );
     expect(result.slugs).toEqual(['science', 'technology']);
   });
@@ -225,10 +219,8 @@ describe('proposeExtraCategories', () => {
     mockClaudeCreate.mockResolvedValueOnce(
       claudeResponse(JSON.stringify({ category_slugs: ['science', 'made-up-slug'], reasoning: '' })),
     );
-    const tokenAcc = createTokenAccumulator();
     const result = await proposeExtraCategories(
-      { messages: { create: mockClaudeCreate } } as never,
-      tokenAcc,
+      newCall(),
       {
         id: 'q1',
         question_text: 'Q?',
@@ -237,7 +229,6 @@ describe('proposeExtraCategories', () => {
         existing_slugs: ['general-knowledge'],
       },
       ['science', 'history'],
-      5,
     );
     expect(result.slugs).toEqual(['science']);
   });
@@ -246,10 +237,8 @@ describe('proposeExtraCategories', () => {
     mockClaudeCreate.mockResolvedValueOnce(
       claudeResponse(JSON.stringify({ category_slugs: ['general-knowledge', 'science'] })),
     );
-    const tokenAcc = createTokenAccumulator();
     const result = await proposeExtraCategories(
-      { messages: { create: mockClaudeCreate } } as never,
-      tokenAcc,
+      newCall(),
       {
         id: 'q1',
         question_text: 'Q?',
@@ -258,7 +247,6 @@ describe('proposeExtraCategories', () => {
         existing_slugs: ['general-knowledge'],
       },
       ['science'],
-      5,
     );
     expect(result.slugs).toEqual(['science']);
   });
@@ -267,10 +255,8 @@ describe('proposeExtraCategories', () => {
     mockClaudeCreate.mockResolvedValueOnce(
       claudeResponse(JSON.stringify({ category_slugs: ['science', 'history'] })),
     );
-    const tokenAcc = createTokenAccumulator();
     const result = await proposeExtraCategories(
-      { messages: { create: mockClaudeCreate } } as never,
-      tokenAcc,
+      newCall(),
       {
         id: 'q1',
         question_text: 'Q?',
@@ -279,7 +265,6 @@ describe('proposeExtraCategories', () => {
         existing_slugs: ['general-knowledge', 'science'],
       },
       ['science', 'history'],
-      5,
     );
     expect(result.slugs).toEqual(['history']);
   });
@@ -288,11 +273,9 @@ describe('proposeExtraCategories', () => {
     mockClaudeCreate.mockResolvedValueOnce(
       claudeResponse(JSON.stringify({ category_slugs: ['a', 'b', 'c'] })),
     );
-    const tokenAcc = createTokenAccumulator();
     // Question already has 2 non-GK extras + GK = 3. Cap at 4 → only 1 slot left.
     const result = await proposeExtraCategories(
-      { messages: { create: mockClaudeCreate } } as never,
-      tokenAcc,
+      newCall(),
       {
         id: 'q1',
         question_text: 'Q?',
@@ -301,40 +284,29 @@ describe('proposeExtraCategories', () => {
         existing_slugs: ['general-knowledge', 'x', 'y'],
       },
       ['a', 'b', 'c'],
-      5,
     );
     expect(result.slugs.length).toBeLessThanOrEqual(1);
   });
 
   it('returns error when Claude returns malformed JSON', async () => {
     mockClaudeCreate.mockResolvedValueOnce(claudeResponse('not json at all'));
-    const tokenAcc = createTokenAccumulator();
     const result = await proposeExtraCategories(
-      { messages: { create: mockClaudeCreate } } as never,
-      tokenAcc,
+      newCall(),
       { id: 'q1', question_text: 'Q?', correct_answer: 'A', distractors: [], existing_slugs: ['general-knowledge'] },
       ['science'],
-      5,
     );
     expect(result.error).toBeTruthy();
     expect(result.slugs).toEqual([]);
   });
 
-  it('throws BudgetExceededError when budget cap reached', async () => {
-    mockClaudeCreate.mockResolvedValueOnce(
-      // Massive token usage → blows the cap
-      claudeResponse(JSON.stringify({ category_slugs: ['science'] }), 10_000_000, 1_000_000),
+  it('throws UsageStopError when the call limit is reached (not swallowed as a proposer error)', async () => {
+    const result = proposeExtraCategories(
+      directCaller(createTokenAccumulator(), 0),
+      { id: 'q1', question_text: 'Q?', correct_answer: 'A', distractors: [], existing_slugs: ['general-knowledge'] },
+      ['science'],
     );
-    const tokenAcc = createTokenAccumulator();
-    await expect(
-      proposeExtraCategories(
-        { messages: { create: mockClaudeCreate } } as never,
-        tokenAcc,
-        { id: 'q1', question_text: 'Q?', correct_answer: 'A', distractors: [], existing_slugs: ['general-knowledge'] },
-        ['science'],
-        0.01, // tiny cap
-      ),
-    ).rejects.toBeInstanceOf(BudgetExceededError);
+    await expect(result).rejects.toBeInstanceOf(UsageStopError);
+    expect(mockClaudeCreate).not.toHaveBeenCalled();
   });
 });
 
@@ -348,15 +320,13 @@ describe('recategoriseOne', () => {
       claudeResponse(JSON.stringify({ category_slugs: ['science'] })),
     );
     mockSupabase = makeMockSupabase({ publishedIds: [], qcRows: [], questions: [], availableSlugs: ['science'] });
-    const tokenAcc = createTokenAccumulator();
     const r = await recategoriseOne(
       mockSupabase as never,
-      { messages: { create: mockClaudeCreate } } as never,
-      tokenAcc,
+      newCall(),
       { id: 'q1', question_text: 'Q?', correct_answer: 'A', distractors: [], existing_slugs: ['general-knowledge'] },
       ['science'],
       baseConfig,
-      { dryRun: true, budgetCapUsd: 5 },
+      { dryRun: true },
     );
     expect(r.status).toBe('processed');
     expect(mockCalibrateQuestion).not.toHaveBeenCalled();
@@ -372,19 +342,16 @@ describe('recategoriseOne', () => {
       scores: { 'general-knowledge': 50, science: 70, history: 40 },
     });
     mockSupabase = makeMockSupabase({ publishedIds: [], qcRows: [], questions: [], availableSlugs: ['science', 'history'] });
-    const tokenAcc = createTokenAccumulator();
     const r = await recategoriseOne(
       mockSupabase as never,
-      { messages: { create: mockClaudeCreate } } as never,
-      tokenAcc,
+      newCall(),
       { id: 'q1', question_text: 'Q?', correct_answer: 'A', distractors: [], existing_slugs: ['general-knowledge'] },
       ['science', 'history'],
       baseConfig,
-      { dryRun: false, budgetCapUsd: 5 },
+      { dryRun: false },
     );
     expect(r.status).toBe('processed');
     expect(mockCalibrateQuestion).toHaveBeenCalledWith(
-      expect.anything(),
       expect.anything(),
       expect.objectContaining({ id: 'q1', assigned_slugs: ['science', 'history'] }),
       expect.anything(),
@@ -397,15 +364,13 @@ describe('recategoriseOne', () => {
       claudeResponse(JSON.stringify({ category_slugs: [] })),
     );
     mockSupabase = makeMockSupabase({ publishedIds: [], qcRows: [], questions: [], availableSlugs: ['science'] });
-    const tokenAcc = createTokenAccumulator();
     const r = await recategoriseOne(
       mockSupabase as never,
-      { messages: { create: mockClaudeCreate } } as never,
-      tokenAcc,
+      newCall(),
       { id: 'q1', question_text: 'Q?', correct_answer: 'A', distractors: [], existing_slugs: ['general-knowledge'] },
       ['science'],
       baseConfig,
-      { dryRun: false, budgetCapUsd: 5 },
+      { dryRun: false },
     );
     expect(r.status).toBe('skipped_no_extras');
     expect(mockCalibrateQuestion).not.toHaveBeenCalled();
@@ -417,15 +382,13 @@ describe('recategoriseOne', () => {
     );
     mockCalibrateQuestion.mockResolvedValueOnce({ success: false, error: 'parse error' });
     mockSupabase = makeMockSupabase({ publishedIds: [], qcRows: [], questions: [], availableSlugs: ['science'] });
-    const tokenAcc = createTokenAccumulator();
     const r = await recategoriseOne(
       mockSupabase as never,
-      { messages: { create: mockClaudeCreate } } as never,
-      tokenAcc,
+      newCall(),
       { id: 'q1', question_text: 'Q?', correct_answer: 'A', distractors: [], existing_slugs: ['general-knowledge'] },
       ['science'],
       baseConfig,
-      { dryRun: false, budgetCapUsd: 5 },
+      { dryRun: false },
     );
     expect(r.status).toBe('failed');
     expect(r.error).toContain('calibrator');
@@ -464,16 +427,24 @@ describe('runRecategorise', () => {
     expect(mockCalibrateQuestion).toHaveBeenCalledTimes(1);
   });
 
-  it('propagates BudgetExceededError', async () => {
+  it('propagates UsageStopError when --max-calls is exhausted', async () => {
     mockSupabase = makeMockSupabase({
-      publishedIds: ['q1'],
-      qcRows: [{ question_id: 'q1', category_slug: 'general-knowledge' }],
-      questions: [{ id: 'q1', question_text: 'Q1?', correct_answer: 'A1', distractors: [] }],
+      publishedIds: ['q1', 'q2'],
+      qcRows: [
+        { question_id: 'q1', category_slug: 'general-knowledge' },
+        { question_id: 'q2', category_slug: 'general-knowledge' },
+      ],
+      questions: [
+        { id: 'q1', question_text: 'Q1?', correct_answer: 'A1', distractors: [] },
+        { id: 'q2', question_text: 'Q2?', correct_answer: 'A2', distractors: [] },
+      ],
       availableSlugs: ['science'],
     });
-    mockClaudeCreate.mockResolvedValue(
-      claudeResponse(JSON.stringify({ category_slugs: ['science'] }), 10_000_000, 1_000_000),
-    );
-    await expect(runRecategorise({ ...baseConfig, budgetCapUsd: 0.01 })).rejects.toBeInstanceOf(BudgetExceededError);
+    mockClaudeCreate.mockResolvedValue(claudeResponse(JSON.stringify({ category_slugs: ['science'] })));
+    mockCalibrateQuestion.mockResolvedValue({ success: true, scores: { science: 70 } });
+    // maxCalls 1: the proposer for q1 uses it; the proposer for q2 hits the limit.
+    // (calibrateQuestion is mocked, so only the proposer calls count.)
+    await expect(runRecategorise(baseConfig, { maxCalls: 1 })).rejects.toBeInstanceOf(UsageStopError);
+    expect(mockClaudeCreate).toHaveBeenCalledTimes(1);
   });
 });

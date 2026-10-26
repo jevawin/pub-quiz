@@ -1,8 +1,6 @@
 import type { TypedSupabaseClient } from './supabase.js';
 import { log } from './logger.js';
 
-const DEFAULT_MIN_QUESTIONS_THRESHOLD = 10;
-
 export interface OrderedCategory {
   id: string;
   name: string;
@@ -13,10 +11,7 @@ export interface OrderedCategory {
 export async function getEligibleCategoriesOrdered(
   supabase: TypedSupabaseClient,
   batchSize: number,
-  minQuestionsThreshold?: number,
 ): Promise<OrderedCategory[]> {
-  const threshold = minQuestionsThreshold ?? DEFAULT_MIN_QUESTIONS_THRESHOLD;
-
   // Fetch subcategories only (depth >= 1) — root categories are browse containers, not question generators
   const { data: categories, error: catError } = await supabase
     .from('categories')
@@ -43,9 +38,6 @@ export async function getEligibleCategoriesOrdered(
 
     const qCount = questionCount ?? 0;
 
-    // Skip categories at or above threshold
-    if (qCount >= threshold) continue;
-
     eligible.push({
       id: cat.id,
       name: cat.name,
@@ -54,7 +46,7 @@ export async function getEligibleCategoriesOrdered(
     });
   }
 
-  // Sort by question count ascending (least-covered first)
+  // Sort by question count ascending (fewest first) — no per-category cap: every depth>=1 category stays eligible
   eligible.sort((a, b) => a.questionCount - b.questionCount);
 
   // Limit to batch size
