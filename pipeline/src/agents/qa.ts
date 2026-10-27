@@ -37,7 +37,7 @@ const SYSTEM_PROMPT = `You are a quality assurance reviewer for a **UK pub quiz*
 
 1. **Natural Language Quality:** Clear, concise, sounds natural read aloud? Target 40-80 characters. No textbook or exam phrasing.
 2. **Category Fit:** Does this question belong in the stated category? Would a quizmaster put it in this round?
-3. **Difficulty Calibration:** Does the label match reality? Be STRICT — writers tend to over-rate questions as easy. Easy = a 10-year-old could probably get it, primary-school level, no plausible trap between close alternatives (capital of France, colours mixing). Normal = most adults have heard of it but might hesitate between plausible options (Ganymede vs Titan, Huxley wrote Brave New World, Henry VIII's longest marriage). Hard = one enthusiast at the table might know, answer is interesting (Hitchcock's chocolate syrup, Miroslav Klose's goal record). If the distractors are plausible traps, the question is NOT easy regardless of the topic. Target mix: 35-40% easy, 40-45% normal, 15-20% hard. **Recalibrate aggressively** — set recalibrated_difficulty whenever the label is off.
+3. **Difficulty Sanity:** Score only whether the question is sensibly pitched for a pub table (not trivial, not obscure trivia nobody could reason towards). Difficulty is stored as a per-category score set elsewhere, so do NOT output a difficulty label and do not fail a question just because it is easy or hard.
 4. **Distractor Quality:** All 3 wrong answers plausible AND from the same domain as the correct answer? (All countries, all years, all people, etc.) No joke answers, no obviously absurd options. Distractors must be the same TYPE of thing — if the answer is a colour, all distractors must be colours. If the answer is an animal, all distractors must be animals. Mixed-domain distractors (e.g. mixing Pokemon types with animal types, or mixing colours with character names) are a rewrite.
 
 Actions:
@@ -69,7 +69,6 @@ RULES:
    - All 3 distractors must be plausible, from the same domain as the correct answer, and wrong.
    - The explanation must match the (possibly new) correct answer.
    - The fun fact (if present) must still relate to the correct answer. If it doesn't, write a new one (1-2 sentences, surprising, concrete, conversational). Set fun_fact to null if you can't think of a good one.
-   - The difficulty label must be accurate.
    - The correct answer must NOT appear anywhere in the question text. If it does, rewrite the question to replace the giveaway with a clue, context, or description that points to the same subject without naming it. The rewritten question should be *harder* than the original, not vaguer. For example: "In the sitcom Cheers, what is the name of the bar?" → "What's the name of the bar in the sitcom where everybody knows your name?"
 3. Keep questions to 40-80 characters. One breath to read aloud.
 4. Write like a quizmaster talking to friends, not a textbook.
@@ -81,7 +80,6 @@ Return JSON with these fields:
 - "correct_answer": string (correct answer — may be unchanged or fixed)
 - "distractors": string[] (exactly 3 wrong answers)
 - "explanation": string (2-3 sentences explaining why the answer is correct)
-- "difficulty": "easy" | "normal" | "hard"
 - "fun_fact": string | null (keep existing if still valid, rewrite if not, null if none)
 - "changes_made": string (brief summary of what you changed and why)`;
 
@@ -143,7 +141,6 @@ Return JSON with a "results" array where each object has these fields:
 - "category_fit_score": number (0-10)
 - "difficulty_calibration_score": number (0-10)
 - "distractor_quality_score": number (0-10)
-- "recalibrated_difficulty": "easy" | "normal" | "hard" (optional, only if the current difficulty label is wrong)
 - "reasoning": string (for rewrites: describe what's wrong so the rewrite agent can fix it)
 
 Do NOT provide rewritten text — just identify the issues. A separate agent handles rewrites.
@@ -236,7 +233,6 @@ ${questionsSection}`;
                 correct_answer: rewriteResult.correct_answer,
                 distractors: rewriteResult.distractors,
                 explanation: rewriteResult.explanation,
-                difficulty: rewriteResult.difficulty,
                 qa_passed_at: new Date().toISOString(),
               };
 
@@ -286,10 +282,6 @@ ${questionsSection}`;
               qa_passed_at: new Date().toISOString(),
             };
 
-            if (result.recalibrated_difficulty) {
-              passUpdateData.difficulty = result.recalibrated_difficulty;
-            }
-
             if (originalQuestion.verification_score >= 3) {
               passUpdateData.status = 'published';
               passUpdateData.published_at = new Date().toISOString();
@@ -311,10 +303,9 @@ ${questionsSection}`;
                 continue;
               }
 
-              log('info', originalQuestion.verification_score >= 3 ? 'Question published' : 'Question difficulty recalibrated', {
+              log('info', originalQuestion.verification_score >= 3 ? 'Question published' : 'Question passed QA', {
                 questionId: result.question_id,
                 score: originalQuestion.verification_score,
-                ...(result.recalibrated_difficulty ? { recalibrated: result.recalibrated_difficulty } : {}),
               });
             } else {
               log('info', 'Question passes QA, no changes needed (score < 3)', {
@@ -363,7 +354,6 @@ interface SonnetRewriteResult {
   correct_answer: string;
   distractors: string[];
   explanation: string;
-  difficulty: 'easy' | 'normal' | 'hard';
   fun_fact: string | null;
   changes_made: string;
 }

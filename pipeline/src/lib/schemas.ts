@@ -62,7 +62,6 @@ export const QaResultSchema = z.object({
   category_fit_score: z.number().min(0).max(10),
   difficulty_calibration_score: z.number().min(0).max(10),
   distractor_quality_score: z.number().min(0).max(10),
-  recalibrated_difficulty: z.enum(['easy', 'normal', 'hard']).optional(),
   reasoning: z.string(),
 });
 
@@ -80,7 +79,6 @@ export const SonnetRewriteSchema = z.object({
   correct_answer: z.string(),
   distractors: z.array(z.string()).length(3),
   explanation: z.string(),
-  difficulty: z.enum(['easy', 'normal', 'hard']),
   fun_fact: z.string().nullable(),
   changes_made: z.string(),
 });

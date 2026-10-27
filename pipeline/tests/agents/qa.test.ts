@@ -281,7 +281,7 @@ describe('QA Agent', () => {
       : '';
     expect(systemContent).toContain('Natural Language');
     expect(systemContent).toContain('Category Fit');
-    expect(systemContent).toContain('Difficulty Calibration');
+    expect(systemContent).toContain('Difficulty Sanity');
     expect(systemContent).toContain('Distractor Quality');
   });
 
@@ -332,6 +332,7 @@ describe('QA Agent', () => {
 
     // Q1 was rewritten -- should have qa_rewritten: true and updated text
     const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);
+    if (q1Update) expect(q1Update.data).not.toHaveProperty('difficulty'); // column dropped in migration 00026
     expect(q1Update).toBeDefined();
     const q1Data = q1Update!.data as any;
     expect(q1Data.qa_rewritten).toBe(true);
@@ -381,6 +382,7 @@ describe('QA Agent', () => {
     const result = await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
     const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);
+    if (q1Update) expect(q1Update.data).not.toHaveProperty('difficulty'); // column dropped in migration 00026
     expect(q1Update).toBeDefined();
     const q1Data = q1Update!.data as any;
     expect(q1Data.status).toBe('rejected');
@@ -393,6 +395,7 @@ describe('QA Agent', () => {
 
     // Q1 has verification_score 3 and action=pass => should be published
     const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);
+    if (q1Update) expect(q1Update.data).not.toHaveProperty('difficulty'); // column dropped in migration 00026
     expect(q1Update).toBeDefined();
     const q1Data = q1Update!.data as any;
     expect(q1Data.status).toBe('published');
@@ -400,6 +403,7 @@ describe('QA Agent', () => {
 
     // Q3 also has score 3 and action=pass => should be published
     const q3Update = mockSupabase.updateCalls.find((c) => c.questionId === Q3_ID);
+    if (q3Update) expect(q3Update.data).not.toHaveProperty('difficulty'); // column dropped in migration 00026
     expect(q3Update).toBeDefined();
     const q3Data = q3Update!.data as any;
     expect(q3Data.status).toBe('published');
@@ -412,6 +416,7 @@ describe('QA Agent', () => {
 
     // Q2 has verification_score 2 and action=pass => stamped qa_passed_at but NOT published
     const q2Update = mockSupabase.updateCalls.find((c) => c.questionId === Q2_ID);
+    if (q2Update) expect(q2Update.data).not.toHaveProperty('difficulty'); // column dropped in migration 00026
     expect(q2Update).toBeDefined();
     const q2Data = q2Update!.data as any;
     expect(q2Data.qa_passed_at).toBeDefined();
@@ -472,6 +477,7 @@ describe('QA Agent', () => {
     expect(result.failed).toBe(1);
     // Q1 was rejected (status='rejected') because Sonnet rewrite was invalid.
     const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);
+    if (q1Update) expect(q1Update.data).not.toHaveProperty('difficulty'); // column dropped in migration 00026
     expect(q1Update).toBeDefined();
     expect((q1Update!.data as any).status).toBe('rejected');
   });
@@ -579,6 +585,7 @@ describe('QA Agent', () => {
 
     // Q1 rewritten with score 3 => should be published
     const q1Update = mockSupabase.updateCalls.find((c) => c.questionId === Q1_ID);
+    if (q1Update) expect(q1Update.data).not.toHaveProperty('difficulty'); // column dropped in migration 00026
     expect(q1Update).toBeDefined();
     const q1Data = q1Update!.data as any;
     expect(q1Data.status).toBe('published');
