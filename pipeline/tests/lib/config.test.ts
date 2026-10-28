@@ -1,7 +1,7 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { loadConfig } from '../../src/lib/config.js';
 
-const KEYS = ['ANTHROPIC_API_KEY', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'ENABLE_CATEGORY_AGENT', 'STALE_RUN_MS'];
+const KEYS = ['ANTHROPIC_API_KEY', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'ENABLE_CATEGORY_AGENT', 'STALE_RUN_MS', 'TAXONOMY_ASSESS_MODEL', 'TAXONOMY_CLASSIFY_MODEL', 'ENABLE_TAXONOMY'];
 const saved: Record<string, string | undefined> = {};
 for (const k of KEYS) saved[k] = process.env[k];
 
@@ -20,9 +20,11 @@ describe('loadConfig', () => {
     const c = loadConfig();
     expect(Object.keys(c).sort()).toEqual([
       'categoryBatchSize', 'claudeModelAudit', 'claudeModelGeneration', 'claudeModelVerification',
-      'enableCategoryAgent', 'knowledgeBatchSize', 'questionsBatchSize', 'relevanceThreshold',
-      'staleRunMs', 'supabaseServiceRoleKey', 'supabaseUrl', 'wikipediaMaxContentLength',
-      'wikipediaUserAgent',
+      'enableCategoryAgent', 'enableTaxonomy', 'knowledgeBatchSize', 'questionsBatchSize', 'relevanceThreshold',
+      'staleRunMs', 'supabaseServiceRoleKey', 'supabaseUrl', 'taxonomyAssessModel',
+      'taxonomyClassifyModel', 'taxonomyMaxActionsCleanup', 'taxonomyMaxActionsWeekly',
+      'taxonomyWeeklyBudgetShare', 'taxonomyWeeklyRehomeCategories', 'taxonomyWeeklyRoots',
+      'wikipediaMaxContentLength', 'wikipediaUserAgent',
     ]);
   });
 
@@ -31,12 +33,23 @@ describe('loadConfig', () => {
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'k';
     delete process.env.ENABLE_CATEGORY_AGENT;
     delete process.env.STALE_RUN_MS;
+    delete process.env.TAXONOMY_ASSESS_MODEL;
+    delete process.env.TAXONOMY_CLASSIFY_MODEL;
+    delete process.env.ENABLE_TAXONOMY;
     const c = loadConfig();
+    expect(c.taxonomyAssessModel).toBe('opus');
+    expect(c.taxonomyClassifyModel).toBe('sonnet');
     expect(c.claudeModelGeneration).toBe('sonnet');
     expect(c.claudeModelVerification).toBe('sonnet');
     expect(c.claudeModelAudit).toBe('opus');
     expect(c.enableCategoryAgent).toBe(false);
     expect(c.staleRunMs).toBe(7 * 3600 * 1000);
+    expect(c.enableTaxonomy).toBe(false);
+    expect(c.taxonomyMaxActionsWeekly).toBe(40);
+    expect(c.taxonomyMaxActionsCleanup).toBe(400);
+    expect(c.taxonomyWeeklyBudgetShare).toBe(0.1);
+    expect(c.taxonomyWeeklyRoots).toBe(3);
+    expect(c.taxonomyWeeklyRehomeCategories).toBe(4);
   });
 
   it('reads ENABLE_CATEGORY_AGENT and STALE_RUN_MS from the environment', () => {

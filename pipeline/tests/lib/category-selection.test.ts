@@ -9,6 +9,7 @@ interface MockCategory {
   name: string;
   slug: string;
   depth: number;
+  hidden_reason?: 'merged' | 'trimmed' | 'veto' | null;
 }
 
 interface MockCategoryData {
@@ -20,10 +21,17 @@ interface MockCategoryData {
 function createMockSupabase(data: MockCategoryData) {
   const mockFrom = vi.fn((table: string) => {
     if (table === 'categories') {
+      let onlyVisible = false;
       const chain: any = {
         select: vi.fn(() => chain),
+        is: vi.fn((col: string, val: null) => {
+          if (col === 'hidden_reason' && val === null) onlyVisible = true;
+          return chain;
+        }),
         gte: vi.fn((_col: string, minDepth: number) => {
-          const filtered = data.categories.filter(c => c.depth >= minDepth);
+          const filtered = data.categories.filter(
+            c => c.depth >= minDepth && (!onlyVisible || (c.hidden_reason ?? null) === null),
+          );
           const filteredChain: any = {};
           filteredChain.then = (resolve: (val: unknown) => void) => {
             return Promise.resolve({ data: filtered, error: null }).then(resolve);
@@ -161,5 +169,22 @@ describe('Category Selection', () => {
     expect(result.length).toBe(2);
     expect(result[0].name).toBe('History');   // 1 question (least)
     expect(result[1].name).toBe('Science');   // 2 questions
+  });
+
+  it('never selects merged/trimmed/veto categories; threshold-hidden (hidden_reason null) stay eligible', async () => {
+    const { getEligibleCategoriesOrdered } = await import('../../src/lib/category-selection.js');
+    const mockSupabase = createMockSupabase({
+      categories: [
+        { id: 'cat-m', name: 'Merged', slug: 'merged', depth: 1, hidden_reason: 'merged' },
+        { id: 'cat-t', name: 'Trimmed', slug: 'trimmed', depth: 1, hidden_reason: 'trimmed' },
+        { id: 'cat-v', name: 'Veto', slug: 'veto', depth: 1, hidden_reason: 'veto' },
+        { id: 'cat-low', name: 'Low', slug: 'low', depth: 1, hidden_reason: null },
+        { id: 'cat-big', name: 'Big', slug: 'big', depth: 1, hidden_reason: null },
+      ],
+      questionCounts: { 'cat-m': 0, 'cat-t': 0, 'cat-v': 0, 'cat-low': 1, 'cat-big': 50 },
+      sourceCounts: {},
+    });
+    const result = await getEligibleCategoriesOrdered(mockSupabase as any, 10);
+    expect(result.map(r => r.slug)).toEqual(['low', 'big']);
   });
 });

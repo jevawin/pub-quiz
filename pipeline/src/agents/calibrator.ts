@@ -113,18 +113,22 @@ Return the JSON scores object.`;
   // Resolve slugs to category IDs
   let slugToId: Map<string, string>;
   try {
-    slugToId = await resolveSlugsToIds(supabase, Object.keys(slugScores));
+    slugToId = (await resolveSlugsToIds(supabase, Object.keys(slugScores))).ids;
   } catch (err) {
     return { success: false, error: err instanceof Error ? err.message : String(err) };
   }
 
   // Upsert rows into question_categories
-  const rows = Object.entries(slugScores).map(([slug, score]) => ({
-    question_id: input.id,
-    category_id: slugToId.get(slug)!,
-    estimate_score: score,
-    observed_n: 0,
-  }));
+  // Dedupe by category id (an alias and its survivor can both be scored): a single upsert
+  // naming the same key twice fails with "cannot affect row a second time". First wins.
+  const rowsById = new Map<string, { question_id: string; category_id: string; estimate_score: number; observed_n: number }>();
+  for (const [slug, score] of Object.entries(slugScores)) {
+    const category_id = slugToId.get(slug)!;
+    if (!rowsById.has(category_id)) {
+      rowsById.set(category_id, { question_id: input.id, category_id, estimate_score: score, observed_n: 0 });
+    }
+  }
+  const rows = [...rowsById.values()];
 
   const { error: upsertErr } = await (supabase
     .from('question_categories')

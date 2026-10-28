@@ -21,6 +21,17 @@ export interface PipelineConfig {
   claudeModelGeneration: string;
   claudeModelVerification: string;
   claudeModelAudit: string;
+  /** Moving aliases only, never pinned model ids. */
+  taxonomyAssessModel: string;
+  taxonomyClassifyModel: string;
+  /** Kill switch (ENABLE_TAXONOMY=1): required by every taxonomy mode that writes to the DB. */
+  enableTaxonomy: boolean;
+  taxonomyMaxActionsWeekly: number;
+  taxonomyMaxActionsCleanup: number;
+  /** Weekly review budget as a share of one night's budget points. */
+  taxonomyWeeklyBudgetShare: number;
+  taxonomyWeeklyRoots: number;
+  taxonomyWeeklyRehomeCategories: number;
   wikipediaUserAgent: string;
   wikipediaMaxContentLength: number;
   relevanceThreshold: number;
@@ -57,6 +68,14 @@ export function loadConfig(): PipelineConfig {
     claudeModelGeneration: 'sonnet',
     claudeModelVerification: 'sonnet',
     claudeModelAudit: 'opus',
+    taxonomyAssessModel: process.env.TAXONOMY_ASSESS_MODEL || 'opus',
+    taxonomyClassifyModel: process.env.TAXONOMY_CLASSIFY_MODEL || 'sonnet',
+    enableTaxonomy: process.env.ENABLE_TAXONOMY === '1',
+    taxonomyMaxActionsWeekly: envNumber('TAXONOMY_MAX_ACTIONS_WEEKLY', 40),
+    taxonomyMaxActionsCleanup: envNumber('TAXONOMY_MAX_ACTIONS_CLEANUP', 400),
+    taxonomyWeeklyBudgetShare: envNumber('TAXONOMY_WEEKLY_BUDGET_SHARE', 0.1),
+    taxonomyWeeklyRoots: envNumber('TAXONOMY_WEEKLY_ROOTS', 3),
+    taxonomyWeeklyRehomeCategories: envNumber('TAXONOMY_WEEKLY_REHOME_CATEGORIES', 4),
     wikipediaUserAgent: 'PubQuizPipeline/1.0 (https://github.com/pub-quiz)',
     wikipediaMaxContentLength: 3000,
     relevanceThreshold: envNumber('RELEVANCE_THRESHOLD', 0.6),

@@ -56,3 +56,33 @@ describe('calibrator usage stops', () => {
     expect(passedAcc).toBe(acc);
   });
 });
+
+describe('calibrateQuestion upsert dedupe', () => {
+  it('sends one row per category id when an alias and its survivor are both scored', async () => {
+    const upserts: any[][] = [];
+    const sb: any = {
+      from: (t: string) => {
+        const c: any = {
+          select: () => c,
+          in: () => c,
+          upsert: (rows: any[]) => (upserts.push(rows), Promise.resolve({ error: null })),
+          then: (res: (v: unknown) => void) => Promise.resolve({
+            data: t === 'category_aliases'
+              ? [{ old_slug: 'science-old', category_id: 'c-sci' }]
+              : [{ id: 'c-sci', slug: 'science', hidden_reason: null }, { id: 'c-gk', slug: 'general-knowledge', hidden_reason: null }],
+            error: null,
+          }).then(res),
+        };
+        return c;
+      },
+    };
+    const call = vi.fn().mockResolvedValue({
+      text: JSON.stringify({ scores: { science_old: 11, science: 60, general_knowledge: 30 }, reasoning: 'r' }),
+    });
+    const out = await calibrateQuestion(sb, { ...input, assigned_slugs: ['science-old', 'science'] }, call, { claudeModelVerification: 'sonnet' });
+    expect(out.success).toBe(true);
+    expect(upserts).toHaveLength(1);
+    expect(upserts[0].map((r) => r.category_id).sort()).toEqual(['c-gk', 'c-sci']);
+    expect(upserts[0].find((r) => r.category_id === 'c-sci').estimate_score).toBe(11);
+  });
+});

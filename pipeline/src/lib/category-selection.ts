@@ -16,6 +16,9 @@ export async function getEligibleCategoriesOrdered(
   const { data: categories, error: catError } = await supabase
     .from('categories')
     .select('id, name, slug, depth')
+    // Exclude merged/trimmed/veto. Threshold-hidden (few questions) have hidden_reason NULL and stay
+    // eligible so the generator can fill them. (.is NULL, not NOT IN: NOT IN drops NULL rows.)
+    .is('hidden_reason', null)
     .gte('depth', 1);
 
   if (catError || !categories || categories.length === 0) {

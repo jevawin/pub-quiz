@@ -20,9 +20,12 @@ export type Database = {
           created_by: string
           depth: number
           description: string | null
+          hidden_at: string | null
+          hidden_reason: 'merged' | 'trimmed' | 'veto' | null
           id: string
           name: string
           parent_id: string | null
+          protected: boolean
           slug: string
         }
         Insert: {
@@ -30,9 +33,12 @@ export type Database = {
           created_by?: string
           depth?: number
           description?: string | null
+          hidden_at?: string | null
+          hidden_reason?: 'merged' | 'trimmed' | 'veto' | null
           id?: string
           name: string
           parent_id?: string | null
+          protected?: boolean
           slug: string
         }
         Update: {
@@ -40,9 +46,12 @@ export type Database = {
           created_by?: string
           depth?: number
           description?: string | null
+          hidden_at?: string | null
+          hidden_reason?: 'merged' | 'trimmed' | 'veto' | null
           id?: string
           name?: string
           parent_id?: string | null
+          protected?: boolean
           slug?: string
         }
         Relationships: [
@@ -54,6 +63,62 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      category_aliases: {
+        Row: {
+          old_slug: string
+          category_id: string
+          created_at: string | null
+        }
+        Insert: {
+          old_slug: string
+          category_id: string
+          created_at?: string | null
+        }
+        Update: {
+          old_slug?: string
+          category_id?: string
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "category_aliases_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      category_changes: {
+        Row: {
+          id: number
+          run_id: string
+          action: 'merge' | 'hide' | 'unhide' | 'create' | 'rehome' | 'flag_duplicate' | 'protect'
+          payload: Json
+          prior: Json | null
+          created_at: string | null
+          undone_at: string | null
+        }
+        Insert: {
+          id?: number
+          run_id: string
+          action: 'merge' | 'hide' | 'unhide' | 'create' | 'rehome' | 'flag_duplicate' | 'protect'
+          payload: Json
+          prior?: Json | null
+          created_at?: string | null
+          undone_at?: string | null
+        }
+        Update: {
+          id?: number
+          run_id?: string
+          action?: 'merge' | 'hide' | 'unhide' | 'create' | 'rehome' | 'flag_duplicate' | 'protect'
+          payload?: Json
+          prior?: Json | null
+          created_at?: string | null
+          undone_at?: string | null
+        }
+        Relationships: []
       }
       pipeline_runs: {
         Row: {
@@ -312,7 +377,18 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      category_visibility: {
+        Row: {
+          category_id: string | null
+          slug: string | null
+          depth: number | null
+          parent_id: string | null
+          distinct_published: number | null
+          hidden: boolean | null
+          visible: boolean | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       counts_by_root_category: {

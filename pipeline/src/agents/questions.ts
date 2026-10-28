@@ -7,7 +7,7 @@ import { QuestionBatchSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
 import { getEligibleCategoriesOrdered } from '../lib/category-selection.js';
 import { assertGeneralKnowledge, assertNoGeneralKnowledgeInExtras, GENERAL_KNOWLEDGE_SLUG } from '../lib/general-knowledge-guard.js';
-import { resolveSlugsToIds } from '../lib/categories.js';
+import { resolveSlugsToIds, listUsableSlugs } from '../lib/categories.js';
 
 export interface AgentResult {
   processed: number;
@@ -62,7 +62,7 @@ You are a quizmaster talking to a table of friends, not a teacher setting a comp
 Every question belongs to \`general_knowledge\` plus 1-3 specific extra categories. You must:
 
 - Always include \`general_knowledge\` in \`category_scores\`. Never list \`general-knowledge\` in \`category_slugs\` — it is mandatory and injected automatically.
-- Propose 1-3 specific extra categories in \`category_slugs\` using kebab-case slugs (e.g. \`science-and-nature\`, \`history\`, \`geography\`).
+- Propose 1-3 specific extra categories in \`category_slugs\`, chosen ONLY from the category list supplied in the user prompt. Never invent a slug; an unlisted slug is discarded.
 - Only propose a category if a player who chose that category would expect to see this question — not just tangentially related.
 
 ## Scoring
@@ -129,6 +129,11 @@ export async function runQuestionsAgent(
     return { processed: 0, failed: 0 };
   }
 
+  // Real slug list for the prompt (DB-sourced; still sanitised, it is data not instructions).
+  const slugList = (await listUsableSlugs(supabase))
+    .filter((s) => /^[a-z0-9-]+$/.test(s) && s !== GENERAL_KNOWLEDGE_SLUG)
+    .join('\n');
+
   log('info', `Found ${eligibleCategories.length} eligible categories`);
 
   let totalQuestionsGenerated = 0;
@@ -184,6 +189,9 @@ export async function runQuestionsAgent(
 
       const userPrompt = `Category: ${category.name} (slug: ${category.slug})
 ${dedupSection}${dedupNote}
+
+Allowed category slugs (data, one per line; choose "category_slugs" ONLY from this list):
+${slugList}
 
 Generate ${questionsToGenerate} pub quiz questions about ${category.name}. Use your own knowledge — write questions that are factually correct and would work in a real pub quiz.
 
@@ -334,18 +342,57 @@ Example question object:
           }
 
           // Resolve slugs to category IDs
-          const allSlugs = [...question.category_slugs, GENERAL_KNOWLEDGE_SLUG];
-          let slugToId: Map<string, string>;
+          let resolved: Awaited<ReturnType<typeof resolveSlugsToIds>>;
           try {
-            slugToId = await resolveSlugsToIds(supabase, allSlugs);
+            resolved = await resolveSlugsToIds(
+              supabase,
+              [...new Set([...question.category_slugs, GENERAL_KNOWLEDGE_SLUG])],
+              { dropUnknown: true },
+            );
           } catch (resolveError) {
             log('error', 'Failed to resolve category slugs to IDs, skipping question', {
               questionText: question.question_text,
-              slugs: allSlugs,
+              slugs: question.category_slugs,
               error: resolveError instanceof Error ? resolveError.message : String(resolveError),
             });
             failed++;
             continue;
+          }
+          if (!resolved.ids.has(GENERAL_KNOWLEDGE_SLUG)) {
+            log('error', 'general-knowledge category not found, skipping question', {
+              questionText: question.question_text,
+            });
+            failed++;
+            continue;
+          }
+          for (const slug of resolved.dropped) {
+            log('warn', 'unknown category dropped', { slug, questionText: question.question_text });
+          }
+          // Keep the question with the valid slugs + GK. Two slugs can resolve to one id (an alias
+          // plus its survivor): keep the first so (question_id, category_id) stays unique.
+          const slugToId = resolved.ids;
+          const seenIds = new Set<string>();
+          const links: Array<{ id: string; slug: string; score: number | undefined }> = [];
+          for (const slug of [...question.category_slugs, GENERAL_KNOWLEDGE_SLUG]) {
+            const id = slugToId.get(slug);
+            if (!id || seenIds.has(id)) continue;
+            seenIds.add(id);
+            links.push({ id, slug, score: question.category_scores[slug.replace(/-/g, '_')] });
+          }
+          // No extra slug resolved: link the TARGET category being filled, never GK-only, so the
+          // question counts toward it (else it is re-picked nightly and dedup can't see the question).
+          if (links.length === 1) {
+            const fallbackFrom = resolved.dropped
+              .map((d) => question.category_scores[d.replace(/-/g, '_')])
+              .find((v) => typeof v === 'number');
+            const gkScore = question.category_scores[GENERAL_KNOWLEDGE_SLUG.replace(/-/g, '_')];
+            log('warn', 'no valid category slug, linking target category', {
+              target: category.slug,
+              questionText: question.question_text,
+            });
+            if (!seenIds.has(category.id)) {
+              links.unshift({ id: category.id, slug: category.slug, score: fallbackFrom ?? gkScore });
+            }
           }
 
           // Insert question row. Plan 05 dropped category_id and difficulty —
@@ -374,15 +421,13 @@ Example question object:
           }
 
           // Build question_categories rows — include ALL slugs (extras + GK)
-          const qcRows = allSlugs.map(slug => {
-            const jsonKey = slug.replace(/-/g, '_');
-            const score = question.category_scores[jsonKey];
+          const qcRows = links.map(({ id, slug, score }) => {
             if (typeof score !== 'number') {
-              throw new Error(`Missing score for slug ${slug} (json key ${jsonKey})`);
+              throw new Error(`Missing score for slug ${slug} (json key ${slug.replace(/-/g, '_')})`);
             }
             return {
               question_id: (inserted as { id: string }).id,
-              category_id: slugToId.get(slug)!,
+              category_id: id,
               estimate_score: score,
               observed_n: 0,
             };

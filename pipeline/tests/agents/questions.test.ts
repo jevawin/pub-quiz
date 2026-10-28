@@ -103,6 +103,7 @@ function createMockSupabase() {
     { id: 'cat-1', name: 'Science', slug: 'science' },
     { id: 'cat-gk', name: 'General Knowledge', slug: 'general-knowledge' },
   ];
+  const aliasData: Array<{ old_slug: string; category_id: string }> = [];
   const sourcesData = [
     {
       id: 'src-1',
@@ -121,7 +122,7 @@ function createMockSupabase() {
 
   function makeChain(resolvedData: unknown, resolvedError: unknown = null) {
     const chain: any = {};
-    const methods = ['select', 'eq', 'in', 'order', 'limit', 'lte', 'gte', 'lt', 'gt', 'neq', 'single', 'maybeSingle'];
+    const methods = ['select', 'eq', 'in', 'order', 'limit', 'lte', 'gte', 'lt', 'gt', 'neq', 'single', 'maybeSingle', 'is', 'range'];
     for (const method of methods) {
       chain[method] = vi.fn((..._args: unknown[]) => chain);
     }
@@ -139,6 +140,9 @@ function createMockSupabase() {
     if (table === 'categories') {
       selectCalls.push({ table, columns: 'id, name, slug' });
       return makeChain(categoriesData);
+    }
+    if (table === 'category_aliases') {
+      return makeChain(aliasData);
     }
     if (table === 'sources') {
       selectCalls.push({ table, columns: 'sources' });
@@ -201,6 +205,7 @@ function createMockSupabase() {
     setInsertShouldFail: (val: boolean) => { insertShouldFail = val; },
     setInsertFailOnce: (val: boolean) => { insertFailOnce = val; },
     categoriesData,
+    aliasData,
     sourcesData,
     existingQuestionsForDedup,
   };
@@ -401,5 +406,91 @@ describe('Questions Agent', () => {
     const secondCall = mockClaude.respond.mock.calls[1][0];
     const secondUserMsg = secondCall.messages.find((m: any) => m.role === 'user');
     expect(secondUserMsg.content).toContain('Science');
+  });
+
+  it('keeps a question whose model output names one valid and one invented slug (valid slug + GK only)', async () => {
+    const { log } = await import('../../src/lib/logger.js');
+    const q = {
+      ...validQuestions[0],
+      category_slugs: ['science', 'invented-slug'],
+      category_scores: { science: 60, invented_slug: 40, general_knowledge: 30 },
+    };
+    mockClaude.respond.mockResolvedValue(createMockClaudeResponse([q]));
+    const { runQuestionsAgent } = await import('../../src/agents/questions.js');
+    const result = await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
+    expect(result.processed).toBe(1);
+    expect(result.failed).toBe(0);
+    const qcInsert = mockSupabase.from.mock.results
+      .map((r: any) => r.value)
+      .flatMap((c: any) => (c.insert?.mock?.calls ?? []) as unknown[][])
+      .map((c) => c[0])
+      .find((rows) => Array.isArray(rows)) as Array<{ category_id: string }>;
+    expect(qcInsert.map((r) => r.category_id).sort()).toEqual(['cat-1', 'cat-gk']);
+    expect(log).toHaveBeenCalledWith('warn', 'unknown category dropped', expect.objectContaining({ slug: 'invented-slug' }));
+  });
+
+  function qcRows(): Array<{ category_id: string; estimate_score: number }> {
+    return mockSupabase.from.mock.results
+      .map((r: any) => r.value)
+      .flatMap((c: any) => (c.insert?.mock?.calls ?? []) as unknown[][])
+      .map((c) => c[0])
+      .find((rows) => Array.isArray(rows)) as Array<{ category_id: string; estimate_score: number }>;
+  }
+
+  it('links GK + the TARGET category (never GK-only) when no proposed slug is valid', async () => {
+    const { log } = await import('../../src/lib/logger.js');
+    const q = {
+      ...validQuestions[0],
+      category_slugs: ['nope'],
+      category_scores: { nope: 10, general_knowledge: 30 },
+    };
+    mockClaude.respond.mockResolvedValue(createMockClaudeResponse([q]));
+    const { runQuestionsAgent } = await import('../../src/agents/questions.js');
+    const result = await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
+    expect(result.processed).toBe(1);
+    expect(result.failed).toBe(0);
+    const rows = qcRows();
+    expect(rows.map((r) => r.category_id).sort()).toEqual(['cat-1', 'cat-gk']);
+    expect(rows.find((r) => r.category_id === 'cat-1')!.estimate_score).toBe(10);
+    expect(log).toHaveBeenCalledWith('warn', 'no valid category slug, linking target category', expect.objectContaining({ target: 'science' }));
+  });
+
+  it('dedupes an alias and its survivor named together (first wins, by category id)', async () => {
+    mockSupabase.aliasData.push({ old_slug: 'science-old', category_id: 'cat-1' });
+    const q = {
+      ...validQuestions[0],
+      category_slugs: ['science-old', 'science'],
+      category_scores: { science_old: 11, science: 60, general_knowledge: 30 },
+    };
+    mockClaude.respond.mockResolvedValue(createMockClaudeResponse([q]));
+    const { runQuestionsAgent } = await import('../../src/agents/questions.js');
+    const result = await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
+    expect(result.processed).toBe(1);
+    const rows = qcRows();
+    expect(rows.map((r) => r.category_id).sort()).toEqual(['cat-1', 'cat-gk']);
+    expect(rows.find((r) => r.category_id === 'cat-1')!.estimate_score).toBe(11);
+  });
+
+  it('a malformed slug (quote) is dropped, not sent to the query, and the question is kept', async () => {
+    const q = {
+      ...validQuestions[0],
+      category_slugs: ['science', 'bad"slug'],
+      category_scores: { science: 60, general_knowledge: 30 },
+    };
+    mockClaude.respond.mockResolvedValue(createMockClaudeResponse([q]));
+    const { runQuestionsAgent } = await import('../../src/agents/questions.js');
+    const result = await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
+    expect(result.processed).toBe(1);
+    expect(qcRows().map((r) => r.category_id).sort()).toEqual(['cat-1', 'cat-gk']);
+  });
+
+  it('puts the real slug list in the user prompt', async () => {
+    const { runQuestionsAgent } = await import('../../src/agents/questions.js');
+    await runQuestionsAgent(makeConfig(), makeTokenAccumulator(), mockGov);
+    const { callGoverned } = await import('../../src/lib/claude.js');
+    const prompt = (vi.mocked(callGoverned).mock.calls[0][0] as { prompt: string }).prompt;
+    expect(prompt).toMatch(/choose "category_slugs" ONLY from this list/);
+    expect(prompt).toContain('\nscience\n');
+    expect(prompt).not.toContain('\ngeneral-knowledge\n');
   });
 });
