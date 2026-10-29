@@ -5,7 +5,7 @@ import { UsageStopError, type UsageGovernor } from '../lib/usage.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { CalibratorScoreSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
-import { jsonKeyToSlug, slugToJsonKey } from '../lib/slug-converter.js';
+import { jsonKeyToSlug, reconcileScoreKeys, slugToJsonKey } from '../lib/slug-converter.js';
 import { resolveSlugsToIds } from '../lib/categories.js';
 import { GENERAL_KNOWLEDGE_SLUG } from '../lib/general-knowledge-guard.js';
 import { expandSlugsToChain } from '../lib/category-chain.js';
@@ -92,6 +92,8 @@ Return the JSON scores object.`;
       error: parseError instanceof Error ? parseError.message : String(parseError),
     };
   }
+
+  parsed.scores = reconcileScoreKeys(parsed.scores, allSlugs);
 
   // Validate: every expected slug must have a score
   for (const slug of allSlugs) {
@@ -249,6 +251,8 @@ Return the JSON scores object.`;
       error: parseErr instanceof Error ? parseErr.message : String(parseErr),
     };
   }
+
+  parsed.scores = reconcileScoreKeys(parsed.scores, allSlugsForPrompt);
 
   // Validate every expected slug has a score
   for (const slug of allSlugsForPrompt) {

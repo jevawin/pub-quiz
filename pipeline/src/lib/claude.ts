@@ -18,7 +18,30 @@ export function createTokenAccumulator(): TokenAccumulator {
 
 export function extractJson(text: string): string {
   const fenced = text.match(/```(?:json)?\s*\n?([\s\S]*?)```/);
-  return fenced ? fenced[1].trim() : text.trim();
+  if (fenced) return fenced[1].trim();
+  return firstJsonObject(text) ?? text.trim();
+}
+
+/** First balanced {...} in the text (string/escape aware), so prose after the JSON is ignored. */
+function firstJsonObject(text: string): string | null {
+  const start = text.indexOf('{');
+  if (start === -1) return null;
+  let depth = 0;
+  let inStr = false;
+  let esc = false;
+  for (let i = start; i < text.length; i++) {
+    const c = text[i];
+    if (inStr) {
+      if (esc) esc = false;
+      else if (c === '\\') esc = true;
+      else if (c === '"') inStr = false;
+      continue;
+    }
+    if (c === '"') inStr = true;
+    else if (c === '{') depth++;
+    else if (c === '}' && --depth === 0) return text.slice(start, i + 1);
+  }
+  return null;
 }
 
 /**
