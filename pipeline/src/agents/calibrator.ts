@@ -50,6 +50,27 @@ Return JSON exactly in this shape:
 
 Keys use snake_case. Values are integers 0-100. Include exactly one score per assigned category plus general_knowledge.`;
 
+/**
+ * Parse the model's reply, tolerating stray keys. The model sometimes adds a note-like key
+ * (`general_knowledge_note: null`, an unknown slug). Only keys that are expected categories
+ * matter: drop non-numeric entries before schema validation, and drop unexpected keys after
+ * reconciling close variants. An EXPECTED key that is null/non-numeric is dropped too, so it
+ * surfaces as "missing score" rather than being guessed.
+ */
+function parseScores(text: string, expectedSlugs: string[]) {
+  const raw = JSON.parse(extractJson(text));
+  if (raw && typeof raw === 'object' && raw.scores && typeof raw.scores === 'object') {
+    raw.scores = Object.fromEntries(
+      Object.entries(raw.scores as Record<string, unknown>).filter(([, v]) => typeof v === 'number'),
+    );
+  }
+  const parsed = CalibratorScoreSchema.parse(raw);
+  const reconciled = reconcileScoreKeys(parsed.scores, expectedSlugs);
+  const want = new Set(expectedSlugs.map(slugToJsonKey));
+  parsed.scores = Object.fromEntries(Object.entries(reconciled).filter(([k]) => want.has(k)));
+  return parsed;
+}
+
 export async function calibrateQuestion(
   supabase: SupabaseClient<Database>,
   input: CalibrateInput,
@@ -85,15 +106,13 @@ Return the JSON scores object.`;
 
   let parsed;
   try {
-    parsed = CalibratorScoreSchema.parse(JSON.parse(extractJson(claudeResult.text)));
+    parsed = parseScores(claudeResult.text, allSlugs);
   } catch (parseError) {
     return {
       success: false,
       error: parseError instanceof Error ? parseError.message : String(parseError),
     };
   }
-
-  parsed.scores = reconcileScoreKeys(parsed.scores, allSlugs);
 
   // Validate: every expected slug must have a score
   for (const slug of allSlugs) {
@@ -244,15 +263,13 @@ Return the JSON scores object.`;
 
   let parsed;
   try {
-    parsed = CalibratorScoreSchema.parse(JSON.parse(extractJson(claudeResult.text)));
+    parsed = parseScores(claudeResult.text, allSlugsForPrompt);
   } catch (parseErr) {
     return {
       success: false,
       error: parseErr instanceof Error ? parseErr.message : String(parseErr),
     };
   }
-
-  parsed.scores = reconcileScoreKeys(parsed.scores, allSlugsForPrompt);
 
   // Validate every expected slug has a score
   for (const slug of allSlugsForPrompt) {
