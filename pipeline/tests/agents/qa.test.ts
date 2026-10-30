@@ -389,7 +389,7 @@ describe('QA Agent', () => {
     expect(result.failed).toBe(1);
   });
 
-  it('publishes score >= 3 questions that pass QA', async () => {
+  it('publishes score >= 2 questions that pass QA', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
     await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
@@ -410,17 +410,17 @@ describe('QA Agent', () => {
     expect(q3Data.published_at).toBeDefined();
   });
 
-  it('leaves score 1-2 questions as verified after QA pass (stamps qa_passed_at, no publish)', async () => {
+  it('publishes score-2 questions that pass QA (no longer left as verified)', async () => {
     const { runQaAgent } = await import('../../src/agents/qa.js');
     await runQaAgent(makeConfig(), makeTokenAccumulator(), mockGov);
 
-    // Q2 has verification_score 2 and action=pass => stamped qa_passed_at but NOT published
+    // Q2 has verification_score 2 and action=pass => stamped AND published (publish floor is 2)
     const q2Update = mockSupabase.updateCalls.find((c) => c.questionId === Q2_ID);
     if (q2Update) expect(q2Update.data).not.toHaveProperty('difficulty'); // column dropped in migration 00026
     expect(q2Update).toBeDefined();
     const q2Data = q2Update!.data as any;
     expect(q2Data.qa_passed_at).toBeDefined();
-    expect(q2Data.status).toBeUndefined(); // not published (score < 3)
+    expect(q2Data.status).toBe('published');
   });
 
   it('validates rewritten distractors length is exactly 3', async () => {

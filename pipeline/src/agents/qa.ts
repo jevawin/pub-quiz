@@ -83,6 +83,13 @@ Return JSON with these fields:
 - "fun_fact": string | null (keep existing if still valid, rewrite if not, null if none)
 - "changes_made": string (brief summary of what you changed and why)`;
 
+/**
+ * Minimum fact-check verification_score for QA to publish a question. 2 since 2026-10-30: the earlier
+ * >= 3 rule left every own-knowledge-verified (score 2) question stuck as 'verified' forever, was not a
+ * deliberate decision (Jamie), and ~1/3 of the published bank is score 2 anyway. Score 1 stays unpublished.
+ */
+export const PUBLISH_MIN_SCORE = 2;
+
 export async function runQaAgent(
   config: PipelineConfig,
   tokenAccumulator: TokenAccumulator,
@@ -241,8 +248,8 @@ ${questionsSection}`;
               // Update fun_fact: set to new value or null (clear stale ones)
               updateData.fun_fact = rewriteResult.fun_fact ?? null;
 
-              // Apply publish logic: score >= 3 => publish
-              if (originalQuestion.verification_score >= 3) {
+              // Apply publish logic: score >= PUBLISH_MIN_SCORE => publish
+              if (originalQuestion.verification_score >= PUBLISH_MIN_SCORE) {
                 updateData.status = 'published';
                 updateData.published_at = new Date().toISOString();
               }
@@ -265,7 +272,7 @@ ${questionsSection}`;
               log('info', 'Question rewritten by Sonnet', {
                 questionId: result.question_id,
                 changes: rewriteResult.changes_made,
-                published: originalQuestion.verification_score >= 3,
+                published: originalQuestion.verification_score >= PUBLISH_MIN_SCORE,
               });
               processed++;
               rewritten++;
@@ -279,12 +286,12 @@ ${questionsSection}`;
               errors++;
             }
           } else {
-            // Pass: publish if score >= 3, otherwise leave as verified
+            // Pass: publish if score >= PUBLISH_MIN_SCORE, otherwise leave as verified
             const passUpdateData: Record<string, unknown> = {
               qa_passed_at: new Date().toISOString(),
             };
 
-            if (originalQuestion.verification_score >= 3) {
+            if (originalQuestion.verification_score >= PUBLISH_MIN_SCORE) {
               passUpdateData.status = 'published';
               passUpdateData.published_at = new Date().toISOString();
             }
@@ -305,7 +312,7 @@ ${questionsSection}`;
                 continue;
               }
 
-              log('info', originalQuestion.verification_score >= 3 ? 'Question published' : 'Question passed QA', {
+              log('info', originalQuestion.verification_score >= PUBLISH_MIN_SCORE ? 'Question published' : 'Question passed QA', {
                 questionId: result.question_id,
                 score: originalQuestion.verification_score,
               });
