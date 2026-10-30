@@ -345,6 +345,57 @@ Return the JSON scores object.`;
  */
 export const CALIBRATOR_CONCURRENCY = 3;
 
+type CandidateRow = { id: string; question_text: string; correct_answer: string; distractors: string[]; status: string };
+
+/** Questions calibrated per agent run. */
+export const CALIBRATE_BATCH = 200;
+/** Candidate page size (PostgREST caps a response at 1000 rows). */
+export const CANDIDATE_PAGE = 1000;
+/**
+ * Ids per `.in()` lookup. One `.in()` over a whole 1000-id page is a ~37 KB URL that PostgREST
+ * rejects with "Bad Request" (measured 2026-10-30); the error was ignored, so every question
+ * looked unscored and each cycle re-asked 200 already-scored ones (insert-only, so no data
+ * harm, but ~85% of a cycle's wall time). 100 ids x the 8-categories-per-question cap stays
+ * under the 1000-row response cap.
+ */
+export const SCORED_LOOKUP_CHUNK = 100;
+
+/**
+ * Up to `want` pending/published questions with no question_categories rows, newest first.
+ * Pages through ALL candidates (not just the first 1000). A failed lookup THROWS: treating an
+ * error as "no rows" is what made every question look unscored.
+ */
+export async function findUncalibrated(
+  supabase: SupabaseClient<Database>,
+  want: number,
+): Promise<CandidateRow[]> {
+  const out: CandidateRow[] = [];
+  for (let from = 0; out.length < want; from += CANDIDATE_PAGE) {
+    const { data, error } = await (supabase
+      .from('questions')
+      .select('id, question_text, correct_answer, distractors, status')
+      .or('status.eq.pending,status.eq.published')
+      .order('created_at', { ascending: false })
+      .order('id')
+      .range(from, from + CANDIDATE_PAGE - 1) as unknown as Promise<{ data: CandidateRow[] | null; error: { message: string } | null }>);
+    if (error) throw new Error(`candidate fetch failed: ${error.message}`);
+    const page = data ?? [];
+    for (let i = 0; i < page.length && out.length < want; i += SCORED_LOOKUP_CHUNK) {
+      const slice = page.slice(i, i + SCORED_LOOKUP_CHUNK);
+      const { data: scoredRows, error: scoredError } = await (supabase
+        .from('question_categories')
+        .select('question_id')
+        .in('question_id', slice.map((q) => q.id)) as unknown as Promise<{ data: Array<{ question_id: string }> | null; error: { message: string } | null }>);
+      if (scoredError) throw new Error(`scored lookup failed: ${scoredError.message}`);
+      const scored = new Set((scoredRows ?? []).map((r) => r.question_id));
+      for (const q of slice) if (!scored.has(q.id) && out.length < want) out.push(q);
+    }
+    if (page.length < CANDIDATE_PAGE) break;
+  }
+  return out;
+}
+
+
 export async function runCalibratorAgent(
   config: PipelineConfig,
   tokenAccumulator: TokenAccumulator,
@@ -359,38 +410,14 @@ export async function runCalibratorAgent(
 
   log('info', 'Calibrator Agent starting');
 
-  // Fetch questions needing calibration:
-  // - status='pending' or 'published' AND no question_categories rows yet.
-  // Phase 999.8 Plan 05 dropped questions.calibrated_at; "uncalibrated" now means
-  // no row exists in the question_categories join table (empty join → never scored).
-  // PostgREST does not have a clean "where no related row exists" filter, so we
-  // fetch the candidate set then drop those that already have join rows.
-  const { data: candidateRows, error: fetchError } = await (supabase
-    .from('questions')
-    .select('id, question_text, correct_answer, distractors, status')
-    .or('status.eq.pending,status.eq.published')
-    .limit(2000) as unknown as Promise<{
-      data: Array<{
-        id: string;
-        question_text: string;
-        correct_answer: string;
-        distractors: string[];
-        status: string;
-      }> | null;
-      error: { message: string } | null;
-    }>);
-
-  let questions = candidateRows;
-  if (questions && questions.length > 0) {
-    const ids = questions.map((q) => q.id);
-    const { data: alreadyScoredRows } = await supabase
-      .from('question_categories')
-      .select('question_id')
-      .in('question_id', ids);
-    const alreadyScored = new Set(
-      ((alreadyScoredRows ?? []) as Array<{ question_id: string }>).map((r) => r.question_id),
-    );
-    questions = questions.filter((q) => !alreadyScored.has(q.id)).slice(0, 200);
+  // Questions needing calibration = pending/published with no question_categories rows yet
+  // (Phase 999.8 Plan 05 dropped questions.calibrated_at). See findUncalibrated.
+  let questions: CandidateRow[] | null = null;
+  let fetchError: { message: string } | null = null;
+  try {
+    questions = await findUncalibrated(supabase, CALIBRATE_BATCH);
+  } catch (e) {
+    fetchError = { message: (e as Error).message };
   }
 
   if (fetchError || !questions || questions.length === 0) {

@@ -18,7 +18,7 @@ const input = {
 };
 
 function fakeSupabase() {
-  const questions: any = { select: () => questions, or: () => questions, limit: () => Promise.resolve({
+  const questions: any = { select: () => questions, or: () => questions, order: () => questions, range: () => Promise.resolve({
     data: [{ id: 'q1', question_text: 'Q?', correct_answer: 'A', distractors: ['B', 'C', 'D'], status: 'pending' }],
     error: null,
   }) };

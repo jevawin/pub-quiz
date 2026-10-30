@@ -4,7 +4,7 @@ const st = vi.hoisted(() => ({ active: 0, peak: 0, calls: 0, stopAfter: Infinity
 
 vi.mock('../../lib/supabase.js', () => {
   const rows = Array.from({ length: 9 }, (_, i) => ({ id: `q${i}`, question_text: 'Q', correct_answer: 'A', distractors: ['b', 'c', 'd'], status: 'published' }));
-  const chain = (data: unknown) => { const q: Record<string, unknown> = {}; for (const m of ['or', 'limit', 'in', 'eq']) q[m] = () => q; q.then = (r: (v: unknown) => void) => r({ data, error: null }); return q; };
+  const chain = (data: unknown) => { const q: Record<string, unknown> = {}; for (const m of ['or', 'limit', 'in', 'eq', 'order', 'range']) q[m] = () => q; q.then = (r: (v: unknown) => void) => r({ data, error: null }); return q; };
   return { createSupabaseClient: () => ({ from: (t: string) => ({
     select: () => chain(t === 'questions' ? rows : []),
     upsert: () => Promise.resolve({ error: null }),
