@@ -163,7 +163,7 @@ function createMockSupabase(questionsOverride?: unknown[]) {
 
   function makeChain(resolvedData: unknown, resolvedError: unknown = null) {
     const chain: any = {};
-    const methods = ['select', 'eq', 'in', 'order', 'limit', 'lte', 'gte', 'lt', 'gt', 'neq', 'single', 'maybeSingle'];
+    const methods = ['select', 'eq', 'in', 'order', 'limit', 'lte', 'gte', 'is', 'lt', 'gt', 'neq', 'single', 'maybeSingle'];
     for (const method of methods) {
       chain[method] = vi.fn((..._args: unknown[]) => chain);
     }

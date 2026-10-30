@@ -97,13 +97,15 @@ export async function runQaAgent(
 
   log('info', 'QA Agent starting');
 
-  // Step 1: Fetch all verified questions with score >= 1, including category names
+  // Step 1: Fetch verified questions with score >= 1 that have not passed QA yet (score < 3 stays
+  // 'verified' after QA, so without the qa_passed_at filter they were re-checked on every cycle), including category names
   // (joined via question_categories since questions.category_id was dropped in Plan 05).
   const { data: verifiedQuestions, error: fetchError } = await supabase
     .from('questions')
     .select('*, question_categories(categories(name))')
     .eq('status', 'verified')
-    .gte('verification_score', 1) as { data: QuestionWithCategory[] | null; error: { message: string } | null };
+    .gte('verification_score', 1)
+    .is('qa_passed_at', null) as { data: QuestionWithCategory[] | null; error: { message: string } | null };
 
   if (fetchError || !verifiedQuestions || verifiedQuestions.length === 0) {
     log('info', 'No verified questions to QA', { error: fetchError?.message });
