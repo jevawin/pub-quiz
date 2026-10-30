@@ -21,6 +21,8 @@ export interface TaxTree {
   bySlug: Map<string, TaxNode>;
   /** alias slug -> categoryId */
   aliases: Map<string, string>;
+  /** Owner flags (category_flags): normalised name -> display name, newest first. Absent = none loaded. */
+  flags?: Map<string, string>;
 }
 
 export interface TaxPlan {

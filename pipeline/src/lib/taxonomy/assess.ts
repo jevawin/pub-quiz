@@ -1,6 +1,7 @@
 import { randomBytes } from 'node:crypto';
 import type { callClaude, ClaudeCallResult } from '../claude-cli.js';
 import { renderSubtree } from './tree.js';
+import { flagNamesForPrompt } from './flags.js';
 import { TaxPlanSchema, MAX_DEPTH } from './types.js';
 import type { TaxNode, TaxPlan, TaxTree } from './types.js';
 
@@ -70,11 +71,17 @@ function block(token: string, label: string, body: string): string {
 
 const newToken = (): string => randomBytes(8).toString('hex');
 
-export const ASSESS_SYSTEM = `You are the taxonomy editor for a pub-quiz question bank. You review one subtree of the category tree and propose changes as a JSON plan.
+/** Used when no owner flags are loaded (keeps the prompt's bad-example line non-empty). */
+export const DEFAULT_BAD_EXAMPLES = ['Breakfast Foods', 'Full English Breakfast'];
+
+/** The assess system prompt, with the owner's flagged categories (category_flags) as the bad examples. */
+export function assessSystem(badExamples: string[]): string {
+  const names = (badExamples.length ? badExamples : DEFAULT_BAD_EXAMPLES).join(', ');
+  return `You are the taxonomy editor for a pub-quiz question bank. You review one subtree of the category tree and propose changes as a JSON plan.
 
 The goal is a deep tree of INTERESTING, niche quiz categories. A good category is one people would happily play a whole quiz on: cheeses of the world yes, breakfast meals no. Niche is good, and thin is not bad in itself, but categories that can never reach a decent quiz size or are dull should not be shown.
 
-Examples the owner has marked as NOT good pub-quiz categories (dull, everyday, nobody would pick one as a quiz topic): Breakfast Foods, Full English Breakfast. Treat categories like these (generic everyday meals, routine household or admin topics) as HIDE candidates, and do not create categories of that kind.
+Examples the owner has marked as NOT good pub-quiz categories (dull, everyday, nobody would pick one as a quiz topic): ${names}. Treat categories like these (generic everyday meals, routine household or admin topics) as HIDE candidates, and never create these or anything like them under another name.
 
 What to do:
 - MERGE near-duplicates and overlapping categories. Name one survivor and the slugs it absorbs. Questions move across; nothing is deleted.
@@ -97,6 +104,9 @@ Tree lines have the form: depth|slug|name|distinct published questions|hidden|pr
 Reply with JSON only, no prose and no code fences, in exactly this shape:
 {"merges":[{"survivor":"slug","absorbed":["slug"],"why":"reason"}],"hides":[{"slug":"slug","why":"reason"}],"creates":[{"slug":"new-slug","name":"Name","parent":"existing-slug","why":"reason"}],"rehomes":[],"duplicates":[]}
 Always leave "rehomes" and "duplicates" as empty arrays.`;
+}
+
+export const ASSESS_SYSTEM = assessSystem(DEFAULT_BAD_EXAMPLES);
 
 export const CLASSIFY_SYSTEM = `You re-home pub-quiz questions after a category tree change. You are given candidate categories (slug|name) and a batch of questions, each with its id, text, answer and the slug it is currently filed under.
 
@@ -123,7 +133,7 @@ export async function assessSubtree(
   ].join('\n\n');
   const raw = await deps.call({
     model: deps.model,
-    system: ASSESS_SYSTEM,
+    system: assessSystem(flagNamesForPrompt(tree)),
     prompt,
     timeoutMs: deps.timeoutMs ?? ASSESS_TIMEOUT_MS,
   });

@@ -1,5 +1,6 @@
 import { GENERAL_KNOWLEDGE_SLUG } from '../general-knowledge-guard.js';
 import { subtreeSlugs } from './tree.js';
+import { flaggedMatch } from './flags.js';
 import { MAX_DEPTH, type Rejection, type TaxPlan, type TaxTree } from './types.js';
 
 /**
@@ -247,6 +248,11 @@ export function validatePlan(
     }
     if (known(c.slug) || tree.aliases.has(c.slug) || created.has(c.slug)) {
       reject('creates', c, `slug already exists or is an alias: ${c.slug}`);
+      continue;
+    }
+    const flagged = flaggedMatch(tree, c.name, c.slug);
+    if (flagged) {
+      reject('creates', c, `recreates a flagged category: ${flagged}`);
       continue;
     }
     if (isGeneralKnowledgeOrUnder(tree, c.parent)) {

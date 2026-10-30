@@ -90,6 +90,41 @@ export type Database = {
           },
         ]
       }
+      category_flags: {
+        Row: {
+          id: number
+          name: string
+          norm: string
+          category_id: string | null
+          note: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          name: string
+          norm: string
+          category_id?: string | null
+          note?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          name?: string
+          norm?: string
+          category_id?: string | null
+          note?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "category_flags_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       category_changes: {
         Row: {
           id: number

@@ -29,6 +29,11 @@ export async function loadTree(supabase: TypedSupabaseClient): Promise<TaxTree> 
   const aliasRows = await fetchAll((f, t) =>
     supabase.from('category_aliases').select('old_slug, category_id').order('old_slug', { ascending: true }).range(f, t),
   );
+  // A failed flags read throws (fetchAll): running the review without the owner's flags would let it
+  // recreate exactly what he hid. Only the weekly taxonomy CLI loads the tree, never the nightly run.
+  const flagRows = await fetchAll((f, t) =>
+    supabase.from('category_flags').select('name, norm, created_at').order('created_at', { ascending: false }).order('id').range(f, t),
+  );
   const visRows = await fetchAll((f, t) =>
     supabase
       .from('category_visibility')
@@ -65,7 +70,10 @@ export async function loadTree(supabase: TypedSupabaseClient): Promise<TaxTree> 
   const aliases = new Map<string, string>();
   for (const a of aliasRows) if (byId.has(a.category_id)) aliases.set(a.old_slug, a.category_id);
 
-  return { byId, bySlug, aliases };
+  const flags = new Map<string, string>();
+  for (const r of flagRows) if (!flags.has(r.norm)) flags.set(r.norm, r.name);
+
+  return { byId, bySlug, aliases, flags };
 }
 
 function walk(tree: TaxTree, rootSlug: string): TaxNode[] {

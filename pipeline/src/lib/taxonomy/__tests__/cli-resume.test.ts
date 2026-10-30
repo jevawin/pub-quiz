@@ -447,3 +447,43 @@ describe('round 3: cap, manual unhide, replay order', () => {
     expect(b.report).not.toMatch(/Merged: [1-9]/);
   });
 });
+
+describe('owner flags through the CLI', () => {
+  const run = (db: ReturnType<typeof makeFakeDb>, argv: string[], lines: string[] = []) =>
+    runCli(argv, { ENABLE_TAXONOMY: '1' }, { now: () => NOON, out: (l) => lines.push(l), err: () => {}, createSupabase: () => db.client });
+  const flags = (db: ReturnType<typeof makeFakeDb>) => (db.tables.category_flags ?? []).map((r) => r.norm);
+
+  it('a veto hide flags the category; unhide removes that flag', async () => {
+    const db = makeFakeDb(seed());
+    expect(await run(db, ['hide', '--slug', 'other-hist', '--reason', 'veto'])).toBe(0);
+    expect(flags(db)).toEqual(['other-hist']);
+    expect(await run(db, ['unhide', '--slug', 'other-hist'])).toBe(0);
+    expect(flags(db)).toEqual([]);
+  });
+
+  it('a trimmed hide does not flag', async () => {
+    const db = makeFakeDb(seed());
+    expect(await run(db, ['hide', '--slug', 'other-hist', '--reason', 'trimmed'])).toBe(0);
+    expect(flags(db)).toEqual([]);
+  });
+
+  it('unhide keeps a flag the owner set directly with `flag`', async () => {
+    const db = makeFakeDb(seed());
+    expect(await run(db, ['flag', '--slug', 'other-hist'])).toBe(0);
+    expect(await run(db, ['hide', '--slug', 'other-hist', '--reason', 'trimmed'])).toBe(0);
+    expect(await run(db, ['unhide', '--slug', 'other-hist'])).toBe(0);
+    expect(flags(db)).toEqual(['other-hist']);
+    expect(await run(db, ['unflag', '--name', 'Other Hist'])).toBe(0);
+    expect(flags(db)).toEqual([]);
+  });
+
+  it('undo of a veto hide run also removes its flag', async () => {
+    const db = makeFakeDb(seed());
+    const lines: string[] = [];
+    expect(await run(db, ['hide', '--slug', 'other-hist', '--reason', 'veto'], lines)).toBe(0);
+    const runId = last(lines).runId;
+    expect(await run(db, ['undo', '--run', runId])).toBe(0);
+    expect(flags(db)).toEqual([]);
+    expect(db.tables.categories.find((c) => c.slug === 'other-hist')!.hidden_at).toBeNull();
+  });
+});

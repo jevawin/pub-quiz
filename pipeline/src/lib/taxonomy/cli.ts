@@ -22,6 +22,7 @@ import { confineToSubtree, isGeneralKnowledgeOrUnder, validatePlan } from './rul
 import { directCounts, leafQuestionIds, pickRehomeCategories, pickWeeklyRoots, type LinkRow } from './select.js';
 import { loadState, saveState, type TaxState } from './state.js';
 import { loadTree, subtreeSlugs } from './tree.js';
+import { addFlag, removeFlags, removeVetoFlags, VETO_NOTE_PREFIX } from './flags.js';
 import { MIN_VISIBLE_QUESTIONS, TaxPlanSchema } from './types.js';
 import type { Rejection, TaxNode, TaxPlan, TaxTree } from './types.js';
 
@@ -31,9 +32,9 @@ export const EXIT_ERROR = 1;
 export const EXIT_REFUSED = 2; // bad usage, or the kill switch is off
 export const EXIT_WINDOW = 3; // inside the nightly generator's window (or a Monday for weekly)
 
-export type Mode = 'plan' | 'apply' | 'weekly' | 'undo' | 'hide' | 'unhide' | 'protect';
-const WRITING_MODES: ReadonlySet<Mode> = new Set(['apply', 'weekly', 'undo', 'hide', 'unhide', 'protect']);
-const ALL_MODES: readonly Mode[] = ['plan', 'apply', 'weekly', 'undo', 'hide', 'unhide', 'protect'];
+export type Mode = 'plan' | 'apply' | 'weekly' | 'undo' | 'hide' | 'unhide' | 'protect' | 'flag' | 'unflag';
+const WRITING_MODES: ReadonlySet<Mode> = new Set(['apply', 'weekly', 'undo', 'hide', 'unhide', 'protect', 'flag', 'unflag']);
+const ALL_MODES: readonly Mode[] = ['plan', 'apply', 'weekly', 'undo', 'hide', 'unhide', 'protect', 'flag', 'unflag'];
 
 const VALUE_FLAGS: Record<Mode, string[]> = {
   plan: ['out', 'md', 'roots'],
@@ -43,8 +44,10 @@ const VALUE_FLAGS: Record<Mode, string[]> = {
   hide: ['slug', 'reason'],
   unhide: ['slug'],
   protect: ['slug'],
+  flag: ['name', 'slug', 'note'],
+  unflag: ['name', 'slug'],
 };
-const BOOL_FLAGS: Record<Mode, string[]> = { plan: [], apply: ['dry-run'], weekly: [], undo: [], hide: [], unhide: [], protect: ['off'] };
+const BOOL_FLAGS: Record<Mode, string[]> = { plan: [], apply: ['dry-run'], weekly: [], undo: [], hide: [], unhide: [], protect: ['off'], flag: [], unflag: [] };
 
 export interface ParsedArgs {
   mode: Mode;
@@ -78,6 +81,9 @@ export function parseArgs(argv: string[]): ParsedArgs | { error: string } {
     protect: ['slug'],
   };
   for (const f of need[mode] ?? []) if (flags[f] === undefined) return { error: `${mode} requires --${f}` };
+  if ((mode === 'flag' || mode === 'unflag') && flags.name === undefined && flags.slug === undefined) {
+    return { error: `${mode} requires --name or --slug` };
+  }
   const rid = flags['run-id'];
   if (rid !== undefined && !/^[A-Za-z0-9._-]{1,80}$/.test(String(rid))) return { error: '--run-id must be 1-80 chars of A-Z a-z 0-9 . _ -' };
   if (flags.reason !== undefined && flags.reason !== 'veto' && flags.reason !== 'trimmed') {
@@ -641,7 +647,20 @@ export async function runCli(argv: string[], env: Record<string, string | undefi
     if (parsed.mode === 'undo') {
       runId = str('run');
       const r = await undoRun(sb, runId);
-      return finish('ok', `Undid ${r.undone} change(s) from run ${stripControl(runId)}${r.blocked ? `; ${r.blocked} could not be undone (state changed since)` : ''}.`, EXIT_OK);
+      // A veto hide's flag is not a category_changes row, so undo removes it here (matched by run id).
+      const unflagged = await removeVetoFlags(sb, { runId });
+      return finish('ok', `Undid ${r.undone} change(s) from run ${stripControl(runId)}${unflagged ? `, removed ${unflagged} veto flag(s)` : ''}${r.blocked ? `; ${r.blocked} could not be undone (state changed since)` : ''}.`, EXIT_OK);
+    }
+    if (parsed.mode === 'flag' || parsed.mode === 'unflag') {
+      const cat = flags.slug !== undefined ? await categoryBySlug(sb, str('slug')) : null;
+      if (flags.slug !== undefined && !cat) return refuse(`unknown slug ${stripControl(str('slug'))}`);
+      const name = flags.name !== undefined ? str('name') : cat!.name;
+      if (parsed.mode === 'flag') {
+        const norm = await addFlag(sb, name, cat?.id ?? null, flags.note !== undefined ? str('note') : null);
+        return finish('ok', `Flagged ${stripControl(name)} (${norm}): the weekly review will not create it.`, EXIT_OK);
+      }
+      const n = await removeFlags(sb, { name, categoryId: cat?.id });
+      return finish('ok', n ? `Removed ${n} flag(s) for ${stripControl(name)}.` : `No flag found for ${stripControl(name)}.`, EXIT_OK);
     }
     if (parsed.mode === 'hide' || parsed.mode === 'unhide' || parsed.mode === 'protect') {
       runId = newRunId(parsed.mode, t0);
@@ -649,11 +668,22 @@ export async function runCli(argv: string[], env: Record<string, string | undefi
       if (parsed.mode === 'hide') {
         const reason = (flags.reason as 'veto' | 'trimmed' | undefined) ?? 'veto';
         await setHidden(sb, slug, reason, runId);
-        return finish('ok', `Hid ${stripControl(slug)} (${reason}).`, EXIT_OK);
+        // An owner veto also flags the category, so the weekly review never recreates it under another slug.
+        if (reason === 'veto') {
+          const cat = await categoryBySlug(sb, slug);
+          try {
+            if (cat) await addFlag(sb, cat.name, cat.id, VETO_NOTE_PREFIX + runId);
+          } catch (e) {
+            throw new Error(`hid ${slug} but flagging it failed (${(e as Error).message}); run: taxonomy flag --slug ${slug}`);
+          }
+        }
+        return finish('ok', `Hid ${stripControl(slug)} (${reason}${reason === 'veto' ? ', flagged' : ''}).`, EXIT_OK);
       }
       if (parsed.mode === 'unhide') {
         await setHidden(sb, slug, null, runId);
-        return finish('ok', `Unhid ${stripControl(slug)}.`, EXIT_OK);
+        const cat = await categoryBySlug(sb, slug);
+        const unflagged = cat ? await removeVetoFlags(sb, { categoryId: cat.id }) : 0;
+        return finish('ok', `Unhid ${stripControl(slug)}${unflagged ? ' (flag removed)' : ''}.`, EXIT_OK);
       }
       const on = flags.off !== true;
       await setProtected(sb, slug, on, runId);
@@ -1147,4 +1177,10 @@ async function runWeekly(
   if (reportFile) writeFile(reportFile, report + '\n');
   const status = statusOf(r);
   return finish(status, report, status === 'failed' ? EXIT_ERROR : EXIT_OK);
+}
+
+async function categoryBySlug(sb: TypedSupabaseClient, slug: string): Promise<{ id: string; name: string } | null> {
+  const { data, error } = await sb.from('categories').select('id, name').eq('slug', slug);
+  if (error) throw new Error(`category lookup failed: ${error.message}`);
+  return data?.[0] ?? null;
 }

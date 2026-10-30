@@ -22,6 +22,7 @@ const PK: Record<string, string[]> = {
   question_categories: ['question_id', 'category_id'],
   category_aliases: ['old_slug'],
   category_changes: ['id'],
+  category_flags: ['norm'],
   questions: ['id'],
 };
 
