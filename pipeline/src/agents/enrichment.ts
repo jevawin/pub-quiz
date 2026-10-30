@@ -37,6 +37,15 @@ Bad: "Honey has a very long shelf life due to its chemical properties."
 
 Return JSON: {"fun_fact": "your fact here"} or {"fun_fact": null} if nothing good enough.`;
 
+/** Record that enrichment ran for a question without giving it a fun fact (declined / no source). */
+async function markAttempted(supabase: ReturnType<typeof createSupabaseClient>, id: string): Promise<void> {
+  const { error } = await (supabase
+    .from('questions')
+    .update({ enriched_at: new Date().toISOString() } as never)
+    .eq('id', id) as unknown as Promise<{ error: { message: string } | null }>);
+  if (error) log('warn', 'Failed to record enrichment attempt', { questionId: id, error: error.message });
+}
+
 export async function runEnrichmentAgent(
   config: PipelineConfig,
   tokenAccumulator: TokenAccumulator,
@@ -56,6 +65,7 @@ export async function runEnrichmentAgent(
     .select('*')
     .eq('status', 'published')
     .is('fun_fact', null)
+    .is('enriched_at', null) // not yet attempted: a decline stamps enriched_at so it is never re-asked
     .limit(50) as { data: QuestionRow[] | null; error: { message: string } | null };
 
   if (fetchError || !questions || questions.length === 0) {
@@ -86,6 +96,7 @@ export async function runEnrichmentAgent(
 
       if (!articleText) {
         log('info', 'No Wikipedia source found for enrichment', { questionId: question.id, answer: question.correct_answer });
+        await markAttempted(supabase, question.id);
         skipped++;
         continue;
       }
@@ -109,8 +120,14 @@ Write a fun fact about the correct answer that would make someone say "oh really
 
       let funFact: string;
       try {
-        const jsonStr = extractJson(claudeResult.text);
-        const parsed = JSON.parse(jsonStr);
+        const parsed = JSON.parse(extractJson(claudeResult.text));
+        // The prompt explicitly allows {"fun_fact": null} ("nothing good enough"). That is a
+        // decision, not a parse failure: record the attempt so it is not asked again every cycle.
+        if (parsed.fun_fact === null) {
+          await markAttempted(supabase, question.id);
+          skipped++;
+          continue;
+        }
         funFact = parsed.fun_fact;
         if (!funFact || typeof funFact !== 'string' || funFact.length < 10) {
           throw new Error('Invalid fun_fact');
