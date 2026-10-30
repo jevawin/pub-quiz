@@ -74,6 +74,8 @@ export const ASSESS_SYSTEM = `You are the taxonomy editor for a pub-quiz questio
 
 The goal is a deep tree of INTERESTING, niche quiz categories. A good category is one people would happily play a whole quiz on: cheeses of the world yes, breakfast meals no. Niche is good, and thin is not bad in itself, but categories that can never reach a decent quiz size or are dull should not be shown.
 
+Examples the owner has marked as NOT good pub-quiz categories (dull, everyday, nobody would pick one as a quiz topic): Breakfast Foods, Full English Breakfast. Treat categories like these (generic everyday meals, routine household or admin topics) as HIDE candidates, and do not create categories of that kind.
+
 What to do:
 - MERGE near-duplicates and overlapping categories. Name one survivor and the slugs it absorbs. Questions move across; nothing is deleted.
 - HIDE categories that are dull, too vague to quiz on, or could never be filled. Hiding is reversible. Empty vague parents are hide candidates.

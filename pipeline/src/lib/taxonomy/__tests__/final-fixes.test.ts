@@ -183,6 +183,7 @@ describe('C1: general-knowledge is protected everywhere', () => {
 
   it('the assessor prompt says general-knowledge is out of scope', () => {
     expect(ASSESS_SYSTEM).toMatch(/general-knowledge is out of scope/);
+    expect(ASSESS_SYSTEM).toMatch(/NOT good pub-quiz categories[^]*Breakfast Foods[^]*Full English Breakfast/);
   });
 });
 
