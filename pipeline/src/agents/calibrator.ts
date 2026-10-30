@@ -8,6 +8,7 @@ import { log } from '../lib/logger.js';
 import { jsonKeyToSlug, reconcileScoreKeys, slugToJsonKey } from '../lib/slug-converter.js';
 import { resolveSlugsToIds } from '../lib/categories.js';
 import { GENERAL_KNOWLEDGE_SLUG } from '../lib/general-knowledge-guard.js';
+import { runPool } from '../lib/pool.js';
 import { expandSlugsToChain } from '../lib/category-chain.js';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '../lib/database.types.js';
@@ -336,6 +337,14 @@ Return the JSON scores object.`;
   };
 }
 
+/**
+ * Questions calibrated at once. Each call is a separate `claude -p` process (~217 MB peak RSS,
+ * measured 2026-10-30) and ~5 s, mostly process start-up, so a sequential loop was ~half of every
+ * pipeline cycle while usage barely moved. 3 x 217 MB + the pipeline fits the run's 1200M cap;
+ * 4 does not leave enough headroom.
+ */
+export const CALIBRATOR_CONCURRENCY = 3;
+
 export async function runCalibratorAgent(
   config: PipelineConfig,
   tokenAccumulator: TokenAccumulator,
@@ -391,7 +400,7 @@ export async function runCalibratorAgent(
 
   log('info', `Found ${questions.length} questions to calibrate`);
 
-  for (const question of questions) {
+  await runPool(questions, CALIBRATOR_CONCURRENCY, async (question) => {
     try {
       // Fetch existing question_categories for this question to derive assigned_slugs
       const { data: existingQC } = await (supabase
@@ -426,7 +435,7 @@ export async function runCalibratorAgent(
           error: result.error,
         });
         failed++;
-        continue;
+        return;
       }
 
       processed++;
@@ -444,7 +453,7 @@ export async function runCalibratorAgent(
       });
       failed++;
     }
-  }
+  });
 
   log('info', 'Calibrator Agent completed', { processed, recalibrated, failed });
   return { processed, recalibrated, failed };
