@@ -134,7 +134,7 @@ describe('Happy path: setup → play → done', () => {
     await user.click(goodButton);
 
     // Type feedback
-    const textarea = screen.getByLabelText(/anything to tell us/i);
+    const textarea = screen.getByLabelText(/feedback\?/i);
     await user.type(textarea, 'great quiz');
 
     // Submit
@@ -142,10 +142,13 @@ describe('Happy path: setup → play → done', () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(mockRecordQuizSession).toHaveBeenCalledTimes(1);
+      // Rating saved on tap, then text on Submit (same row id).
+      expect(mockRecordQuizSession).toHaveBeenCalledTimes(2);
     });
 
-    const sessionCall = mockRecordQuizSession.mock.calls[0]![0];
+    expect(mockRecordQuizSession.mock.calls[0]![0].overall_rating).toBe('good');
+    const sessionCall = mockRecordQuizSession.mock.calls[1]![0];
+    expect(sessionCall.id).toBe(mockRecordQuizSession.mock.calls[0]![0].id);
     expect(sessionCall.session_id).toBe('test-session-id');
     expect(sessionCall.score).toBe(5);
     expect(sessionCall.overall_rating).toBe('good');

@@ -84,7 +84,7 @@ describe('End screen', () => {
 
   it('feedback text input has no placeholder attribute', () => {
     renderEnd();
-    const textarea = screen.getByLabelText(/anything to tell us/i);
+    const textarea = screen.getByLabelText(/feedback\?/i);
     expect(textarea).not.toHaveAttribute('placeholder');
   });
 
@@ -96,17 +96,24 @@ describe('End screen', () => {
     await user.click(screen.getByRole('button', { name: /good/i }));
 
     // Type feedback
-    const textarea = screen.getByLabelText(/anything to tell us/i);
+    const textarea = screen.getByLabelText(/feedback\?/i);
     await user.type(textarea, 'Great quiz!');
 
     // Submit
     await user.click(screen.getByRole('button', { name: /submit/i }));
 
+    // Rating tap saves at once; Submit saves the text into the same row.
     await waitFor(() => {
-      expect(mockRecordQuizSession).toHaveBeenCalledOnce();
+      expect(mockRecordQuizSession).toHaveBeenCalledTimes(2);
     });
 
-    const row = mockRecordQuizSession.mock.calls[0][0];
+    const tapRow = mockRecordQuizSession.mock.calls[0][0];
+    expect(tapRow.overall_rating).toBe('good');
+    expect(tapRow.feedback_text).toBeNull();
+
+    const row = mockRecordQuizSession.mock.calls[1][0];
+    expect(row.id).toBe(tapRow.id);
+    expect(row.id).toMatch(/^[0-9a-f-]{36}$/);
     expect(row.session_id).toBe('test-session-id');
     expect(row.category_slug).toBe('general');
     expect(row.difficulty).toBe('easy'); // UI 'Easy' -> DB 'easy'
@@ -115,6 +122,23 @@ describe('End screen', () => {
     expect(row.overall_rating).toBe('good');
     expect(row.feedback_text).toBe('Great quiz!');
     expect(row.started_at).toBeDefined();
+  });
+
+  it('tapping a rating saves immediately, re-tap updates the same row', async () => {
+    const user = userEvent.setup();
+    renderEnd();
+
+    await user.click(screen.getByRole('button', { name: /good/i }));
+    await waitFor(() => expect(mockRecordQuizSession).toHaveBeenCalledTimes(1));
+    expect(mockRecordQuizSession.mock.calls[0][0].overall_rating).toBe('good');
+
+    await user.click(screen.getByRole('button', { name: /bad/i }));
+    await waitFor(() => expect(mockRecordQuizSession).toHaveBeenCalledTimes(2));
+    const [first, second] = mockRecordQuizSession.mock.calls.map((c) => c[0]);
+    expect(second.overall_rating).toBe('bad');
+    expect(second.id).toBe(first.id);
+    // Still on the form: text is sent by Submit.
+    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
   });
 
   it('Play Again button navigates to /', async () => {

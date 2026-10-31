@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { enqueue, flushOutbox } from './outbox';
+import { enqueue, flushOutbox, size } from './outbox';
 
 export type QuestionPlayRow = {
   session_id: string;
@@ -11,6 +11,9 @@ export type QuestionPlayRow = {
 };
 
 export type QuizSessionRow = {
+  // Client-generated so the rating (on tap) and the text (on Submit) land in one row.
+  // Optional: rows queued in the outbox before 00043 have no id.
+  id?: string;
   session_id: string;
   category_slug: string;
   difficulty: 'easy' | 'normal' | 'hard' | 'mixed';
@@ -27,9 +30,20 @@ async function insertPlay(row: QuestionPlayRow): Promise<{ error: unknown }> {
   return { error };
 }
 
-async function insertSession(row: QuizSessionRow): Promise<{ error: unknown }> {
-  // IMPORTANT: do NOT chain .select() — insert-only RLS has no SELECT policy.
-  const { error } = await supabase.from('quiz_sessions').insert(row);
+async function saveSession(row: QuizSessionRow): Promise<{ error: unknown }> {
+  // Upsert via RPC (migration 00043): quiz_sessions RLS is insert-only, and the
+  // RPC is the only path that may update a row (rating/text only, own rows only).
+  // session_id is taken from auth.uid() server-side.
+  const { error } = await supabase.rpc('save_quiz_session', {
+    p_id: row.id ?? null,
+    p_category_slug: row.category_slug,
+    p_difficulty: row.difficulty,
+    p_num_questions: row.num_questions,
+    p_score: row.score,
+    p_overall_rating: row.overall_rating,
+    p_feedback_text: row.feedback_text,
+    p_started_at: row.started_at,
+  });
   return { error };
 }
 
@@ -66,11 +80,20 @@ export async function recordRecategorisation(
   });
 }
 
+// Idempotent per row.id: safe to call again as the rating/text change; queued
+// retries replay in order, so the last save wins.
 export async function recordQuizSession(row: QuizSessionRow): Promise<void> {
-  const { error } = await insertSession(row);
+  // Anything already queued is older: queue behind it so a late retry can't
+  // overwrite this save with a stale rating/text.
+  if (size('quiz_sessions') > 0) {
+    enqueue('quiz_sessions', row);
+    flushOutbox<QuizSessionRow>('quiz_sessions', saveSession).catch(() => {});
+    return;
+  }
+  const { error } = await saveSession(row);
   if (error) {
     enqueue('quiz_sessions', row);
     return;
   }
-  flushOutbox<QuizSessionRow>('quiz_sessions', insertSession).catch(() => {});
+  flushOutbox<QuizSessionRow>('quiz_sessions', saveSession).catch(() => {});
 }

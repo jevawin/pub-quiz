@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Smile, Meh, Frown, Play, Send, Lightbulb, Eye, EyeOff } from 'lucide-react';
 import { ensureSessionId } from '@/lib/auth';
@@ -57,6 +57,10 @@ export function End() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [showFacts, setShowFacts] = useState<boolean>(() => readShowFacts());
+  // One row per finished quiz: the rating saves on tap, the text on Submit.
+  const [rowId] = useState(() => crypto.randomUUID());
+  // Saves run one at a time so quick re-taps can't land out of order.
+  const saveChain = useRef<Promise<void>>(Promise.resolve());
 
   if (!state) {
     return <Navigate to="/" replace />;
@@ -68,21 +72,35 @@ export function End() {
       ? questions.map((q, i) => ({ q, a: answers[i]! }))
       : [];
 
-  const onSubmit = async () => {
-    setSubmitting(true);
-    try {
+  const save = (overallRating: Rating | null, text: string | null) => {
+    const run = async () => {
       const sessionId = await ensureSessionId();
       const row: QuizSessionRow = {
+        id: rowId,
         session_id: sessionId,
         category_slug: config.category,
         difficulty: config.difficulty === 'Mixed' ? 'mixed' : config.difficulty === 'Easy' ? 'easy' : config.difficulty === 'Medium' ? 'normal' : 'hard',
         num_questions: config.count as 5 | 10 | 15 | 20,
         score,
-        overall_rating: rating,
-        feedback_text: feedbackText.trim() ? feedbackText.trim() : null,
+        overall_rating: overallRating,
+        feedback_text: text,
         started_at: new Date(startedAt).toISOString(),
       };
       await recordQuizSession(row);
+    };
+    saveChain.current = saveChain.current.then(run, run);
+    return saveChain.current;
+  };
+
+  const onRate = (value: Rating) => {
+    setRating(value);
+    save(value, null).catch(() => {});
+  };
+
+  const onSubmit = async () => {
+    setSubmitting(true);
+    try {
+      await save(rating, feedbackText.trim() ? feedbackText.trim() : null);
       setSubmitted(true);
     } finally {
       setSubmitting(false);
@@ -120,7 +138,7 @@ export function End() {
                   <button
                     key={value}
                     type="button"
-                    onClick={() => setRating(value)}
+                    onClick={() => onRate(value)}
                     className={`inline-flex items-center gap-1.5 rounded-lg border-2 px-5 py-2.5 text-base font-medium transition-colors ${
                       active
                         ? activeClass
