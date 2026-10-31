@@ -45,6 +45,7 @@ describe('End screen', () => {
     mockRecordQuizSession.mockClear().mockResolvedValue(undefined);
     mockEnsureSessionId.mockClear().mockResolvedValue('test-session-id');
     writeTextMock.mockClear();
+    sessionStorage.clear();
     // jsdom doesn't provide navigator.clipboard, define it for tests
     if (!navigator.clipboard) {
       Object.defineProperty(window.navigator, 'clipboard', {
@@ -102,17 +103,18 @@ describe('End screen', () => {
     // Submit
     await user.click(screen.getByRole('button', { name: /submit/i }));
 
-    // Rating tap saves at once; Submit saves the text into the same row.
+    // Open-save, then rating tap, then Submit's text — all the same row.
     await waitFor(() => {
-      expect(mockRecordQuizSession).toHaveBeenCalledTimes(2);
+      expect(mockRecordQuizSession).toHaveBeenCalledTimes(3);
     });
 
-    const tapRow = mockRecordQuizSession.mock.calls[0][0];
+    const tapRow = mockRecordQuizSession.mock.calls[1][0];
     expect(tapRow.overall_rating).toBe('good');
     expect(tapRow.feedback_text).toBeNull();
 
-    const row = mockRecordQuizSession.mock.calls[1][0];
+    const row = mockRecordQuizSession.mock.calls[2][0];
     expect(row.id).toBe(tapRow.id);
+    expect(mockRecordQuizSession.mock.calls[0][0].id).toBe(tapRow.id);
     expect(row.id).toMatch(/^[0-9a-f-]{36}$/);
     expect(row.session_id).toBe('test-session-id');
     expect(row.category_slug).toBe('general');
@@ -129,16 +131,35 @@ describe('End screen', () => {
     renderEnd();
 
     await user.click(screen.getByRole('button', { name: /good/i }));
-    await waitFor(() => expect(mockRecordQuizSession).toHaveBeenCalledTimes(1));
-    expect(mockRecordQuizSession.mock.calls[0][0].overall_rating).toBe('good');
+    await waitFor(() => expect(mockRecordQuizSession).toHaveBeenCalledTimes(2));
+    expect(mockRecordQuizSession.mock.calls[1][0].overall_rating).toBe('good');
 
     await user.click(screen.getByRole('button', { name: /bad/i }));
-    await waitFor(() => expect(mockRecordQuizSession).toHaveBeenCalledTimes(2));
-    const [first, second] = mockRecordQuizSession.mock.calls.map((c) => c[0]);
+    await waitFor(() => expect(mockRecordQuizSession).toHaveBeenCalledTimes(3));
+    const [, first, second] = mockRecordQuizSession.mock.calls.map((c) => c[0]);
     expect(second.overall_rating).toBe('bad');
     expect(second.id).toBe(first.id);
     // Still on the form: text is sent by Submit.
     expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
+  });
+
+  it('saves every finished quiz when the screen opens, unrated', async () => {
+    renderEnd();
+    await waitFor(() => expect(mockRecordQuizSession).toHaveBeenCalledTimes(1));
+    const row = mockRecordQuizSession.mock.calls[0][0];
+    expect(row.overall_rating).toBeNull();
+    expect(row.feedback_text).toBeNull();
+    expect(row.score).toBe(7);
+  });
+
+  it('a reload of the same quiz reuses the row id', async () => {
+    const { unmount } = renderEnd();
+    await waitFor(() => expect(mockRecordQuizSession).toHaveBeenCalledTimes(1));
+    unmount();
+    renderEnd();
+    await waitFor(() => expect(mockRecordQuizSession).toHaveBeenCalledTimes(2));
+    const ids = mockRecordQuizSession.mock.calls.map((c) => c[0].id);
+    expect(ids[1]).toBe(ids[0]);
   });
 
   it('Play Again button navigates to /', async () => {

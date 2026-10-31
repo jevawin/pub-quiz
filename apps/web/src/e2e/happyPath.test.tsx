@@ -142,12 +142,13 @@ describe('Happy path: setup → play → done', () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      // Rating saved on tap, then text on Submit (same row id).
-      expect(mockRecordQuizSession).toHaveBeenCalledTimes(2);
+      // Saved on open, rating on tap, then text on Submit (same row id).
+      expect(mockRecordQuizSession).toHaveBeenCalledTimes(3);
     });
 
-    expect(mockRecordQuizSession.mock.calls[0]![0].overall_rating).toBe('good');
-    const sessionCall = mockRecordQuizSession.mock.calls[1]![0];
+    expect(mockRecordQuizSession.mock.calls[0]![0].overall_rating).toBeNull();
+    expect(mockRecordQuizSession.mock.calls[1]![0].overall_rating).toBe('good');
+    const sessionCall = mockRecordQuizSession.mock.calls[2]![0];
     expect(sessionCall.id).toBe(mockRecordQuizSession.mock.calls[0]![0].id);
     expect(sessionCall.session_id).toBe('test-session-id');
     expect(sessionCall.score).toBe(5);

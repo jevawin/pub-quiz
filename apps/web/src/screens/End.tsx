@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Smile, Meh, Frown, Play, Send, Lightbulb, Eye, EyeOff } from 'lucide-react';
 import { ensureSessionId } from '@/lib/auth';
@@ -47,6 +47,19 @@ const RATINGS: {
   },
 ];
 
+function endRowId(startedAt: number | undefined): string {
+  const key = `pub-quiz:end-row:${startedAt ?? 'none'}`;
+  try {
+    const existing = sessionStorage.getItem(key);
+    if (existing) return existing;
+    const id = crypto.randomUUID();
+    sessionStorage.setItem(key, id);
+    return id;
+  } catch {
+    return crypto.randomUUID();
+  }
+}
+
 export function End() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -57,10 +70,19 @@ export function End() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [showFacts, setShowFacts] = useState<boolean>(() => readShowFacts());
-  // One row per finished quiz: the rating saves on tap, the text on Submit.
-  const [rowId] = useState(() => crypto.randomUUID());
+  // One row per finished quiz: saved when this screen opens, the rating
+  // updates it on tap, the text on Submit. The id is kept per quiz (keyed on
+  // startedAt) so a page reload updates the same row instead of adding one.
+  const [rowId] = useState(() => endRowId(state?.startedAt));
   // Saves run one at a time so quick re-taps can't land out of order.
   const saveChain = useRef<Promise<void>>(Promise.resolve());
+  const saveRef = useRef<((r: Rating | null, t: string | null) => Promise<void>) | null>(null);
+
+  useEffect(() => {
+    // Record every finished quiz, rated or not. Idempotent on rowId, so the
+    // StrictMode double-run in dev is harmless.
+    saveRef.current?.(null, null).catch(() => {});
+  }, []);
 
   if (!state) {
     return <Navigate to="/" replace />;
@@ -91,6 +113,7 @@ export function End() {
     saveChain.current = saveChain.current.then(run, run);
     return saveChain.current;
   };
+  saveRef.current = save;
 
   const onRate = (value: Rating) => {
     setRating(value);
