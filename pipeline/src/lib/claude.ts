@@ -53,6 +53,7 @@ export async function callGoverned(
   opts: ClaudeCallOptions,
   acc: TokenAccumulator,
   gov: UsageGovernor,
+  callFn: (o: ClaudeCallOptions) => Promise<ClaudeCallResult> = callClaude,
 ): Promise<ClaudeCallResult> {
   try {
     await gov.beforeCall();
@@ -62,7 +63,7 @@ export async function callGoverned(
   }
   let result: ClaudeCallResult;
   try {
-    result = await callClaude(opts);
+    result = await callFn(opts);
   } catch (err) {
     if (err instanceof ClaudeCallError && err.rateLimit) {
       gov.observe(err.rateLimit);

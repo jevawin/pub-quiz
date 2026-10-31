@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from './database.types.js';
 
-const HIDDEN_REASONS = new Set(['merged', 'trimmed', 'veto']);
+const HIDDEN_REASONS = new Set(['merged', 'trimmed', 'veto', 'dropped']);
 const PAGE_SIZE = 1000;
 const SLUG_RE = /^[a-z0-9-]+$/;
 
@@ -16,7 +16,7 @@ export interface ResolveResult {
  * Resolve slugs to category ids.
  *  - A live (non-hidden) category with that slug wins.
  *  - Otherwise `category_aliases` is consulted (aliases point at the survivor of a merge).
- *    A resolved target that is itself hidden (merged/trimmed/veto) counts as unknown.
+ *    A resolved target that is itself hidden (merged/trimmed/veto/dropped) counts as unknown.
  *  - Unknown slugs throw (default, legacy behaviour) or are returned in `dropped`.
  * A directly matched but hidden category with no alias is accepted in legacy (throwing) mode so
  * existing-row rescoring keeps working, and treated as unknown with `dropUnknown`.

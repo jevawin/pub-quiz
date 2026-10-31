@@ -24,6 +24,7 @@ const PK: Record<string, string[]> = {
   category_changes: ['id'],
   category_flags: ['norm'],
   questions: ['id'],
+  sweep_proposals: ['sweep_id', 'question_id'],
 };
 
 export function makeFakeDb(seed: Record<string, Row[]>): FakeDb {
@@ -33,6 +34,7 @@ export function makeFakeDb(seed: Record<string, Row[]>): FakeDb {
   let nWrites = 0;
   let budget: number | null = null;
   let nextChangeId = 1;
+  let nextSweepId = 1;
   let hook: ((table: string, op: string, n: number) => void) | null = null;
   const selects: { table: string; cols: string; eqs: string[] }[] = [];
 
@@ -50,7 +52,7 @@ export function makeFakeDb(seed: Record<string, Row[]>): FakeDb {
         if (slugs.has(r.slug)) return `duplicate slug ${String(r.slug)}`;
         slugs.add(r.slug);
         if ((r.depth as number) > 5 || (r.depth as number) < 0) return 'depth check';
-        if (r.hidden_reason != null && !['merged', 'trimmed', 'veto'].includes(r.hidden_reason as string)) return 'hidden_reason check';
+        if (r.hidden_reason != null && !['merged', 'trimmed', 'veto', 'dropped'].includes(r.hidden_reason as string)) return 'hidden_reason check';
       }
     }
     return null;
@@ -110,6 +112,7 @@ export function makeFakeDb(seed: Record<string, Row[]>): FakeDb {
             row.id = nextChangeId++;
             row.undone_at ??= null;
           }
+          if (table === 'sweep_runs' && row.id === undefined) row.id = nextSweepId++;
           const idx = tables[table].findIndex((r) => samePk(r, row));
           if (idx >= 0) {
             if (op === 'insert') return rollback(`duplicate key on ${table}`);
@@ -124,7 +127,12 @@ export function makeFakeDb(seed: Record<string, Row[]>): FakeDb {
           returned.push(row);
         }
       } else if (op === 'update') {
-        for (const r of tables[table]) if (filters.every((f) => f(r))) Object.assign(r, payload as Row);
+        for (const r of tables[table]) {
+          if (filters.every((f) => f(r))) {
+            Object.assign(r, payload as Row);
+            returned.push(r);
+          }
+        }
       } else if (op === 'delete') {
         const dead = tables[table].filter((r) => filters.every((f) => f(r)));
         if (table === 'categories') {
@@ -138,6 +146,7 @@ export function makeFakeDb(seed: Record<string, Row[]>): FakeDb {
       const bad = checkRules(table);
       if (bad) return rollback(bad);
       hook?.(table, op, nWrites);
+      if (wantReturn && op === 'update' && !wantSingle) return { data: returned.map((r) => ({ ...r })), error: null };
       if (wantReturn && wantSingle) return { data: returned[0] ? { ...returned[0] } : null, error: null };
       return { data: null, error: null };
     }
@@ -174,11 +183,22 @@ export function makeFakeDb(seed: Record<string, Row[]>): FakeDb {
       },
       eq: (c: string, v: unknown) => {
         rec?.eqs.push(c);
-        filters.push((r) => r[c] === v);
+        // `col->>key` reads a JSON field as text, like PostgREST.
+        const [col, key] = c.split('->>');
+        filters.push(key === undefined ? (r) => r[c] === v : (r) => {
+          const j = r[col] as Record<string, unknown> | null | undefined;
+          const x = j?.[key];
+          return (x === undefined || x === null ? null : String(x)) === v;
+        });
         return q;
       },
       in: (c: string, vs: unknown[]) => {
         filters.push((r) => vs.includes(r[c]));
+        return q;
+      },
+      not: (c: string, o: string, v: unknown) => {
+        if (o !== 'is') throw new Error(`fake-db: not(${o}) unsupported`);
+        filters.push((r) => (r[c] ?? null) !== v);
         return q;
       },
       is: (c: string, v: unknown) => {

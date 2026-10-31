@@ -1,0 +1,15 @@
+Please quality-check the following pub quiz questions. No reference text is needed — judge them on clarity, difficulty calibration, distractor quality, and pub quiz suitability.
+
+Return JSON with a "results" array where each object has these fields:
+- "question_id": string (the UUID)
+- "passed": boolean
+- "action": "pass" | "rewrite" | "reject"
+- "natural_language_score": number (0-10)
+- "category_fit_score": number (0-10)
+- "difficulty_calibration_score": number (0-10)
+- "distractor_quality_score": number (0-10)
+- "reasoning": string (for rewrites: describe what's wrong so the rewrite agent can fix it)
+
+Do NOT provide rewritten text — just identify the issues. A separate agent handles rewrites.
+
+Q-SECTION

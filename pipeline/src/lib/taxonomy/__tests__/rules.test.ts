@@ -96,7 +96,7 @@ describe('chooseSurvivor', () => {
 
 describe('TaxPlanSchema', () => {
   it('defaults missing arrays and rejects bad shapes', () => {
-    expect(TaxPlanSchema.parse({})).toEqual(empty);
+    expect(TaxPlanSchema.parse({})).toEqual({ ...empty, drops: [] });
     expect(TaxPlanSchema.safeParse({ merges: 'x' }).success).toBe(false);
   });
 });

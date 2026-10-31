@@ -21,6 +21,7 @@ import { GENERAL_KNOWLEDGE_SLUG } from '../general-knowledge-guard.js';
 import { confineToSubtree, isGeneralKnowledgeOrUnder, validatePlan } from './rules.js';
 import { directCounts, leafQuestionIds, pickRehomeCategories, pickWeeklyRoots, type LinkRow } from './select.js';
 import { loadState, saveState, type TaxState } from './state.js';
+import { loadTaxGuidance } from '../owner-guidance.js';
 import { loadTree, subtreeSlugs } from './tree.js';
 import { addFlag, removeFlags, removeVetoFlags, VETO_NOTE_PREFIX } from './flags.js';
 import { MIN_VISIBLE_QUESTIONS, TaxPlanSchema } from './types.js';
@@ -302,7 +303,7 @@ export interface CliDeps {
   writeFile?: (path: string, text: string) => void;
 }
 
-async function defaultProbe(): Promise<RateLimitInfo | null> {
+export async function defaultProbe(): Promise<RateLimitInfo | null> {
   try {
     return (await callClaude({ model: 'haiku', system: 'Reply with the single word ok.', prompt: 'ok' })).rateLimit;
   } catch (e) {
@@ -313,7 +314,7 @@ async function defaultProbe(): Promise<RateLimitInfo | null> {
 const visibleSet = (tree: TaxTree): Set<string> =>
   new Set([...tree.byId.values()].filter((n) => !n.hidden && n.distinctPublished >= MIN_VISIBLE_QUESTIONS).map((n) => n.id));
 
-const emptySummary = (): ApplySummary => ({ merged: 0, hidden: 0, created: [], rehomed: 0, flagged: 0, skippedAlreadyDone: 0, errors: [] });
+const emptySummary = (): ApplySummary => ({ merged: 0, hidden: 0, dropped: 0, created: [], rehomed: 0, flagged: 0, skippedAlreadyDone: 0, errors: [] });
 
 const isOverrideNote = (r: Rejection): boolean => r.reason.startsWith('survivor overridden');
 
@@ -771,13 +772,14 @@ async function runPlan(
   const notesOut: string[] = [];
   const confinedOut: Rejection[] = [];
   let stopped: string | null = null;
+  const guidance = await loadTaxGuidance(sb); // once per run; fails open
   for (const root of roots) {
     const pre = gov.stopReason();
     if (pre) { stopped = pre; break; }
     if (!tree.bySlug.has(root)) { notesOut.push(`unknown root ${root}: skipped`); continue; }
     if (isGeneralKnowledgeOrUnder(tree, root)) { notesOut.push(`${root}: out of scope (${GENERAL_KNOWLEDGE_SLUG}), skipped`); continue; }
     try {
-      const raw = (await assessSubtree(tree, root, notes, { call, model: cfg.taxonomyAssessModel })).plan;
+      const raw = (await assessSubtree(tree, root, notes, { call, model: cfg.taxonomyAssessModel, guidance })).plan;
       // Each assessor saw only its own subtree: confine its plan to that subtree BEFORE plans are combined.
       const { plan, rejected: outside } = confineToSubtree(tree, root, raw);
       confinedOut.push(...outside);
@@ -1133,12 +1135,13 @@ async function runWeekly(
     // General Knowledge is never assessed (out of scope for the taxonomy job, see rules.ts).
     const rootSlugs = [...tree.byId.values()].filter((n) => n.parentId === null && !n.hidden && !n.protected && n.slug !== GENERAL_KNOWLEDGE_SLUG).map((n) => n.slug);
     roots = pickWeeklyRoots(rootSlugs, state.roots, cfg.taxonomyWeeklyRoots);
+    const guidance = await loadTaxGuidance(sb); // once per run; fails open
     for (const root of roots) {
       if ((await remainingCap(rc, cfg.taxonomyMaxActionsWeekly)) <= 0) break; // cap spent: postponed roots stay unassessed
       const fresh = await loadTree(sb);
       let plan: TaxPlan;
       try {
-        plan = (await assessSubtree(fresh, root, notes, { call, model: cfg.taxonomyAssessModel })).plan;
+        plan = (await assessSubtree(fresh, root, notes, { call, model: cfg.taxonomyAssessModel, guidance })).plan;
       } catch (e) {
         if (e instanceof UsageStopError) throw e;
         err(`assess ${root} failed: ${e instanceof Error ? e.message : String(e)}`);

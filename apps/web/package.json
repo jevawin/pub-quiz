@@ -19,6 +19,7 @@
     "@supabase/supabase-js": "^2.101.1",
     "class-variance-authority": "^0.7",
     "clsx": "^2",
+    "jose": "^6.2.14",
     "lucide-react": "^0.468",
     "react": "^19",
     "react-dom": "^19",

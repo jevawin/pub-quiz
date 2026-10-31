@@ -206,3 +206,21 @@ describe('callClaude', () => {
     expect(e.message).not.toMatch(/stderr-noise/);
   });
 });
+
+describe('real CLI guard under vitest (finding 10)', () => {
+  it('callClaude with the real spawn refuses and records the attempt', async () => {
+    const g = globalThis as { __pqRealClaudeAttempts?: number };
+    const before = g.__pqRealClaudeAttempts ?? 0;
+    await expect(callClaude({ model: 'haiku', prompt: 'hi' })).rejects.toThrow(/real claude CLI call blocked in tests/);
+    expect(g.__pqRealClaudeAttempts).toBe(before + 1);
+    g.__pqRealClaudeAttempts = before; // this attempt was deliberate; do not fail the setup check
+  });
+  it('defaultProbe (which swallows errors) is still caught by the counter', async () => {
+    const { defaultProbe } = await import('../taxonomy/cli.js');
+    const g = globalThis as { __pqRealClaudeAttempts?: number };
+    const before = g.__pqRealClaudeAttempts ?? 0;
+    expect(await defaultProbe()).toBeNull();
+    expect(g.__pqRealClaudeAttempts).toBe(before + 1);
+    g.__pqRealClaudeAttempts = before;
+  });
+});

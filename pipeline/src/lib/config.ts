@@ -21,6 +21,8 @@ export interface PipelineConfig {
   claudeModelGeneration: string;
   claudeModelVerification: string;
   claudeModelAudit: string;
+  /** Rule-sweep judge: a cheap model (many small batches). */
+  claudeModelSweep: string;
   /** Moving aliases only, never pinned model ids. */
   taxonomyAssessModel: string;
   taxonomyClassifyModel: string;
@@ -68,6 +70,7 @@ export function loadConfig(): PipelineConfig {
     claudeModelGeneration: 'sonnet',
     claudeModelVerification: 'sonnet',
     claudeModelAudit: 'opus',
+    claudeModelSweep: process.env.ADMIN_SWEEP_MODEL || 'haiku',
     taxonomyAssessModel: process.env.TAXONOMY_ASSESS_MODEL || 'opus',
     taxonomyClassifyModel: process.env.TAXONOMY_CLASSIFY_MODEL || 'sonnet',
     enableTaxonomy: process.env.ENABLE_TAXONOMY === '1',

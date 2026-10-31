@@ -13,11 +13,14 @@ export interface ApplyOpts {
   dryRun: boolean;
   call: ClaudeCaller;
   config: PipelineConfig;
+  /** Admin queue only: allow a ROOT survivor in a merge. An absorbed root, GK and protected stay refused. */
+  allowRootSurvivor?: boolean;
 }
 
 export interface ApplySummary {
   merged: number;
   hidden: number;
+  dropped: number;
   created: string[];
   rehomed: number;
   flagged: number;
@@ -72,6 +75,7 @@ interface Ctx {
   runId: string;
   call: ClaudeCaller;
   config: PipelineConfig;
+  allowRootSurvivor: boolean;
   dry: boolean;
   summary: ApplySummary;
   /** Number of DB writes issued so far (change-log rows included). */
@@ -143,6 +147,19 @@ async function linksOfCategory(sb: Loose, categoryId: string): Promise<Link[]> {
   );
 }
 
+/** Load `id, status, parked_reason` for many questions, `CHUNK` ids per request (PostgREST URL limits). */
+async function questionStates(sb: Loose, qids: string[]): Promise<{ id: string; status: string; parked_reason: string | null }[]> {
+  const out: { id: string; status: string; parked_reason: string | null }[] = [];
+  for (let i = 0; i < qids.length; i += CHUNK) {
+    const chunk = qids.slice(i, i + CHUNK);
+    out.push(
+      ...((must(await sb.from('questions').select('id, status, parked_reason').in('id', chunk), 'load questions') as
+        { id: string; status: string; parked_reason: string | null }[] | null) ?? []),
+    );
+  }
+  return out;
+}
+
 async function linksOfQuestions(sb: Loose, qids: string[]): Promise<Link[]> {
   const out: Link[] = [];
   for (let i = 0; i < qids.length; i += CHUNK) {
@@ -195,7 +212,8 @@ async function deleteRows(ctx: Ctx, table: string, eqs: Record<string, string | 
 
 // ---- change log ----
 
-type Action = 'merge' | 'hide' | 'unhide' | 'create' | 'rehome' | 'flag_duplicate' | 'protect';
+type Action = 'merge' | 'hide' | 'unhide' | 'create' | 'rehome' | 'flag_duplicate' | 'protect'
+  | 'drop' | 'hide_question' | 'unhide_question' | 'sweep_drop';
 
 /**
  * The scan reads only id/payload/undone_at: `prior` holds whole question snapshots and is large, and this runs once
@@ -533,7 +551,7 @@ async function mergeOne(ctx: Ctx, survivorSlug: string, absorbedSlug: string, wh
   if (S.id === A.id) throw new Error('survivor and absorbed are the same');
   // Defence in depth: replayed and pinned merges never pass validatePlan again.
   if (isGkOrUnder(cats, S.id) || isGkOrUnder(cats, A.id)) throw new Error(GK_REFUSAL);
-  if (S.parent_id === null || A.parent_id === null) throw new Error('root category cannot be merged');
+  if ((S.parent_id === null && !ctx.allowRootSurvivor) || A.parent_id === null) throw new Error('root category cannot be merged');
   if (isProtectedOrUnder(cats, S.id) || isProtectedOrUnder(cats, A.id)) throw new Error('protected category');
   if (isAncestorId(m, A.id, S.id)) throw new Error('cannot absorb an ancestor of the survivor');
 
@@ -676,6 +694,91 @@ async function hideOne(ctx: Ctx, slug: string): Promise<Outcome> {
   return 'done';
 }
 
+/** Drop = hide a category AND its whole subtree; questions with no other (non-GK) home are parked, the rest just lose the subtree links. */
+async function dropOne(ctx: Ctx, slug: string): Promise<Outcome> {
+  const cats = await loadCats(ctx.sb);
+  const aliases = await loadAliases(ctx.sb);
+  const n = resolveSlug(cats, aliases, slug);
+  if (!n) throw new Error(`unknown slug ${slug}`);
+  if (isGkOrUnder(cats, n.id)) throw new Error(GK_REFUSAL);
+  if (n.parent_id === null) throw new Error(`root category cannot be hidden: ${slug}`);
+  const existing = await findChange(ctx, 'drop', (p) => p.slug === n.slug);
+  const sub = new Set<string>([n.id]);
+  for (let grew = true; grew; ) {
+    grew = false;
+    for (const c of cats) if (c.parent_id && sub.has(c.parent_id) && !sub.has(c.id)) { sub.add(c.id); grew = true; }
+  }
+  if (!existing && ([...sub].some((id) => cats.find((c) => c.id === id)?.protected) || isProtectedOrUnder(cats, n.id))) {
+    throw new Error(`protected category ${slug}`);
+  }
+  type DropPrior = {
+    categories: { id: string; hidden_at: string | null; hidden_reason: string | null }[];
+    questions: Record<string, QSnap & { status: string | null; parked_reason: string | null }>;
+    parked: string[];
+    deleted: Link[];
+  };
+  let prior: DropPrior;
+  if (existing) {
+    // A previous attempt may have died part-way: the plan lives in the logged prior, so finish exactly that.
+    prior = existing.prior as unknown as DropPrior;
+  } else {
+    if (ctx.dry) return 'done';
+    const qids = new Set<string>();
+    for (const id of sub) for (const l of await linksOfCategory(ctx.sb, id)) qids.add(l.question_id);
+    const qidList = [...qids];
+    const snaps = await snapshotQuestions(ctx, cats, qidList, gkIdOf(cats));
+    const qrows = await questionStates(ctx.sb, qidList);
+    const qstate = new Map(qrows.map((q) => [q.id, q]));
+    const questions: DropPrior['questions'] = {};
+    const parked: string[] = [];
+    const deleted: Link[] = [];
+    const catById = byId(cats);
+    for (const qid of qidList) {
+      questions[qid] = { ...snaps[qid], status: qstate.get(qid)?.status ?? null, parked_reason: qstate.get(qid)?.parked_reason ?? null };
+      const hasHome = snaps[qid].links.some((l) => {
+        const c = catById.get(l.category_id);
+        return !sub.has(l.category_id) && !isGkOrUnder(cats, l.category_id) && !!c && !c.hidden_at;
+      });
+      if (hasHome) deleted.push(...snaps[qid].links.filter((l) => sub.has(l.category_id)));
+      else parked.push(qid);
+    }
+    prior = {
+      categories: cats.filter((c) => sub.has(c.id)).map((c) => ({ id: c.id, hidden_at: c.hidden_at, hidden_reason: c.hidden_reason })),
+      questions,
+      parked,
+      deleted,
+    };
+    await newChange(ctx, 'drop', { slug: n.slug }, prior);
+  }
+  const reason = `owner: dropped ${n.slug}`;
+  const toHide = prior.categories.filter((c) => !c.hidden_at);
+  if (existing) {
+    const curLinks = new Set(
+      (await linksOfQuestions(ctx.sb, [...new Set(prior.deleted.map((l) => l.question_id))])).map((l) => `${l.question_id}|${l.category_id}`),
+    );
+    const parkedNow = new Map((await questionStates(ctx.sb, prior.parked)).map((q) => [q.id, q.status]));
+    const done =
+      toHide.every((c) => !!catById0(cats, c.id)?.hidden_at) &&
+      prior.deleted.every((l) => !curLinks.has(`${l.question_id}|${l.category_id}`)) &&
+      prior.parked.every((id) => parkedNow.get(id) === 'parked');
+    if (done) return 'skipped';
+    if (ctx.dry) return 'done';
+  }
+  for (const l of prior.deleted) {
+    await deleteRows(ctx, 'question_categories', { question_id: l.question_id, category_id: l.category_id }, `drop link ${l.question_id}`);
+  }
+  for (const qid of prior.parked) {
+    await updateRows(ctx, 'questions', { status: 'parked', parked_reason: reason }, { id: qid }, `park ${qid}`);
+  }
+  const now = new Date().toISOString();
+  for (const c of toHide) {
+    if (catById0(cats, c.id)?.hidden_at) continue;
+    await updateRows(ctx, 'categories', { hidden_at: now, hidden_reason: 'dropped' }, { id: c.id }, `drop hide ${c.id}`);
+  }
+  return 'done';
+}
+const catById0 = (cats: Cat[], id: string): Cat | undefined => cats.find((c) => c.id === id);
+
 async function createOne(ctx: Ctx, c: TaxPlan['creates'][number]): Promise<Outcome> {
   const cats = await loadCats(ctx.sb);
   const aliases = await loadAliases(ctx.sb);
@@ -771,6 +874,7 @@ export async function applyPlan(
   const summary: ApplySummary = {
     merged: 0,
     hidden: 0,
+    dropped: 0,
     created: [],
     rehomed: 0,
     flagged: 0,
@@ -783,6 +887,7 @@ export async function applyPlan(
     runId: opts.runId,
     call: opts.call,
     config: opts.config,
+    allowRootSurvivor: opts.allowRootSurvivor === true,
     dry: opts.dryRun,
     summary,
     writes: 0,
@@ -810,6 +915,9 @@ export async function applyPlan(
   }
   for (const h of plan.hides) {
     await run(`hide ${h.slug}`, () => hideOne(ctx, h.slug), () => summary.hidden++);
+  }
+  for (const d of plan.drops ?? []) {
+    await run(`drop ${d.slug}`, () => dropOne(ctx, d.slug), () => summary.dropped++);
   }
   for (const c of plan.creates) {
     await run(`create ${c.slug}`, () => createOne(ctx, c), () => summary.created.push(c.slug));
@@ -874,7 +982,13 @@ async function restoreQuestion(ctx: Ctx, qid: string, snap: QSnap): Promise<void
   }
 }
 
-async function undoOne(ctx: Ctx, action: Action, payload: Record<string, unknown>, prior: Record<string, unknown> | null): Promise<boolean> {
+async function undoOne(
+  ctx: Ctx,
+  action: Action,
+  payload: Record<string, unknown>,
+  prior: Record<string, unknown> | null,
+  rowId?: number,
+): Promise<boolean> {
   switch (action) {
     case 'flag_duplicate':
       return true;
@@ -907,6 +1021,68 @@ async function undoOne(ctx: Ctx, action: Action, payload: Record<string, unknown
     case 'rehome': {
       const qs = (prior as { questions: Record<string, QSnap> }).questions;
       for (const [qid, snap] of Object.entries(qs)) await restoreQuestion(ctx, qid, snap);
+      return true;
+    }
+    case 'drop': {
+      const p = prior as unknown as {
+        categories: { id: string; hidden_at: string | null; hidden_reason: string | null }[];
+        questions: Record<string, QSnap & { status: string | null; parked_reason: string | null }>;
+        parked?: string[];
+        deleted?: Link[];
+      };
+      for (const c of p.categories) {
+        await updateRows(ctx, 'categories', { hidden_at: c.hidden_at, hidden_reason: c.hidden_reason }, { id: c.id }, 'undo drop category');
+      }
+      // Put back only the links the drop deleted (a later re-home, or untouched links' scores, must survive).
+      if (p.deleted?.length) await upsertRows(ctx, 'question_categories', p.deleted, 'question_id,category_id', 'undo drop links');
+      const reason = `owner: dropped ${payload.slug as string}`;
+      const parked = p.parked ?? [];
+      const cur = await questionStates(ctx.sb, parked);
+      for (const q of cur) {
+        // Only while it is still parked by this drop; a later owner/sweep decision stays.
+        if (q.status !== 'parked' || q.parked_reason !== reason) continue;
+        const snap = p.questions[q.id];
+        await updateRows(ctx, 'questions', { status: snap.status, parked_reason: snap.parked_reason }, { id: q.id }, `undo drop status ${q.id}`);
+      }
+      return true;
+    }
+    case 'hide_question':
+    case 'sweep_drop': {
+      const p = prior as { id: string; status: string | null; parked_reason: string | null };
+      // Restore only while the question is still parked by THIS action; a later owner/sweep/drop decision stays.
+      const setReason =
+        action === 'hide_question'
+          ? `owner: ${String(payload.reason ?? '')}`
+          : `rule ${String(payload.ruleId ?? '')}: ${String(payload.reason ?? '').slice(0, 120)}`;
+      const [cur] = await questionStates(ctx.sb, [p.id]);
+      if (!cur) return true; // question gone: nothing to restore
+      if (cur.status === p.status && cur.parked_reason === p.parked_reason) return true; // never parked (crash before park)
+      if (cur.status !== 'parked' || cur.parked_reason !== setReason) {
+        log('warn', 'taxonomy undo: question no longer parked by this action, left as is', { id: p.id, action });
+        return false;
+      }
+      await updateRows(ctx, 'questions', { status: p.status, parked_reason: p.parked_reason }, { id: p.id }, `undo ${action}`);
+      return true;
+    }
+    case 'unhide_question': {
+      const p = prior as { id: string; status: string | null; parked_reason: string | null };
+      await updateRows(ctx, 'questions', { status: p.status, parked_reason: p.parked_reason }, { id: p.id }, `undo ${action}`);
+      // admin_unhide_question marked its source hide/sweep_drop row undone; re-arm the newest such row older than
+      // this unhide so the question can be unhidden (or that hide undone) again.
+      const src = await pageAll<{ id: number }>(
+        (f, t) =>
+          ctx.sb
+            .from('category_changes')
+            .select('id')
+            .in('action', ['hide_question', 'sweep_drop'])
+            .eq('prior->>id', p.id)
+            .not('undone_at', 'is', null)
+            .order('id', { ascending: false })
+            .range(f, t),
+        'load hide rows',
+      );
+      const mark = src.find((r) => rowId === undefined || r.id < rowId);
+      if (mark) await updateRows(ctx, 'category_changes', { undone_at: null }, { id: mark.id }, 'undo unhide re-arm hide');
       return true;
     }
     case 'merge': {
@@ -966,7 +1142,7 @@ export async function undoRun(supabase: TypedSupabaseClient, runId: string): Pro
   let undone = 0;
   let blocked = 0;
   for (const r of rows) {
-    const ok = await undoOne(ctx, r.action, r.payload ?? {}, r.prior);
+    const ok = await undoOne(ctx, r.action, r.payload ?? {}, r.prior, r.id);
     if (!ok) {
       blocked++;
       continue;

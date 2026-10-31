@@ -19,7 +19,7 @@ describe('loadConfig', () => {
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'k';
     const c = loadConfig();
     expect(Object.keys(c).sort()).toEqual([
-      'categoryBatchSize', 'claudeModelAudit', 'claudeModelGeneration', 'claudeModelVerification',
+      'categoryBatchSize', 'claudeModelAudit', 'claudeModelGeneration', 'claudeModelSweep', 'claudeModelVerification',
       'enableCategoryAgent', 'enableTaxonomy', 'knowledgeBatchSize', 'questionsBatchSize', 'relevanceThreshold',
       'staleRunMs', 'supabaseServiceRoleKey', 'supabaseUrl', 'taxonomyAssessModel',
       'taxonomyClassifyModel', 'taxonomyMaxActionsCleanup', 'taxonomyMaxActionsWeekly',
@@ -42,6 +42,7 @@ describe('loadConfig', () => {
     expect(c.claudeModelGeneration).toBe('sonnet');
     expect(c.claudeModelVerification).toBe('sonnet');
     expect(c.claudeModelAudit).toBe('opus');
+    expect(c.claudeModelSweep).toBe('haiku');
     expect(c.enableCategoryAgent).toBe(false);
     expect(c.staleRunMs).toBe(7 * 3600 * 1000);
     expect(c.enableTaxonomy).toBe(false);

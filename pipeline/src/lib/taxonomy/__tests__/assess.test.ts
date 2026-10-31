@@ -62,6 +62,11 @@ describe('assessSubtree', () => {
     expect(sys).toContain('code decides');
   });
   const tree = treeOf(node('science', 'Science'));
+  it('forces drops empty: only the owner drops categories (finding 7)', async () => {
+    const call = stub('{"hides":[],"drops":[{"slug":"x","why":"model wants it gone"}]}');
+    const { plan } = await assessSubtree(tree, 'science', '', { call, model: 'opus' });
+    expect(plan.drops).toEqual([]);
+  });
   it('parses fenced plan and forces rehomes/duplicates empty', async () => {
     const call = stub('Here:\n```json\n{"hides":[{"slug":"x","why":"dull"}],"rehomes":[{"questionId":"q","from":"a","to":"b"}],"duplicates":[{"keep":"a","flag":"b","why":""}]}\n```');
     const { plan } = await assessSubtree(tree, 'science', 'notes', { call, model: 'opus' });

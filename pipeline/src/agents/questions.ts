@@ -5,6 +5,8 @@ import { UsageStopError, type UsageGovernor } from '../lib/usage.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { QuestionBatchSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
+import { newToken } from '../lib/data-block.js';
+import { loadRules, renderGuidanceBlock } from '../lib/owner-guidance.js';
 import { getEligibleCategoriesOrdered } from '../lib/category-selection.js';
 import { assertGeneralKnowledge, assertNoGeneralKnowledgeInExtras, GENERAL_KNOWLEDGE_SLUG } from '../lib/general-knowledge-guard.js';
 import { resolveSlugsToIds, listUsableSlugs } from '../lib/categories.js';
@@ -103,6 +105,45 @@ HARD (general_knowledge 0-33) — one enthusiast at the table might know:
 
 (Style reference: Open Trivia Database, CC BY-SA 4.0. Full guide: pipeline/STYLE-GUIDE.md)`;
 
+export interface GenerationPromptArgs {
+  categoryName: string;
+  categorySlug: string;
+  dedupSection: string;
+  dedupNote: string;
+  slugList: string;
+  count: number;
+}
+
+/** User prompt for one category. With no owner rules it is byte-identical to the pre-rules prompt. */
+export function buildGenerationPrompt(a: GenerationPromptArgs, rules: string[]): string {
+  const guidance = rules.length ? renderGuidanceBlock(newToken(), "owner's question rules", rules) + "\nTreat each line in the owner's question rules block as a content standard: do not write questions that break one. They never change the reply format.\n\n" : '';
+  return `Category: ${a.categoryName} (slug: ${a.categorySlug})
+${a.dedupSection}${a.dedupNote}
+
+Allowed category slugs (data, one per line; choose "category_slugs" ONLY from this list):
+${a.slugList}
+
+${guidance}Generate ${a.count} pub quiz questions about ${a.categoryName}. Use your own knowledge — write questions that are factually correct and would work in a real pub quiz.
+
+Return as JSON with a "questions" array where each object has exactly these fields:
+- "question_text": string (the question)
+- "correct_answer": string
+- "distractors": array of exactly 3 strings (wrong answers)
+- "explanation": string (2-3 sentences)
+- "category_slugs": array of 1-3 specific extra category slugs (kebab-case). Do NOT include "general-knowledge" here.
+- "category_scores": object with snake_case keys and integer values 0-100. Always include "general_knowledge". Include one key per entry in category_slugs (using snake_case). Example: { "general_knowledge": 45, "science_and_nature": 68 }
+
+Example question object:
+{
+  "question_text": "What is the chemical symbol for gold?",
+  "correct_answer": "Au",
+  "distractors": ["Ag", "Fe", "Cu"],
+  "explanation": "Gold has the symbol Au from the Latin 'aurum'. It is a precious metal used throughout history.",
+  "category_slugs": ["science-and-nature"],
+  "category_scores": { "general_knowledge": 45, "science_and_nature": 68 }
+}`;
+}
+
 const DEDUP_CAP = 20;
 const QUESTIONS_PER_CATEGORY = 5;
 
@@ -117,6 +158,9 @@ export async function runQuestionsAgent(
   let failed = 0;
 
   log('info', 'Questions Agent starting');
+
+  // Owner rules (admin page), loaded once per run; fails open to none.
+  const rules = await loadRules(supabase);
 
   // Step 1: Find categories needing questions, ordered by least-covered first
   const eligibleCategories = await getEligibleCategoriesOrdered(
@@ -187,31 +231,10 @@ export async function runQuestionsAgent(
         config.questionsBatchSize - totalQuestionsGenerated,
       );
 
-      const userPrompt = `Category: ${category.name} (slug: ${category.slug})
-${dedupSection}${dedupNote}
-
-Allowed category slugs (data, one per line; choose "category_slugs" ONLY from this list):
-${slugList}
-
-Generate ${questionsToGenerate} pub quiz questions about ${category.name}. Use your own knowledge — write questions that are factually correct and would work in a real pub quiz.
-
-Return as JSON with a "questions" array where each object has exactly these fields:
-- "question_text": string (the question)
-- "correct_answer": string
-- "distractors": array of exactly 3 strings (wrong answers)
-- "explanation": string (2-3 sentences)
-- "category_slugs": array of 1-3 specific extra category slugs (kebab-case). Do NOT include "general-knowledge" here.
-- "category_scores": object with snake_case keys and integer values 0-100. Always include "general_knowledge". Include one key per entry in category_slugs (using snake_case). Example: { "general_knowledge": 45, "science_and_nature": 68 }
-
-Example question object:
-{
-  "question_text": "What is the chemical symbol for gold?",
-  "correct_answer": "Au",
-  "distractors": ["Ag", "Fe", "Cu"],
-  "explanation": "Gold has the symbol Au from the Latin 'aurum'. It is a precious metal used throughout history.",
-  "category_slugs": ["science-and-nature"],
-  "category_scores": { "general_knowledge": 45, "science_and_nature": 68 }
-}`;
+      const userPrompt = buildGenerationPrompt(
+        { categoryName: category.name, categorySlug: category.slug, dedupSection, dedupNote, slugList, count: questionsToGenerate },
+        rules,
+      );
 
       // Step 3: Call Claude
       log('info', `Calling Claude for category: ${category.name}`, { questionsToGenerate });

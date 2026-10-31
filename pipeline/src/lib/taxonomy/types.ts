@@ -31,6 +31,8 @@ export interface TaxPlan {
   creates: { slug: string; name: string; parent: string; why: string }[];
   rehomes: { questionId: string; from: string; to: string }[];
   duplicates: { keep: string; flag: string; why: string }[];
+  /** Owner-only (admin page). Optional so the weekly review's plan literals need no change; never produced by assess. */
+  drops?: { slug: string; why: string }[];
 }
 
 export interface Rejection {
@@ -52,4 +54,5 @@ export const TaxPlanSchema: z.ZodType<TaxPlan, z.ZodTypeDef, unknown> = z.object
   duplicates: z
     .array(z.object({ keep: z.string(), flag: z.string(), why: z.string().default('') }))
     .default([]),
+  drops: z.array(z.object({ slug: z.string(), why: z.string().default('') })).default([]),
 });

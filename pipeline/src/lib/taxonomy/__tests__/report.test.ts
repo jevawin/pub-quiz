@@ -3,7 +3,7 @@ import { buildReport } from '../report.js';
 import type { ApplySummary } from '../apply.js';
 
 const base = (o: Partial<ApplySummary> = {}): ApplySummary => ({
-  merged: 0, hidden: 0, created: [], rehomed: 0, flagged: 0, skippedAlreadyDone: 0, errors: [], ...o,
+  merged: 0, hidden: 0, dropped: 0, created: [], rehomed: 0, flagged: 0, skippedAlreadyDone: 0, errors: [], ...o,
 });
 
 describe('buildReport', () => {

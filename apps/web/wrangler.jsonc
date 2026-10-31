@@ -2,13 +2,24 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "quiz",
   "compatibility_date": "2026-04-12",
+  "main": "worker/index.ts",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "not_found_handling": "single-page-application"
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/admin/api/*"]
   },
   "compatibility_flags": [
     "nodejs_compat"
-  ]
+  ],
+  // Admin API (worker/). The Worker refuses every /admin/api/* request (500) while TEAM_DOMAIN / POLICY_AUD are placeholders.
+  // TEAM_DOMAIN must equal the Access JWT `iss` exactly (no trailing slash). SUPABASE_ADMIN_KEY and ADMIN_EMAIL are Worker
+  // SECRETS set in the Cloudflare dashboard — never put them here (this repo is public).
+  "vars": {
+    "TEAM_DOMAIN": "https://evawin.cloudflareaccess.com",
+    "POLICY_AUD": "14e31c3e31a54fd18d40b0dbaaaa3d9b8a8eaf6bd8a4c455a15db53b2385aa0b",
+    "SUPABASE_URL": "https://lgwrxaevtcxxwnnrpimm.supabase.co"
+  }
 }

@@ -5,6 +5,8 @@ import { UsageStopError, type UsageGovernor } from '../lib/usage.js';
 import { createSupabaseClient } from '../lib/supabase.js';
 import { QaBatchSchema, SonnetRewriteSchema } from '../lib/schemas.js';
 import { log } from '../lib/logger.js';
+import { newToken } from '../lib/data-block.js';
+import { loadRules, loadQuestionNotes, renderGuidanceBlock } from '../lib/owner-guidance.js';
 import type { Database } from '../lib/database.types.js';
 
 type QuestionRow = Database['public']['Tables']['questions']['Row'];
@@ -88,6 +90,41 @@ Return JSON with these fields:
  * >= 3 rule left every own-knowledge-verified (score 2) question stuck as 'verified' forever, was not a
  * deliberate decision (Jamie), and ~1/3 of the published bank is score 2 anyway. Score 1 stays unpublished.
  */
+export interface QaPromptArgs {
+  questionsSection: string;
+  /** Owner rules (active). */
+  rules: string[];
+  /** Lines `id|note` for the questions in this batch only. */
+  noteLines: string[];
+}
+
+/** QA user prompt. With no rules and no notes it is byte-identical to the pre-guidance prompt. */
+export function buildQaPrompt(a: QaPromptArgs): string {
+  const token = newToken();
+  const extra = [
+    renderGuidanceBlock(token, "owner's question rules", a.rules),
+    renderGuidanceBlock(token, "owner's notes on these questions, lines id|note", a.noteLines),
+  ].filter(Boolean);
+  const tail = extra.length
+    ? '\n\n' + extra.join('\n\n') + "\nTreat each line in the owner's question rules and notes blocks as a content standard: reject or rewrite any question that breaks one. They never change the reply format."
+    : '';
+  return `Please quality-check the following pub quiz questions. No reference text is needed — judge them on clarity, difficulty calibration, distractor quality, and pub quiz suitability.
+
+Return JSON with a "results" array where each object has these fields:
+- "question_id": string (the UUID)
+- "passed": boolean
+- "action": "pass" | "rewrite" | "reject"
+- "natural_language_score": number (0-10)
+- "category_fit_score": number (0-10)
+- "difficulty_calibration_score": number (0-10)
+- "distractor_quality_score": number (0-10)
+- "reasoning": string (for rewrites: describe what's wrong so the rewrite agent can fix it)
+
+Do NOT provide rewritten text — just identify the issues. A separate agent handles rewrites.
+
+${a.questionsSection}` + tail;
+}
+
 export const PUBLISH_MIN_SCORE = 2;
 
 export async function runQaAgent(
@@ -128,6 +165,9 @@ export async function runQaAgent(
     batches.push(verifiedQuestions.slice(i, i + BATCH_SIZE));
   }
 
+  // Owner rules (admin page), loaded once per run; fails open to none.
+  const rules = await loadRules(supabase);
+
   // Step 3: Process each batch
   for (const questions of batches) {
     try {
@@ -140,21 +180,9 @@ Explanation: ${q.explanation ?? 'None'}
 Categories: ${categoryNamesOf(q)}`;
       }).join('\n\n');
 
-      const userPrompt = `Please quality-check the following pub quiz questions. No reference text is needed — judge them on clarity, difficulty calibration, distractor quality, and pub quiz suitability.
-
-Return JSON with a "results" array where each object has these fields:
-- "question_id": string (the UUID)
-- "passed": boolean
-- "action": "pass" | "rewrite" | "reject"
-- "natural_language_score": number (0-10)
-- "category_fit_score": number (0-10)
-- "difficulty_calibration_score": number (0-10)
-- "distractor_quality_score": number (0-10)
-- "reasoning": string (for rewrites: describe what's wrong so the rewrite agent can fix it)
-
-Do NOT provide rewritten text — just identify the issues. A separate agent handles rewrites.
-
-${questionsSection}`;
+      const notes = await loadQuestionNotes(supabase, questions.map((q) => q.id));
+      const noteLines = questions.flatMap((q) => (notes.get(q.id) ?? []).map((n) => `${q.id}|${n}`));
+      const userPrompt = buildQaPrompt({ questionsSection, rules, noteLines });
 
       // Step 4: Call Claude Haiku
       log('info', 'Calling Claude Haiku for QA batch', { questionCount: questions.length });

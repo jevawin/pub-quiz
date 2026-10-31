@@ -1,0 +1,29 @@
+Category: Cheese (slug: cheese)
+
+
+Existing questions to avoid (do NOT create similar questions):
+1. Q one
+
+Allowed category slugs (data, one per line; choose "category_slugs" ONLY from this list):
+a
+b
+
+Generate 5 pub quiz questions about Cheese. Use your own knowledge — write questions that are factually correct and would work in a real pub quiz.
+
+Return as JSON with a "questions" array where each object has exactly these fields:
+- "question_text": string (the question)
+- "correct_answer": string
+- "distractors": array of exactly 3 strings (wrong answers)
+- "explanation": string (2-3 sentences)
+- "category_slugs": array of 1-3 specific extra category slugs (kebab-case). Do NOT include "general-knowledge" here.
+- "category_scores": object with snake_case keys and integer values 0-100. Always include "general_knowledge". Include one key per entry in category_slugs (using snake_case). Example: { "general_knowledge": 45, "science_and_nature": 68 }
+
+Example question object:
+{
+  "question_text": "What is the chemical symbol for gold?",
+  "correct_answer": "Au",
+  "distractors": ["Ag", "Fe", "Cu"],
+  "explanation": "Gold has the symbol Au from the Latin 'aurum'. It is a precious metal used throughout history.",
+  "category_slugs": ["science-and-nature"],
+  "category_scores": { "general_knowledge": 45, "science_and_nature": 68 }
+}

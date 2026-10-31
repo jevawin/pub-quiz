@@ -110,6 +110,7 @@ const baseConfig = {
   claudeModelGeneration: 'sonnet',
   claudeModelVerification: 'sonnet',
   claudeModelAudit: 'opus',
+  claudeModelSweep: 'haiku',
   taxonomyAssessModel: 'opus',
   taxonomyClassifyModel: 'sonnet',
   enableTaxonomy: false,

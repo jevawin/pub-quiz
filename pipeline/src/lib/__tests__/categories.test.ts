@@ -48,6 +48,14 @@ describe('resolveSlugsToIds', () => {
     expect(r.dropped).toEqual(['x']);
     expect(r.ids.get('famous-bridges')).toBe('c-bridges');
   });
+  it('treats a dropped category as hidden: not resolved directly or via alias (finding 2)', async () => {
+    const withDropped: Cat[] = [...cats, { id: 'c-drop', slug: 'dropped-cat', hidden_reason: 'dropped', depth: 2 }];
+    const al = [...aliases, { old_slug: 'to-dropped', category_id: 'c-drop' }];
+    const { client } = fake(withDropped, al);
+    const r = await resolveSlugsToIds(client, ['dropped-cat', 'to-dropped'], { dropUnknown: true });
+    expect(r.ids.size).toBe(0);
+    expect(r.dropped).toEqual(['dropped-cat', 'to-dropped']);
+  });
   it('throws on unknown by default', async () => {
     const { client } = fake(cats, aliases);
     await expect(resolveSlugsToIds(client, ['x'])).rejects.toThrow('Unknown category slug: x');

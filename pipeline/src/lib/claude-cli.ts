@@ -65,6 +65,14 @@ export async function callClaude(
   opts: ClaudeCallOptions,
   spawnFn: SpawnFn = nodeSpawn as unknown as SpawnFn,
 ): Promise<ClaudeCallResult> {
+  // Test guard: under vitest the real CLI (a real model call on the owner's account) is refused unless a test
+  // opts in with PQ_TEST_ALLOW_REAL_CLAUDE=1. The attempt is counted too, because some callers (the usage probe)
+  // swallow errors; the vitest setup file fails any test that leaves the counter raised.
+  if (spawnFn === (nodeSpawn as unknown as SpawnFn) && process.env.VITEST && process.env.PQ_TEST_ALLOW_REAL_CLAUDE !== '1') {
+    const g = globalThis as { __pqRealClaudeAttempts?: number };
+    g.__pqRealClaudeAttempts = (g.__pqRealClaudeAttempts ?? 0) + 1;
+    throw new Error('real claude CLI call blocked in tests: mock callClaude/claude-cli or pass a fake spawn');
+  }
   if (opts.system?.startsWith('-')) {
     throw new ClaudeCallError('system prompt must not start with "-"');
   }

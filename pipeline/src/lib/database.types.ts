@@ -21,7 +21,7 @@ export type Database = {
           depth: number
           description: string | null
           hidden_at: string | null
-          hidden_reason: 'merged' | 'trimmed' | 'veto' | null
+          hidden_reason: 'merged' | 'trimmed' | 'veto' | 'dropped' | null
           id: string
           name: string
           parent_id: string | null
@@ -34,7 +34,7 @@ export type Database = {
           depth?: number
           description?: string | null
           hidden_at?: string | null
-          hidden_reason?: 'merged' | 'trimmed' | 'veto' | null
+          hidden_reason?: 'merged' | 'trimmed' | 'veto' | 'dropped' | null
           id?: string
           name: string
           parent_id?: string | null
@@ -47,7 +47,7 @@ export type Database = {
           depth?: number
           description?: string | null
           hidden_at?: string | null
-          hidden_reason?: 'merged' | 'trimmed' | 'veto' | null
+          hidden_reason?: 'merged' | 'trimmed' | 'veto' | 'dropped' | null
           id?: string
           name?: string
           parent_id?: string | null
@@ -129,7 +129,7 @@ export type Database = {
         Row: {
           id: number
           run_id: string
-          action: 'merge' | 'hide' | 'unhide' | 'create' | 'rehome' | 'flag_duplicate' | 'protect'
+          action: 'merge' | 'hide' | 'unhide' | 'create' | 'rehome' | 'flag_duplicate' | 'protect' | 'drop' | 'hide_question' | 'unhide_question' | 'sweep_drop'
           payload: Json
           prior: Json | null
           created_at: string | null
@@ -138,7 +138,7 @@ export type Database = {
         Insert: {
           id?: number
           run_id: string
-          action: 'merge' | 'hide' | 'unhide' | 'create' | 'rehome' | 'flag_duplicate' | 'protect'
+          action: 'merge' | 'hide' | 'unhide' | 'create' | 'rehome' | 'flag_duplicate' | 'protect' | 'drop' | 'hide_question' | 'unhide_question' | 'sweep_drop'
           payload: Json
           prior?: Json | null
           created_at?: string | null
@@ -147,13 +147,191 @@ export type Database = {
         Update: {
           id?: number
           run_id?: string
-          action?: 'merge' | 'hide' | 'unhide' | 'create' | 'rehome' | 'flag_duplicate' | 'protect'
+          action?: 'merge' | 'hide' | 'unhide' | 'create' | 'rehome' | 'flag_duplicate' | 'protect' | 'drop' | 'hide_question' | 'unhide_question' | 'sweep_drop'
           payload?: Json
           prior?: Json | null
           created_at?: string | null
           undone_at?: string | null
         }
         Relationships: []
+      }
+      admin_requests: {
+        Row: {
+          id: number
+          action: 'merge' | 'drop' | 'unhide' | 'undo' | 'sweep'
+          payload: Json
+          status: 'queued' | 'running' | 'done' | 'failed'
+          result: string | null
+          run_id: string | null
+          created_at: string | null
+          done_at: string | null
+        }
+        Insert: {
+          id?: number
+          action: 'merge' | 'drop' | 'unhide' | 'undo' | 'sweep'
+          payload: Json
+          status?: 'queued' | 'running' | 'done' | 'failed'
+          result?: string | null
+          run_id?: string | null
+          created_at?: string | null
+          done_at?: string | null
+        }
+        Update: {
+          id?: number
+          action?: 'merge' | 'drop' | 'unhide' | 'undo' | 'sweep'
+          payload?: Json
+          status?: 'queued' | 'running' | 'done' | 'failed'
+          result?: string | null
+          run_id?: string | null
+          created_at?: string | null
+          done_at?: string | null
+        }
+        Relationships: []
+      }
+      admin_notes: {
+        Row: {
+          id: number
+          target_type: 'category' | 'question'
+          target_id: string
+          body: string
+          created_at: string | null
+        }
+        Insert: {
+          id?: number
+          target_type: 'category' | 'question'
+          target_id: string
+          body: string
+          created_at?: string | null
+        }
+        Update: {
+          id?: number
+          target_type?: 'category' | 'question'
+          target_id?: string
+          body?: string
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      question_rules: {
+        Row: {
+          id: number
+          body: string
+          example_question_id: string | null
+          active: boolean
+          created_at: string | null
+        }
+        Insert: {
+          id?: number
+          body: string
+          example_question_id?: string | null
+          active?: boolean
+          created_at?: string | null
+        }
+        Update: {
+          id?: number
+          body?: string
+          example_question_id?: string | null
+          active?: boolean
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_rules_example_question_id_fkey"
+            columns: ["example_question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sweep_runs: {
+        Row: {
+          id: number
+          rule_id: number
+          status: 'judging' | 'noticed' | 'applied' | 'cancelled'
+          total: number | null
+          judged: number
+          proposed: number
+          notice_sent_at: string | null
+          tg_message_id: number | null
+          execute_after: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: number
+          rule_id: number
+          status?: 'judging' | 'noticed' | 'applied' | 'cancelled'
+          total?: number | null
+          judged?: number
+          proposed?: number
+          notice_sent_at?: string | null
+          tg_message_id?: number | null
+          execute_after?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: number
+          rule_id?: number
+          status?: 'judging' | 'noticed' | 'applied' | 'cancelled'
+          total?: number | null
+          judged?: number
+          proposed?: number
+          notice_sent_at?: string | null
+          tg_message_id?: number | null
+          execute_after?: string | null
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sweep_runs_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "question_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sweep_proposals: {
+        Row: {
+          sweep_id: number
+          question_id: string
+          verdict: 'keep' | 'drop'
+          reason: string | null
+          kept_at: string | null
+          applied_at: string | null
+        }
+        Insert: {
+          sweep_id: number
+          question_id: string
+          verdict: 'keep' | 'drop'
+          reason?: string | null
+          kept_at?: string | null
+          applied_at?: string | null
+        }
+        Update: {
+          sweep_id?: number
+          question_id?: string
+          verdict?: 'keep' | 'drop'
+          reason?: string | null
+          kept_at?: string | null
+          applied_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sweep_proposals_sweep_id_fkey"
+            columns: ["sweep_id"]
+            isOneToOne: false
+            referencedRelation: "sweep_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sweep_proposals_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       pipeline_runs: {
         Row: {
@@ -426,6 +604,14 @@ export type Database = {
       }
     }
     Functions: {
+      admin_hide_question: {
+        Args: { p_question: string; p_reason: string; p_run: string }
+        Returns: undefined
+      }
+      admin_unhide_question: {
+        Args: { p_question: string; p_run: string }
+        Returns: undefined
+      }
       counts_by_root_category: {
         Args: Record<string, never>
         Returns: {
