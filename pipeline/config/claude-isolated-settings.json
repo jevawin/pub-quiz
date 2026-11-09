@@ -1,9 +1,40 @@
 {
   "permissions": {
-    "deny": ["Bash", "BashOutput", "KillShell", "Task", "Agent", "ToolSearch",
-             "Monitor", "Write", "Edit", "NotebookEdit", "WebFetch", "WebSearch",
-             "Skill", "Workflow", "CronCreate", "CronDelete", "CronList", "RemoteTrigger",
-             "SendMessage", "DesignSync", "EnterWorktree", "ExitWorktree", "ListAgents",
-             "PushNotification", "ReportFindings", "ScheduleWakeup", "Read", "Glob", "Grep"]
+    "deny": [
+      "Bash",
+      "BashOutput",
+      "KillShell",
+      "Task",
+      "Agent",
+      "ToolSearch",
+      "Monitor",
+      "Write",
+      "Edit",
+      "NotebookEdit",
+      "WebFetch",
+      "WebSearch",
+      "Skill",
+      "Workflow",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "RemoteTrigger",
+      "SendMessage",
+      "DesignSync",
+      "EnterWorktree",
+      "ExitWorktree",
+      "ListAgents",
+      "PushNotification",
+      "ReportFindings",
+      "ScheduleWakeup",
+      "Read",
+      "Glob",
+      "Grep",
+      "SendToProject",
+      "SendToProjectContext",
+      "Artifact",
+      "TaskStop",
+      "TaskOutput"
+    ]
   }
 }

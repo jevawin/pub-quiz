@@ -68,13 +68,13 @@ const ok = (child: any, out = lines(RL, RESULT)) => {
   child.emit('close', 0);
 };
 
-const EXPECTED_DENY = ["Bash", "BashOutput", "KillShell", "Task", "Agent", "ToolSearch", "Monitor", "Write", "Edit", "NotebookEdit", "WebFetch", "WebSearch", "Skill", "Workflow", "CronCreate", "CronDelete", "CronList", "RemoteTrigger", "SendMessage", "DesignSync", "EnterWorktree", "ExitWorktree", "ListAgents", "PushNotification", "ReportFindings", "ScheduleWakeup", "Read", "Glob", "Grep"];
+const EXPECTED_DENY = ["Bash", "BashOutput", "KillShell", "Task", "Agent", "ToolSearch", "Monitor", "Write", "Edit", "NotebookEdit", "WebFetch", "WebSearch", "Skill", "Workflow", "CronCreate", "CronDelete", "CronList", "RemoteTrigger", "SendMessage", "DesignSync", "EnterWorktree", "ExitWorktree", "ListAgents", "PushNotification", "ReportFindings", "ScheduleWakeup", "Read", "Glob", "Grep", "SendToProject", "SendToProjectContext", "Artifact", "TaskStop", "TaskOutput"];  // +5 on 2026-11-09: SendToProject* were offered by the CLI on the Opti (probed)
 
 describe('isolated settings file', () => {
   it('deny list is exactly the measured-safe one (cannot be weakened silently)', () => {
     const f = new URL('../../../config/claude-isolated-settings.json', import.meta.url);
     const j = JSON.parse(readFileSync(f, 'utf8'));
-    expect(EXPECTED_DENY).toHaveLength(29);
+    expect(EXPECTED_DENY).toHaveLength(34);
     expect(j.permissions.deny).toEqual(EXPECTED_DENY);
   });
 });
